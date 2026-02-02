@@ -1,0 +1,144 @@
+/* ===== ELYRA — Editorial Web Kit ===== */
+:root{
+  --bg:#050505;
+  --bg2:#0b0b0b;
+  --text:#f2f2f2;
+  --muted:rgba(242,242,242,.72);
+  --faint:rgba(242,242,242,.45);
+  --hair:rgba(242,242,242,.22);
+  --max:960px;
+  --radius:18px;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(900px 520px at 20% 10%, rgba(255,255,255,.07), transparent 60%),
+    radial-gradient(900px 520px at 80% 0%, rgba(255,255,255,.05), transparent 55%),
+    linear-gradient(180deg, var(--bg2), var(--bg));
+  overflow-x:hidden;
+}
+
+a{color:inherit;text-decoration:none}
+.container{max-width:var(--max);margin:0 auto;padding:28px 18px}
+.small{font-size:.92rem;color:var(--muted)}
+.hair{height:1px;background:var(--hair);width:72px;margin:18px auto}
+.center{text-align:center}
+
+.nav{
+  position:sticky;top:0;z-index:50;
+  backdrop-filter: blur(14px);
+  background: rgba(5,5,5,.55);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.nav-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:14px;
+}
+.brand{
+  font-family:"Playfair Display", serif;
+  letter-spacing:.18em;
+  font-weight:600;
+  font-size:1.05rem;
+}
+.links{display:flex;gap:14px;flex-wrap:wrap;justify-content:flex-end}
+.links a{
+  font-size:.9rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--muted);
+  padding:10px 8px;
+  border-radius:12px;
+}
+.links a:hover{background:rgba(255,255,255,.06);color:var(--text)}
+
+.hero{
+  min-height: calc(100vh - 84px);
+  display:flex;align-items:center;justify-content:center;
+  padding: 50px 0;
+}
+.card{
+  width:100%;
+  max-width:720px;
+  padding: 52px 26px;
+  border-radius: var(--radius);
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.07);
+  box-shadow: 0 20px 60px rgba(0,0,0,.45);
+  animation: fadeUp 1.2s ease forwards;
+  opacity:0;
+}
+.h1{
+  font-family:"Playfair Display", serif;
+  font-size: clamp(3rem, 6vw, 4.6rem);
+  letter-spacing:.16em;
+  margin:0 0 16px;
+}
+.lede{
+  font-size:1.05rem;
+  line-height:1.85;
+  color:var(--muted);
+  margin:0 auto 22px;
+  max-width: 54ch;
+}
+.tagline{
+  font-style:italic;
+  letter-spacing:.14em;
+  color:var(--faint);
+  margin-top:22px;
+}
+.footer{
+  margin-top: 34px;
+  font-size:.9rem;
+  letter-spacing:.14em;
+  color:var(--faint);
+}
+
+.section{
+  padding: 22px 0 40px;
+}
+.grid{
+  display:grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap:14px;
+}
+.panel{
+  grid-column: span 12;
+  padding: 20px 18px;
+  border-radius: var(--radius);
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.07);
+}
+.panel h2{
+  margin:0 0 10px;
+  font-family:"Playfair Display", serif;
+  letter-spacing:.08em;
+}
+.panel p{margin:0;color:var(--muted);line-height:1.75}
+
+@media (min-width: 860px){
+  .panel.span6{grid-column: span 6;}
+  .panel.span4{grid-column: span 4;}
+}
+
+.btnrow{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px}
+.btn{
+  padding: 12px 16px;
+  border-radius: 999px;
+  border:1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.04);
+  color: var(--text);
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  font-size:.82rem;
+}
+.btn:hover{background:rgba(255,255,255,.08)}
+
+@keyframes fadeUp{
+  from{transform: translateY(18px);opacity:0}
+  to{transform: translateY(0);opacity:1}
+}
