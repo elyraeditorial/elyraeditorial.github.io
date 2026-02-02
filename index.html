@@ -1,45 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>ELYRA</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
-      font-family: Georgia, serif;
-      background: #0b0b0b;
-      color: #f5f5f5;
+      min-height: 100vh;
+      background: radial-gradient(circle at top, #141414, #050505);
+      color: #f2f2f2;
+      font-family: 'Inter', sans-serif;
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-      text-align: center;
+      padding: 40px 20px;
     }
-    .container {
-      max-width: 600px;
-      padding: 20px;
+
+    .wrap {
+      max-width: 720px;
+      width: 100%;
+      animation: fadeUp 1.2s ease forwards;
+      opacity: 0;
     }
+
     h1 {
-      font-size: 3rem;
-      letter-spacing: 2px;
-      margin-bottom: 20px;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 6vw, 4.5rem);
+      letter-spacing: 0.15em;
+      text-align: center;
+      margin-bottom: 30px;
     }
+
+    .divider {
+      width: 60px;
+      height: 1px;
+      background: rgba(255,255,255,0.4);
+      margin: 0 auto 40px;
+    }
+
     p {
-      font-size: 1.1rem;
-      line-height: 1.6;
-      opacity: 0.85;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      text-align: center;
+      opacity: 0.9;
+      margin-bottom: 28px;
+    }
+
+    .tagline {
+      font-style: italic;
+      letter-spacing: 0.08em;
+      opacity: 0.75;
+    }
+
+    footer {
+      margin-top: 60px;
+      text-align: center;
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      opacity: 0.6;
+    }
+
+    @keyframes fadeUp {
+      from {
+        transform: translateY(18px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
   </style>
 </head>
+
 <body>
-  <div class="container">
+  <main class="wrap">
     <h1>ELYRA</h1>
+
+    <div class="divider"></div>
+
     <p>
-      Independent fashion & culture publication.<br><br>
-      Editorial. Presence. Identity.<br><br>
-      Published by Core Vision Management.
+      Independent fashion & culture publication exploring
+      identity, presence, and creative expression through
+      editorial storytelling.
     </p>
-  </div>
+
+    <p class="tagline">
+      Editorial · Presence · Identity
+    </p>
+
+    <footer>
+      Published by Core Vision Management
+    </footer>
+  </main>
 </body>
 </html>
