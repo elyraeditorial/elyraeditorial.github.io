@@ -4,103 +4,44 @@
   <meta charset="UTF-8" />
   <title>ELYRA</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- Fonts -->
+  <link rel="icon" href="favicon.ico">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400&display=swap" rel="stylesheet">
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: radial-gradient(circle at top, #141414, #050505);
-      color: #f2f2f2;
-      font-family: 'Inter', sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 20px;
-    }
-
-    .wrap {
-      max-width: 720px;
-      width: 100%;
-      animation: fadeUp 1.2s ease forwards;
-      opacity: 0;
-    }
-
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(3rem, 6vw, 4.5rem);
-      letter-spacing: 0.15em;
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    .divider {
-      width: 60px;
-      height: 1px;
-      background: rgba(255,255,255,0.4);
-      margin: 0 auto 40px;
-    }
-
-    p {
-      font-size: 1.05rem;
-      line-height: 1.8;
-      text-align: center;
-      opacity: 0.9;
-      margin-bottom: 28px;
-    }
-
-    .tagline {
-      font-style: italic;
-      letter-spacing: 0.08em;
-      opacity: 0.75;
-    }
-
-    footer {
-      margin-top: 60px;
-      text-align: center;
-      font-size: 0.85rem;
-      letter-spacing: 0.12em;
-      opacity: 0.6;
-    }
-
-    @keyframes fadeUp {
-      from {
-        transform: translateY(18px);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-  <main class="wrap">
-    <h1>ELYRA</h1>
 
-    <div class="divider"></div>
+  <header class="nav">
+    <div class="container nav-inner">
+      <div class="brand">ELYRA</div>
+      <nav class="links">
+        <a href="index.html">Home</a>
+        <a href="issues.html">Issues</a>
+        <a href="submit.html">Submit</a>
+        <a href="about.html">About</a>
+      </nav>
+    </div>
+  </header>
 
-    <p>
-      Independent fashion & culture publication exploring
-      identity, presence, and creative expression through
-      editorial storytelling.
-    </p>
+  <main class="hero">
+    <section class="card center">
+      <h1 class="h1">ELYRA</h1>
+      <div class="hair"></div>
 
-    <p class="tagline">
-      Editorial · Presence · Identity
-    </p>
+      <p class="lede">
+        Independent fashion & culture publication exploring identity, presence,
+        and creative expression through editorial storytelling.
+      </p>
 
-    <footer>
-      Published by Core Vision Management
-    </footer>
+      <div class="tagline">Editorial · Presence · Identity</div>
+
+      <div class="btnrow">
+        <a class="btn" href="issues.html">View Issues</a>
+        <a class="btn" href="submit.html">Submissions</a>
+      </div>
+
+      <div class="footer">Published by Core Vision Management</div>
+    </section>
   </main>
+
 </body>
 </html>
