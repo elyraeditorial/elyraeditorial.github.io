@@ -8,6 +8,31 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+
+  <style>
+    .vote3d {
+      position: relative;
+      padding: 14px 18px;
+      border-radius: 999px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      border: 1px solid rgba(255,255,255,.25);
+      background: linear-gradient(180deg, rgba(255,255,255,.25), rgba(255,255,255,.08));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.25), 0 12px 25px rgba(0,0,0,.65);
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .vote3d:hover {
+      transform: translateY(-2px);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 16px 35px rgba(0,0,0,.8);
+    }
+    .vote3d:active {
+      transform: translateY(1px);
+      box-shadow: inset 0 2px 6px rgba(0,0,0,.6);
+    }
+    .vote3d.gold { border-color: #ffd36a; }
+    .vote3d.pink { border-color: #ff7bdc; }
+  </style>
 </head>
 <body>
   <div class="topbar">
@@ -24,7 +49,6 @@
   <div class="container hero">
     <h1 class="h1" id="name">Loading…</h1>
     <p class="p" id="bio"></p>
-    <div class="notice" id="notice" style="display:none;"></div>
   </div>
 
   <div class="container">
@@ -34,15 +58,22 @@
           <div class="box" id="voteNote">Free vote: 1 per person</div>
           <div class="box" id="loginState">Checking login…</div>
         </div>
-
         <div class="hr"></div>
 
         <div class="btnrow">
           <button class="btn primary" id="voteBtn">Vote (Free)</button>
 
-          <!-- Paid vote buttons (flashy text only) -->
-          <a class="btn pay pay10" href="https://buy.stripe.com/9B6aEQd5F5YR9uI7oC4sE09" target="_blank" rel="noopener">Buy Votes ($10)</a>
-          <a class="btn pay pay50" href="https://buy.stripe.com/28EbIU2r1fzr36k38m4sE0b" target="_blank" rel="noopener">Buy Votes ($50)</a>
+          <a class="btn vote3d gold" 
+             href="https://buy.stripe.com/9B6aEQd5F5YR9uI7oC4sE09" 
+             target="_blank">
+             Buy Votes ($10+)
+          </a>
+
+          <a class="btn vote3d pink" 
+             href="https://buy.stripe.com/28EbIU2r1fzr36k38m4sE0b" 
+             target="_blank">
+             Buy Votes ($50+)
+          </a>
 
           <a class="btn" id="backBtn" href="/competitions/">Back</a>
         </div>
@@ -68,32 +99,17 @@
     const voteBtn = document.getElementById("voteBtn");
     const loginState = document.getElementById("loginState");
     const backBtn = document.getElementById("backBtn");
-    const notice = document.getElementById("notice");
 
     if(slug) backBtn.href = `/competitions/contest.html?slug=${encodeURIComponent(slug)}`;
-
-    // If Stripe redirects you back to contest.html, you'll see notice there.
-    // If you ever redirect here instead, this will also display:
-    const params = new URLSearchParams(location.search);
-    const paid = params.get("paid");
-    if (paid === "success") {
-      notice.style.display = "block";
-      notice.textContent = "Payment received ✅ You can continue voting.";
-    } else if (paid === "cancel") {
-      notice.style.display = "block";
-      notice.textContent = "Payment cancelled. You can still cast your free vote.";
-    }
 
     let contestId = null;
 
     try{
       const contestant = await fetchContestantById(id);
       if(!contestant) throw new Error("Contestant not found.");
-
       setText(name, contestant.display_name || "Contestant");
       setText(bio, contestant.bio || "");
 
-      // Resolve contest from slug (so we know contest_id)
       if(slug){
         const contest = await fetchContestBySlug(slug);
         contestId = contest?.id || contestant.contest_id;
@@ -102,15 +118,15 @@
       }
 
       const session = await getSession();
-      setText(loginState, session ? "Logged in ✅" : "Not logged in (vote requires login)");
+      setText(loginState, session ? "Logged in ✅" : "Not logged in (free vote requires login)");
 
       voteBtn.addEventListener("click", async () => {
         try{
           voteBtn.disabled = true;
-          setText(msg, "Submitting vote…");
+          setText(msg, "Submitting free vote…");
           await castFreeVote(contestId, contestant.id);
-          toast("Vote submitted ✅");
-          setText(msg, "Vote submitted. Thank you for supporting!");
+          toast("Free vote submitted ✅");
+          setText(msg, "Free vote submitted. Want to boost with paid votes?");
         }catch(err){
           console.error(err);
           toast(err?.message || "Vote failed.");
