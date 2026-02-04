@@ -25,6 +25,37 @@
   <div class="container hero">
     <h1 class="h1" id="title">Loading…</h1>
     <p class="p" id="subtitle"></p>
+
+    <!-- ✅ NEW: Voting Packs (flashy 3D text buttons only) -->
+    <div class="votingPacks">
+      <div class="vpTitle">Vote Options</div>
+      <div class="vpSub">
+        Free votes happen on each contestant page. Paid votes open Stripe in a new tab.
+      </div>
+
+      <div class="vpBtns">
+        <button class="btn3d free" id="freeVoteInfoBtn" type="button">🆓 Free Vote</button>
+
+        <a class="btn3d buy10"
+           href="https://buy.stripe.com/9B6aEQd5F5YR9uI7oC4sE09"
+           target="_blank" rel="noopener">
+          💳 $10 Votes
+        </a>
+
+        <a class="btn3d buy50"
+           href="https://buy.stripe.com/28EbIU2r1fzr36k38m4sE0b"
+           target="_blank" rel="noopener">
+          ⚡ $50 Votes
+        </a>
+      </div>
+
+      <div class="vpStatus" id="vpStatus" aria-live="polite"></div>
+
+      <div class="vpHint">
+        After purchase, Stripe can redirect back to:
+        <span class="code">/competitions/thanks.html</span>
+      </div>
+    </div>
   </div>
 
   <div class="container">
@@ -44,6 +75,15 @@
     const subtitle = document.getElementById("subtitle");
     const badge = document.getElementById("badge");
     const list = document.getElementById("list");
+
+    // ✅ NEW: Free vote info (does not cast a vote here; it explains where to do it)
+    const freeVoteInfoBtn = document.getElementById("freeVoteInfoBtn");
+    const vpStatus = document.getElementById("vpStatus");
+    freeVoteInfoBtn?.addEventListener("click", () => {
+      vpStatus.textContent = "✅ To cast your FREE vote, tap any contestant’s “Vote” button below.";
+      vpStatus.classList.add("show");
+      setTimeout(() => vpStatus.classList.remove("show"), 4000);
+    });
 
     try{
       const contest = await fetchContestBySlug(slug);
