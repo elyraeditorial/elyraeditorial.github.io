@@ -24,28 +24,53 @@
 
   <script type="module">
     import { supabase } from "./assets/supabaseClient.js";
-    import { setText } from "./assets/ui.js";
 
     const msg = document.getElementById("msg");
 
-    try{
-      // This handles Supabase magic-link tokens in the URL hash/query.
-      const { error } = await supabase.auth.getSession();
-      if(error) throw error;
+    function safeNext(u){
+      // Only allow relative paths on your site to prevent open-redirect issues
+      if(!u) return "/competitions/";
+      try{
+        const decoded = decodeURIComponent(u);
+        if(decoded.startsWith("/")) return decoded;
+        return "/competitions/";
+      }catch{
+        return "/competitions/";
+      }
+    }
 
-      // If session is present, user is signed in.
-      const { data } = await supabase.auth.getSession();
-      if(data?.session){
-        location.replace("/competitions/signed-in.html");
-      }else{
-        setText(msg, "Login failed. Please try again.");
+    async function run(){
+      try{
+        const url = new URL(location.href);
+        const code = url.searchParams.get("code");
+        const next = safeNext(url.searchParams.get("next"));
+
+        // If Supabase sent back a code, exchange it for a session
+        if(code){
+          const { error } = await supabase.auth.exchangeCodeForSession(code);
+          if(error) throw error;
+        }
+
+        // Confirm we now have a session
+        const { data, error } = await supabase.auth.getSession();
+        if(error) throw error;
+
+        if(data?.session){
+          msg.textContent = "Signed in ✅ Redirecting…";
+          setTimeout(() => location.replace(next), 450);
+        }else{
+          msg.textContent = "Login failed. Please request a new sign-in link and try again.";
+          setTimeout(() => location.replace("/competitions/login.html"), 1200);
+        }
+      }catch(e){
+        console.error(e);
+        // Hide technical details from users
+        msg.textContent = "Login failed. Please request a new sign-in link and try again.";
         setTimeout(() => location.replace("/competitions/login.html"), 1200);
       }
-    }catch(e){
-      console.error(e);
-      setText(msg, e?.message || "Login failed. Please try again.");
-      setTimeout(() => location.replace("/competitions/login.html"), 1200);
     }
+
+    run();
   </script>
 </body>
 </html>
