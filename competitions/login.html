@@ -4,6 +4,7 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Elyra — Login</title>
+
   <link rel="stylesheet" href="./assets/competitions.css"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,40 +24,72 @@
 
   <div class="container hero">
     <h1 class="h1">Login</h1>
-    <p class="p">Enter your email. Supabase will send a secure sign-in link.</p>
+    <p class="p">Enter your email. We’ll send a secure sign-in link.</p>
   </div>
 
   <div class="container">
     <div class="card">
       <div class="label">Email</div>
       <input class="input" id="email" type="email" placeholder="you@example.com" autocomplete="email"/>
+
       <div style="height:12px"></div>
-      <button class="btn primary btn3d" id="sendBtn">Send sign-in link</button>
+
+      <button class="btn primary" id="sendBtn" type="button">Send sign-in link</button>
+
       <div class="hr"></div>
       <p class="small" id="msg"></p>
     </div>
   </div>
 
   <script type="module">
-    import { sendMagicLink } from "./assets/auth.js";
+    import { sendMagicLink, getSession } from "./assets/auth.js";
     import { setText } from "./assets/ui.js";
 
     const email = document.getElementById("email");
     const sendBtn = document.getElementById("sendBtn");
     const msg = document.getElementById("msg");
 
-    sendBtn.addEventListener("click", async () => {
+    // If already logged in, send them to organizer
+    (async () => {
+      try{
+        const session = await getSession();
+        if(session){
+          window.location.href = "/competitions/organizer/";
+        }
+      }catch(e){
+        // ignore
+      }
+    })();
+
+    async function submit(){
+      const value = (email.value || "").trim();
+
+      // basic validation
+      if(!value || !value.includes("@") || !value.includes(".")){
+        setText(msg, "Enter a valid email address.");
+        return;
+      }
+
       try{
         sendBtn.disabled = true;
         setText(msg, "Sending link…");
-        await sendMagicLink(email.value.trim());
-        setText(msg, "Check your email. Click the link to finish login ✅");
+
+        await sendMagicLink(value);
+
+        setText(msg, "Check your email and tap the sign-in link ✅");
       }catch(e){
         console.error(e);
         setText(msg, e?.message || "Failed to send link.");
       }finally{
         sendBtn.disabled = false;
       }
+    }
+
+    sendBtn.addEventListener("click", submit);
+
+    // Allow Enter key to submit
+    email.addEventListener("keydown", (e) => {
+      if(e.key === "Enter") submit();
     });
   </script>
 </body>
