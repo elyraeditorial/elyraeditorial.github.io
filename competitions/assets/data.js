@@ -17,6 +17,7 @@ export async function fetchContestBySlug(slug){
     .select("id, slug, title, subtitle, status, start_at, end_at, hero_image_url")
     .eq("slug", slug)
     .maybeSingle();
+
   if(error) throw error;
   return data;
 }
@@ -39,16 +40,18 @@ export async function fetchContestantById(id){
     .select("id, contest_id, display_name, bio, photo_url, is_published")
     .eq("id", id)
     .maybeSingle();
+
   if(error) throw error;
   return data;
 }
 
+// Count ONLY the logged-in user's votes for this contestant (RLS "read own" supports this)
 export async function getMyVoteCountForContestant(contestantId){
-  const { data, error } = await supabase
+  const { count, error } = await supabase
     .from("votes")
     .select("id", { count: "exact", head: true })
     .eq("contestant_id", contestantId);
 
   if(error) throw error;
-  return data?.length ?? 0;
+  return count ?? 0;
 }
