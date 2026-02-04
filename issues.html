@@ -4,48 +4,202 @@
   <meta charset="UTF-8" />
   <title>ELYRA — Issues</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
 
-<header class="nav">
-  <div class="container nav-inner">
-    <div class="brand">ELYRA</div>
-    <nav class="links">
-      <a href="index.html">Home</a>
-      <a href="issues.html">Issues</a>
-      <a href="submit.html">Submit</a>
-      <a href="about.html">About</a>
-    </nav>
-  </div>
-</header>
+<body class="elyra-issues">
 
-<main class="container section">
-  <h1 class="h1 center" style="font-size:clamp(2.2rem,4vw,3.2rem);letter-spacing:.12em;">ISSUES</h1>
-  <div class="hair"></div>
-  <p class="center small">Curated editions. Limited noise. High presence.</p>
+  <!-- Cinematic hero background -->
+  <div class="elyra-hero-bg" aria-hidden="true"></div>
+  <div class="elyra-vignette" aria-hidden="true"></div>
+  <div class="elyra-grain" aria-hidden="true"></div>
 
-  <div class="grid" style="margin-top:22px;">
-    <div class="panel span6">
-      <h2>Edition 01 — The Society Issue</h2>
-      <p>Launch edition introducing the ELYRA worldview: editorial restraint, cultural presence, and identity-forward storytelling.</p>
-      <div class="btnrow" style="justify-content:flex-start;margin-top:14px;">
-        <a class="btn" href="#" aria-disabled="true">Coming Soon</a>
-      </div>
+  <header class="nav">
+    <div class="container nav-inner">
+      <div class="brand">ELYRA</div>
+      <nav class="links">
+        <a href="index.html">Home</a>
+        <a class="active" href="issues.html">Issues</a>
+        <a href="submit.html">Submit</a>
+        <a href="about.html">About</a>
+        <a href="/competitions/">Competitions</a>
+      </nav>
     </div>
+  </header>
 
-    <div class="panel span6">
-      <h2>Edition 02 — Title TBA</h2>
-      <p>Next edition currently in development. Contributors and feature subjects will be announced inside submissions.</p>
-      <div class="btnrow" style="justify-content:flex-start;margin-top:14px;">
-        <a class="btn" href="submit.html">Submissions</a>
+  <main class="container section">
+    <!-- Top hero headline -->
+    <section class="issues-hero">
+      <div class="issues-hero-left">
+        <div class="kicker">CURATED EDITIONS</div>
+        <h1 class="issues-title">ISSUES</h1>
+        <div class="hair"></div>
+        <p class="issues-sub">
+          Curated editions. Limited noise. High presence.
+          <span class="muted">A magazine world built with restraint and power.</span>
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn3d" href="submit.html">SUBMISSIONS</a>
+          <a class="btn btn3d ghost" href="/competitions/">VIEW COMPETITIONS</a>
+        </div>
+
+        <div class="mini-stats">
+          <div class="stat">
+            <div class="statTop">Aesthetic</div>
+            <div class="statBottom">Editorial Minimalism</div>
+          </div>
+          <div class="stat">
+            <div class="statTop">Focus</div>
+            <div class="statBottom">Identity & Presence</div>
+          </div>
+          <div class="stat">
+            <div class="statTop">Output</div>
+            <div class="statBottom">Limited Editions</div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
 
-  <div class="footer center" style="margin-top:34px;">Published by Core Vision Management</div>
-</main>
+      <!-- 3D cover card -->
+      <div class="issues-hero-right">
+        <div class="cover-stage" id="coverStage" aria-label="Featured cover">
+          <div class="cover-card" id="coverCard">
+            <div class="cover-glow"></div>
+            <img
+              class="cover-img"
+              src="/41093FB2-DECE-4FDE-9743-5439E8418148.png"
+              alt="ELYRA — The Society Issue cover"
+              loading="eager"
+            />
+            <div class="cover-meta">
+              <div class="cover-title">Edition 01</div>
+              <div class="cover-subtitle">THE SOCIETY ISSUE</div>
+            </div>
+          </div>
+          <div class="cover-shadow"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Issue grid -->
+    <section class="issues-grid" aria-label="Issues list">
+      <article class="issue-panel tilt" data-tilt>
+        <div class="issue-badge">FEATURED</div>
+        <h2>Edition 01 — The Society Issue</h2>
+        <p>
+          Launch edition introducing the ELYRA worldview: editorial restraint,
+          cultural presence, and identity-forward storytelling.
+        </p>
+
+        <div class="issue-actions">
+          <a class="btn btn3d" href="#" aria-disabled="true">COMING SOON</a>
+          <a class="btn btn3d ghost" href="submit.html">SUBMIT FOR NEXT ISSUE</a>
+        </div>
+      </article>
+
+      <article class="issue-panel tilt" data-tilt>
+        <div class="issue-badge ghost">IN DEVELOPMENT</div>
+        <h2>Edition 02 — Title TBA</h2>
+        <p>
+          Next edition currently in development. Contributors and feature subjects
+          will be announced inside submissions.
+        </p>
+
+        <div class="issue-actions">
+          <a class="btn btn3d" href="submit.html">SUBMISSIONS</a>
+          <a class="btn btn3d ghost" href="about.html">ABOUT ELYRA</a>
+        </div>
+      </article>
+    </section>
+
+    <div class="footer center" style="margin-top:34px;">Published by Core Vision Management</div>
+  </main>
+
+  <script>
+    // Lightweight 3D tilt + parallax (mobile friendly)
+    (function(){
+      const card = document.getElementById('coverCard');
+      const stage = document.getElementById('coverStage');
+      if(!card || !stage) return;
+
+      const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if(prefersReduced) return;
+
+      let raf = null;
+
+      function onMove(clientX, clientY){
+        const r = stage.getBoundingClientRect();
+        const x = (clientX - r.left) / r.width;
+        const y = (clientY - r.top) / r.height;
+
+        const rx = (0.5 - y) * 10;  // rotateX
+        const ry = (x - 0.5) * 12;  // rotateY
+        const tx = (x - 0.5) * 10;  // translateX
+        const ty = (y - 0.5) * 10;  // translateY
+
+        card.style.transform =
+          `translate3d(${tx}px, ${ty}px, 0) rotateX(${rx}deg) rotateY(${ry}deg)`;
+      }
+
+      function moveHandler(e){
+        const p = e.touches ? e.touches[0] : e;
+        if(!p) return;
+        if(raf) cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => onMove(p.clientX, p.clientY));
+      }
+
+      function leaveHandler(){
+        card.style.transform = `translate3d(0,0,0) rotateX(0deg) rotateY(0deg)`;
+      }
+
+      stage.addEventListener('mousemove', moveHandler, { passive:true });
+      stage.addEventListener('touchmove', moveHandler, { passive:true });
+      stage.addEventListener('mouseleave', leaveHandler, { passive:true });
+      stage.addEventListener('touchend', leaveHandler, { passive:true });
+
+      // Subtle auto-float
+      card.classList.add('floaty');
+    })();
+
+    // Generic tilt panels
+    (function(){
+      const els = document.querySelectorAll('[data-tilt]');
+      const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if(prefersReduced) return;
+
+      els.forEach(el => {
+        let raf = null;
+
+        function handle(clientX, clientY){
+          const r = el.getBoundingClientRect();
+          const x = (clientX - r.left) / r.width;
+          const y = (clientY - r.top) / r.height;
+
+          const rx = (0.5 - y) * 6;
+          const ry = (x - 0.5) * 8;
+
+          el.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(0)`;
+        }
+
+        function move(e){
+          const p = e.touches ? e.touches[0] : e;
+          if(!p) return;
+          if(raf) cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(() => handle(p.clientX, p.clientY));
+        }
+
+        function reset(){
+          el.style.transform = `perspective(900px) rotateX(0deg) rotateY(0deg)`;
+        }
+
+        el.addEventListener('mousemove', move, { passive:true });
+        el.addEventListener('touchmove', move, { passive:true });
+        el.addEventListener('mouseleave', reset, { passive:true });
+        el.addEventListener('touchend', reset, { passive:true });
+      });
+    })();
+  </script>
 
 </body>
 </html>
