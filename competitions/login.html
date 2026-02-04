@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Elyra — Login</title>
+  <title>ELYRA — Login</title>
   <link rel="stylesheet" href="./assets/competitions.css"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,6 +36,7 @@
 
       <div class="hr"></div>
       <p class="small" id="msg"></p>
+
       <p class="small" style="margin-top:10px;opacity:.85">
         Tip: If you don’t see the email within 1–2 minutes, check Spam / Promotions.
       </p>
@@ -50,31 +51,30 @@
     const sendBtn = document.getElementById("sendBtn");
     const msg = document.getElementById("msg");
 
-    // Simple cooldown to avoid rate-limit spam while testing
+    // Cooldown to prevent rate-limit while testing
     const COOLDOWN_MS = 60_000;
+    const KEY = "elyra_login_cooldown_until";
 
     function safeNextFromUrl(){
-      // Only allow on-site relative paths like "/competitions/contest.html?slug=..."
+      // Only allow relative paths on this site
       const next = getParam("next");
       if(!next) return "/competitions/";
 
       try{
         const decoded = decodeURIComponent(next);
-        if(decoded.startsWith("/")) return decoded;
-        return "/competitions/";
+        return decoded.startsWith("/") ? decoded : "/competitions/";
       }catch{
         return "/competitions/";
       }
     }
 
     function setCooldown(){
-      const until = Date.now() + COOLDOWN_MS;
-      localStorage.setItem("elyra_login_cooldown_until", String(until));
+      localStorage.setItem(KEY, String(Date.now() + COOLDOWN_MS));
       updateCooldownUI();
     }
 
     function updateCooldownUI(){
-      const untilStr = localStorage.getItem("elyra_login_cooldown_until");
+      const untilStr = localStorage.getItem(KEY);
       const until = untilStr ? Number(untilStr) : 0;
       const left = Math.max(0, until - Date.now());
 
@@ -84,22 +84,20 @@
         setText(msg, `Link sent ✅ Please wait ${secs}s before requesting another.`);
         setTimeout(updateCooldownUI, 500);
       }else{
-        if(sendBtn.disabled){
-          sendBtn.disabled = false;
-          // only clear message if it's a cooldown message
-          if((msg.textContent || "").toLowerCase().includes("please wait")){
-            setText(msg, "");
-          }
+        sendBtn.disabled = false;
+        // Only clear cooldown-style messages
+        if((msg.textContent || "").toLowerCase().includes("please wait")){
+          setText(msg, "");
         }
       }
     }
 
-    // If already logged in, route them where they intended
+    // If already logged in, send them back where they intended
     (async () => {
       try{
         const session = await getSession();
         if(session){
-          location.href = safeNextFromUrl();
+          location.replace(safeNextFromUrl());
         }
       }catch{
         // ignore
@@ -108,6 +106,14 @@
 
     async function submit(){
       try{
+        // block if in cooldown
+        const untilStr = localStorage.getItem(KEY);
+        const until = untilStr ? Number(untilStr) : 0;
+        if(until && until > Date.now()){
+          updateCooldownUI();
+          return;
+        }
+
         const v = (email.value || "").trim();
         if(!v) throw new Error("Please enter your email.");
         if(!v.includes("@") || !v.includes(".")) throw new Error("Please enter a valid email address.");
@@ -117,7 +123,7 @@
         sendBtn.disabled = true;
         setText(msg, "Sending your sign-in link…");
 
-        // IMPORTANT: pass nextSafe so callback can route user back after sign-in
+        // sendMagicLink(email, nextPath)
         await sendMagicLink(v, nextSafe);
 
         setText(msg, "Success ✅ Check your email for your Elyra sign-in link.");
@@ -125,22 +131,22 @@
       }catch(e){
         console.error(e);
 
-        const m = (e?.message || "").toLowerCase();
+        const m = String(e?.message || "").toLowerCase();
+
+        // Friendly rate-limit handling
         if(m.includes("rate") && m.includes("limit")){
           setText(msg, "Too many requests. Please wait a few minutes and try again.");
-        }else{
-          setText(msg, e?.message || "Failed to send link.");
+          setCooldown();
+          return;
         }
 
+        setText(msg, e?.message || "Failed to send link.");
         sendBtn.disabled = false;
       }
     }
 
     sendBtn.addEventListener("click", submit);
-
-    email.addEventListener("keydown", (e) => {
-      if(e.key === "Enter") submit();
-    });
+    email.addEventListener("keydown", (e) => { if(e.key === "Enter") submit(); });
 
     updateCooldownUI();
   </script>
