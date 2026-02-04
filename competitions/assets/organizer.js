@@ -1,43 +1,73 @@
 import { supabase } from "./supabaseClient.js";
+import { getSession } from "./auth.js";
 
-export async function isOrganizer(){
-  const { data, error } = await supabase.auth.getUser();
-  if(error) throw error;
-  const user = data.user;
-  if(!user) return false;
-
-  // profile.role = 'organizer' or 'admin'
-  const { data: prof, error: e2 } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .maybeSingle();
-
-  if(e2) return false;
-  return prof?.role === "organizer" || prof?.role === "admin";
-}
+// 🔐 Allowed Elyra staff emails
+const ALLOWED_EMAILS = [
+  "glamoursocietymodelingagency@gmail.com",
+  "100kabusinessinquires@gmail.com",
+  "kalmond30@yahoo.com"
+].map(e => String(e).toLowerCase().trim());
 
 export async function requireOrganizer(){
-  const ok = await isOrganizer();
-  if(!ok) throw new Error("Organizer access only.");
+  const session = await getSession();
+  if(!session) throw new Error("Please log in.");
+
+  const email = String(session.user.email || "").toLowerCase().trim();
+  if(!ALLOWED_EMAILS.includes(email)) throw new Error("Access denied.");
+
+  const userId = session.user.id;
+
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", userId)
+    .single();
+
+  if(error) throw error;
+  if(!data || !["organizer","admin"].includes(data.role)) throw new Error("Access denied.");
+
+  return true;
 }
 
 export async function createContest(payload){
-  const { data, error } = await supabase.from("contests").insert(payload).select("*").single();
+  await requireOrganizer();
+
+  const clean = {
+    slug: String(payload.slug || "").trim(),
+    title: String(payload.title || "").trim(),
+    subtitle: payload.subtitle ? String(payload.subtitle).trim() : null,
+    hero_image_url: payload.hero_image_url ? String(payload.hero_image_url).trim() : null,
+    status: payload.status || "draft"
+  };
+
+  const { error } = await supabase.from("contests").insert(clean);
   if(error) throw error;
-  return data;
+  return true;
 }
 
 export async function createContestant(payload){
-  const { data, error } = await supabase.from("contestants").insert(payload).select("*").single();
+  await requireOrganizer();
+
+  const clean = {
+    contest_id: payload.contest_id,
+    display_name: String(payload.display_name || "").trim(),
+    bio: payload.bio ? String(payload.bio).trim() : null,
+    photo_url: payload.photo_url ? String(payload.photo_url).trim() : null,
+    is_published: !!payload.is_published
+  };
+
+  const { error } = await supabase.from("contestants").insert(clean);
   if(error) throw error;
-  return data;
+  return true;
 }
 
 export async function listMyContests(){
+  await requireOrganizer();
+
+  // If your RLS only allows organizer/admin to read all contests, this will work.
   const { data, error } = await supabase
     .from("contests")
-    .select("id, slug, title, status, start_at, end_at")
+    .select("id, slug, title, status, created_at")
     .order("created_at", { ascending: false });
 
   if(error) throw error;
