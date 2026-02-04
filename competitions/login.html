@@ -30,8 +30,10 @@
     <div class="card">
       <div class="label">Email</div>
       <input class="input" id="email" type="email" placeholder="you@example.com" autocomplete="email"/>
+
       <div style="height:12px"></div>
-      <button class="btn primary" id="sendBtn">Send sign-in link</button>
+      <button class="btn primary" id="sendBtn" type="button">Send sign-in link</button>
+
       <div class="hr"></div>
       <p class="small" id="msg"></p>
       <p class="small" style="margin-top:10px;opacity:.85">
@@ -41,20 +43,42 @@
   </div>
 
   <script type="module">
-    import { sendMagicLink } from "./assets/auth.js";
-    import { setText } from "./assets/ui.js";
+    import { sendMagicLink, getSession } from "./assets/auth.js";
+    import { setText, getParam } from "./assets/ui.js";
 
     const email = document.getElementById("email");
     const sendBtn = document.getElementById("sendBtn");
     const msg = document.getElementById("msg");
 
-    sendBtn.addEventListener("click", async () => {
+    // If already logged in, go where they intended (or organizer by default)
+    (async () => {
       try{
-        const v = email.value.trim();
+        const session = await getSession();
+        if(session){
+          const next = getParam("next");
+          location.href = next ? decodeURIComponent(next) : "/competitions/organizer/";
+        }
+      }catch(e){
+        // ignore
+      }
+    })();
+
+    async function submit(){
+      try{
+        const v = (email.value || "").trim();
         if(!v) throw new Error("Please enter your email.");
+        if(!v.includes("@") || !v.includes(".")) throw new Error("Please enter a valid email address.");
+
+        // Preserve where the user was trying to go (contestant page, contest page, etc.)
+        const next = getParam("next");
+        const nextSafe = next ? decodeURIComponent(next) : "/competitions/";
+
         sendBtn.disabled = true;
         setText(msg, "Sending your sign-in link…");
-        await sendMagicLink(v);
+
+        // ✅ Pass next through to callback so it can route them back after sign-in
+        await sendMagicLink(v, nextSafe);
+
         setText(msg, "Success ✅ Check your email for your Elyra sign-in link.");
       }catch(e){
         console.error(e);
@@ -62,6 +86,13 @@
       }finally{
         sendBtn.disabled = false;
       }
+    }
+
+    sendBtn.addEventListener("click", submit);
+
+    // Enter key submits
+    email.addEventListener("keydown", (e) => {
+      if(e.key === "Enter") submit();
     });
   </script>
 </body>
