@@ -19,7 +19,7 @@
 
   <div class="container hero">
     <h1 class="h1">Signing you in…</h1>
-    <p class="p" id="msg">Please wait. You’ll be redirected automatically.</p>
+    <p class="p" id="msg">Finishing login, please wait…</p>
   </div>
 
   <script type="module">
@@ -28,14 +28,13 @@
     const msg = document.getElementById("msg");
 
     function safeNext(u){
-      // Only allow relative paths on your site to prevent open-redirect issues
-      if(!u) return "/competitions/signed-in.html";
+      if(!u) return "/competitions/organizer/";
       try{
-        const decoded = decodeURIComponent(u);
-        if(decoded.startsWith("/")) return decoded;
-        return "/competitions/signed-in.html";
+        const d = decodeURIComponent(u);
+        if(d.startsWith("/")) return d;
+        return "/competitions/organizer/";
       }catch{
-        return "/competitions/signed-in.html";
+        return "/competitions/organizer/";
       }
     }
 
@@ -43,31 +42,24 @@
       try{
         const url = new URL(location.href);
         const code = url.searchParams.get("code");
-
-        // ✅ Default: go to signed-in screen
-        // ✅ Optional: allow ?next=/competitions/contest.html?slug=...
         const next = safeNext(url.searchParams.get("next"));
 
-        // If auth provider sent back a code, exchange it for a session
         if(code){
           const { error } = await supabase.auth.exchangeCodeForSession(code);
           if(error) throw error;
         }
 
-        // Confirm we now have a session
-        const { data, error } = await supabase.auth.getSession();
-        if(error) throw error;
+        const { data } = await supabase.auth.getSession();
 
         if(data?.session){
           msg.textContent = "Signed in ✅ Redirecting…";
-          setTimeout(() => location.replace(next), 450);
+          setTimeout(() => location.replace(next), 500);
         }else{
-          msg.textContent = "Login failed. Please request a new sign-in link and try again.";
-          setTimeout(() => location.replace("/competitions/login.html"), 1200);
+          throw new Error("No session created.");
         }
-      }catch(e){
-        console.error(e);
-        msg.textContent = "Login failed. Please request a new sign-in link and try again.";
+      }catch(err){
+        console.error(err);
+        msg.textContent = "Login failed. Please request a new sign-in link.";
         setTimeout(() => location.replace("/competitions/login.html"), 1200);
       }
     }
