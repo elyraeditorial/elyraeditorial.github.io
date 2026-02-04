@@ -15,9 +15,8 @@
       <div class="brand">ELYRA</div>
       <div class="navlinks">
         <a href="/competitions/">Competitions</a>
-        <a href="/competitions/login.html" id="loginLink">Login</a>
+        <a href="/competitions/login.html">Login</a>
         <a href="/">Home</a>
-        <button class="btn" id="logoutBtn" style="display:none">Log out</button>
       </div>
     </div>
   </div>
@@ -26,8 +25,10 @@
     <h1 class="h1" id="name">Loading…</h1>
     <p class="p" id="bio"></p>
 
-    <!-- Payment / status banner -->
-    <div class="notice" id="notice" style="display:none;"></div>
+    <!-- ✅ PHOTO -->
+    <div class="card" id="photoCard" style="display:none; padding:12px; margin-top:14px;">
+      <img id="photoImg" alt="Contestant photo" style="width:100%; border-radius:14px; border:1px solid rgba(255,255,255,.10);" loading="lazy"/>
+    </div>
   </div>
 
   <div class="container">
@@ -67,10 +68,9 @@
   <script type="module">
     import { fetchContestantById, fetchContestBySlug } from "./assets/data.js";
     import { castFreeVote } from "./assets/vote.js";
-    import { getSession, signOut } from "./assets/auth.js";
+    import { getSession } from "./assets/auth.js";
     import { getParam, setText, toast } from "./assets/ui.js";
 
-    // ✅ Your Stripe payment links:
     const STRIPE_10 = "https://buy.stripe.com/9B6aEQd5F5YR9uI7oC4sE09";
     const STRIPE_50 = "https://buy.stripe.com/28EbIU2r1fzr36k38m4sE0b";
 
@@ -80,8 +80,6 @@
     const name = document.getElementById("name");
     const bio = document.getElementById("bio");
     const msg = document.getElementById("msg");
-    const notice = document.getElementById("notice");
-
     const voteBtn = document.getElementById("voteBtn");
     const loginState = document.getElementById("loginState");
     const backBtn = document.getElementById("backBtn");
@@ -89,50 +87,26 @@
     const pay10 = document.getElementById("pay10");
     const pay50 = document.getElementById("pay50");
 
-    const loginLink = document.getElementById("loginLink");
-    const logoutBtn = document.getElementById("logoutBtn");
+    const photoCard = document.getElementById("photoCard");
+    const photoImg  = document.getElementById("photoImg");
 
-    // ✅ Keep back button pointing to the right contest
-    if(slug) backBtn.href = `/competitions/contest.html?slug=${encodeURIComponent(slug)}`;
-
-    // ✅ Stripe buttons (redirect configured inside Stripe settings)
     pay10.href = STRIPE_10;
     pay50.href = STRIPE_50;
 
-    // ✅ Payment banner messages (supports ?paid=success / ?paid=cancel / ?paid=1)
-    const paid = getParam("paid");
-    if (paid === "success" || paid === "1") {
-      notice.style.display = "block";
-      notice.textContent = "Payment received ✅ Thank you for supporting Elyra.";
-    } else if (paid === "cancel") {
-      notice.style.display = "block";
-      notice.textContent = "Payment cancelled. You can still cast your free vote anytime.";
-    }
+    if(slug) backBtn.href = `/competitions/contest.html?slug=${encodeURIComponent(slug)}`;
 
-    // ✅ Login / logout toggle
-    try{
-      const session = await getSession();
-
-      if(session){
-        if(loginLink) loginLink.style.display = "none";
-        if(logoutBtn) logoutBtn.style.display = "inline-flex";
-
-        logoutBtn?.addEventListener("click", async () => {
-          await signOut();
-          location.href = "/competitions/login.html";
-        });
-      }else{
-        // Preserve return path so user comes back here after login
-        const nextUrl = `${location.pathname}${location.search}`;
-        if(loginLink) loginLink.href = `/competitions/login.html?next=${encodeURIComponent(nextUrl)}`;
-
-        if(logoutBtn) logoutBtn.style.display = "none";
-      }
-    }catch(e){
-      console.warn("Session check failed:", e);
+    function safeImg(url){
+      if(!url) return null;
+      const u = String(url).trim();
+      if(u.startsWith("http://") || u.startsWith("https://")) return u;
+      return null;
     }
 
     let contestId = null;
+
+    if (getParam("paid") === "1") {
+      setText(msg, "Payment received ✅ Your support helps Elyra.");
+    }
 
     try{
       const contestant = await fetchContestantById(id);
@@ -141,7 +115,15 @@
       setText(name, contestant.display_name || "Contestant");
       setText(bio, contestant.bio || "");
 
-      // Resolve contest_id
+      // ✅ Render photo if present
+      const p = safeImg(contestant.photo_url);
+      if(p){
+        photoImg.src = p;
+        photoCard.style.display = "block";
+      }else{
+        photoCard.style.display = "none";
+      }
+
       if(slug){
         const contest = await fetchContestBySlug(slug);
         contestId = contest?.id || contestant.contest_id;
@@ -150,15 +132,7 @@
       }
 
       const session = await getSession();
-      const loggedIn = !!session;
-
-      setText(loginState, loggedIn ? "Logged in ✅" : "Log in to cast your free vote");
-
-      // ✅ Disable free vote button if not logged in
-      if(!loggedIn){
-        voteBtn.disabled = true;
-        setText(msg, "Please log in to cast your free vote.");
-      }
+      setText(loginState, session ? "Logged in ✅" : "Not logged in (free vote requires login)");
 
       voteBtn.addEventListener("click", async () => {
         try{
@@ -181,20 +155,8 @@
       setText(name, "Error");
       setText(bio, err?.message || "Unknown error");
       voteBtn.disabled = true;
+      photoCard.style.display = "none";
     }
   </script>
-
-  <!-- Banner style (inline so it works even if CSS isn't updated yet) -->
-  <style>
-    .notice{
-      margin-top:14px;
-      padding:12px 14px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.14);
-      background:rgba(255,255,255,.06);
-      color:rgba(242,242,242,.85);
-      box-shadow:0 18px 60px rgba(0,0,0,.55);
-    }
-  </style>
 </body>
 </html>
