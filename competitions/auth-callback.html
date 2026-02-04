@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Elyra — Signing you in…</title>
+  <title>ELYRA — Signing in</title>
   <link rel="stylesheet" href="./assets/competitions.css"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,7 +15,6 @@
       <div class="brand">ELYRA</div>
       <div class="navlinks">
         <a href="/competitions/">Competitions</a>
-        <a href="/competitions/login.html">Login</a>
         <a href="/">Home</a>
       </div>
     </div>
@@ -28,37 +27,32 @@
 
   <script type="module">
     import { supabase } from "./assets/supabaseClient.js";
-    import { setText, getParam } from "./assets/ui.js";
 
     const msg = document.getElementById("msg");
 
-    try{
-      const url = new URL(location.href);
-      const code = url.searchParams.get("code");
+    async function run(){
+      try{
+        const url = new URL(location.href);
+        const code = url.searchParams.get("code");
 
-      // Keep these if you pass them through your login flow later
-      const slug = getParam("slug");
-      const id = getParam("id");
+        if(!code){
+          msg.textContent = "This link looks incomplete. Please request a new sign-in link.";
+          return;
+        }
 
-      if(!code){
-        setText(msg, "Missing code. Please open the newest email link and try again.");
-        throw new Error("Missing code param.");
+        const { error } = await supabase.auth.exchangeCodeForSession(code);
+        if(error) throw error;
+
+        msg.textContent = "Signed in ✅ Redirecting…";
+        setTimeout(() => location.replace("/competitions/signed-in.html"), 450);
+      }catch{
+        // No technical details shown to user
+        msg.textContent = "Login failed. Please request a new sign-in link and try again.";
+        setTimeout(() => location.replace("/competitions/login.html?error=1"), 1200);
       }
-
-      const { error } = await supabase.auth.exchangeCodeForSession(code);
-      if(error) throw error;
-
-      setText(msg, "Signed in ✅ Redirecting…");
-
-      const qp = new URLSearchParams();
-      if(slug) qp.set("slug", slug);
-      if(id) qp.set("id", id);
-
-      location.replace(`/competitions/signed-in.html${qp.toString() ? `?${qp}` : ""}`);
-    }catch(e){
-      console.error(e);
-      setText(msg, e?.message || "Login failed. Please try again.");
     }
+
+    run();
   </script>
 </body>
 </html>
