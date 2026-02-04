@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Elyra — Contestant</title>
+  <link rel="stylesheet" href="./assets/competitions.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="topbar">
+    <div class="container row">
+      <div class="brand">ELYRA</div>
+      <div class="navlinks">
+        <a href="/competitions/">Competitions</a>
+        <a href="/competitions/login.html">Login</a>
+        <a href="/">Home</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container hero">
+    <h1 class="h1" id="name">Loading…</h1>
+    <p class="p" id="bio"></p>
+  </div>
+
+  <div class="container">
+    <div class="grid">
+      <div class="card span12">
+        <div class="kpi">
+          <div class="box" id="voteNote">Free vote: 1 per person</div>
+          <div class="box" id="loginState">Checking login…</div>
+        </div>
+        <div class="hr"></div>
+        <div class="btnrow">
+          <button class="btn primary" id="voteBtn">Vote (Free)</button>
+          <a class="btn" id="backBtn" href="/competitions/">Back</a>
+        </div>
+        <div class="hr"></div>
+        <p class="small" id="msg"></p>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { fetchContestantById, fetchContestBySlug } from "./assets/data.js";
+    import { castFreeVote } from "./assets/vote.js";
+    import { getSession } from "./assets/auth.js";
+    import { getParam, setText, toast } from "./assets/ui.js";
+
+    const id = getParam("id");
+    const slug = getParam("slug");
+
+    const name = document.getElementById("name");
+    const bio = document.getElementById("bio");
+    const msg = document.getElementById("msg");
+    const voteBtn = document.getElementById("voteBtn");
+    const loginState = document.getElementById("loginState");
+    const backBtn = document.getElementById("backBtn");
+
+    if(slug) backBtn.href = `/competitions/contest.html?slug=${encodeURIComponent(slug)}`;
+
+    let contestId = null;
+
+    try{
+      const contestant = await fetchContestantById(id);
+      if(!contestant) throw new Error("Contestant not found.");
+      setText(name, contestant.display_name || "Contestant");
+      setText(bio, contestant.bio || "");
+
+      // Resolve contest from slug (so we know contest_id)
+      if(slug){
+        const contest = await fetchContestBySlug(slug);
+        contestId = contest?.id || contestant.contest_id;
+      }else{
+        contestId = contestant.contest_id;
+      }
+
+      const session = await getSession();
+      setText(loginState, session ? "Logged in ✅" : "Not logged in (vote requires login)");
+
+      voteBtn.addEventListener("click", async () => {
+        try{
+          voteBtn.disabled = true;
+          setText(msg, "Submitting vote…");
+          await castFreeVote(contestId, contestant.id);
+          toast("Vote submitted ✅");
+          setText(msg, "Vote submitted. Thank you for supporting!");
+        }catch(err){
+          console.error(err);
+          toast(err?.message || "Vote failed.");
+          setText(msg, err?.message || "Vote failed.");
+        }finally{
+          voteBtn.disabled = false;
+        }
+      });
+
+    }catch(err){
+      console.error(err);
+      setText(name, "Error");
+      setText(bio, err?.message || "Unknown error");
+      voteBtn.disabled = true;
+    }
+  </script>
+</body>
+</html>
