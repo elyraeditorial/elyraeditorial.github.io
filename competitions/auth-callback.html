@@ -3,46 +3,62 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Signing you in…</title>
+  <title>Elyra — Signing you in…</title>
   <link rel="stylesheet" href="./assets/competitions.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
 </head>
 <body>
+  <div class="topbar">
+    <div class="container row">
+      <div class="brand">ELYRA</div>
+      <div class="navlinks">
+        <a href="/competitions/">Competitions</a>
+        <a href="/competitions/login.html">Login</a>
+        <a href="/">Home</a>
+      </div>
+    </div>
+  </div>
+
   <div class="container hero">
     <h1 class="h1">Signing you in…</h1>
     <p class="p" id="msg">Please wait.</p>
-    <div class="btnrow" style="margin-top:14px">
-      <a class="btn" href="/competitions/">Go to Competitions</a>
-      <a class="btn" href="/competitions/login.html">Back to Login</a>
-    </div>
   </div>
 
   <script type="module">
     import { supabase } from "./assets/supabaseClient.js";
+    import { setText, getParam } from "./assets/ui.js";
 
     const msg = document.getElementById("msg");
 
-    async function run(){
-      try{
-        const url = new URL(window.location.href);
-        const code = url.searchParams.get("code");
+    try{
+      const url = new URL(location.href);
+      const code = url.searchParams.get("code");
 
-        if(code){
-          const { error } = await supabase.auth.exchangeCodeForSession(code);
-          if(error) throw error;
-        }else{
-          const { data } = await supabase.auth.getSession();
-          if(!data?.session) throw new Error("Missing login code. Please request a new sign-in link.");
-        }
+      // Keep these if you pass them through your login flow later
+      const slug = getParam("slug");
+      const id = getParam("id");
 
-        msg.textContent = "Signed in ✅ Redirecting…";
-        window.location.href = "/competitions/organizer/";
-      }catch(err){
-        console.error(err);
-        msg.textContent = "Login failed. Please try again. (" + (err?.message || "Unknown error") + ")";
+      if(!code){
+        setText(msg, "Missing code. Please open the newest email link and try again.");
+        throw new Error("Missing code param.");
       }
-    }
 
-    run();
+      const { error } = await supabase.auth.exchangeCodeForSession(code);
+      if(error) throw error;
+
+      setText(msg, "Signed in ✅ Redirecting…");
+
+      const qp = new URLSearchParams();
+      if(slug) qp.set("slug", slug);
+      if(id) qp.set("id", id);
+
+      location.replace(`/competitions/signed-in.html${qp.toString() ? `?${qp}` : ""}`);
+    }catch(e){
+      console.error(e);
+      setText(msg, e?.message || "Login failed. Please try again.");
+    }
   </script>
 </body>
 </html>
