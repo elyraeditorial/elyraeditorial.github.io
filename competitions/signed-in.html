@@ -12,17 +12,52 @@
       <div class="brand">ELYRA</div>
       <div class="navlinks">
         <a href="/competitions/">Competitions</a>
+        <a href="/competitions/organizer/">Organizer</a>
         <a href="/">Home</a>
       </div>
     </div>
   </div>
 
   <div class="container hero">
-    <h1 class="h1">Signed in ✅</h1>
-    <p class="p">Welcome back. You’re all set.</p>
-    <div class="btnrow">
-      <a class="btn primary" href="/competitions/">Go to competitions</a>
+    <h1 class="h1">You're signed in ✅</h1>
+    <p class="p">Welcome to Elyra. You can now vote and access organizer tools (if approved).</p>
+  </div>
+
+  <div class="container">
+    <div class="card">
+      <div class="btnrow">
+        <a class="btn primary" href="/competitions/">Go to Competitions</a>
+        <a class="btn" href="/competitions/organizer/">Organizer</a>
+        <button class="btn danger" id="logoutBtn">Log out</button>
+      </div>
+      <div class="hr"></div>
+      <p class="small" id="status"></p>
     </div>
   </div>
+
+  <script type="module">
+    import { getSession, signOut } from "./assets/auth.js";
+    import { setText } from "./assets/ui.js";
+
+    const status = document.getElementById("status");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    try {
+      const session = await getSession();
+      if(!session){
+        location.replace("/competitions/login.html");
+      } else {
+        setText(status, "Session active ✅");
+      }
+    } catch(e){
+      console.error(e);
+      setText(status, "Could not verify session.");
+    }
+
+    logoutBtn.addEventListener("click", async () => {
+      await signOut();
+      location.replace("/competitions/login.html");
+    });
+  </script>
 </body>
 </html>
