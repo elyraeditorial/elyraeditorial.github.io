@@ -8,31 +8,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
-
-  <style>
-    .vote3d {
-      position: relative;
-      padding: 14px 18px;
-      border-radius: 999px;
-      font-weight: 700;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      border: 1px solid rgba(255,255,255,.25);
-      background: linear-gradient(180deg, rgba(255,255,255,.25), rgba(255,255,255,.08));
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.25), 0 12px 25px rgba(0,0,0,.65);
-      transition: transform .15s ease, box-shadow .15s ease;
-    }
-    .vote3d:hover {
-      transform: translateY(-2px);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 16px 35px rgba(0,0,0,.8);
-    }
-    .vote3d:active {
-      transform: translateY(1px);
-      box-shadow: inset 0 2px 6px rgba(0,0,0,.6);
-    }
-    .vote3d.gold { border-color: #ffd36a; }
-    .vote3d.pink { border-color: #ff7bdc; }
-  </style>
 </head>
 <body>
   <div class="topbar">
@@ -58,24 +33,25 @@
           <div class="box" id="voteNote">Free vote: 1 per person</div>
           <div class="box" id="loginState">Checking login…</div>
         </div>
+
         <div class="hr"></div>
 
         <div class="btnrow">
-          <button class="btn primary" id="voteBtn">Vote (Free)</button>
-
-          <a class="btn vote3d gold" 
-             href="https://buy.stripe.com/9B6aEQd5F5YR9uI7oC4sE09" 
-             target="_blank">
-             Buy Votes ($10+)
-          </a>
-
-          <a class="btn vote3d pink" 
-             href="https://buy.stripe.com/28EbIU2r1fzr36k38m4sE0b" 
-             target="_blank">
-             Buy Votes ($50+)
-          </a>
-
+          <button class="btn primary btn3d" id="voteBtn">Vote (Free)</button>
           <a class="btn" id="backBtn" href="/competitions/">Back</a>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="payBox">
+          <div class="label">Want to support more?</div>
+          <div class="small">Paid votes are optional. You’ll return here after checkout.</div>
+          <div style="height:10px"></div>
+
+          <div class="btnrow">
+            <a class="btn btn3d glow10" id="pay10" target="_blank" rel="noopener">Buy Votes ($10)</a>
+            <a class="btn btn3d glow50" id="pay50" target="_blank" rel="noopener">Buy Votes ($50)</a>
+          </div>
         </div>
 
         <div class="hr"></div>
@@ -90,6 +66,10 @@
     import { getSession } from "./assets/auth.js";
     import { getParam, setText, toast } from "./assets/ui.js";
 
+    // ✅ Your Stripe payment links:
+    const STRIPE_10 = "https://buy.stripe.com/9B6aEQd5F5YR9uI7oC4sE09";
+    const STRIPE_50 = "https://buy.stripe.com/28EbIU2r1fzr36k38m4sE0b";
+
     const id = getParam("id");
     const slug = getParam("slug");
 
@@ -100,9 +80,25 @@
     const loginState = document.getElementById("loginState");
     const backBtn = document.getElementById("backBtn");
 
+    const pay10 = document.getElementById("pay10");
+    const pay50 = document.getElementById("pay50");
+
+    // Send Stripe users back here after payment (set this inside Stripe link settings too)
+    const returnHere = `${window.location.origin}/competitions/contestant.html?id=${encodeURIComponent(id)}&slug=${encodeURIComponent(slug)}&paid=1`;
+
+    // We can’t force Stripe link behavior from here unless your Payment Link supports dynamic params,
+    // so we keep it simple: open Stripe, and you set the redirect in Stripe to returnHere.
+    pay10.href = STRIPE_10;
+    pay50.href = STRIPE_50;
+
     if(slug) backBtn.href = `/competitions/contest.html?slug=${encodeURIComponent(slug)}`;
 
     let contestId = null;
+
+    // Show message if returning from payment
+    if (getParam("paid") === "1") {
+      setText(msg, "Payment received ✅ Your support helps Elyra. (If you bought multiple votes, refresh after we connect paid-vote tracking.)");
+    }
 
     try{
       const contestant = await fetchContestantById(id);
@@ -123,10 +119,10 @@
       voteBtn.addEventListener("click", async () => {
         try{
           voteBtn.disabled = true;
-          setText(msg, "Submitting free vote…");
+          setText(msg, "Submitting vote…");
           await castFreeVote(contestId, contestant.id);
-          toast("Free vote submitted ✅");
-          setText(msg, "Free vote submitted. Want to boost with paid votes?");
+          toast("Vote submitted ✅");
+          setText(msg, "Vote submitted. Thank you for supporting!");
         }catch(err){
           console.error(err);
           toast(err?.message || "Vote failed.");
