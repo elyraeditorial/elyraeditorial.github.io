@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>ELYRA — Contest Voting</title>
+  <link rel="stylesheet" href="./contest.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-row">
+      <div class="brand">ELYRA</div>
+      <nav class="nav">
+        <a href="/" class="navlink">Home</a>
+        <a href="/contest/" class="navlink navlink-active">Contest</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero card">
+      <h1 class="h1">ELYRA Cover Star</h1>
+      <p class="lede">
+        Cast your free vote, or support your favorite with paid voting packs.
+      </p>
+
+      <section class="btn3d-wrap" aria-label="Voting actions">
+        <button id="freeVoteBtn" class="btn3d free" type="button">
+          🆓 Free Vote
+        </button>
+
+        <a class="btn3d buy10"
+           href="https://buy.stripe.com/9B6aEQd5F5YR9uI7oC4sE09"
+           target="_blank" rel="noopener">
+          💳 Buy Votes ($10 — adjustable)
+        </a>
+
+        <a class="btn3d buy50"
+           href="https://buy.stripe.com/28EbIU2r1fzr36k38m4sE0b"
+           target="_blank" rel="noopener">
+          ⚡ Buy Votes ($50 — adjustable)
+        </a>
+      </section>
+
+      <p class="hint">
+        Tip: Some checkout links allow quantity changes. After payment, you can return here to continue voting.
+      </p>
+
+      <div id="status" class="status" role="status" aria-live="polite"></div>
+    </section>
+
+    <section class="fineprint">
+      <p class="small">
+        Note: Free votes are limited. Paid votes are processed securely through Stripe.
+      </p>
+    </section>
+  </main>
+
+  <script src="./contest.js"></script>
+</body>
+</html>
