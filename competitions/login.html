@@ -28,20 +28,36 @@
 
   <div class="container">
     <div class="card">
-      <form id="loginForm">
-        <div class="label">Email</div>
-        <input class="input" id="email" type="email" placeholder="you@domain.com" required />
-        <div class="hr"></div>
-        <button class="btn primary" type="submit">Send Sign-in Link</button>
-      </form>
+      <div class="label">Email</div>
+      <input class="input" id="email" type="email" placeholder="you@example.com" autocomplete="email"/>
+      <div style="height:12px"></div>
+      <button class="btn primary btn3d" id="sendBtn">Send sign-in link</button>
       <div class="hr"></div>
-      <p class="small">After clicking the email link, you’ll return to Elyra Competitions.</p>
+      <p class="small" id="msg"></p>
     </div>
   </div>
 
   <script type="module">
-    import { bindLoginForm } from "./assets/auth.js";
-    bindLoginForm();
+    import { sendMagicLink } from "./assets/auth.js";
+    import { setText } from "./assets/ui.js";
+
+    const email = document.getElementById("email");
+    const sendBtn = document.getElementById("sendBtn");
+    const msg = document.getElementById("msg");
+
+    sendBtn.addEventListener("click", async () => {
+      try{
+        sendBtn.disabled = true;
+        setText(msg, "Sending link…");
+        await sendMagicLink(email.value.trim());
+        setText(msg, "Check your email. Click the link to finish login ✅");
+      }catch(e){
+        console.error(e);
+        setText(msg, e?.message || "Failed to send link.");
+      }finally{
+        sendBtn.disabled = false;
+      }
+    });
   </script>
 </body>
 </html>
