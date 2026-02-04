@@ -3,13 +3,17 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>ELYRA — Signing you in…</title>
+  <title>Signing you in…</title>
   <link rel="stylesheet" href="./assets/competitions.css"/>
 </head>
 <body>
   <div class="container hero">
     <h1 class="h1">Signing you in…</h1>
-    <p class="p" id="msg">Finishing login.</p>
+    <p class="p" id="msg">Please wait.</p>
+    <div class="btnrow" style="margin-top:14px">
+      <a class="btn" href="/competitions/">Go to Competitions</a>
+      <a class="btn" href="/competitions/login.html">Back to Login</a>
+    </div>
   </div>
 
   <script type="module">
@@ -17,18 +21,29 @@
 
     const msg = document.getElementById("msg");
 
-    try {
-      // For email OTP/magic links, Supabase will include a code in the URL
-      const { error } = await supabase.auth.exchangeCodeForSession(window.location.href);
-      if (error) throw error;
+    async function run(){
+      try{
+        // Supabase magic links often come back with ?code=...
+        const url = new URL(window.location.href);
+        const code = url.searchParams.get("code");
 
-      msg.textContent = "Success ✅ Redirecting…";
-      window.location.href = "/competitions/?login=success";
-    } catch (e) {
-      console.error(e);
-      msg.textContent = "Login failed. Please try again.";
-      setTimeout(() => (window.location.href = "/competitions/login.html?error=1"), 1200);
+        if(code){
+          const { error } = await supabase.auth.exchangeCodeForSession(code);
+          if(error) throw error;
+        }else{
+          // If there is no code, it may already be signed in (or it’s the wrong redirect)
+          const { data } = await supabase.auth.getSession();
+          if(!data?.session) throw new Error("Missing login code. Please request a new sign-in link.");
+        }
+
+        msg.textContent = "Signed in ✅ Redirecting…";
+        window.location.href = "/competitions/organizer/";
+      }catch(err){
+        console.error(err);
+        msg.textContent = "Login failed. Please try again. (" + (err?.message || "Unknown error") + ")";
+      }
     }
+    run();
   </script>
 </body>
 </html>
