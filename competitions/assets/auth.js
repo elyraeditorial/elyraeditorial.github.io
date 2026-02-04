@@ -1,7 +1,8 @@
 import { supabase } from "./supabaseClient.js";
 
-export async function sendMagicLink(email){
-  const redirectTo = `${location.origin}/competitions/auth-callback.html`;
+export async function sendMagicLink(email, next="/competitions/"){
+  const base = `${location.origin}/competitions/auth-callback.html`;
+  const redirectTo = `${base}?next=${encodeURIComponent(next)}`;
 
   const { error } = await supabase.auth.signInWithOtp({
     email,
