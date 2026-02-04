@@ -23,7 +23,6 @@
 
     async function run(){
       try{
-        // Supabase magic links often come back with ?code=...
         const url = new URL(window.location.href);
         const code = url.searchParams.get("code");
 
@@ -31,7 +30,6 @@
           const { error } = await supabase.auth.exchangeCodeForSession(code);
           if(error) throw error;
         }else{
-          // If there is no code, it may already be signed in (or it’s the wrong redirect)
           const { data } = await supabase.auth.getSession();
           if(!data?.session) throw new Error("Missing login code. Please request a new sign-in link.");
         }
@@ -43,6 +41,7 @@
         msg.textContent = "Login failed. Please try again. (" + (err?.message || "Unknown error") + ")";
       }
     }
+
     run();
   </script>
 </body>
