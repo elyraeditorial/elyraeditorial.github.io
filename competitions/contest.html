@@ -15,9 +15,10 @@
       <div class="brand">ELYRA</div>
       <div class="navlinks">
         <a href="/competitions/">Competitions</a>
-        <a href="/competitions/login.html">Login</a>
+        <a href="/competitions/login.html" id="loginLink">Login</a>
         <a href="/competitions/organizer/">Organizer</a>
         <a href="/">Home</a>
+        <button class="btn" id="logoutBtn" style="display:none">Log out</button>
       </div>
     </div>
   </div>
@@ -29,10 +30,19 @@
     <!-- Payment / status banner -->
     <div class="notice" id="notice" style="display:none;"></div>
 
-    <!-- Paid vote buttons (flashy) -->
+    <!-- Paid vote buttons (flashy text buttons, no images) -->
     <div class="btnrow" style="margin-top:14px;">
-      <a class="btn pay pay10" href="https://buy.stripe.com/9B6aEQd5F5YR9uI7oC4sE09" target="_blank" rel="noopener">Buy Votes ($10)</a>
-      <a class="btn pay pay50" href="https://buy.stripe.com/28EbIU2r1fzr36k38m4sE0b" target="_blank" rel="noopener">Buy Votes ($50)</a>
+      <a class="btn paybtn" id="pay10"
+         href="https://buy.stripe.com/9B6aEQd5F5YR9uI7oC4sE09"
+         target="_blank" rel="noopener">
+        Buy Votes ($10)
+      </a>
+
+      <a class="btn paybtn paybtn-alt" id="pay50"
+         href="https://buy.stripe.com/28EbIU2r1fzr36k38m4sE0b"
+         target="_blank" rel="noopener">
+        Buy Votes ($50)
+      </a>
     </div>
 
     <p class="small" style="margin-top:10px;">
@@ -51,17 +61,44 @@
   <script type="module">
     import { fetchContestBySlug, fetchContestants } from "./assets/data.js";
     import { requireParam, setText, setHTML } from "./assets/ui.js";
+    import { getSession, signOut } from "./assets/auth.js";
 
     const slug = requireParam("slug");
+
     const title = document.getElementById("title");
     const subtitle = document.getElementById("subtitle");
     const badge = document.getElementById("badge");
     const list = document.getElementById("list");
     const notice = document.getElementById("notice");
 
-    // Stripe redirect confirmation (works with your single redirect block)
+    const loginLink = document.getElementById("loginLink");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    // ✅ Login/Logout toggle
+    try{
+      const session = await getSession();
+      if(session){
+        if(loginLink) loginLink.style.display = "none";
+        if(logoutBtn) logoutBtn.style.display = "inline-flex";
+        logoutBtn?.addEventListener("click", async () => {
+          await signOut();
+          location.href = `/competitions/login.html?next=${encodeURIComponent(location.pathname + location.search)}`;
+        });
+      }else{
+        if(loginLink) loginLink.style.display = "inline-flex";
+        if(logoutBtn) logoutBtn.style.display = "none";
+        // Optional: preserve return path
+        if(loginLink) loginLink.href = `/competitions/login.html?next=${encodeURIComponent(location.pathname + location.search)}`;
+      }
+    }catch(e){
+      // If auth is temporarily down, don't break the page
+      console.warn("Session check failed:", e);
+    }
+
+    // ✅ Stripe redirect confirmation banner
     const params = new URLSearchParams(location.search);
     const paid = params.get("paid");
+
     if (paid === "success") {
       notice.style.display = "block";
       notice.textContent = "Payment received ✅ If you purchased votes, you can now continue voting.";
@@ -87,7 +124,10 @@
             <p>${p.bio || ""}</p>
           </div>
           <div class="btnrow">
-            <a class="btn primary" href="/competitions/contestant.html?id=${encodeURIComponent(p.id)}&slug=${encodeURIComponent(slug)}">Vote</a>
+            <a class="btn primary"
+               href="/competitions/contestant.html?id=${encodeURIComponent(p.id)}&slug=${encodeURIComponent(slug)}">
+              Vote
+            </a>
           </div>
         </div>
       `).join("") || `<p class="small">No contestants published yet.</p>`);
@@ -99,5 +139,69 @@
       setHTML(list, "");
     }
   </script>
+
+  <!-- Flashy 3D button styles (inline so it won't break your CSS file) -->
+  <style>
+    .notice{
+      margin-top:14px;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.06);
+      color:rgba(242,242,242,.85);
+      letter-spacing:.02em;
+      box-shadow:0 18px 60px rgba(0,0,0,.55);
+    }
+    .paybtn{
+      position:relative;
+      overflow:hidden;
+      transform: translateZ(0);
+      border:1px solid rgba(255,255,255,.22);
+      background: rgba(255,255,255,.08);
+      box-shadow:
+        0 14px 44px rgba(0,0,0,.55),
+        inset 0 1px 0 rgba(255,255,255,.10);
+      transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
+      will-change: transform;
+    }
+    .paybtn::before{
+      content:"";
+      position:absolute;
+      inset:-60% -60%;
+      background: radial-gradient(circle at 30% 20%, rgba(255,255,255,.28), transparent 60%),
+                  radial-gradient(circle at 70% 80%, rgba(255,255,255,.16), transparent 55%);
+      transform: rotate(12deg);
+      opacity:.55;
+      pointer-events:none;
+    }
+    .paybtn::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.18) 45%, transparent 70%);
+      transform: translateX(-120%);
+      opacity:.55;
+      pointer-events:none;
+      animation: shine 2.8s ease-in-out infinite;
+    }
+    .paybtn:hover{
+      transform: translateY(-1px) scale(1.01);
+      background: rgba(255,255,255,.12);
+      box-shadow:
+        0 18px 56px rgba(0,0,0,.62),
+        inset 0 1px 0 rgba(255,255,255,.14);
+    }
+    .paybtn:active{
+      transform: translateY(0) scale(.995);
+    }
+    .paybtn-alt{
+      background: rgba(255,255,255,.10);
+    }
+    @keyframes shine{
+      0%{ transform: translateX(-120%); }
+      60%{ transform: translateX(120%); }
+      100%{ transform: translateX(120%); }
+    }
+  </style>
 </body>
 </html>
