@@ -29,13 +29,13 @@
 
     function safeNext(u){
       // Only allow relative paths on your site to prevent open-redirect issues
-      if(!u) return "/competitions/";
+      if(!u) return "/competitions/signed-in.html";
       try{
         const decoded = decodeURIComponent(u);
         if(decoded.startsWith("/")) return decoded;
-        return "/competitions/";
+        return "/competitions/signed-in.html";
       }catch{
-        return "/competitions/";
+        return "/competitions/signed-in.html";
       }
     }
 
@@ -43,9 +43,12 @@
       try{
         const url = new URL(location.href);
         const code = url.searchParams.get("code");
+
+        // ✅ Default: go to signed-in screen
+        // ✅ Optional: allow ?next=/competitions/contest.html?slug=...
         const next = safeNext(url.searchParams.get("next"));
 
-        // If Supabase sent back a code, exchange it for a session
+        // If auth provider sent back a code, exchange it for a session
         if(code){
           const { error } = await supabase.auth.exchangeCodeForSession(code);
           if(error) throw error;
@@ -64,7 +67,6 @@
         }
       }catch(e){
         console.error(e);
-        // Hide technical details from users
         msg.textContent = "Login failed. Please request a new sign-in link and try again.";
         setTimeout(() => location.replace("/competitions/login.html"), 1200);
       }
