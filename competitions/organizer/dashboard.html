@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Elyra — Organizer Dashboard</title>
+  <link rel="stylesheet" href="../assets/competitions.css"/>
+</head>
+<body>
+  <div class="topbar">
+    <div class="container row">
+      <div class="brand">ELYRA</div>
+      <div class="navlinks">
+        <a href="/competitions/">Competitions</a>
+        <a href="/competitions/login.html">Login</a>
+        <a href="/">Home</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container hero">
+    <h1 class="h1">Organizer Dashboard</h1>
+    <p class="p" id="who">Checking access…</p>
+  </div>
+
+  <div class="container grid">
+    <div class="card span6">
+      <h3>Create Contest</h3>
+      <div class="hr"></div>
+      <div class="label">Slug (example: model-of-the-year-2026)</div>
+      <input class="input" id="cSlug" placeholder="model-of-the-year-2026"/>
+      <div class="hr"></div>
+      <div class="label">Title</div>
+      <input class="input" id="cTitle" placeholder="Model of the Year"/>
+      <div class="hr"></div>
+      <div class="label">Subtitle</div>
+      <input class="input" id="cSub" placeholder="Authentic Beauty of 2026 Contest"/>
+      <div class="hr"></div>
+      <div class="btnrow">
+        <button class="btn primary" id="createContestBtn">Create</button>
+      </div>
+      <p class="small" id="cMsg"></p>
+    </div>
+
+    <div class="card span6">
+      <h3>Add Contestant</h3>
+      <div class="hr"></div>
+      <div class="label">Contest slug</div>
+      <input class="input" id="pContestSlug" placeholder="model-of-the-year-2026"/>
+      <div class="hr"></div>
+      <div class="label">Display name</div>
+      <input class="input" id="pName" placeholder="Luna"/>
+      <div class="hr"></div>
+      <div class="label">Bio</div>
+      <input class="input" id="pBio" placeholder="Short bio..."/>
+      <div class="hr"></div>
+      <div class="label">Photo URL (optional)</div>
+      <input class="input" id="pPhoto" placeholder="https://...jpg"/>
+      <div class="hr"></div>
+      <div class="btnrow">
+        <button class="btn primary" id="createContestantBtn">Add</button>
+      </div>
+      <p class="small" id="pMsg"></p>
+    </div>
+
+    <div class="card span12">
+      <h3>Contests</h3>
+      <div class="hr"></div>
+      <div id="list"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { getUser } from "../assets/auth.js";
+    import { requireOrganizer, createContest, createContestant, listMyContests } from "../assets/organizer.js";
+    import { fetchContestBySlug } from "../assets/data.js";
+    import { setText } from "../assets/ui.js";
+
+    const who = document.getElementById("who");
+    const list = document.getElementById("list");
+
+    const cSlug = document.getElementById("cSlug");
+    const cTitle = document.getElementById("cTitle");
+    const cSub = document.getElementById("cSub");
+    const cMsg = document.getElementById("cMsg");
+    const createContestBtn = document.getElementById("createContestBtn");
+
+    const pContestSlug = document.getElementById("pContestSlug");
+    const pName = document.getElementById("pName");
+    const pBio = document.getElementById("pBio");
+    const pPhoto = document.getElementById("pPhoto");
+    const pMsg = document.getElementById("pMsg");
+    const createContestantBtn = document.getElementById("createContestantBtn");
+
+    async function render(){
+      const contests = await listMyContests();
+      list.innerHTML = contests.map(c => `
+        <div class="item">
+          <div>
+            <h3>${c.title} <span class="small">(${c.status})</span></h3>
+            <p class="small">slug: ${c.slug}</p>
+          </div>
+          <div class="btnrow">
+            <a class="btn" href="/competitions/contest.html?slug=${encodeURIComponent(c.slug)}">Open</a>
+          </div>
+        </div>
+      `).join("") || `<p class="small">No contests yet.</p>`;
+    }
+
+    try{
+      await requireOrganizer();
+      const user = await getUser();
+      setText(who, `Organizer access ✅ (${user.email})`);
+      await render();
+    }catch(err){
+      console.error(err);
+      setText(who, err?.message || "Organizer access required.");
+    }
+
+    createContestBtn.addEventListener("click", async () => {
+      try{
+        setText(cMsg, "Creating…");
+        const payload = {
+          slug: cSlug.value.trim(),
+          title: cTitle.value.trim(),
+          subtitle: cSub.value.trim(),
+          status: "active"
+        };
+        await createContest(payload);
+        setText(cMsg, "Contest created ✅");
+        await render();
+      }catch(err){
+        console.error(err);
+        setText(cMsg, err?.message || "Failed.");
+      }
+    });
+
+    createContestantBtn.addEventListener("click", async () => {
+      try{
+        setText(pMsg, "Adding…");
+        const contest = await fetchContestBySlug(pContestSlug.value.trim());
+        if(!contest) throw new Error("Contest slug not found.");
+
+        const payload = {
+          contest_id: contest.id,
+          display_name: pName.value.trim(),
+          bio: pBio.value.trim(),
+          photo_url: pPhoto.value.trim() || null,
+          is_published: true
+        };
+        await createContestant(payload);
+        setText(pMsg, "Contestant added ✅");
+      }catch(err){
+        console.error(err);
+        setText(pMsg, err?.message || "Failed.");
+      }
+    });
+  </script>
+</body>
+</html>
