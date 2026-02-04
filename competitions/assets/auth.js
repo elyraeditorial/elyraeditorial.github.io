@@ -1,28 +1,14 @@
 import { supabase } from "./supabaseClient.js";
 
-// IMPORTANT: this must be allow-listed in Supabase Auth → URL Configuration
-const EMAIL_REDIRECT_TO = "https://elyraeditorial.com/competitions/auth-callback.html";
-
 export async function sendMagicLink(email){
+  if(!email) throw new Error("Enter an email address.");
+
   const { error } = await supabase.auth.signInWithOtp({
     email,
     options: {
-      emailRedirectTo: EMAIL_REDIRECT_TO
+      emailRedirectTo: "https://elyraeditorial.com/competitions/auth-callback.html"
     }
   });
 
   if(error) throw error;
-  return true;
-}
-
-export async function getSession(){
-  const { data, error } = await supabase.auth.getSession();
-  if(error) throw error;
-  return data?.session || null;
-}
-
-export async function signOut(){
-  const { error } = await supabase.auth.signOut();
-  if(error) throw error;
-  return true;
 }
