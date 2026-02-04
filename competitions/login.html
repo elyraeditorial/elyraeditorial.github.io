@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Elyra — Login</title>
+  <link rel="stylesheet" href="./assets/competitions.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="topbar">
+    <div class="container row">
+      <div class="brand">ELYRA</div>
+      <div class="navlinks">
+        <a href="/competitions/">Competitions</a>
+        <a href="/competitions/organizer/">Organizer</a>
+        <a href="/">Home</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container hero">
+    <h1 class="h1">Login</h1>
+    <p class="p">Enter your email. Supabase will send a secure sign-in link.</p>
+  </div>
+
+  <div class="container">
+    <div class="card">
+      <form id="loginForm">
+        <div class="label">Email</div>
+        <input class="input" id="email" type="email" placeholder="you@domain.com" required />
+        <div class="hr"></div>
+        <button class="btn primary" type="submit">Send Sign-in Link</button>
+      </form>
+      <div class="hr"></div>
+      <p class="small">After clicking the email link, you’ll return to Elyra Competitions.</p>
+    </div>
+  </div>
+
+  <script type="module">
+    import { bindLoginForm } from "./assets/auth.js";
+    bindLoginForm();
+  </script>
+</body>
+</html>
