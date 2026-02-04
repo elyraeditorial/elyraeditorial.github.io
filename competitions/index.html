@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Elyra Editorial — Competitions</title>
+  <link rel="stylesheet" href="./assets/competitions.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="topbar">
+    <div class="container row">
+      <div class="brand">ELYRA</div>
+      <div class="navlinks">
+        <a href="/competitions/">Competitions</a>
+        <a href="/competitions/login.html">Login</a>
+        <a href="/competitions/organizer/">Organizer</a>
+        <a href="/">Home</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container hero">
+    <h1 class="h1">Competitions</h1>
+    <p class="p">Vote, support contestants, and follow Elyra Editorial contests.</p>
+  </div>
+
+  <div class="container">
+    <div class="card">
+      <div class="badge" id="statusBadge">Loading…</div>
+      <div class="hr"></div>
+      <div class="list" id="contestList"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { fetchActiveContests } from "./assets/data.js";
+    import { setText, setHTML } from "./assets/ui.js";
+
+    const badge = document.getElementById("statusBadge");
+    const list = document.getElementById("contestList");
+
+    try{
+      const contests = await fetchActiveContests();
+      setText(badge, contests.length ? `${contests.length} Active Contest(s)` : "No active contests yet");
+      setHTML(list, contests.map(c => `
+        <div class="item">
+          <div>
+            <h3>${c.title || "Untitled Contest"}</h3>
+            <p>${c.subtitle || ""}</p>
+            <p class="small">${c.start_at ? "Starts: " + new Date(c.start_at).toLocaleDateString() : ""} ${c.end_at ? " • Ends: " + new Date(c.end_at).toLocaleDateString() : ""}</p>
+          </div>
+          <div class="btnrow">
+            <a class="btn primary" href="/competitions/contest.html?slug=${encodeURIComponent(c.slug)}">View</a>
+          </div>
+        </div>
+      `).join(""));
+    }catch(err){
+      console.error(err);
+      setText(badge, "Error loading contests");
+      setHTML(list, `<p class="small">${err?.message || "Unknown error"}</p>`);
+    }
+  </script>
+</body>
+</html>
