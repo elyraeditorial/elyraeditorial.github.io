@@ -20,63 +20,85 @@
 
   <div class="container hero">
     <h1 class="h1">Organizer</h1>
-    <p class="p">Create contests and add contestants.</p>
+    <p class="p" id="status">Checking access…</p>
   </div>
 
   <div class="container">
-    <div class="card">
+    <div class="card" id="panel" style="display:none;">
       <div class="btnrow">
-        <a class="btn primary" id="dashBtn" href="/competitions/organizer/dashboard.html">Open Dashboard</a>
-        <a class="btn" id="authBtn" href="/competitions/login.html">Login</a>
+        <a class="btn primary" href="/competitions/organizer/dashboard.html">Open Dashboard</a>
+        <button class="btn danger" id="logoutBtn" type="button">Log out</button>
       </div>
-
       <div class="hr"></div>
-      <p class="small" id="note">
-        Organizer access requires approval.
-      </p>
-
-      <p class="small" id="status" style="margin-top:10px;"></p>
+      <p class="small">Organizer access is restricted to Elyra staff.</p>
     </div>
   </div>
 
   <script type="module">
+    import { supabase } from "../assets/supabaseClient.js";
     import { getSession, signOut } from "../assets/auth.js";
     import { setText } from "../assets/ui.js";
 
-    const dashBtn = document.getElementById("dashBtn");
-    const authBtn = document.getElementById("authBtn");
+    // 🔐 Allowed Elyra staff emails
+    const ALLOWED_EMAILS = [
+      "glamoursocietymodelingagency@gmail.com",
+      "100kabusinessinquires@gmail.com",
+      "kalmond30@yahoo.com"
+    ].map(e => String(e).toLowerCase().trim());
+
     const status = document.getElementById("status");
-    const note = document.getElementById("note");
+    const panel = document.getElementById("panel");
+    const logoutBtn = document.getElementById("logoutBtn");
 
-    try{
-      const session = await getSession();
+    async function guard(){
+      try{
+        const session = await getSession();
+        if(!session){
+          location.replace(`/competitions/login.html?next=${encodeURIComponent(location.pathname)}`);
+          return;
+        }
 
-      if(!session){
-        // Not logged in
-        dashBtn.style.display = "none";
-        authBtn.textContent = "Login";
-        authBtn.href = "/competitions/login.html";
-        setText(status, "Please log in to access organizer tools.");
-        setText(note, "Organizer access requires approval.");
-      }else{
-        // Logged in
-        dashBtn.style.display = "inline-flex";
-        authBtn.textContent = "Log out";
-        authBtn.href = "#";
-        setText(status, "Signed in ✅");
-        setText(note, "Organizer access requires approval.");
+        const email = String(session.user.email || "").toLowerCase().trim();
+        if(!ALLOWED_EMAILS.includes(email)){
+          setText(status, "Access denied.");
+          setTimeout(() => location.replace("/competitions/"), 900);
+          return;
+        }
 
-        authBtn.addEventListener("click", async (e) => {
-          e.preventDefault();
-          await signOut();
-          location.reload();
-        });
+        const userId = session.user.id;
+
+        const { data, error } = await supabase
+          .from("profiles")
+          .select("role")
+          .eq("id", userId)
+          .single();
+
+        if(error) throw error;
+
+        if(!data || !["organizer","admin"].includes(data.role)){
+          setText(status, "Access denied.");
+          setTimeout(() => location.replace("/competitions/"), 900);
+          return;
+        }
+
+        setText(status, "Organizer access granted ✅");
+        panel.style.display = "block";
+      }catch(e){
+        console.error(e);
+        setText(status, "Access check failed. Please try again.");
+        setTimeout(() => location.replace("/competitions/"), 1200);
       }
-    }catch(e){
-      console.error(e);
-      dashBtn.style.display = "none";
-      setText(status, "Unable to check sign-in. Please try again.");
     }
+
+    logoutBtn.addEventListener("click", async () => {
+      try{
+        await signOut();
+      }finally{
+        location.replace("/competitions/");
+      }
+    });
+
+    guard();
   </script>
 </body>
 </html>
