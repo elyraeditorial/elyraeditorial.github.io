@@ -1,8 +1,7 @@
 import { supabase } from "./supabaseClient.js";
 
-export async function sendMagicLink(email, nextPath="/competitions/"){
-  const nextEncoded = encodeURIComponent(nextPath);
-  const redirectTo = `${location.origin}/competitions/auth-callback.html?next=${nextEncoded}`;
+export async function sendMagicLink(email, next = "/competitions/organizer/"){
+  const redirectTo = `${location.origin}/competitions/auth-callback.html?next=${encodeURIComponent(next)}`;
 
   const { error } = await supabase.auth.signInWithOtp({
     email,
@@ -21,8 +20,7 @@ export async function getSession(){
 export async function getUser(){
   const { data, error } = await supabase.auth.getUser();
   if(error) throw error;
-  if(!data?.user) throw new Error("Not logged in.");
-  return data.user;
+  return data?.user || null;
 }
 
 export async function signOut(){
