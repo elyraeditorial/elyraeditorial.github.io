@@ -33,11 +33,54 @@
           <div class="box" id="voteNote">Free vote: 1 per person</div>
           <div class="box" id="loginState">Checking login…</div>
         </div>
+
         <div class="hr"></div>
+
+        <!-- FREE VOTE -->
         <div class="btnrow">
           <button class="btn primary" id="voteBtn">Vote (Free)</button>
           <a class="btn" id="backBtn" href="/competitions/">Back</a>
         </div>
+
+        <!-- PAID VOTES (Stripe links) -->
+        <div class="votingPacks" style="margin-top:14px">
+          <div class="vpTitle">Boost with Paid Votes</div>
+          <div class="vpSub">
+            Paid votes are optional. After checkout, you’ll be redirected back here and see a confirmation message.
+          </div>
+
+          <div class="vpBtns">
+            <!-- Adjustable $10 -->
+            <a class="btn3d buy10"
+               id="buy10"
+               href="https://buy.stripe.com/9B6aEQd5F5YR9uI7oC4sE09"
+               target="_blank"
+               rel="noopener noreferrer">
+              $10 • Vote Pack
+            </a>
+
+            <!-- Adjustable $50 -->
+            <a class="btn3d buy50"
+               id="buy50"
+               href="https://buy.stripe.com/28EbIU2r1fzr36k38m4sE0b"
+               target="_blank"
+               rel="noopener noreferrer">
+              $50 • Vote Pack
+            </a>
+
+            <!-- Optional: quick info button (doesn't go anywhere) -->
+            <button class="btn3d free" id="howItWorksBtn" type="button">
+              How it works
+            </button>
+          </div>
+
+          <div class="vpStatus" id="paidStatus"></div>
+          <div class="vpHint">
+            Tip: If Stripe is sending people to the wrong place after payment, set Stripe’s success/cancel redirect to:
+            <span class="code">/competitions/contestant.html?paid=1</span>
+          </div>
+        </div>
+
         <div class="hr"></div>
         <p class="small" id="msg"></p>
       </div>
@@ -60,44 +103,80 @@
     const loginState = document.getElementById("loginState");
     const backBtn = document.getElementById("backBtn");
 
-    if(slug) backBtn.href = `/competitions/contest.html?slug=${encodeURIComponent(slug)}`;
+    const paidStatus = document.getElementById("paidStatus");
+    const howItWorksBtn = document.getElementById("howItWorksBtn");
+
+    if (slug) backBtn.href = `/competitions/contest.html?slug=${encodeURIComponent(slug)}`;
+
+    // 1) If Stripe redirected them back with a flag, show confirmation
+    // (This is a "soft" confirmation unless you add webhooks later.)
+    const paid = getParam("paid");
+    if (paid === "1" || paid === "true" || paid === "success") {
+      paidStatus.classList.add("show");
+      paidStatus.textContent = "Payment received ✅ Your paid votes will be counted. Thank you!";
+    }
+
+    howItWorksBtn?.addEventListener("click", () => {
+      paidStatus.classList.add("show");
+      paidStatus.textContent =
+        "Free vote = 1 per account per contestant. Paid votes are optional via Stripe. After checkout, return here to confirm.";
+      setTimeout(() => paidStatus.classList.remove("show"), 6500);
+    });
 
     let contestId = null;
 
-    try{
+    try {
       const contestant = await fetchContestantById(id);
-      if(!contestant) throw new Error("Contestant not found.");
+      if (!contestant) throw new Error("Contestant not found.");
+
       setText(name, contestant.display_name || "Contestant");
       setText(bio, contestant.bio || "");
 
       // Resolve contest from slug (so we know contest_id)
-      if(slug){
+      if (slug) {
         const contest = await fetchContestBySlug(slug);
         contestId = contest?.id || contestant.contest_id;
-      }else{
+      } else {
         contestId = contestant.contest_id;
       }
 
       const session = await getSession();
-      setText(loginState, session ? "Logged in ✅" : "Not logged in (vote requires login)");
+      const isLoggedIn = !!session;
+      setText(loginState, isLoggedIn ? "Logged in ✅" : "Not logged in (free vote requires login)");
+
+      if (!isLoggedIn) {
+        voteBtn.disabled = true;
+        setText(msg, "Please log in to cast your free vote.");
+        // Optional: auto-append return path to your login page if your login supports it
+        // (Safe even if ignored)
+        const returnUrl = encodeURIComponent(window.location.pathname + window.location.search);
+        const loginLink = document.querySelector('.navlinks a[href="/competitions/login.html"]');
+        if (loginLink) loginLink.href = `/competitions/login.html?return=${returnUrl}`;
+      }
 
       voteBtn.addEventListener("click", async () => {
-        try{
+        try {
           voteBtn.disabled = true;
           setText(msg, "Submitting vote…");
+
           await castFreeVote(contestId, contestant.id);
+
           toast("Vote submitted ✅");
-          setText(msg, "Vote submitted. Thank you for supporting!");
-        }catch(err){
+
+          // Redirect to confirmation page after free vote
+          const to = `/competitions/thanks.html?type=free&name=${encodeURIComponent(contestant.display_name || "Contestant")}` +
+                     (slug ? `&slug=${encodeURIComponent(slug)}` : "");
+          window.location.href = to;
+        } catch (err) {
           console.error(err);
           toast(err?.message || "Vote failed.");
           setText(msg, err?.message || "Vote failed.");
-        }finally{
+        } finally {
           voteBtn.disabled = false;
         }
       });
 
-    }catch(err){
+    } catch (err) {
       console.error(err);
       setText(name, "Error");
       setText(bio, err?.message || "Unknown error");
