@@ -4,7 +4,6 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Elyra — Login</title>
-
   <link rel="stylesheet" href="./assets/competitions.css"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,72 +23,45 @@
 
   <div class="container hero">
     <h1 class="h1">Login</h1>
-    <p class="p">Enter your email. We’ll send a secure sign-in link.</p>
+    <p class="p">Enter your email. We’ll send you a secure sign-in link from Elyra.</p>
   </div>
 
   <div class="container">
     <div class="card">
       <div class="label">Email</div>
       <input class="input" id="email" type="email" placeholder="you@example.com" autocomplete="email"/>
-
       <div style="height:12px"></div>
-
-      <button class="btn primary" id="sendBtn" type="button">Send sign-in link</button>
-
+      <button class="btn primary" id="sendBtn">Send sign-in link</button>
       <div class="hr"></div>
       <p class="small" id="msg"></p>
+      <p class="small" style="margin-top:10px;opacity:.85">
+        Tip: If you don’t see the email within 1–2 minutes, check Spam / Promotions.
+      </p>
     </div>
   </div>
 
   <script type="module">
-    import { sendMagicLink, getSession } from "./assets/auth.js";
+    import { sendMagicLink } from "./assets/auth.js";
     import { setText } from "./assets/ui.js";
 
     const email = document.getElementById("email");
     const sendBtn = document.getElementById("sendBtn");
     const msg = document.getElementById("msg");
 
-    // If already logged in, send them to organizer
-    (async () => {
+    sendBtn.addEventListener("click", async () => {
       try{
-        const session = await getSession();
-        if(session){
-          window.location.href = "/competitions/organizer/";
-        }
-      }catch(e){
-        // ignore
-      }
-    })();
-
-    async function submit(){
-      const value = (email.value || "").trim();
-
-      // basic validation
-      if(!value || !value.includes("@") || !value.includes(".")){
-        setText(msg, "Enter a valid email address.");
-        return;
-      }
-
-      try{
+        const v = email.value.trim();
+        if(!v) throw new Error("Please enter your email.");
         sendBtn.disabled = true;
-        setText(msg, "Sending link…");
-
-        await sendMagicLink(value);
-
-        setText(msg, "Check your email and tap the sign-in link ✅");
+        setText(msg, "Sending your sign-in link…");
+        await sendMagicLink(v);
+        setText(msg, "Success ✅ Check your email for your Elyra sign-in link.");
       }catch(e){
         console.error(e);
         setText(msg, e?.message || "Failed to send link.");
       }finally{
         sendBtn.disabled = false;
       }
-    }
-
-    sendBtn.addEventListener("click", submit);
-
-    // Allow Enter key to submit
-    email.addEventListener("keydown", (e) => {
-      if(e.key === "Enter") submit();
     });
   </script>
 </body>
