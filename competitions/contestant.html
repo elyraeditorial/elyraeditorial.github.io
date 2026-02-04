@@ -15,8 +15,9 @@
       <div class="brand">ELYRA</div>
       <div class="navlinks">
         <a href="/competitions/">Competitions</a>
-        <a href="/competitions/login.html">Login</a>
+        <a href="/competitions/login.html" id="loginLink">Login</a>
         <a href="/">Home</a>
+        <button class="btn" id="logoutBtn" style="display:none">Log out</button>
       </div>
     </div>
   </div>
@@ -24,6 +25,9 @@
   <div class="container hero">
     <h1 class="h1" id="name">Loading…</h1>
     <p class="p" id="bio"></p>
+
+    <!-- Payment / status banner -->
+    <div class="notice" id="notice" style="display:none;"></div>
   </div>
 
   <div class="container">
@@ -45,7 +49,7 @@
 
         <div class="payBox">
           <div class="label">Want to support more?</div>
-          <div class="small">Paid votes are optional. You’ll return here after checkout.</div>
+          <div class="small">Paid votes are optional. You’ll return to Elyra after checkout.</div>
           <div style="height:10px"></div>
 
           <div class="btnrow">
@@ -63,7 +67,7 @@
   <script type="module">
     import { fetchContestantById, fetchContestBySlug } from "./assets/data.js";
     import { castFreeVote } from "./assets/vote.js";
-    import { getSession } from "./assets/auth.js";
+    import { getSession, signOut } from "./assets/auth.js";
     import { getParam, setText, toast } from "./assets/ui.js";
 
     // ✅ Your Stripe payment links:
@@ -76,6 +80,8 @@
     const name = document.getElementById("name");
     const bio = document.getElementById("bio");
     const msg = document.getElementById("msg");
+    const notice = document.getElementById("notice");
+
     const voteBtn = document.getElementById("voteBtn");
     const loginState = document.getElementById("loginState");
     const backBtn = document.getElementById("backBtn");
@@ -83,29 +89,59 @@
     const pay10 = document.getElementById("pay10");
     const pay50 = document.getElementById("pay50");
 
-    // Send Stripe users back here after payment (set this inside Stripe link settings too)
-    const returnHere = `${window.location.origin}/competitions/contestant.html?id=${encodeURIComponent(id)}&slug=${encodeURIComponent(slug)}&paid=1`;
+    const loginLink = document.getElementById("loginLink");
+    const logoutBtn = document.getElementById("logoutBtn");
 
-    // We can’t force Stripe link behavior from here unless your Payment Link supports dynamic params,
-    // so we keep it simple: open Stripe, and you set the redirect in Stripe to returnHere.
+    // ✅ Keep back button pointing to the right contest
+    if(slug) backBtn.href = `/competitions/contest.html?slug=${encodeURIComponent(slug)}`;
+
+    // ✅ Stripe buttons (redirect configured inside Stripe settings)
     pay10.href = STRIPE_10;
     pay50.href = STRIPE_50;
 
-    if(slug) backBtn.href = `/competitions/contest.html?slug=${encodeURIComponent(slug)}`;
+    // ✅ Payment banner messages (supports ?paid=success / ?paid=cancel / ?paid=1)
+    const paid = getParam("paid");
+    if (paid === "success" || paid === "1") {
+      notice.style.display = "block";
+      notice.textContent = "Payment received ✅ Thank you for supporting Elyra.";
+    } else if (paid === "cancel") {
+      notice.style.display = "block";
+      notice.textContent = "Payment cancelled. You can still cast your free vote anytime.";
+    }
+
+    // ✅ Login / logout toggle
+    try{
+      const session = await getSession();
+
+      if(session){
+        if(loginLink) loginLink.style.display = "none";
+        if(logoutBtn) logoutBtn.style.display = "inline-flex";
+
+        logoutBtn?.addEventListener("click", async () => {
+          await signOut();
+          location.href = "/competitions/login.html";
+        });
+      }else{
+        // Preserve return path so user comes back here after login
+        const nextUrl = `${location.pathname}${location.search}`;
+        if(loginLink) loginLink.href = `/competitions/login.html?next=${encodeURIComponent(nextUrl)}`;
+
+        if(logoutBtn) logoutBtn.style.display = "none";
+      }
+    }catch(e){
+      console.warn("Session check failed:", e);
+    }
 
     let contestId = null;
-
-    // Show message if returning from payment
-    if (getParam("paid") === "1") {
-      setText(msg, "Payment received ✅ Your support helps Elyra. (If you bought multiple votes, refresh after we connect paid-vote tracking.)");
-    }
 
     try{
       const contestant = await fetchContestantById(id);
       if(!contestant) throw new Error("Contestant not found.");
+
       setText(name, contestant.display_name || "Contestant");
       setText(bio, contestant.bio || "");
 
+      // Resolve contest_id
       if(slug){
         const contest = await fetchContestBySlug(slug);
         contestId = contest?.id || contestant.contest_id;
@@ -114,7 +150,15 @@
       }
 
       const session = await getSession();
-      setText(loginState, session ? "Logged in ✅" : "Not logged in (free vote requires login)");
+      const loggedIn = !!session;
+
+      setText(loginState, loggedIn ? "Logged in ✅" : "Log in to cast your free vote");
+
+      // ✅ Disable free vote button if not logged in
+      if(!loggedIn){
+        voteBtn.disabled = true;
+        setText(msg, "Please log in to cast your free vote.");
+      }
 
       voteBtn.addEventListener("click", async () => {
         try{
@@ -139,5 +183,18 @@
       voteBtn.disabled = true;
     }
   </script>
+
+  <!-- Banner style (inline so it works even if CSS isn't updated yet) -->
+  <style>
+    .notice{
+      margin-top:14px;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.06);
+      color:rgba(242,242,242,.85);
+      box-shadow:0 18px 60px rgba(0,0,0,.55);
+    }
+  </style>
 </body>
 </html>
