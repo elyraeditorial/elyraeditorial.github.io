@@ -26,12 +26,57 @@
   <div class="container">
     <div class="card">
       <div class="btnrow">
-        <a class="btn primary" href="/competitions/organizer/dashboard.html">Open Dashboard</a>
-        <a class="btn" href="/competitions/login.html">Login</a>
+        <a class="btn primary" id="dashBtn" href="/competitions/organizer/dashboard.html">Open Dashboard</a>
+        <a class="btn" id="authBtn" href="/competitions/login.html">Login</a>
       </div>
+
       <div class="hr"></div>
-      <p class="small">Organizer access requires your profile role to be organizer/admin in Supabase.</p>
+      <p class="small" id="note">
+        Organizer access requires approval.
+      </p>
+
+      <p class="small" id="status" style="margin-top:10px;"></p>
     </div>
   </div>
+
+  <script type="module">
+    import { getSession, signOut } from "../assets/auth.js";
+    import { setText } from "../assets/ui.js";
+
+    const dashBtn = document.getElementById("dashBtn");
+    const authBtn = document.getElementById("authBtn");
+    const status = document.getElementById("status");
+    const note = document.getElementById("note");
+
+    try{
+      const session = await getSession();
+
+      if(!session){
+        // Not logged in
+        dashBtn.style.display = "none";
+        authBtn.textContent = "Login";
+        authBtn.href = "/competitions/login.html";
+        setText(status, "Please log in to access organizer tools.");
+        setText(note, "Organizer access requires approval.");
+      }else{
+        // Logged in
+        dashBtn.style.display = "inline-flex";
+        authBtn.textContent = "Log out";
+        authBtn.href = "#";
+        setText(status, "Signed in ✅");
+        setText(note, "Organizer access requires approval.");
+
+        authBtn.addEventListener("click", async (e) => {
+          e.preventDefault();
+          await signOut();
+          location.reload();
+        });
+      }
+    }catch(e){
+      console.error(e);
+      dashBtn.style.display = "none";
+      setText(status, "Unable to check sign-in. Please try again.");
+    }
+  </script>
 </body>
 </html>
