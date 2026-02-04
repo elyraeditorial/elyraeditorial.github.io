@@ -50,15 +50,58 @@
     const sendBtn = document.getElementById("sendBtn");
     const msg = document.getElementById("msg");
 
-    // If already logged in, go where they intended (or organizer by default)
+    // Simple cooldown to avoid rate-limit spam while testing
+    const COOLDOWN_MS = 60_000;
+
+    function safeNextFromUrl(){
+      // Only allow on-site relative paths like "/competitions/contest.html?slug=..."
+      const next = getParam("next");
+      if(!next) return "/competitions/";
+
+      try{
+        const decoded = decodeURIComponent(next);
+        if(decoded.startsWith("/")) return decoded;
+        return "/competitions/";
+      }catch{
+        return "/competitions/";
+      }
+    }
+
+    function setCooldown(){
+      const until = Date.now() + COOLDOWN_MS;
+      localStorage.setItem("elyra_login_cooldown_until", String(until));
+      updateCooldownUI();
+    }
+
+    function updateCooldownUI(){
+      const untilStr = localStorage.getItem("elyra_login_cooldown_until");
+      const until = untilStr ? Number(untilStr) : 0;
+      const left = Math.max(0, until - Date.now());
+
+      if(left > 0){
+        const secs = Math.ceil(left / 1000);
+        sendBtn.disabled = true;
+        setText(msg, `Link sent ✅ Please wait ${secs}s before requesting another.`);
+        setTimeout(updateCooldownUI, 500);
+      }else{
+        if(sendBtn.disabled){
+          sendBtn.disabled = false;
+          // only clear message if it's a cooldown message
+          if((msg.textContent || "").toLowerCase().includes("please wait")){
+            setText(msg, "");
+          }
+        }
+      }
+    }
+
+    // If already logged in, route them where they intended
     (async () => {
       try{
         const session = await getSession();
         if(session){
-          const next = getParam("next");
-          location.href = next ? decodeURIComponent(next) : "/competitions/organizer/";
+          location.href = safeNextFromUrl();
         }
-      }catch(e){
+      }catch{
         // ignore
       }
     })();
@@ -69,31 +112,37 @@
         if(!v) throw new Error("Please enter your email.");
         if(!v.includes("@") || !v.includes(".")) throw new Error("Please enter a valid email address.");
 
-        // Preserve where the user was trying to go (contestant page, contest page, etc.)
-        const next = getParam("next");
-        const nextSafe = next ? decodeURIComponent(next) : "/competitions/";
+        const nextSafe = safeNextFromUrl();
 
         sendBtn.disabled = true;
         setText(msg, "Sending your sign-in link…");
 
-        // ✅ Pass next through to callback so it can route them back after sign-in
+        // IMPORTANT: pass nextSafe so callback can route user back after sign-in
         await sendMagicLink(v, nextSafe);
 
         setText(msg, "Success ✅ Check your email for your Elyra sign-in link.");
+        setCooldown();
       }catch(e){
         console.error(e);
-        setText(msg, e?.message || "Failed to send link.");
-      }finally{
+
+        const m = (e?.message || "").toLowerCase();
+        if(m.includes("rate") && m.includes("limit")){
+          setText(msg, "Too many requests. Please wait a few minutes and try again.");
+        }else{
+          setText(msg, e?.message || "Failed to send link.");
+        }
+
         sendBtn.disabled = false;
       }
     }
 
     sendBtn.addEventListener("click", submit);
 
-    // Enter key submits
     email.addEventListener("keydown", (e) => {
       if(e.key === "Enter") submit();
     });
+
+    updateCooldownUI();
   </script>
 </body>
 </html>
