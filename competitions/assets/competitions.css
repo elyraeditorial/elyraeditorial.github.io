@@ -167,3 +167,51 @@ a{color:inherit;text-decoration:none}
     0 0 0 1px rgba(255,255,255,.12),
     0 0 30px rgba(255,255,255,.14);
 }
+/* ===== 3D animated vote buttons (no images) ===== */
+.btn3d{
+  position:relative;
+  transform: translateZ(0);
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+  box-shadow: 0 10px 26px rgba(0,0,0,.45);
+}
+.btn3d:hover{
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 18px 46px rgba(0,0,0,.55);
+}
+.btn3d:active{
+  transform: translateY(0px) scale(.99);
+}
+
+.btn3d::after{
+  content:"";
+  position:absolute; inset:-1px;
+  border-radius:999px;
+  pointer-events:none;
+  background: linear-gradient(90deg, rgba(255,255,255,.18), rgba(255,255,255,0), rgba(255,255,255,.18));
+  opacity:.55;
+  filter: blur(0px);
+  mix-blend-mode: screen;
+}
+
+.glow10{
+  border-color: rgba(160,255,220,.35);
+  background: rgba(160,255,220,.10);
+}
+.glow10:hover{
+  background: rgba(160,255,220,.14);
+}
+
+.glow50{
+  border-color: rgba(255,215,120,.35);
+  background: rgba(255,215,120,.10);
+}
+.glow50:hover{
+  background: rgba(255,215,120,.14);
+}
+
+.payBox{
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.22);
+  border-radius: 16px;
+  padding: 14px;
+}
