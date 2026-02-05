@@ -15,9 +15,14 @@
       <div class="brand">ELYRA</div>
       <div class="navlinks">
         <a href="/competitions/">Competitions</a>
-        <a href="/competitions/login.html">Login</a>
         <a href="/competitions/organizer/">Organizer</a>
+
+        <!-- Login becomes Sign out automatically -->
+        <a id="navLoginLink" href="/competitions/login.html">Login</a>
+        <a id="navSignOutLink" href="#">Sign out</a>
+
         <a href="/">Home</a>
+        <span id="navWho" class="navwho"></span>
       </div>
     </div>
   </div>
@@ -137,6 +142,12 @@
       setHTML(list, "");
       heroCard.style.display = "none";
     }
+  </script>
+
+  <!-- Nav auth wiring -->
+  <script type="module">
+    import { wireNavAuth } from "./assets/navAuth.js";
+    wireNavAuth();
   </script>
 </body>
 </html>
