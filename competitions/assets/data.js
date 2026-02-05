@@ -1,5 +1,9 @@
 import { supabase } from "./supabaseClient.js";
 
+/* =========================
+   Contests + Contestants
+   ========================= */
+
 export async function fetchActiveContests(){
   const { data, error } = await supabase
     .from("contests")
@@ -12,6 +16,8 @@ export async function fetchActiveContests(){
 }
 
 export async function fetchContestBySlug(slug){
+  if(!slug) return null;
+
   const { data, error } = await supabase
     .from("contests")
     .select("id, slug, title, subtitle, status, start_at, end_at, hero_image_url")
@@ -19,10 +25,12 @@ export async function fetchContestBySlug(slug){
     .maybeSingle();
 
   if (error) throw error;
-  return data;
+  return data || null;
 }
 
 export async function fetchContestants(contestId){
+  if(!contestId) return [];
+
   const { data, error } = await supabase
     .from("contestants")
     .select("id, contest_id, display_name, bio, photo_url, is_published")
@@ -35,6 +43,8 @@ export async function fetchContestants(contestId){
 }
 
 export async function fetchContestantById(id){
+  if(!id) return null;
+
   const { data, error } = await supabase
     .from("contestants")
     .select("id, contest_id, display_name, bio, photo_url, is_published")
@@ -42,14 +52,17 @@ export async function fetchContestantById(id){
     .maybeSingle();
 
   if (error) throw error;
-  return data;
+  return data || null;
 }
 
-/**
- * ✅ PUBLIC totals for a whole contest (reads from your vote_totals VIEW)
- * Requires you already created vote_totals and granted SELECT.
- */
+/* =========================
+   Vote totals (FREE + PAID)
+   Reads from your SQL VIEW: vote_totals
+   ========================= */
+
 export async function fetchVoteTotalsByContest(contestId){
+  if(!contestId) return [];
+
   const { data, error } = await supabase
     .from("vote_totals")
     .select("contestant_id, contest_id, paid_votes, free_votes, total_votes")
@@ -60,10 +73,9 @@ export async function fetchVoteTotalsByContest(contestId){
   return data || [];
 }
 
-/**
- * ✅ PUBLIC totals for one contestant (handy for contestant.html)
- */
 export async function fetchVoteTotalsByContestant(contestantId){
+  if(!contestantId) return null;
+
   const { data, error } = await supabase
     .from("vote_totals")
     .select("contestant_id, contest_id, paid_votes, free_votes, total_votes")
@@ -74,15 +86,33 @@ export async function fetchVoteTotalsByContestant(contestantId){
   return data || null;
 }
 
-/**
- * ✅ FIXED: this used to query "votes" (wrong table for your build)
- * Your schema uses free_votes + paid_votes (and RLS should allow each user to see their own free votes).
- *
- * Returns how many FREE votes the logged-in user has cast for this contestant.
- */
+/* =========================
+   "My votes" (logged-in user)
+   =========================
+   This matches your current vote.js which inserts into: votes
+   (vote_type = "free" or "paid")
+*/
+
 export async function getMyFreeVoteCountForContestant(contestantId){
+  if(!contestantId) return 0;
+
+  // RLS should allow a logged-in user to count their own rows.
   const { count, error } = await supabase
-    .from("free_votes")
+    .from("votes")
+    .select("id", { count: "exact", head: true })
+    .eq("contestant_id", contestantId)
+    .eq("vote_type", "free");
+
+  if (error) throw error;
+  return count ?? 0;
+}
+
+export async function getMyTotalVoteCountForContestant(contestantId){
+  if(!contestantId) return 0;
+
+  // Optional helper: counts *all* vote rows the user has for that contestant.
+  const { count, error } = await supabase
+    .from("votes")
     .select("id", { count: "exact", head: true })
     .eq("contestant_id", contestantId);
 
