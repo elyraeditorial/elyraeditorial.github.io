@@ -15,8 +15,15 @@
       <div class="brand">ELYRA</div>
       <div class="navlinks">
         <a href="/competitions/">Competitions</a>
-        <a href="/competitions/login.html">Login</a>
+
+        <!-- Login becomes Sign out automatically -->
+        <a id="navLoginLink" href="/competitions/login.html">Login</a>
+        <a id="navSignOutLink" href="#">Sign out</a>
+
         <a href="/">Home</a>
+
+        <!-- optional (shows email when signed in) -->
+        <span id="navWho" class="navwho"></span>
       </div>
     </div>
   </div>
@@ -42,7 +49,7 @@
         <div class="hr"></div>
 
         <div class="btnrow">
-          <button class="btn primary btn3d" id="voteBtn">Vote (Free)</button>
+          <button class="btn primary btn3d" id="voteBtn" type="button">Vote (Free)</button>
           <a class="btn" id="backBtn" href="/competitions/">Back</a>
         </div>
 
@@ -102,15 +109,30 @@
       return null;
     }
 
+    function currentPathWithQuery(){
+      return location.pathname + location.search;
+    }
+
+    function goLoginReturnHere(){
+      const next = encodeURIComponent(currentPathWithQuery());
+      location.href = `/competitions/login.html?next=${next}`;
+    }
+
     let contestId = null;
+    let contestantId = null;
+    let session = null;
 
     if (getParam("paid") === "1") {
       setText(msg, "Payment received ✅ Your support helps Elyra.");
     }
 
     try{
+      if(!id) throw new Error("Missing contestant id.");
+
       const contestant = await fetchContestantById(id);
       if(!contestant) throw new Error("Contestant not found.");
+
+      contestantId = contestant.id;
 
       setText(name, contestant.display_name || "Contestant");
       setText(bio, contestant.bio || "");
@@ -131,18 +153,46 @@
         contestId = contestant.contest_id;
       }
 
-      const session = await getSession();
-      setText(loginState, session ? "Logged in ✅" : "Not logged in (free vote requires login)");
+      // ✅ Check auth once
+      session = await getSession();
+
+      if(session){
+        setText(loginState, "Logged in ✅");
+        voteBtn.disabled = false;
+      }else{
+        setText(loginState, "Not logged in — free vote requires login");
+        // Still clickable, but it will send to login
+        voteBtn.disabled = false;
+      }
 
       voteBtn.addEventListener("click", async () => {
         try{
+          // If not logged in, send to login and return here
+          const s = await getSession();
+          if(!s){
+            toast("Please log in to cast your free vote.");
+            goLoginReturnHere();
+            return;
+          }
+
           voteBtn.disabled = true;
           setText(msg, "Submitting vote…");
-          await castFreeVote(contestId, contestant.id);
+
+          await castFreeVote(contestId, contestantId);
+
           toast("Vote submitted ✅");
           setText(msg, "Vote submitted. Thank you for supporting!");
         }catch(err){
           console.error(err);
+
+          // If session expired mid-click, send to login
+          const m = String(err?.message || "");
+          if(m.toLowerCase().includes("auth") && m.toLowerCase().includes("missing")){
+            toast("Session expired — please log in again.");
+            goLoginReturnHere();
+            return;
+          }
+
           toast(err?.message || "Vote failed.");
           setText(msg, err?.message || "Vote failed.");
         }finally{
@@ -157,6 +207,12 @@
       voteBtn.disabled = true;
       photoCard.style.display = "none";
     }
+  </script>
+
+  <!-- Nav auth wiring -->
+  <script type="module">
+    import { wireNavAuth } from "./assets/navAuth.js";
+    wireNavAuth();
   </script>
 </body>
 </html>
