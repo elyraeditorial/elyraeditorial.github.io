@@ -51,25 +51,36 @@
     const sendBtn = document.getElementById("sendBtn");
     const msg = document.getElementById("msg");
 
-    // Cooldown to prevent rate-limit while testing
-    const COOLDOWN_MS = 60_000;
+    // Cooldown to avoid email rate-limit while testing
+    const COOLDOWN_MS = 90_000; // 90 seconds is safer than 60s
     const KEY = "elyra_login_cooldown_until";
 
-    function safeNextFromUrl(){
-      // Only allow relative paths on this site
-      const next = getParam("next");
-      if(!next) return "/competitions/";
+    function toSafePath(input){
+      // Allow only same-site relative paths.
+      if(!input) return "/competitions/";
 
       try{
-        const decoded = decodeURIComponent(next);
+        const decoded = decodeURIComponent(input);
+
+        // If someone passed a full URL, keep only its pathname+search
+        if(decoded.startsWith("http://") || decoded.startsWith("https://")){
+          const u = new URL(decoded);
+          return (u.pathname + u.search).startsWith("/") ? (u.pathname + u.search) : "/competitions/";
+        }
+
+        // Normal expected case: "/competitions/contestant.html?...":
         return decoded.startsWith("/") ? decoded : "/competitions/";
       }catch{
         return "/competitions/";
       }
     }
 
-    function setCooldown(){
-      localStorage.setItem(KEY, String(Date.now() + COOLDOWN_MS));
+    function safeNextFromUrl(){
+      return toSafePath(getParam("next"));
+    }
+
+    function setCooldown(seconds = COOLDOWN_MS / 1000){
+      localStorage.setItem(KEY, String(Date.now() + (seconds * 1000)));
       updateCooldownUI();
     }
 
@@ -85,7 +96,6 @@
         setTimeout(updateCooldownUI, 500);
       }else{
         sendBtn.disabled = false;
-        // Only clear cooldown-style messages
         if((msg.textContent || "").toLowerCase().includes("please wait")){
           setText(msg, "");
         }
@@ -106,7 +116,7 @@
 
     async function submit(){
       try{
-        // block if in cooldown
+        // Block if still cooling down
         const untilStr = localStorage.getItem(KEY);
         const until = untilStr ? Number(untilStr) : 0;
         if(until && until > Date.now()){
@@ -123,20 +133,19 @@
         sendBtn.disabled = true;
         setText(msg, "Sending your sign-in link…");
 
-        // sendMagicLink(email, nextPath)
         await sendMagicLink(v, nextSafe);
 
         setText(msg, "Success ✅ Check your email for your Elyra sign-in link.");
         setCooldown();
       }catch(e){
         console.error(e);
-
         const m = String(e?.message || "").toLowerCase();
 
-        // Friendly rate-limit handling
+        // Rate limit message handling
         if(m.includes("rate") && m.includes("limit")){
-          setText(msg, "Too many requests. Please wait a few minutes and try again.");
-          setCooldown();
+          setText(msg, "Too many requests. Please wait a few minutes, then try again.");
+          // Longer cooldown when rate limited
+          setCooldown(180); // 3 minutes
           return;
         }
 
