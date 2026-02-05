@@ -19,7 +19,7 @@
 
   <div class="container hero">
     <h1 class="h1">Signing you in…</h1>
-    <p class="p" id="msg">Finishing login, please wait…</p>
+    <p class="p" id="msg">Finishing login…</p>
   </div>
 
   <script type="module">
@@ -28,15 +28,12 @@
     const msg = document.getElementById("msg");
 
     function safeNext(u){
-      // ✅ default to competitions (NOT organizer)
-      if(!u) return "/competitions/";
+      if(!u) return "/competitions/signed-in.html";
       try{
         const d = decodeURIComponent(u);
-        // only allow same-site relative paths
-        if(d.startsWith("/")) return d;
-        return "/competitions/";
+        return d.startsWith("/") ? d : "/competitions/signed-in.html";
       }catch{
-        return "/competitions/";
+        return "/competitions/signed-in.html";
       }
     }
 
@@ -44,28 +41,37 @@
       try{
         const url = new URL(location.href);
         const next = safeNext(url.searchParams.get("next"));
-        const code = url.searchParams.get("code");
 
-        // ✅ Handle PKCE magic link (?code=...)
+        // PKCE flow: ?code=...
+        const code = url.searchParams.get("code");
         if(code){
           const { error } = await supabase.auth.exchangeCodeForSession(code);
           if(error) throw error;
         }
 
-        // ✅ Also works for hash-token magic links (#access_token=...)
+        // Hash token flow: #access_token=...
+        if(location.hash && location.hash.includes("access_token")){
+          const h = new URLSearchParams(location.hash.slice(1));
+          const access_token = h.get("access_token");
+          const refresh_token = h.get("refresh_token");
+          if(access_token && refresh_token){
+            const { error } = await supabase.auth.setSession({ access_token, refresh_token });
+            if(error) throw error;
+          }
+        }
+
         const { data, error } = await supabase.auth.getSession();
         if(error) throw error;
 
         if(data?.session){
           msg.textContent = "Signed in ✅ Redirecting…";
-          setTimeout(() => location.replace(next), 400);
+          setTimeout(() => location.replace(next), 250);
         }else{
-          msg.textContent = "Login failed. Please request a new sign-in link and try again.";
-          setTimeout(() => location.replace(`/competitions/login.html?next=${encodeURIComponent(next)}`), 1200);
+          throw new Error("No session created.");
         }
       }catch(err){
         console.error(err);
-        msg.textContent = "Login failed. Please request a new sign-in link and try again.";
+        msg.textContent = "Login failed. Please request a new sign-in link.";
         setTimeout(() => location.replace("/competitions/login.html"), 1200);
       }
     }
