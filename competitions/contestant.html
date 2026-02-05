@@ -18,7 +18,7 @@
 
         <!-- Login becomes Sign out automatically -->
         <a id="navLoginLink" href="/competitions/login.html">Login</a>
-        <a id="navSignOutLink" href="#">Sign out</a>
+        <a id="navSignOutLink" href="#" style="display:none;">Sign out</a>
 
         <a href="/">Home</a>
 
@@ -34,7 +34,8 @@
 
     <!-- ✅ PHOTO -->
     <div class="card" id="photoCard" style="display:none; padding:12px; margin-top:14px;">
-      <img id="photoImg" alt="Contestant photo" style="width:100%; border-radius:14px; border:1px solid rgba(255,255,255,.10);" loading="lazy"/>
+      <img id="photoImg" alt="Contestant photo"
+           style="width:100%; border-radius:14px; border:1px solid rgba(255,255,255,.10);" loading="lazy"/>
     </div>
   </div>
 
@@ -44,6 +45,8 @@
         <div class="kpi">
           <div class="box" id="voteNote">Free vote: 1 per person</div>
           <div class="box" id="loginState">Checking login…</div>
+          <!-- ✅ totals box -->
+          <div class="box" id="totalVotes">Total votes: —</div>
         </div>
 
         <div class="hr"></div>
@@ -64,6 +67,9 @@
             <a class="btn btn3d glow10" id="pay10" target="_blank" rel="noopener">Buy Votes ($10)</a>
             <a class="btn btn3d glow50" id="pay50" target="_blank" rel="noopener">Buy Votes ($50)</a>
           </div>
+
+          <!-- optional breakdown line -->
+          <p class="small" id="voteBreakdown" style="margin-top:10px; opacity:.9"></p>
         </div>
 
         <div class="hr"></div>
@@ -73,10 +79,15 @@
   </div>
 
   <script type="module">
-    import { fetchContestantById, fetchContestBySlug } from "./assets/data.js";
+    // Use namespace import so we can call optional functions without breaking if missing
+    import * as dataApi from "./assets/data.js";
     import { castFreeVote } from "./assets/vote.js";
     import { getSession } from "./assets/auth.js";
     import { getParam, setText, toast } from "./assets/ui.js";
+    import { wireNavAuth } from "./assets/navAuth.js";
+
+    // ✅ Wire nav auth (Login ↔ Sign out)
+    wireNavAuth();
 
     const STRIPE_10 = "https://buy.stripe.com/9B6aEQd5F5YR9uI7oC4sE09";
     const STRIPE_50 = "https://buy.stripe.com/28EbIU2r1fzr36k38m4sE0b";
@@ -89,6 +100,8 @@
     const msg = document.getElementById("msg");
     const voteBtn = document.getElementById("voteBtn");
     const loginState = document.getElementById("loginState");
+    const totalVotes = document.getElementById("totalVotes");
+    const voteBreakdown = document.getElementById("voteBreakdown");
     const backBtn = document.getElementById("backBtn");
 
     const pay10 = document.getElementById("pay10");
@@ -118,10 +131,47 @@
       location.href = `/competitions/login.html?next=${next}`;
     }
 
+    // ✅ Pull totals from Supabase (via view/table). This will ONLY work once you add the function in data.js.
+    async function refreshTotals(contestantId){
+      try{
+        // Expected you will add this in data.js:
+        // export async function fetchVoteTotalsForContestant(contestantId){ ... }
+        if(typeof dataApi.fetchVoteTotalsForContestant !== "function"){
+          // Don’t error; just hide breakdown if your data.js isn’t updated yet
+          setText(totalVotes, "Total votes: —");
+          setText(voteBreakdown, "");
+          return;
+        }
+
+        const t = await dataApi.fetchVoteTotalsForContestant(contestantId);
+
+        // Support either { total_votes, free_votes, paid_votes } OR { total, free, paid }
+        const total = (t?.total_votes ?? t?.total ?? 0);
+        const free  = (t?.free_votes  ?? t?.free  ?? null);
+        const paid  = (t?.paid_votes  ?? t?.paid  ?? null);
+
+        setText(totalVotes, `Total votes: ${Number(total || 0).toLocaleString()}`);
+
+        // Only show breakdown if we have components
+        if(free !== null || paid !== null){
+          const freeNum = Number(free || 0).toLocaleString();
+          const paidNum = Number(paid || 0).toLocaleString();
+          setText(voteBreakdown, `Breakdown: Free ${freeNum} · Paid ${paidNum}`);
+        }else{
+          setText(voteBreakdown, "");
+        }
+      }catch(e){
+        console.error(e);
+        // Don’t leak technical details to users
+        setText(totalVotes, "Total votes: —");
+        setText(voteBreakdown, "");
+      }
+    }
+
     let contestId = null;
     let contestantId = null;
-    let session = null;
 
+    // Stripe return message (optional)
     if (getParam("paid") === "1") {
       setText(msg, "Payment received ✅ Your support helps Elyra.");
     }
@@ -129,7 +179,7 @@
     try{
       if(!id) throw new Error("Missing contestant id.");
 
-      const contestant = await fetchContestantById(id);
+      const contestant = await dataApi.fetchContestantById(id);
       if(!contestant) throw new Error("Contestant not found.");
 
       contestantId = contestant.id;
@@ -147,23 +197,19 @@
       }
 
       if(slug){
-        const contest = await fetchContestBySlug(slug);
+        const contest = await dataApi.fetchContestBySlug(slug);
         contestId = contest?.id || contestant.contest_id;
       }else{
         contestId = contestant.contest_id;
       }
 
-      // ✅ Check auth once
-      session = await getSession();
+      // ✅ Check auth state
+      const session = await getSession();
+      setText(loginState, session ? "Logged in ✅" : "Not logged in — free vote requires login");
+      voteBtn.disabled = false;
 
-      if(session){
-        setText(loginState, "Logged in ✅");
-        voteBtn.disabled = false;
-      }else{
-        setText(loginState, "Not logged in — free vote requires login");
-        // Still clickable, but it will send to login
-        voteBtn.disabled = false;
-      }
+      // ✅ Load totals now
+      await refreshTotals(contestantId);
 
       voteBtn.addEventListener("click", async () => {
         try{
@@ -182,13 +228,16 @@
 
           toast("Vote submitted ✅");
           setText(msg, "Vote submitted. Thank you for supporting!");
+
+          // ✅ Refresh totals after vote (real DB totals)
+          await refreshTotals(contestantId);
+
         }catch(err){
           console.error(err);
 
-          // If session expired mid-click, send to login
-          const m = String(err?.message || "");
-          if(m.toLowerCase().includes("auth") && m.toLowerCase().includes("missing")){
-            toast("Session expired — please log in again.");
+          const m = String(err?.message || "").toLowerCase();
+          if(m.includes("log in") || m.includes("login") || m.includes("auth")){
+            toast("Please log in again.");
             goLoginReturnHere();
             return;
           }
@@ -206,13 +255,9 @@
       setText(bio, err?.message || "Unknown error");
       voteBtn.disabled = true;
       photoCard.style.display = "none";
+      setText(totalVotes, "Total votes: —");
+      setText(voteBreakdown, "");
     }
-  </script>
-
-  <!-- Nav auth wiring -->
-  <script type="module">
-    import { wireNavAuth } from "./assets/navAuth.js";
-    wireNavAuth();
   </script>
 </body>
 </html>
