@@ -13,8 +13,13 @@
       <div class="navlinks">
         <a href="/competitions/">Competitions</a>
         <a href="/competitions/organizer/">Organizer</a>
-        <button class="btn" id="logoutBtn" type="button">Log out</button>
+
+        <!-- Login becomes Sign out automatically -->
+        <a id="navLoginLink" href="/competitions/login.html">Login</a>
+        <a id="navSignOutLink" href="#">Sign out</a>
+
         <a href="/">Home</a>
+        <span id="navWho" class="navwho"></span>
       </div>
     </div>
   </div>
@@ -91,14 +96,13 @@
   </div>
 
   <script type="module">
-    import { getUser, signOut } from "../assets/auth.js";
+    import { getUser } from "../assets/auth.js";
     import { requireOrganizer, createContest, createContestant, listMyContests } from "../assets/organizer.js";
     import { fetchContestBySlug } from "../assets/data.js";
     import { setText } from "../assets/ui.js";
 
     const who = document.getElementById("who");
     const list = document.getElementById("list");
-    const logoutBtn = document.getElementById("logoutBtn");
 
     const cSlug = document.getElementById("cSlug");
     const cTitle = document.getElementById("cTitle");
@@ -131,13 +135,9 @@
       `).join("") || `<p class="small">No contests yet.</p>`;
     }
 
-    logoutBtn.addEventListener("click", async () => {
-      try{ await signOut(); } finally { location.replace("/competitions/"); }
-    });
-
     try{
       await requireOrganizer();                 // ✅ hard lock (emails + roles)
-      const user = await getUser();             // ✅ safe (auth.js now includes it)
+      const user = await getUser();
       setText(who, `Organizer access ✅ (${user.email})`);
       await render();
     }catch(err){
@@ -197,6 +197,12 @@
         setText(pMsg, err?.message || "Failed.");
       }
     });
+  </script>
+
+  <!-- Nav auth wiring (IMPORTANT: organizer folder uses ../assets) -->
+  <script type="module">
+    import { wireNavAuth } from "../assets/navAuth.js";
+    wireNavAuth();
   </script>
 </body>
 </html>
