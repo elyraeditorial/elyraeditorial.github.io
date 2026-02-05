@@ -28,38 +28,44 @@
     const msg = document.getElementById("msg");
 
     function safeNext(u){
-      if(!u) return "/competitions/organizer/";
+      // ✅ default to competitions (NOT organizer)
+      if(!u) return "/competitions/";
       try{
         const d = decodeURIComponent(u);
+        // only allow same-site relative paths
         if(d.startsWith("/")) return d;
-        return "/competitions/organizer/";
+        return "/competitions/";
       }catch{
-        return "/competitions/organizer/";
+        return "/competitions/";
       }
     }
 
     async function run(){
       try{
         const url = new URL(location.href);
-        const code = url.searchParams.get("code");
         const next = safeNext(url.searchParams.get("next"));
+        const code = url.searchParams.get("code");
 
+        // ✅ Handle PKCE magic link (?code=...)
         if(code){
           const { error } = await supabase.auth.exchangeCodeForSession(code);
           if(error) throw error;
         }
 
-        const { data } = await supabase.auth.getSession();
+        // ✅ Also works for hash-token magic links (#access_token=...)
+        const { data, error } = await supabase.auth.getSession();
+        if(error) throw error;
 
         if(data?.session){
           msg.textContent = "Signed in ✅ Redirecting…";
-          setTimeout(() => location.replace(next), 500);
+          setTimeout(() => location.replace(next), 400);
         }else{
-          throw new Error("No session created.");
+          msg.textContent = "Login failed. Please request a new sign-in link and try again.";
+          setTimeout(() => location.replace(`/competitions/login.html?next=${encodeURIComponent(next)}`), 1200);
         }
       }catch(err){
         console.error(err);
-        msg.textContent = "Login failed. Please request a new sign-in link.";
+        msg.textContent = "Login failed. Please request a new sign-in link and try again.";
         setTimeout(() => location.replace("/competitions/login.html"), 1200);
       }
     }
