@@ -1,39 +1,50 @@
 import { supabase } from "./supabaseClient.js";
 
-/**
- * Sends a magic-link sign-in email.
- * next = where to send the user AFTER sign-in (must be a relative path).
- */
-export async function sendMagicLink(email, next = "/competitions/") {
-  // Keep redirect Elyra-branded (your own site), not Supabase pages
+const DEFAULT_AFTER_LOGIN = "/competitions/"; // voters go here by default
+
+function safeNext(next){
+  if(!next) return DEFAULT_AFTER_LOGIN;
+  try{
+    const decoded = decodeURIComponent(next);
+    return decoded.startsWith("/") ? decoded : DEFAULT_AFTER_LOGIN;
+  }catch{
+    return DEFAULT_AFTER_LOGIN;
+  }
+}
+
+export async function sendMagicLink(email, next = DEFAULT_AFTER_LOGIN){
   const redirectTo =
-    `${location.origin}/competitions/auth-callback.html?next=${encodeURIComponent(next)}`;
+    `${location.origin}/competitions/auth-callback.html?next=${encodeURIComponent(safeNext(next))}`;
 
   const { error } = await supabase.auth.signInWithOtp({
     email,
-    options: {
-      emailRedirectTo: redirectTo,
-      // optional: helps reduce accidental duplicate accounts across emails
-      shouldCreateUser: true
-    }
+    options: { emailRedirectTo: redirectTo }
   });
 
-  if (error) throw error;
+  if(error) throw error;
 }
 
-export async function getSession() {
+export async function getSession(){
   const { data, error } = await supabase.auth.getSession();
-  if (error) throw error;
+  if(error) throw error;
   return data?.session || null;
 }
 
-export async function getUser() {
+export async function getUser(){
   const { data, error } = await supabase.auth.getUser();
-  if (error) throw error;
+  if(error) throw error;
   return data?.user || null;
 }
 
-export async function signOut() {
+export async function requireAuth(next = location.pathname + location.search){
+  const session = await getSession();
+  if(session) return session;
+
+  location.href = `/competitions/login.html?next=${encodeURIComponent(next)}`;
+  throw new Error("Auth session missing!");
+}
+
+export async function signOut(){
   const { error } = await supabase.auth.signOut();
-  if (error) throw error;
+  if(error) throw error;
 }
