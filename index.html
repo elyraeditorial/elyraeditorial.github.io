@@ -4,16 +4,9 @@
   <meta charset="UTF-8" />
   <title>ELYRA</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <meta name="description" content="ELYRA is an independent fashion & culture publication exploring identity, presence, and creative expression through editorial storytelling." />
-  <meta name="theme-color" content="#050505" />
-
-  <link rel="icon" href="favicon.ico" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="icon" href="favicon.ico">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body class="no-scroll-x">
@@ -23,12 +16,12 @@
   <div class="vignette" aria-hidden="true"></div>
   <div class="grain" aria-hidden="true"></div>
 
-  <header class="nav" role="banner">
+  <header class="nav">
     <div class="container nav-inner">
-      <div class="brand" aria-label="ELYRA">ELYRA</div>
+      <div class="brand">ELYRA</div>
 
       <nav class="links" aria-label="Primary">
-        <a href="index.html" aria-current="page">Home</a>
+        <a href="index.html">Home</a>
         <a href="issues.html">Issues</a>
         <a href="submit.html">Submit</a>
         <a href="/competitions/">Competitions</a>
@@ -37,83 +30,27 @@
     </div>
   </header>
 
-  <main class="hero" role="main">
-    <section class="card center" id="heroCard">
-      <!-- Premium badge line -->
-      <div class="small" style="letter-spacing:.28em;text-transform:uppercase;color:rgba(242,242,242,.72)">
-        Independent Editorial
-      </div>
-
-      <h1 class="h1" style="margin-top:10px">ELYRA</h1>
+  <main class="hero">
+    <section class="card center">
+      <h1 class="h1">ELYRA</h1>
       <div class="hair"></div>
 
       <p class="lede">
-        Independent fashion &amp; culture publication exploring identity, presence,
+        Fashion &amp; culture publication exploring identity, presence,
         and creative expression through editorial storytelling.
       </p>
 
       <div class="tagline">Editorial · Presence · Identity</div>
 
-      <div class="btnrow" aria-label="Primary actions">
+      <div class="btnrow">
         <a class="btn" href="issues.html">View Issues</a>
         <a class="btn" href="submit.html">Submissions</a>
         <a class="btn" href="/competitions/">Competitions</a>
       </div>
 
-      <!-- Secondary CTA line (clean, magazine style) -->
-      <p class="small" style="margin:18px auto 0; max-width:60ch">
-        Curated editions. Limited noise. High presence.
-        <span style="color:rgba(242,242,242,.55)">New features and cover stars announced inside Competitions.</span>
-      </p>
-
-      <div class="footer" style="margin-top:28px">
-        Published by Core Vision Management
-        <div style="margin-top:12px; display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
-          <a class="small" href="about.html" style="padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.10);background:rgba(0,0,0,.22)">About</a>
-          <a class="small" href="submit.html" style="padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.10);background:rgba(0,0,0,.22)">Submit</a>
-          <a class="small" href="/competitions/" style="padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.10);background:rgba(0,0,0,.22)">Competitions</a>
-        </div>
-
-        <div class="small" style="margin-top:14px; opacity:.75">
-          © <span id="yr"></span> Elyra Editorial. All rights reserved.
-        </div>
-      </div>
+      <div class="footer">Published by Core Vision Management</div>
     </section>
   </main>
-
-  <script>
-    // Year stamp
-    document.getElementById("yr").textContent = new Date().getFullYear();
-
-    // Subtle, premium tilt for desktop (won't affect mobile)
-    (function(){
-      const card = document.getElementById("heroCard");
-      if(!card) return;
-
-      const canHover = window.matchMedia && window.matchMedia("(hover:hover) and (pointer:fine)").matches;
-      if(!canHover) return;
-
-      const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
-
-      card.addEventListener("mousemove", (e) => {
-        const r = card.getBoundingClientRect();
-        const cx = r.left + r.width / 2;
-        const cy = r.top + r.height / 2;
-
-        const dx = (e.clientX - cx) / (r.width / 2);
-        const dy = (e.clientY - cy) / (r.height / 2);
-
-        const rx = clamp((-dy * 2.2), -2.2, 2.2);
-        const ry = clamp((dx * 2.8), -2.8, 2.8);
-
-        card.style.transform = `translateY(-3px) rotateX(${rx}deg) rotateY(${ry}deg)`;
-      });
-
-      card.addEventListener("mouseleave", () => {
-        card.style.transform = "";
-      });
-    })();
-  </script>
 
 </body>
 </html>
