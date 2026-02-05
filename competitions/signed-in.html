@@ -13,51 +13,50 @@
       <div class="navlinks">
         <a href="/competitions/">Competitions</a>
         <a href="/competitions/organizer/">Organizer</a>
+
+        <a id="navLoginLink" href="/competitions/login.html">Login</a>
+        <a id="navSignOutLink" href="#">Sign out</a>
+
         <a href="/">Home</a>
+        <span id="navWho" class="navwho"></span>
       </div>
     </div>
   </div>
 
   <div class="container hero">
-    <h1 class="h1">You're signed in ✅</h1>
-    <p class="p">Welcome to Elyra. You can now vote and access organizer tools (if approved).</p>
+    <h1 class="h1">Signed in</h1>
+    <p class="p" id="who">Checking session…</p>
   </div>
 
   <div class="container">
     <div class="card">
       <div class="btnrow">
-        <a class="btn primary" href="/competitions/">Go to Competitions</a>
-        <a class="btn" href="/competitions/organizer/">Organizer</a>
-        <button class="btn danger" id="logoutBtn">Log out</button>
+        <a class="btn primary" href="/competitions/">View contests</a>
+        <a class="btn" href="/competitions/organizer/">Organizer dashboard</a>
       </div>
+
       <div class="hr"></div>
-      <p class="small" id="status"></p>
+      <p class="small">
+        If you came here after voting, hit “View contests” and go back to your contestant.
+      </p>
     </div>
   </div>
 
   <script type="module">
-    import { getSession, signOut } from "./assets/auth.js";
-    import { setText } from "./assets/ui.js";
+    import { getSession } from "./assets/auth.js";
+    import { wireNavAuth } from "./assets/navAuth.js";
 
-    const status = document.getElementById("status");
-    const logoutBtn = document.getElementById("logoutBtn");
+    wireNavAuth();
 
-    try {
-      const session = await getSession();
-      if(!session){
-        location.replace("/competitions/login.html");
-      } else {
-        setText(status, "Session active ✅");
-      }
-    } catch(e){
-      console.error(e);
-      setText(status, "Could not verify session.");
+    const who = document.getElementById("who");
+    const session = await getSession();
+
+    if(session?.user?.email){
+      who.textContent = `Signed in as: ${session.user.email}`;
+    }else{
+      who.textContent = "No active session. Please log in again.";
+      setTimeout(() => location.replace("/competitions/login.html"), 900);
     }
-
-    logoutBtn.addEventListener("click", async () => {
-      await signOut();
-      location.replace("/competitions/login.html");
-    });
   </script>
 </body>
 </html>
