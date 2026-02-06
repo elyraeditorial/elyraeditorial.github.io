@@ -28,12 +28,12 @@
     const msg = document.getElementById("msg");
 
     function safeNext(u){
-      if(!u) return "/competitions/signed-in.html";
+      if(!u) return "/competitions/";
       try{
         const d = decodeURIComponent(u);
-        return d.startsWith("/") ? d : "/competitions/signed-in.html";
+        return d.startsWith("/") ? d : "/competitions/";
       }catch{
-        return "/competitions/signed-in.html";
+        return "/competitions/";
       }
     }
 
@@ -42,30 +42,41 @@
         const url = new URL(location.href);
         const next = safeNext(url.searchParams.get("next"));
 
-        // PKCE flow: ?code=...
         const code = url.searchParams.get("code");
+        const hasHashTokens = !!(location.hash && location.hash.includes("access_token"));
+
         if(code){
+          // ✅ PKCE flow
           const { error } = await supabase.auth.exchangeCodeForSession(code);
           if(error) throw error;
-        }
-
-        // Hash token flow: #access_token=...
-        if(location.hash && location.hash.includes("access_token")){
+        } else if(hasHashTokens){
+          // ✅ Hash token flow (older style)
           const h = new URLSearchParams(location.hash.slice(1));
           const access_token = h.get("access_token");
           const refresh_token = h.get("refresh_token");
           if(access_token && refresh_token){
             const { error } = await supabase.auth.setSession({ access_token, refresh_token });
             if(error) throw error;
+          } else {
+            throw new Error("Missing token pair in URL hash.");
           }
+        } else {
+          // ✅ Nothing in URL (expired link / already used / copied wrong)
+          throw new Error("No auth code found. Please request a new sign-in link.");
         }
 
+        // Confirm session exists
         const { data, error } = await supabase.auth.getSession();
         if(error) throw error;
 
         if(data?.session){
           msg.textContent = "Signed in ✅ Redirecting…";
-          setTimeout(() => location.replace(next), 250);
+
+          // ✅ Show a success screen first (so you SEE it)
+          const signedInUrl =
+            `/competitions/signed-in.html?next=${encodeURIComponent(next)}`;
+
+          setTimeout(() => location.replace(signedInUrl), 250);
         }else{
           throw new Error("No session created.");
         }
