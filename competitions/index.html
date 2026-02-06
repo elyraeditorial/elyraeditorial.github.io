@@ -19,11 +19,11 @@
 
         <!-- Login becomes Sign out automatically -->
         <a id="navLoginLink" href="/competitions/login.html">Login</a>
-        <a id="navSignOutLink" href="#">Sign out</a>
+        <a id="navSignOutLink" href="#" style="display:none;">Sign out</a>
 
         <a href="/">Home</a>
 
-        <!-- optional (shows email when signed in) -->
+        <!-- shows email when signed in -->
         <span id="navWho" class="navwho"></span>
       </div>
     </div>
@@ -42,39 +42,108 @@
     </div>
   </div>
 
+  <!-- ✅ Non-module fallback: if modules fail to load, you won't be stuck forever -->
+  <script>
+    setTimeout(() => {
+      const badge = document.getElementById("statusBadge");
+      const list  = document.getElementById("contestList");
+      if (badge && badge.textContent && badge.textContent.trim().toLowerCase() === "loading…") {
+        badge.textContent = "Still loading…";
+        if (list) {
+          list.innerHTML = `
+            <p class="small">
+              If this stays stuck, it usually means a JS module failed to load (data.js/supabaseClient.js).
+              Open Safari → Share → “Add to Home Screen” isn’t needed — just try a hard refresh,
+              or check Console in desktop devtools.
+            </p>
+          `;
+        }
+      }
+    }, 3500);
+  </script>
+
   <script type="module">
+    import { wireNavAuth } from "./assets/navAuth.js";
     import { fetchActiveContests } from "./assets/data.js";
     import { setText, setHTML } from "./assets/ui.js";
 
     const badge = document.getElementById("statusBadge");
-    const list = document.getElementById("contestList");
+    const list  = document.getElementById("contestList");
+
+    // ✅ nav login/signout + email
+    wireNavAuth();
+
+    // ✅ helper: timeout so it never hangs forever
+    function withTimeout(promise, ms = 8000){
+      return Promise.race([
+        promise,
+        new Promise((_, reject) => setTimeout(() => reject(new Error("Timed out loading contests.")), ms))
+      ]);
+    }
+
+    function esc(s){
+      return String(s ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function fmtDate(v){
+      if(!v) return "";
+      const d = new Date(v);
+      if(Number.isNaN(d.getTime())) return "";
+      return d.toLocaleDateString();
+    }
 
     try{
-      const contests = await fetchActiveContests();
-      setText(badge, contests.length ? `${contests.length} Active Contest(s)` : "No active contests yet");
-      setHTML(list, contests.map(c => `
-        <div class="item">
-          <div>
-            <h3>${c.title || "Untitled Contest"}</h3>
-            <p>${c.subtitle || ""}</p>
-            <p class="small">${c.start_at ? "Starts: " + new Date(c.start_at).toLocaleDateString() : ""} ${c.end_at ? " • Ends: " + new Date(c.end_at).toLocaleDateString() : ""}</p>
-          </div>
-          <div class="btnrow">
-            <a class="btn primary" href="/competitions/contest.html?slug=${encodeURIComponent(c.slug)}">View</a>
-          </div>
-        </div>
-      `).join(""));
-    }catch(err){
-      console.error(err);
-      setText(badge, "Error loading contests");
-      setHTML(list, `<p class="small">${err?.message || "Unknown error"}</p>`);
-    }
-  </script>
+      setText(badge, "Loading…");
 
-  <!-- Nav auth wiring -->
-  <script type="module">
-    import { wireNavAuth } from "./assets/navAuth.js";
-    wireNavAuth();
+      const contests = await withTimeout(fetchActiveContests(), 8000);
+
+      const count = contests?.length || 0;
+      setText(badge, count ? `${count} Active Contest(s)` : "No active contests yet");
+
+      if(!count){
+        setHTML(list, `<p class="small">No contests are active right now.</p>`);
+      }else{
+        setHTML(list, contests.map(c => {
+          const title = esc(c.title || "Untitled Contest");
+          const subtitle = esc(c.subtitle || "");
+          const start = fmtDate(c.start_at);
+          const end = fmtDate(c.end_at);
+          const dates = [start ? `Starts: ${start}` : "", end ? `Ends: ${end}` : ""].filter(Boolean).join(" • ");
+
+          return `
+            <div class="item">
+              <div>
+                <h3>${title}</h3>
+                <p>${subtitle}</p>
+                <p class="small">${esc(dates)}</p>
+              </div>
+              <div class="btnrow">
+                <a class="btn primary" href="/competitions/contest.html?slug=${encodeURIComponent(c.slug)}">View</a>
+              </div>
+            </div>
+          `;
+        }).join(""));
+      }
+
+    }catch(err){
+      console.error("Competitions load failed:", err);
+      setText(badge, "Error loading contests");
+      setHTML(list, `
+        <p class="small">
+          ${esc(err?.message || "Unknown error")}
+          <br><br>
+          Most common causes:
+          <br>• data.js missing fetchActiveContests()
+          <br>• supabaseClient.js path wrong
+          <br>• RLS blocks reading contests table
+        </p>
+      `);
+    }
   </script>
 </body>
 </html>
