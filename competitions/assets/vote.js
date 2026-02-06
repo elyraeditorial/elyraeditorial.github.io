@@ -1,11 +1,10 @@
 import { supabase } from "./supabaseClient.js";
 
 /**
- * Prefer your custom domain route first (Cloudflare Routes: elyraeditorial.com/api/*)
- * Fallback to workers.dev if needed.
+ * Use same-origin first (elyraeditorial.com), fallback to workers.dev
  */
-const API_BASE_PRIMARY = "https://elyraeditorial.com";
-const API_BASE_FALLBACK = "https://green-tree-a555.elyra-editorial-42f.workers.dev"; // your worker preview/host
+const API_BASE_PRIMARY = location.origin; // https://elyraeditorial.com
+const API_BASE_FALLBACK = "https://green-tree-a555.elyra-editorial-42f.workers.dev";
 
 async function postJson(url, payload) {
   const r = await fetch(url, {
@@ -17,15 +16,10 @@ async function postJson(url, payload) {
   let out = {};
   try { out = await r.json(); } catch {}
 
-  if (!r.ok) {
-    throw new Error(out?.error || `Request failed (${r.status})`);
-  }
+  if (!r.ok) throw new Error(out?.error || `Request failed (${r.status})`);
   return out;
 }
 
-/**
- * ✅ Free vote (Supabase insert)
- */
 export async function castFreeVote(contestId, contestantId) {
   const { data: userRes, error: userErr } = await supabase.auth.getUser();
   if (userErr) throw userErr;
@@ -33,10 +27,7 @@ export async function castFreeVote(contestId, contestantId) {
 
   const { data, error } = await supabase
     .from("free_votes")
-    .insert({
-      contest_id: contestId,
-      contestant_id: contestantId,
-    })
+    .insert({ contest_id: contestId, contestant_id: contestantId })
     .select("id")
     .single();
 
@@ -47,34 +38,20 @@ export async function castFreeVote(contestId, contestantId) {
     }
     throw error;
   }
-
   return data;
 }
 
-/**
- * ✅ Paid vote checkout
- * Sends EXACT keys your Worker expects:
- *  - contest_id
- *  - contestant_id
- *  - pack (10 or 50)
- *  - return_to
- */
-export async function startPaidVoteCheckout({
-  contestId,
-  contestantId,
-  pack,
-  returnTo,
-}) {
+export async function startPaidVoteCheckout({ contestId, contestantId, pack, returnTo }) {
   if (!contestId || !contestantId) throw new Error("Contest not ready yet.");
-  if (![10, 50].includes(Number(pack))) throw new Error("Invalid pack.");
+  const p = Number(pack);
+  if (![10, 50].includes(p)) throw new Error("Invalid pack.");
 
-  const return_to = returnTo || (location.origin + location.pathname + location.search);
-
+  // ✅ EXACT keys your Worker expects
   const payload = {
     contest_id: contestId,
     contestant_id: contestantId,
-    pack: Number(pack),
-    return_to,
+    pack: p,
+    return_to: returnTo || (location.origin + location.pathname + location.search),
   };
 
   const endpointPrimary = `${API_BASE_PRIMARY}/api/create-checkout-session`;
@@ -84,7 +61,6 @@ export async function startPaidVoteCheckout({
   try {
     res = await postJson(endpointPrimary, payload);
   } catch (e) {
-    // fallback to worker host if route isn’t fully working yet
     res = await postJson(endpointFallback, payload);
   }
 
