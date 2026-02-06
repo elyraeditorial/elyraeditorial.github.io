@@ -30,20 +30,30 @@ export function formatDate(iso){
 }
 
 /**
- * API base for your Worker:
- * - If your Worker is routed on the SAME domain as the site (recommended): leave ""
- *   Example route: https://elyraeditorial.com/api/*
- *
- * - If your Worker is on workers.dev (different domain): set it like:
- *   export const API_BASE = "https://YOUR-WORKER.workers.dev";
+ * ✅ API base for your Worker (workers.dev)
+ * This makes "/api/..." calls go to your Cloudflare Worker instead of GitHub Pages.
  */
-export const API_BASE = ""; // <-- change only if needed
+export const API_BASE = "https://green-tree-a555.workers.dev";
 
+/**
+ * Build an API url.
+ * - If an ABSOLUTE url is passed in, return it unchanged.
+ * - If a relative "/api/..." path is passed, prefix with API_BASE.
+ */
 export function apiUrl(path){
-  if(!path.startsWith("/")) path = "/" + path;
-  return `${API_BASE}${path}`;
+  const p = String(path || "").trim();
+
+  // absolute URL support
+  if(p.startsWith("http://") || p.startsWith("https://")) return p;
+
+  // ensure leading slash
+  const withSlash = p.startsWith("/") ? p : ("/" + p);
+  return `${API_BASE}${withSlash}`;
 }
 
+/**
+ * Fetch JSON (or text) with good error messages.
+ */
 export async function fetchJson(path, options={}){
   const res = await fetch(apiUrl(path), {
     ...options,
@@ -59,8 +69,12 @@ export async function fetchJson(path, options={}){
   try { body = text ? JSON.parse(text) : null; } catch { body = text; }
 
   if(!res.ok){
-    const msg = (body && body.error) ? body.error : `Request failed (${res.status})`;
+    const msg =
+      (body && typeof body === "object" && body.error) ? body.error :
+      (typeof body === "string" && body) ? body :
+      `Request failed (${res.status})`;
     throw new Error(msg);
   }
+
   return body;
 }
