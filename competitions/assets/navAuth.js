@@ -1,47 +1,47 @@
+import { supabase } from "./supabaseClient.js";
 import { getSession, signOut } from "./auth.js";
 
 function $(id){ return document.getElementById(id); }
 
-export async function wireNavAuth(){
-  const loginLink  = $("navLoginLink");
+function render(session){
+  const loginLink = $("navLoginLink");
   const signoutLink = $("navSignOutLink");
   const who = $("navWho");
 
   if(!loginLink || !signoutLink) return;
 
-  // default state (logged out)
-  loginLink.style.display = "inline-flex";
-  signoutLink.style.display = "none";
-  if(who) who.textContent = "";
+  const loggedIn = !!session;
 
-  let session = null;
+  loginLink.style.display = loggedIn ? "none" : "inline-flex";
+  signoutLink.style.display = loggedIn ? "inline-flex" : "none";
+
+  if(who){
+    who.textContent = loggedIn && session?.user?.email ? `(${session.user.email})` : "";
+  }
+}
+
+export async function wireNavAuth(){
+  const signoutLink = $("navSignOutLink");
+  if(!signoutLink) return;
+
+  // Initial paint
   try{
-    session = await getSession();
+    const session = await getSession();
+    render(session);
   }catch(e){
-    console.error("getSession failed:", e);
-    // keep logged-out state
-    return;
+    console.error(e);
+    render(null);
   }
 
-  if(session?.user){
-    loginLink.style.display = "none";
-    signoutLink.style.display = "inline-flex";
-
-    const email = session.user.email || "";
-    if(who && email){
-      // show something clean in the nav
-      who.textContent = email;
-    }
-  }
+  // ✅ Live updates (this is what you were missing)
+  supabase.auth.onAuthStateChange((_event, session) => {
+    render(session);
+  });
 
   signoutLink.addEventListener("click", async (e) => {
     e.preventDefault();
-    try{
-      await signOut();
-    }catch(err){
-      console.error("signOut failed:", err);
-    }
-    // force refresh state
+    try{ await signOut(); } catch(err){ console.error(err); }
+    render(null);
     location.replace("/competitions/");
   });
 }
