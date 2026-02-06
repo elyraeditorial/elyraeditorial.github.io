@@ -1,23 +1,20 @@
 import { supabase } from "./supabaseClient.js";
 
-/** ✅ Active contests list (safe + tolerant of different schemas)
- * It fetches contests and filters “active” on the client so it won’t break if some columns don’t exist.
+/** ✅ Active contests list (matches your real contests table)
+ * Uses: id, slug, title, subtitle, start_at, end_at, status, hero_image_url
  */
 export async function fetchActiveContests(){
   const { data, error } = await supabase
     .from("contests")
-    .select("id, slug, title, subtitle, start_at, end_at, is_active, status")
-    .order("start_at", { ascending: false });
+    .select("id, slug, title, subtitle, start_at, end_at, status, hero_image_url")
+    .order("created_at", { ascending: false });
 
-  if(error) throw error;
+  if (error) throw error;
 
   const now = Date.now();
 
   const rows = (data || []).filter(c => {
-    // If you have is_active, respect it when present
-    if (typeof c.is_active === "boolean") return c.is_active;
-
-    // If you have a status column, treat "active" as active
+    // status-based (you have this)
     if (typeof c.status === "string" && c.status.length) {
       const s = c.status.toLowerCase();
       if (s === "active" || s === "open" || s === "live") return true;
@@ -25,7 +22,7 @@ export async function fetchActiveContests(){
       // otherwise fall through to date checks
     }
 
-    // Date-based fallback
+    // date fallback
     const startOk = !c.start_at || (new Date(c.start_at).getTime() <= now);
     const endOk   = !c.end_at   || (new Date(c.end_at).getTime() >= now);
     return startOk && endOk;
@@ -43,7 +40,7 @@ export async function fetchContestBySlug(slug){
     .eq("slug", slug)
     .maybeSingle();
 
-  if(error) throw error;
+  if (error) throw error;
   return data;
 }
 
@@ -55,8 +52,22 @@ export async function fetchContestantById(id){
     .eq("id", id)
     .maybeSingle();
 
-  if(error) throw error;
+  if (error) throw error;
   return data;
+}
+
+/** ✅ Contestants list for a contest page */
+export async function fetchContestantsForContest(contestId){
+  const { data, error } = await supabase
+    .from("contestants")
+    .select("id, contest_id, display_name, bio, photo_url, is_published, created_at")
+    .eq("contest_id", contestId)
+    .order("created_at", { ascending: false });
+
+  if (error) throw error;
+
+  // show only published if that column exists / is used
+  return (data || []).filter(c => c.is_published !== false);
 }
 
 /**
@@ -70,7 +81,7 @@ export async function fetchVoteTotalsForContestant(contestantId){
     .eq("contestant_id", contestantId)
     .maybeSingle();
 
-  if(error) throw error;
+  if (error) throw error;
   return data || { free_votes: 0, paid_votes: 0, total_votes: 0 };
 }
 
@@ -83,17 +94,17 @@ export async function fetchContestDashboardTotals(contestId){
     .select("id", { count: "exact", head: true })
     .eq("contest_id", contestId);
 
-  if(cErr) throw cErr;
+  if (cErr) throw cErr;
 
   const { data: rows, error: tErr } = await supabase
     .from("contestant_vote_totals")
     .select("free_votes, paid_votes, total_votes")
     .eq("contest_id", contestId);
 
-  if(tErr) throw tErr;
+  if (tErr) throw tErr;
 
   let free_votes = 0, paid_votes = 0, total_votes = 0;
-  for(const r of (rows || [])){
+  for (const r of (rows || [])) {
     free_votes += Number(r.free_votes || 0);
     paid_votes += Number(r.paid_votes || 0);
     total_votes += Number(r.total_votes || 0);
