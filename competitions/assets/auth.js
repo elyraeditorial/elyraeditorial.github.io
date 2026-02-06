@@ -6,6 +6,7 @@ function safeNext(next){
   if(!next) return DEFAULT_AFTER_LOGIN;
   try{
     const decoded = decodeURIComponent(next);
+    // Only allow same-site relative paths
     return decoded.startsWith("/") ? decoded : DEFAULT_AFTER_LOGIN;
   }catch{
     return DEFAULT_AFTER_LOGIN;
@@ -40,7 +41,7 @@ export async function requireAuth(next = location.pathname + location.search){
   const session = await getSession();
   if(session) return session;
 
-  location.href = `/competitions/login.html?next=${encodeURIComponent(next)}`;
+  location.href = `/competitions/login.html?next=${encodeURIComponent(safeNext(next))}`;
   throw new Error("Auth session missing!");
 }
 
