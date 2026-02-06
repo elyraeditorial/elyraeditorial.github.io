@@ -1,10 +1,7 @@
 import { supabase } from "./supabaseClient.js";
 import { fetchJson } from "./ui.js";
 
-/**
- * Free vote: inserts a row into public.free_votes.
- * Assumes your table has a default user_id = auth.uid() and RLS allows insert for logged-in users.
- */
+// ✅ Free vote
 export async function castFreeVote(contestId, contestantId){
   const { data: userRes, error: userErr } = await supabase.auth.getUser();
   if(userErr) throw userErr;
@@ -15,7 +12,6 @@ export async function castFreeVote(contestId, contestantId){
     .insert({
       contest_id: contestId,
       contestant_id: contestantId
-      // user_id set by default auth.uid() if you configured that
     })
     .select("id")
     .single();
@@ -32,17 +28,30 @@ export async function castFreeVote(contestId, contestantId){
 }
 
 /**
- * Paid votes: asks your Cloudflare Worker to create a Stripe Checkout Session.
+ * ✅ Paid vote checkout (this matches your contestant.html)
  * Your Worker endpoint should be: POST /api/create-checkout-session
- * and return: { url: "https://checkout.stripe.com/..." }
+ *
+ * Expected Worker input examples (pick one style and match your Worker):
+ * Option A (pack-based):
+ *   { contest_id, contestant_id, pack, return_to }
+ *
+ * Option B (price-id based):
+ *   { contest_id, contestant_id, price_id, return_to }
  */
-export async function startPaidCheckout({ contestId, contestantId, priceId, returnTo }){
+export async function startPaidVoteCheckout({ contestId, contestantId, pack, priceId, returnTo }){
+  if(!contestId || !contestantId) throw new Error("Contest not ready yet.");
+
   const payload = {
     contest_id: contestId,
     contestant_id: contestantId,
-    price_id: priceId,
     return_to: returnTo || (location.origin + location.pathname + location.search)
   };
+
+  // If you're using "pack" in your Worker (10 / 50):
+  if(pack) payload.pack = pack;
+
+  // If you're using Stripe price IDs in your Worker:
+  if(priceId) payload.price_id = priceId;
 
   const res = await fetchJson("/api/create-checkout-session", {
     method: "POST",
@@ -50,6 +59,5 @@ export async function startPaidCheckout({ contestId, contestantId, priceId, retu
   });
 
   if(!res?.url) throw new Error("Checkout URL missing.");
-  // Redirect to Stripe
   location.href = res.url;
 }
