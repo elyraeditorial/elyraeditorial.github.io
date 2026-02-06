@@ -1,25 +1,14 @@
 import { supabase } from "./supabaseClient.js";
 
 /**
- * Use same-origin first (elyraeditorial.com), fallback to workers.dev
+ * ✅ Use your CUSTOM DOMAIN (because you routed /api/* to the Worker)
+ * NO trailing slash
  */
-const API_BASE_PRIMARY = location.origin; // https://elyraeditorial.com
-const API_BASE_FALLBACK = "https://green-tree-a555.elyra-editorial-42f.workers.dev";
+const WORKER_BASE = "https://elyraeditorial.com";
 
-async function postJson(url, payload) {
-  const r = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  });
-
-  let out = {};
-  try { out = await r.json(); } catch {}
-
-  if (!r.ok) throw new Error(out?.error || `Request failed (${r.status})`);
-  return out;
-}
-
+/**
+ * ✅ Free vote (Supabase insert)
+ */
 export async function castFreeVote(contestId, contestantId) {
   const { data: userRes, error: userErr } = await supabase.auth.getUser();
   if (userErr) throw userErr;
@@ -27,7 +16,10 @@ export async function castFreeVote(contestId, contestantId) {
 
   const { data, error } = await supabase
     .from("free_votes")
-    .insert({ contest_id: contestId, contestant_id: contestantId })
+    .insert({
+      contest_id: contestId,
+      contestant_id: contestantId
+    })
     .select("id")
     .single();
 
@@ -38,32 +30,53 @@ export async function castFreeVote(contestId, contestantId) {
     }
     throw error;
   }
+
   return data;
 }
 
-export async function startPaidVoteCheckout({ contestId, contestantId, pack, returnTo }) {
+/**
+ * ✅ Paid vote checkout
+ * Calls Worker:
+ *   POST https://elyraeditorial.com/api/create-checkout-session
+ *
+ * Worker expects snake_case:
+ *   { contest_id, contestant_id, pack, return_to }
+ */
+export async function startPaidVoteCheckout({
+  contestId,
+  contestantId,
+  pack,
+  returnTo,
+}) {
   if (!contestId || !contestantId) throw new Error("Contest not ready yet.");
-  const p = Number(pack);
-  if (![10, 50].includes(p)) throw new Error("Invalid pack.");
+  if (![10, 50].includes(Number(pack))) throw new Error("Invalid pack (must be 10 or 50).");
 
-  // ✅ EXACT keys your Worker expects
   const payload = {
     contest_id: contestId,
     contestant_id: contestantId,
-    pack: p,
+    pack: Number(pack),
     return_to: returnTo || (location.origin + location.pathname + location.search),
   };
 
-  const endpointPrimary = `${API_BASE_PRIMARY}/api/create-checkout-session`;
-  const endpointFallback = `${API_BASE_FALLBACK}/api/create-checkout-session`;
+  const url = `${WORKER_BASE}/api/create-checkout-session`;
 
-  let res;
-  try {
-    res = await postJson(endpointPrimary, payload);
-  } catch (e) {
-    res = await postJson(endpointFallback, payload);
+  const r = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" }, // ✅ keep headers minimal (prevents Safari invalid header value)
+    body: JSON.stringify(payload),
+  });
+
+  // Worker returns { url: "https://checkout.stripe.com/..." } or { error: "..." }
+  let out = {};
+  const text = await r.text();
+  try { out = JSON.parse(text); } catch {}
+
+  if (!r.ok) {
+    throw new Error(out?.error || text || "Checkout session failed.");
+  }
+  if (!out?.url) {
+    throw new Error(out?.error || "Checkout URL missing.");
   }
 
-  if (!res?.url) throw new Error("Checkout URL missing.");
-  location.href = res.url;
+  location.href = out.url;
 }
