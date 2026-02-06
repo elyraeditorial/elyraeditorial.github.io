@@ -57,8 +57,9 @@
           <div style="height:10px"></div>
 
           <div class="btnrow">
-            <a class="btn btn3d glow10" id="pay10" href="#">Buy Votes ($10)</a>
-            <a class="btn btn3d glow50" id="pay50" href="#">Buy Votes ($50)</a>
+            <!-- ✅ CHANGED: anchors -> buttons -->
+            <button class="btn btn3d glow10" id="pay10" type="button">Buy Votes ($10)</button>
+            <button class="btn btn3d glow50" id="pay50" type="button">Buy Votes ($50)</button>
           </div>
 
           <p class="small" id="voteBreakdown" style="margin-top:10px; opacity:.9"></p>
@@ -73,8 +74,8 @@
   <script type="module">
     import * as dataApi from "./assets/data.js";
 
-    // ✅ CACHE-BUST vote.js so Safari/Cloudflare doesn't keep the old one
-    import { castFreeVote, startPaidVoteCheckout } from "./assets/vote.js?v=3";
+    // cache-bust vote.js if you want (optional)
+    import { castFreeVote, startPaidVoteCheckout } from "./assets/vote.js?v=4";
 
     import { getSession } from "./assets/auth.js";
     import { getParam, setText, toast } from "./assets/ui.js";
@@ -212,31 +213,30 @@
         }
       });
 
-      pay10.addEventListener("click", async (e) => {
-        e.preventDefault();
-        try {
+      // ✅ Buttons: no preventDefault needed anymore
+      pay10.addEventListener("click", async () => {
+        try{
           await startPaidVoteCheckout({
             contestId,
             contestantId,
             pack: 10,
             returnTo: currentPathWithQuery()
           });
-        } catch (err) {
+        }catch(err){
           console.error(err);
           toast(err?.message || "Checkout failed.");
         }
       });
 
-      pay50.addEventListener("click", async (e) => {
-        e.preventDefault();
-        try {
+      pay50.addEventListener("click", async () => {
+        try{
           await startPaidVoteCheckout({
             contestId,
             contestantId,
             pack: 50,
             returnTo: currentPathWithQuery()
           });
-        } catch (err) {
+        }catch(err){
           console.error(err);
           toast(err?.message || "Checkout failed.");
         }
