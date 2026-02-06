@@ -14,8 +14,9 @@
         <a href="/competitions/">Competitions</a>
         <a href="/competitions/organizer/">Organizer</a>
 
-        <a id="navLoginLink" href="/competitions/login.html">Login</a>
-        <a id="navSignOutLink" href="#">Sign out</a>
+        <!-- start hidden so navAuth controls it (no flicker) -->
+        <a id="navLoginLink" href="/competitions/login.html" style="display:none;">Login</a>
+        <a id="navSignOutLink" href="#" style="display:none;">Sign out</a>
 
         <a href="/">Home</a>
         <span id="navWho" class="navwho"></span>
@@ -24,36 +25,58 @@
   </div>
 
   <div class="container hero">
-    <h1 class="h1">Signed in</h1>
+    <h1 class="h1">Signed in ✅</h1>
     <p class="p" id="who">Checking session…</p>
-  </div>
 
-  <div class="container">
-    <div class="card">
-      <div class="btnrow">
-        <a class="btn primary" href="/competitions/">View contests</a>
-        <a class="btn" href="/competitions/organizer/">Organizer dashboard</a>
-      </div>
-
-      <div class="hr"></div>
-      <p class="small">
-        If you came here after voting, hit “View contests” and go back to your contestant.
-      </p>
+    <div class="btnrow" style="margin-top:14px;">
+      <a class="btn primary" id="continueBtn" href="/competitions/">Continue</a>
+      <a class="btn" href="/competitions/">View contests</a>
+      <a class="btn" href="/competitions/organizer/">Organizer dashboard</a>
     </div>
+
+    <p class="small" style="margin-top:10px;opacity:.85">
+      If you don’t get redirected, tap Continue.
+    </p>
   </div>
 
   <script type="module">
-    import { getSession } from "./assets/auth.js";
+    import { getUser } from "./assets/auth.js";
     import { wireNavAuth } from "./assets/navAuth.js";
+
+    function getParam(name){
+      const u = new URL(location.href);
+      return u.searchParams.get(name);
+    }
+
+    function safeNext(u){
+      if(!u) return "/competitions/";
+      try{
+        const d = decodeURIComponent(u);
+        return d.startsWith("/") ? d : "/competitions/";
+      }catch{
+        return "/competitions/";
+      }
+    }
 
     wireNavAuth();
 
     const who = document.getElementById("who");
-    const session = await getSession();
+    const continueBtn = document.getElementById("continueBtn");
 
-    if(session?.user?.email){
-      who.textContent = `Signed in as: ${session.user.email}`;
-    }else{
+    const next = safeNext(getParam("next"));
+    continueBtn.href = next;
+
+    try{
+      const user = await getUser();
+      if(user?.email){
+        who.textContent = `Signed in as: ${user.email}`;
+        // Optional auto-continue
+        setTimeout(() => location.replace(next), 1200);
+      }else{
+        throw new Error("No user.");
+      }
+    }catch(err){
+      console.error(err);
       who.textContent = "No active session. Please log in again.";
       setTimeout(() => location.replace("/competitions/login.html"), 900);
     }
