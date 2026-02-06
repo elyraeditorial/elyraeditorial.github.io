@@ -21,56 +21,48 @@
   </div>
 
   <div class="container hero">
-    <h1 class="h1" id="title">Vote Confirmed ✅</h1>
-    <p class="p" id="subtitle">Thank you for supporting.</p>
-  </div>
+    <h1 class="h1" id="title">Processing…</h1>
+    <p class="p" id="desc">Please wait.</p>
 
-  <div class="container">
-    <div class="card">
-      <div class="badge" id="badge">Confirmation</div>
-      <div class="hr"></div>
+    <div style="height:14px"></div>
 
-      <div class="votingPacks">
-        <div class="vpTitle" id="who">Your vote was recorded.</div>
-        <div class="vpSub" id="details">
-          You can return to the contest to vote for someone else (if allowed), or share the contest link.
-        </div>
-
-        <div class="vpBtns" style="margin-top:14px">
-          <a class="btn3d buy10" id="backToContest" href="/competitions/">Back to Contest</a>
-          <a class="btn3d free" href="/competitions/">View Contestants</a>
-        </div>
-
-        <div class="vpStatus show" style="margin-top:12px">
-          Tip: Paid votes are optional on the contestant page.
-        </div>
-      </div>
+    <div class="btnrow">
+      <a class="btn primary btn3d" id="backToContestant" href="/competitions/">Back</a>
+      <a class="btn" href="/competitions/">All Competitions</a>
     </div>
+
+    <div style="height:16px"></div>
+    <p class="small" id="note"></p>
   </div>
 
   <script type="module">
     import { getParam, setText } from "./assets/ui.js";
 
-    const type = getParam("type");
-    const name = getParam("name");
-    const slug = getParam("slug");
+    const paid = getParam("paid");
+    const contestantId = getParam("id");
+    const contestId = getParam("contest");
 
     const title = document.getElementById("title");
-    const subtitle = document.getElementById("subtitle");
-    const who = document.getElementById("who");
-    const backToContest = document.getElementById("backToContest");
+    const desc  = document.getElementById("desc");
+    const note  = document.getElementById("note");
+    const back  = document.getElementById("backToContestant");
 
-    if (type === "free") {
-      setText(title, "Free Vote Confirmed ✅");
-      setText(subtitle, "Your free vote has been recorded.");
-    } else if (type === "paid") {
-      setText(title, "Payment Received ✅");
-      setText(subtitle, "Thanks — your paid votes will be counted.");
+    if(paid === "1"){
+      setText(title, "Payment received ✅");
+      setText(desc, "Thank you for supporting Elyra. Your paid votes will reflect shortly.");
+    } else {
+      setText(title, "Payment canceled");
+      setText(desc, "No worries — you can try again anytime.");
     }
 
-    if (name) setText(who, `You supported: ${name}`);
-
-    if (slug) backToContest.href = `/competitions/contest.html?slug=${encodeURIComponent(slug)}`;
+    if(contestantId){
+      back.href = `/competitions/contestant.html?id=${encodeURIComponent(contestantId)}`;
+      setText(note, "Tip: If totals don’t update instantly, refresh after 10–30 seconds.");
+    } else if(contestId){
+      back.href = `/competitions/contest.html?id=${encodeURIComponent(contestId)}`;
+    } else {
+      back.href = "/competitions/";
+    }
   </script>
 </body>
 </html>
