@@ -1,117 +1,78 @@
 import { supabase } from "./supabaseClient.js";
 
-/**
- * Fetch a contest by its slug
- */
+/** Contest by slug */
 export async function fetchContestBySlug(slug){
   const { data, error } = await supabase
     .from("contests")
     .select("*")
     .eq("slug", slug)
-    .single();
+    .maybeSingle();
 
   if(error) throw error;
   return data;
 }
 
-/**
- * Fetch a contestant by UUID
- */
+/** Contestant by id */
 export async function fetchContestantById(id){
   const { data, error } = await supabase
     .from("contestants")
     .select("*")
     .eq("id", id)
-    .single();
+    .maybeSingle();
 
   if(error) throw error;
   return data;
 }
 
 /**
- * Live vote totals for a contestant
- * Requires the SQL view + RPC from the Supabase SQL section.
+ * Live totals for a contestant, from view: public.contestant_vote_totals
+ * Returns: { free_votes, paid_votes, total_votes }
  */
 export async function fetchVoteTotalsForContestant(contestantId){
-  // Preferred: RPC (clean + fast)
   const { data, error } = await supabase
-    .rpc("get_contestant_vote_totals", { p_contestant_id: contestantId });
+    .from("contestant_vote_totals")
+    .select("free_votes, paid_votes, total_votes")
+    .eq("contestant_id", contestantId)
+    .maybeSingle();
 
-  if(error){
-    // Fallback: direct view query (if RPC name differs)
-    const { data: v, error: e2 } = await supabase
-      .from("contestant_vote_totals")
-      .select("contestant_id, contest_id, free_votes, paid_votes, total_votes")
-      .eq("contestant_id", contestantId)
-      .single();
-
-    if(e2) throw e2;
-    return v;
-  }
-
-  // RPC returns an array table result
-  return Array.isArray(data) ? data[0] : data;
+  if(error) throw error;
+  return data || { free_votes: 0, paid_votes: 0, total_votes: 0 };
 }
 
 /**
- * Organizer dashboard totals for a contest
- * Requires the SQL view + RPC from the Supabase SQL section.
+ * Organizer dashboard totals (per contest)
+ * Requires a simple view or RPC. Easiest: query contestants and totals view.
+ * This returns totals aggregated for a contest.
  */
 export async function fetchContestDashboardTotals(contestId){
-  const { data, error } = await supabase
-    .rpc("get_contest_dashboard_totals", { p_contest_id: contestId });
-
-  if(error){
-    // Fallback: direct view query
-    const { data: v, error: e2 } = await supabase
-      .from("contest_dashboard_totals")
-      .select("contest_id, slug, contestants, free_votes, paid_votes, total_votes")
-      .eq("contest_id", contestId)
-      .single();
-
-    if(e2) throw e2;
-    return v;
-  }
-
-  return Array.isArray(data) ? data[0] : data;
-}
-
-/**
- * Organizer: fetch all contests (handy for a dropdown)
- */
-export async function fetchAllContests(){
-  const { data, error } = await supabase
-    .from("contests")
-    .select("id, title, slug, created_at")
-    .order("created_at", { ascending: false });
-
-  if(error) throw error;
-  return data || [];
-}
-
-/**
- * Organizer: list contestants for a contest with live totals
- * Uses the view: contestant_vote_totals
- */
-export async function fetchContestantsWithTotals(contestId){
-  // We join contestants + totals by selecting from contestants and then per contestant call totals (safe + simple)
-  // If you want faster later, we can build one SQL view that joins automatically.
-  const { data: contestants, error } = await supabase
+  // total contestants in contest
+  const { count: contestantsCount, error: cErr } = await supabase
     .from("contestants")
-    .select("id, display_name, bio, photo_url, created_at")
-    .eq("contest_id", contestId)
-    .order("created_at", { ascending: true });
+    .select("id", { count: "exact", head: true })
+    .eq("contest_id", contestId);
 
-  if(error) throw error;
+  if(cErr) throw cErr;
 
-  const rows = [];
-  for(const c of (contestants || [])){
-    try{
-      const t = await fetchVoteTotalsForContestant(c.id);
-      rows.push({ ...c, totals: t || null });
-    }catch{
-      rows.push({ ...c, totals: null });
-    }
+  // sum totals from contestant_vote_totals
+  const { data: rows, error: tErr } = await supabase
+    .from("contestant_vote_totals")
+    .select("free_votes, paid_votes, total_votes")
+    .eq("contest_id", contestId);
+
+  if(tErr) throw tErr;
+
+  let free_votes = 0, paid_votes = 0, total_votes = 0;
+  for(const r of (rows || [])){
+    free_votes += Number(r.free_votes || 0);
+    paid_votes += Number(r.paid_votes || 0);
+    total_votes += Number(r.total_votes || 0);
   }
-  return rows;
+
+  return {
+    contest_id: contestId,
+    contestants: Number(contestantsCount || 0),
+    free_votes,
+    paid_votes,
+    total_votes
+  };
 }
