@@ -17,9 +17,8 @@
         <a href="/competitions/">Competitions</a>
         <a href="/competitions/organizer/">Organizer</a>
 
-        <!-- Login becomes Sign out automatically -->
         <a id="navLoginLink" href="/competitions/login.html">Login</a>
-        <a id="navSignOutLink" href="#">Sign out</a>
+        <a id="navSignOutLink" href="#" style="display:none;">Sign out</a>
 
         <a href="/">Home</a>
         <span id="navWho" class="navwho"></span>
@@ -30,23 +29,6 @@
   <div class="container hero">
     <h1 class="h1" id="title">Loading…</h1>
     <p class="p" id="subtitle"></p>
-
-    <!-- ✅ HERO IMAGE -->
-    <div class="card" id="heroCard" style="display:none; padding:12px; margin-top:14px;">
-      <img id="heroImg" alt="Contest hero image" style="width:100%; border-radius:14px; border:1px solid rgba(255,255,255,.10);" loading="lazy"/>
-    </div>
-
-    <!-- Payment / status banner -->
-    <div class="notice" id="notice" style="display:none;"></div>
-
-    <div class="btnrow" style="margin-top:14px;">
-      <a class="btn pay pay10" href="https://buy.stripe.com/9B6aEQd5F5YR9uI7oC4sE09" target="_blank" rel="noopener">Buy Votes ($10)</a>
-      <a class="btn pay pay50" href="https://buy.stripe.com/28EbIU2r1fzr36k38m4sE0b" target="_blank" rel="noopener">Buy Votes ($50)</a>
-    </div>
-
-    <p class="small" style="margin-top:10px;">
-      Tip: Cast your free vote first, then boost with paid votes if you want.
-    </p>
   </div>
 
   <div class="container">
@@ -54,100 +36,84 @@
       <div class="badge" id="badge">Loading contestants…</div>
       <div class="hr"></div>
       <div class="list" id="list"></div>
+      <div class="hr"></div>
+      <p class="small" id="msg"></p>
     </div>
   </div>
 
   <script type="module">
-    import { fetchContestBySlug, fetchContestants } from "./assets/data.js";
-    import { requireParam, setText, setHTML } from "./assets/ui.js";
+    import * as dataApi from "./assets/data.js";
+    import { getParam, setText, setHTML } from "./assets/ui.js";
+    import { wireNavAuth } from "./assets/navAuth.js";
 
-    const slug = requireParam("slug");
+    wireNavAuth();
 
+    const slug = getParam("slug");
     const title = document.getElementById("title");
     const subtitle = document.getElementById("subtitle");
     const badge = document.getElementById("badge");
     const list = document.getElementById("list");
-    const notice = document.getElementById("notice");
+    const msg = document.getElementById("msg");
 
-    const heroCard = document.getElementById("heroCard");
-    const heroImg  = document.getElementById("heroImg");
-
-    const params = new URLSearchParams(location.search);
-    const paid = params.get("paid");
-    if (paid === "success") {
-      notice.style.display = "block";
-      notice.textContent = "Payment received ✅ If you purchased votes, you can now continue voting.";
-    } else if (paid === "cancel") {
-      notice.style.display = "block";
-      notice.textContent = "Payment cancelled. You can still cast your free vote anytime.";
-    }
-
-    // Small helper: only allow http(s) images
-    function safeImg(url){
-      if(!url) return null;
-      const u = String(url).trim();
-      if(u.startsWith("http://") || u.startsWith("https://")) return u;
-      return null;
-    }
+    function money(n){ return Number(n||0).toLocaleString(); }
 
     try{
-      const contest = await fetchContestBySlug(slug);
+      if(!slug) throw new Error("Missing contest slug.");
+
+      const contest = await dataApi.fetchContestBySlug(slug);
       if(!contest) throw new Error("Contest not found.");
 
       setText(title, contest.title || "Contest");
       setText(subtitle, contest.subtitle || "");
 
-      // ✅ Render hero image if present
-      const heroUrl = safeImg(contest.hero_image_url);
-      if(heroUrl){
-        heroImg.src = heroUrl;
-        heroCard.style.display = "block";
-      }else{
-        heroCard.style.display = "none";
+      // ✅ Fetch contestants for this contest
+      if(typeof dataApi.fetchContestantsByContestId !== "function"){
+        throw new Error("data.js missing fetchContestantsByContestId(). Paste the new data.js I provided.");
       }
 
-      const contestants = await fetchContestants(contest.id);
-      setText(badge, `${contestants.length} contestant(s)`);
+      const contestants = await dataApi.fetchContestantsByContestId(contest.id);
 
-      setHTML(list, contestants.map(p => {
-        const photo = safeImg(p.photo_url);
+      setText(badge, contestants.length ? `${contestants.length} Contestant(s)` : "No contestants yet");
+
+      // ✅ Optional: show live vote totals per contestant if the view exists
+      let totalsMap = {};
+      if(typeof dataApi.fetchVoteTotalsForContest === "function"){
+        const totalsRows = await dataApi.fetchVoteTotalsForContest(contest.id);
+        for(const r of (totalsRows || [])){
+          totalsMap[r.contestant_id] = r;
+        }
+      }
+
+      setHTML(list, contestants.map(c => {
+        const t = totalsMap[c.id] || {};
+        const totalVotes = t.total_votes ?? t.total ?? null;
+
         return `
-          <div class="item" style="gap:14px;">
-            <div style="display:flex; gap:12px; align-items:flex-start; flex:1;">
-              ${photo ? `
-                <img
-                  src="${photo}"
-                  alt="${(p.display_name || "Contestant").replaceAll('"','&quot;')}"
-                  loading="lazy"
-                  style="width:68px;height:68px;object-fit:cover;border-radius:14px;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.25);flex:0 0 auto;"
-                />
-              ` : ``}
-              <div style="flex:1;">
-                <h3 style="margin:0 0 6px;">${p.display_name}</h3>
-                <p style="margin:0;">${p.bio || ""}</p>
-              </div>
+          <div class="item">
+            <div>
+              <h3>${c.display_name || "Contestant"}</h3>
+              <p>${c.bio || ""}</p>
+              ${totalVotes !== null ? `<p class="small">Votes: ${money(totalVotes)}</p>` : ``}
             </div>
             <div class="btnrow">
-              <a class="btn primary" href="/competitions/contestant.html?id=${encodeURIComponent(p.id)}&slug=${encodeURIComponent(slug)}">Vote</a>
+              <a class="btn primary"
+                 href="/competitions/contestant.html?id=${encodeURIComponent(c.id)}&slug=${encodeURIComponent(slug)}">
+                View
+              </a>
             </div>
           </div>
         `;
-      }).join("") || `<p class="small">No contestants published yet.</p>`);
+      }).join(""));
 
+      setText(msg, "");
     }catch(err){
       console.error(err);
       setText(title, "Error");
-      setText(subtitle, err?.message || "Unknown error");
-      setText(badge, "—");
-      setHTML(list, "");
-      heroCard.style.display = "none";
+      setText(subtitle, "");
+      setText(badge, "Failed to load");
+      setHTML(list, `<p class="small">${err?.message || "Unknown error"}</p>`);
+      setText(msg, "If this error mentions RLS or permission denied, fix policies for contests/contestants.");
     }
-  </script>
-
-  <!-- Nav auth wiring -->
-  <script type="module">
-    import { wireNavAuth } from "./assets/navAuth.js";
-    wireNavAuth();
   </script>
 </body>
 </html>
