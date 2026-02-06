@@ -72,7 +72,10 @@
 
   <script type="module">
     import * as dataApi from "./assets/data.js";
-    import { castFreeVote, startPaidVoteCheckout } from "./assets/vote.js";
+
+    // ✅ CACHE-BUST vote.js so Safari/Cloudflare doesn't keep the old one
+    import { castFreeVote, startPaidVoteCheckout } from "./assets/vote.js?v=3";
+
     import { getSession } from "./assets/auth.js";
     import { getParam, setText, toast } from "./assets/ui.js";
     import { wireNavAuth } from "./assets/navAuth.js";
@@ -97,7 +100,7 @@
     const photoCard = document.getElementById("photoCard");
     const photoImg  = document.getElementById("photoImg");
 
-    if(slug) backBtn.href = `/competitions/contest.html?slug=${encodeURIComponent(slug)}`;
+    if (slug) backBtn.href = `/competitions/contest.html?slug=${encodeURIComponent(slug)}`;
 
     function safeImg(url){
       if(!url) return null;
@@ -106,7 +109,6 @@
       return null;
     }
 
-    // ✅ include origin so Worker can redirect back
     function currentPathWithQuery(){
       return location.origin + location.pathname + location.search;
     }
@@ -149,7 +151,6 @@
     let contestId = null;
     let contestantId = null;
 
-    // ✅ optional: show message after checkout return
     if(getParam("paid") === "1"){
       setText(msg, "Payment received ✅ Thank you for supporting Elyra.");
     }
