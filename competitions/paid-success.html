@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>ELYRA — Payment received</title>
+  <link rel="stylesheet" href="./assets/competitions.css"/>
+</head>
+<body>
+  <div class="topbar">
+    <div class="container row">
+      <div class="brand">ELYRA</div>
+      <div class="navlinks">
+        <a href="/competitions/">Competitions</a>
+        <a href="/">Home</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container hero">
+    <h1 class="h1">Payment received ✅</h1>
+    <p class="p" id="msg">Thank you for supporting!</p>
+  </div>
+
+  <div class="container">
+    <div class="card">
+      <div class="btnrow">
+        <a class="btn primary" id="backBtn" href="/competitions/">Back to Competitions</a>
+        <a class="btn" href="/competitions/organizer/">Organizer</a>
+      </div>
+      <div class="hr"></div>
+      <p class="small" id="detail"></p>
+    </div>
+  </div>
+
+  <script type="module">
+    import { getParam, setText } from "./assets/ui.js";
+
+    const msg = document.getElementById("msg");
+    const detail = document.getElementById("detail");
+    const backBtn = document.getElementById("backBtn");
+
+    // Worker can send you back with: ?return_to=/competitions/contestant.html?id=...&slug=...
+    const returnTo = getParam("return_to");
+    if(returnTo && returnTo.startsWith("/")){
+      backBtn.href = returnTo;
+      setText(msg, "Thank you! Your paid votes will be applied shortly.");
+      setText(detail, "Redirect link set ✅");
+    }else{
+      setText(detail, "Tip: If you want to return to a contestant automatically, pass return_to in your Worker success_url.");
+    }
+  </script>
+</body>
+</html>
