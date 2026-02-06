@@ -3,9 +3,9 @@ import { fetchJson } from "./ui.js";
 
 /**
  * ✅ Cloudflare Worker base (NO trailing slash)
- * Your worker: green-tree-a555
+ * Your real worker domain:
  */
-const WORKER_BASE = "https://green-tree-a555.workers.dev";
+const WORKER_BASE = "https://green-tree-a555.elyra-editorial-42f.workers.dev";
 
 /**
  * ✅ Free vote (Supabase insert)
@@ -38,16 +38,6 @@ export async function castFreeVote(contestId, contestantId){
 
 /**
  * ✅ Paid vote checkout (used by contestant.html)
- *
- * Calls your Worker:
- *   POST https://green-tree-a555.workers.dev/api/create-checkout-session
- *
- * Worker should return:
- *   { url: "https://checkout.stripe.com/..." }
- *
- * Supports BOTH styles:
- * - pack-based: pack: 10 or 50
- * - price-based: priceId: "price_..."
  */
 export async function startPaidVoteCheckout({
   contestId,
@@ -58,43 +48,29 @@ export async function startPaidVoteCheckout({
 }){
   if(!contestId || !contestantId) throw new Error("Contest not ready yet.");
 
-  // Normalize return path
   const defaultReturnTo = location.origin + location.pathname + location.search;
 
-  // Stripe return URLs (what your worker should pass to Stripe)
-  const successUrl =
-    `${location.origin}/competitions/contestant.html?id=${encodeURIComponent(contestantId)}&paid=1`;
-  const cancelUrl =
-    `${location.origin}/competitions/contestant.html?id=${encodeURIComponent(contestantId)}`;
-
-  // Payload (match these keys in your Worker)
+  // ✅ Payload MUST match Worker keys
   const payload = {
-    contestId,
-    contestantId,
+    contest_id: contestId,
+    contestant_id: contestantId,
     pack: (pack === 10 || pack === 50) ? pack : undefined,
-    priceId: priceId || undefined,
-    returnTo: returnTo || defaultReturnTo, // optional (for your own use/logging)
-    successUrl,
-    cancelUrl,
+    return_to: returnTo || defaultReturnTo
   };
 
-  // Remove undefined keys (keeps payload clean)
+  // Remove undefined keys
   Object.keys(payload).forEach((k) => payload[k] === undefined && delete payload[k]);
 
-  // IMPORTANT:
-  // GitHub Pages cannot do "/api/..." locally — must call your Worker full URL.
   const url = `${WORKER_BASE}/api/create-checkout-session`;
 
-  // We can use fetchJson if it works, but it MUST accept absolute URLs.
-  // If your fetchJson only supports relative paths, we fall back to fetch().
   let res;
   try {
     res = await fetchJson(url, {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
   } catch (e) {
-    // Fallback (works even if fetchJson can’t handle absolute URLs)
     const r = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
