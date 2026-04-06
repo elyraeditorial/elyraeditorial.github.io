@@ -1,96 +1,88 @@
 import { supabase } from "./supabaseClient.js";
 
 /**
- * Use your custom domain / Worker route
+ * 🔥 STRIPE LINKS
  */
-const WORKER_BASE = "https://elyraeditorial.com";
+const STRIPE_LINKS = {
+  1: "https://buy.stripe.com/bJe00c8Pp2MF22ggZc4sE0f",
+  10: "https://buy.stripe.com/YOUR_10_LINK",
+  50: "https://buy.stripe.com/YOUR_50_LINK"
+};
 
 /**
- * Fetch latest vote totals for one contestant
- * Reads from your Supabase view: contestant_vote_totals
+ * 🚫 FREE VOTE REMOVED COMPLETELY
+ * 🚫 LOGIN REMOVED COMPLETELY
+ */
+
+/**
+ * Fetch vote totals
  */
 export async function fetchLatestContestantTotals(contestantId) {
   if (!contestantId) throw new Error("Contestant missing.");
 
   const { data, error } = await supabase
     .from("contestant_vote_totals")
-    .select("free_votes, paid_votes, total_votes")
+    .select("total_votes")
     .eq("contestant_id", contestantId)
     .maybeSingle();
 
   if (error) throw error;
 
-  return data || {
-    free_votes: 0,
-    paid_votes: 0,
-    total_votes: 0
-  };
+  return data || { total_votes: 0 };
 }
 
 /**
- * Start paid checkout for votes
- * Main vote is now $1
+ * 💰 Paid vote (Stripe redirect)
  */
-export async function startPaidVoteCheckout({
-  contestId,
-  contestantId,
-  pack = 1,
-  returnTo,
-}) {
-  if (!contestId || !contestantId) {
-    throw new Error("Contest not ready yet.");
-  }
-
+export function startPaidVote(pack = 1) {
   if (![1, 10, 50].includes(Number(pack))) {
-    throw new Error("Invalid pack.");
+    alert("Invalid vote option.");
+    return;
   }
 
-  const payload = {
-    contest_id: contestId,
-    contestant_id: contestantId,
-    pack: Number(pack),
-    return_to:
-      returnTo || (location.origin + location.pathname + location.search),
-  };
+  const url = STRIPE_LINKS[pack];
 
-  const url = `${WORKER_BASE}/api/create-checkout-session`;
-
-  const r = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  });
-
-  const text = await r.text();
-  let out = {};
-
-  try {
-    out = JSON.parse(text);
-  } catch {}
-
-  if (!r.ok) {
-    throw new Error(out?.error || text || "Checkout failed.");
+  if (!url) {
+    alert("Payment link not set.");
+    return;
   }
 
-  if (!out?.url) {
-    throw new Error("Checkout URL missing.");
-  }
-
-  location.href = out.url;
+  window.location.href = url;
 }
 
 /**
- * Convenience helper for $1 vote
+ * 🚀 MAIN BUTTON HANDLER
+ * This auto-connects buttons on page
  */
-export async function startOneDollarVote({
-  contestId,
-  contestantId,
-  returnTo,
-}) {
-  return await startPaidVoteCheckout({
-    contestId,
-    contestantId,
-    pack: 1,
-    returnTo,
-  });
+export function initVotingUI(contestantId) {
+  const voteBtn = document.getElementById("voteBtn");
+  const buy10Btn = document.getElementById("buy10Btn");
+  const buy50Btn = document.getElementById("buy50Btn");
+  const totalVotes = document.getElementById("totalVotes");
+
+  // 🔥 $1 MAIN VOTE
+  if (voteBtn) {
+    voteBtn.onclick = () => startPaidVote(1);
+  }
+
+  // 🔥 $10
+  if (buy10Btn) {
+    buy10Btn.onclick = () => startPaidVote(10);
+  }
+
+  // 🔥 $50
+  if (buy50Btn) {
+    buy50Btn.onclick = () => startPaidVote(50);
+  }
+
+  // 🔄 Load vote count
+  if (totalVotes && contestantId) {
+    fetchLatestContestantTotals(contestantId)
+      .then(res => {
+        totalVotes.textContent = `Total votes: ${res.total_votes}`;
+      })
+      .catch(() => {
+        totalVotes.textContent = "Total votes: —";
+      });
+  }
 }
