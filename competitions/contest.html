@@ -7,84 +7,181 @@
   <link rel="stylesheet" href="./assets/competitions.css"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    .cover-star-banner{
+    .hero-wrap{
+      padding-top: 18px;
+    }
+
+    .editorial-hero{
       position: relative;
-      margin: 20px 0 24px;
-      border-radius: 22px;
+      width: 100%;
+      min-height: clamp(440px, 72vw, 860px);
+      border-radius: 28px;
       overflow: hidden;
+      background: #0b0b0d;
       border: 1px solid rgba(255,255,255,.08);
-      background: #0d0d0f;
-      box-shadow: 0 20px 60px rgba(0,0,0,.28);
+      box-shadow:
+        0 30px 90px rgba(0,0,0,.38),
+        inset 0 1px 0 rgba(255,255,255,.05);
+      isolation: isolate;
     }
 
-    .cover-star-banner::after{
-      content:"";
-      position:absolute;
-      inset:0;
+    .editorial-hero img{
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      transform: scale(1.01);
+    }
+
+    .editorial-hero::before{
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
       background:
-        linear-gradient(to top, rgba(0,0,0,.58), rgba(0,0,0,.16) 45%, rgba(0,0,0,.06)),
-        linear-gradient(to right, rgba(0,0,0,.16), rgba(0,0,0,0) 35%, rgba(0,0,0,.08));
-      pointer-events:none;
+        radial-gradient(circle at 50% 18%, rgba(212,170,84,.22), transparent 30%),
+        linear-gradient(to bottom, rgba(0,0,0,.10), rgba(0,0,0,.18) 20%, rgba(0,0,0,.52) 72%, rgba(0,0,0,.78) 100%),
+        linear-gradient(to right, rgba(0,0,0,.50) 0%, rgba(0,0,0,.12) 36%, rgba(0,0,0,.14) 64%, rgba(0,0,0,.40) 100%);
+      pointer-events: none;
     }
 
-    .cover-star-banner img{
-      display:block;
-      width:100%;
-      height:min(58vw, 520px);
-      object-fit:cover;
-      object-position:center;
+    .editorial-hero::after{
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      box-shadow: inset 0 -120px 120px rgba(0,0,0,.32);
     }
 
-    .cover-star-copy{
-      position:absolute;
-      left:22px;
-      bottom:20px;
-      z-index:2;
-      max-width:70%;
+    .editorial-frame{
+      position: absolute;
+      inset: 16px;
+      z-index: 2;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 22px;
+      pointer-events: none;
     }
 
-    .cover-star-kicker{
-      display:inline-block;
-      margin-bottom:8px;
-      padding:7px 12px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.14);
-      background:rgba(255,255,255,.06);
-      color:rgba(255,255,255,.88);
-      font-size:12px;
-      letter-spacing:.14em;
-      text-transform:uppercase;
+    .editorial-copy{
+      position: absolute;
+      left: clamp(20px, 4vw, 44px);
+      right: clamp(20px, 4vw, 44px);
+      bottom: clamp(22px, 4vw, 40px);
+      z-index: 3;
+      max-width: 760px;
     }
 
-    .cover-star-title{
-      margin:0;
-      color:#fff;
-      font-family:'Playfair Display', serif;
-      font-size:clamp(28px, 4vw, 54px);
-      line-height:1.02;
-      letter-spacing:.02em;
+    .editorial-kicker{
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.07);
+      backdrop-filter: blur(8px);
+      color: rgba(255,255,255,.92);
+      font-size: 12px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
     }
 
-    .cover-star-sub{
-      margin:10px 0 0;
-      color:rgba(255,255,255,.84);
-      font-size:14px;
-      line-height:1.5;
-      max-width:560px;
+    .editorial-title{
+      margin: 0;
+      color: #fff;
+      font-family: "Playfair Display", serif;
+      font-weight: 600;
+      font-size: clamp(42px, 8vw, 104px);
+      line-height: .94;
+      letter-spacing: -.03em;
+      text-wrap: balance;
+      text-shadow: 0 8px 28px rgba(0,0,0,.34);
     }
 
-    @media (max-width: 720px){
-      .cover-star-copy{
-        max-width:84%;
-        left:16px;
-        bottom:16px;
+    .editorial-sub{
+      margin: 16px 0 0;
+      max-width: 620px;
+      color: rgba(255,255,255,.88);
+      font-size: clamp(15px, 2vw, 20px);
+      line-height: 1.55;
+      text-shadow: 0 4px 18px rgba(0,0,0,.28);
+    }
+
+    .title-block{
+      margin-top: 26px;
+      margin-bottom: 8px;
+    }
+
+    .title-block .h1{
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 900px){
+      .editorial-hero{
+        min-height: 640px;
       }
 
-      .cover-star-banner img{
-        height:420px;
+      .editorial-copy{
+        max-width: 92%;
+      }
+
+      .editorial-title{
+        font-size: clamp(36px, 10vw, 64px);
+        line-height: .98;
+      }
+
+      .editorial-sub{
+        font-size: 16px;
+        max-width: 92%;
+      }
+    }
+
+    @media (max-width: 640px){
+      .hero-wrap{
+        padding-top: 10px;
+      }
+
+      .editorial-hero{
+        min-height: 580px;
+        border-radius: 22px;
+      }
+
+      .editorial-frame{
+        inset: 12px;
+        border-radius: 16px;
+      }
+
+      .editorial-copy{
+        left: 18px;
+        right: 18px;
+        bottom: 18px;
+        max-width: none;
+      }
+
+      .editorial-kicker{
+        margin-bottom: 12px;
+        padding: 8px 12px;
+        font-size: 11px;
+        letter-spacing: .16em;
+      }
+
+      .editorial-title{
+        font-size: clamp(34px, 12vw, 54px);
+      }
+
+      .editorial-sub{
+        margin-top: 12px;
+        font-size: 15px;
+        line-height: 1.5;
+      }
+
+      .title-block{
+        margin-top: 18px;
       }
     }
   </style>
@@ -96,35 +193,34 @@
       <div class="navlinks">
         <a href="/competitions/">Competitions</a>
         <a href="/competitions/organizer/">Organizer</a>
-
         <a id="navLoginLink" href="/competitions/login.html">Login</a>
         <a id="navSignOutLink" href="#" style="display:none;">Sign out</a>
-
         <a href="/">Home</a>
         <span id="navWho" class="navwho"></span>
       </div>
     </div>
   </div>
 
-  <div class="container hero">
-    <h1 class="h1" id="title">Loading…</h1>
-    <p class="p" id="subtitle"></p>
-  </div>
-
-  <div class="container">
-    <div class="cover-star-banner">
+  <div class="container hero-wrap">
+    <section class="editorial-hero" aria-label="Elyra cover star feature">
       <img
         src="/BFC3FF11-2A93-4391-8F55-7BEF3646789C.png"
         alt="Elyra Cover Star 2026"
       />
-      <div class="cover-star-copy">
-        <div class="cover-star-kicker">Elyra Editorial</div>
-        <h2 class="cover-star-title">Next Cover Star</h2>
-        <p class="cover-star-sub">
-          Vote, support contestants, and follow the featured competition for Elyra’s next cover moment.
+      <div class="editorial-frame"></div>
+      <div class="editorial-copy">
+        <div class="editorial-kicker">Elyra Editorial</div>
+        <h2 class="editorial-title">Next<br>Cover Star</h2>
+        <p class="editorial-sub">
+          A luxury editorial competition where presence, beauty, and star power earn the next Elyra cover moment.
         </p>
       </div>
-    </div>
+    </section>
+  </div>
+
+  <div class="container hero title-block">
+    <h1 class="h1" id="title">Loading…</h1>
+    <p class="p" id="subtitle"></p>
   </div>
 
   <div class="container">
