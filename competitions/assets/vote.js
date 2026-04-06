@@ -37,7 +37,13 @@ export async function startPaidVoteCheckout({
     })
   });
 
-  const out = await res.json().catch(() => ({}));
+  const text = await res.text();
+  let out = {};
+  try {
+    out = text ? JSON.parse(text) : {};
+  } catch {
+    out = { error: text || "Checkout failed." };
+  }
 
   if (!res.ok) {
     throw new Error(out?.error || "Checkout failed.");
