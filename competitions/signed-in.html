@@ -14,7 +14,7 @@
         <a href="/competitions/">Competitions</a>
         <a href="/competitions/organizer/">Organizer</a>
 
-        <!-- start hidden so navAuth controls it (no flicker) -->
+        <!-- controlled by navAuth -->
         <a id="navLoginLink" href="/competitions/login.html" style="display:none;">Login</a>
         <a id="navSignOutLink" href="#" style="display:none;">Sign out</a>
 
@@ -26,7 +26,7 @@
 
   <div class="container hero">
     <h1 class="h1">Signed in ✅</h1>
-    <p class="p" id="who">Checking session…</p>
+    <p class="p" id="who">Finalizing session…</p>
 
     <div class="btnrow" style="margin-top:14px;">
       <a class="btn primary" id="continueBtn" href="/competitions/">Continue</a>
@@ -40,7 +40,7 @@
   </div>
 
   <script type="module">
-    import { getUser } from "./assets/auth.js";
+    import { supabase } from "./assets/supabaseClient.js";
     import { wireNavAuth } from "./assets/navAuth.js";
 
     function getParam(name){
@@ -66,20 +66,47 @@
     const next = safeNext(getParam("next"));
     continueBtn.href = next;
 
+    // 🔥 KEY FIX: wait for Supabase to fully restore session
+    async function waitForUser(maxTries = 12, delay = 300){
+      for(let i = 0; i < maxTries; i++){
+        const { data: { user }, error } = await supabase.auth.getUser();
+        if(error) console.warn(error);
+
+        if(user) return user;
+
+        await new Promise(r => setTimeout(r, delay));
+      }
+      return null;
+    }
+
     try{
-      const user = await getUser();
+      who.textContent = "Finalizing session…";
+
+      const user = await waitForUser();
+
       if(user?.email){
         who.textContent = `Signed in as: ${user.email}`;
-        // Optional auto-continue
-        setTimeout(() => location.replace(next), 1200);
+
+        // smooth redirect
+        setTimeout(() => location.replace(next), 900);
       }else{
-        throw new Error("No user.");
+        throw new Error("No active user session yet.");
       }
     }catch(err){
       console.error(err);
       who.textContent = "No active session. Please log in again.";
-      setTimeout(() => location.replace("/competitions/login.html"), 900);
+
+      setTimeout(() => {
+        location.replace(`/competitions/login.html?next=${encodeURIComponent(next)}`);
+      }, 1200);
     }
+
+    // 🔥 EXTRA: react to auth changes instantly
+    supabase.auth.onAuthStateChange((_event, session) => {
+      if(session?.user){
+        console.log("Auth updated:", session.user.email);
+      }
+    });
   </script>
 </body>
 </html>
