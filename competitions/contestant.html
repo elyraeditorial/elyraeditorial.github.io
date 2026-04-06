@@ -48,8 +48,8 @@
         <div class="hr"></div>
 
         <div class="payBox">
-          <div class="label">Want to support more?</div>
-          <div class="small">Paid votes are optional. You’ll return to Elyra after checkout.</div>
+          <div class="label">Choose your vote amount</div>
+          <div class="small">Each vote is paid. You’ll return to Elyra after checkout.</div>
           <div style="height:10px"></div>
 
           <div class="btnrow">
@@ -67,9 +67,9 @@
   </div>
 
   <script type="module">
-    import * as dataApi from "./assets/data.js";
-    import { startPaidVoteCheckout } from "./assets/vote.js?v=6";
-    import { getParam, setText, toast } from "./assets/ui.js";
+    import * as dataApi from "./assets/data.js?v=7";
+    import { startPaidVoteCheckout } from "./assets/vote.js?v=7";
+    import { getParam, setText, toast } from "./assets/ui.js?v=7";
 
     const id = getParam("id");
     const slug = getParam("slug");
@@ -107,15 +107,14 @@
 
         const t = await dataApi.fetchVoteTotalsForContestant(contestantId);
         const total = (t?.total_votes ?? t?.total ?? 0);
-        const free  = (t?.free_votes  ?? t?.free  ?? null);
         const paid  = (t?.paid_votes  ?? t?.paid  ?? null);
 
         setText(totalVotes, `Total votes: ${Number(total || 0).toLocaleString()}`);
 
-        if(free !== null || paid !== null){
+        if(paid !== null){
           setText(
             voteBreakdown,
-            `Breakdown: Free ${Number(free || 0).toLocaleString()} · Paid ${Number(paid || 0).toLocaleString()}`
+            `Paid votes: ${Number(paid || 0).toLocaleString()}`
           );
         } else {
           setText(voteBreakdown, "");
@@ -131,11 +130,11 @@
     let contestantId = null;
 
     if(getParam("paid") === "1"){
-      setText(msg, "Payment received ✅ Thank you for supporting Elyra.");
+      setText(msg, "Payment received. Thank you for supporting Elyra.");
     }
 
     try{
-      if(!id) throw new Error("Missing contestant id.");
+      if(!id) throw new Error("Missing contestant id in URL.");
 
       const contestant = await dataApi.fetchContestantById(id);
       if(!contestant) throw new Error("Contestant not found.");
@@ -167,7 +166,7 @@
       voteBtn.addEventListener("click", async () => {
         try{
           voteBtn.disabled = true;
-          setText(msg, "Redirecting to checkout…");
+          setText(msg, "Redirecting to checkout...");
 
           await startPaidVoteCheckout({
             contestId,
@@ -193,6 +192,7 @@
         }catch(err){
           console.error(err);
           toast(err?.message || "Checkout failed.");
+          setText(msg, err?.message || "Checkout failed.");
         }
       });
 
@@ -206,13 +206,15 @@
         }catch(err){
           console.error(err);
           toast(err?.message || "Checkout failed.");
+          setText(msg, err?.message || "Checkout failed.");
         }
       });
 
     }catch(err){
       console.error(err);
-      setText(name, "Error");
-      setText(bio, err?.message || "Unknown error");
+      setText(name, "Contestant unavailable");
+      setText(bio, err?.message || "This contestant could not be loaded.");
+      setText(msg, err?.message || "This contestant could not be loaded.");
       voteBtn.disabled = true;
       photoCard.style.display = "none";
       setText(totalVotes, "Total votes: —");
