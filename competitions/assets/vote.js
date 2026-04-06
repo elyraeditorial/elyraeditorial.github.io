@@ -1,12 +1,12 @@
 import { supabase } from "./supabaseClient.js";
 
 /**
- * Stripe payment links
+ * 💰 STRIPE PAYMENT LINKS (LIVE)
  */
 const STRIPE_LINKS = {
   1: "https://buy.stripe.com/bJe00c8Pp2MF22ggZc4sE0f",
-  10: "https://buy.stripe.com/YOUR_10_LINK",
-  50: "https://buy.stripe.com/YOUR_50_LINK"
+  10: "https://buy.stripe.com/9B6aEQd5F5YR9uI7oC4sE09",
+  50: "https://buy.stripe.com/28EbIU2r1fzr36k38m4sE0b"
 };
 
 /**
@@ -27,7 +27,7 @@ export async function fetchLatestContestantTotals(contestantId) {
 }
 
 /**
- * Simple paid redirect by amount
+ * 🔥 Redirect to Stripe
  */
 export function startPaidVote(pack = 1) {
   const amount = Number(pack);
@@ -38,7 +38,7 @@ export function startPaidVote(pack = 1) {
 
   const url = STRIPE_LINKS[amount];
 
-  if (!url || url.includes("YOUR_")) {
+  if (!url) {
     throw new Error(`Payment link not set for $${amount}.`);
   }
 
@@ -46,8 +46,7 @@ export function startPaidVote(pack = 1) {
 }
 
 /**
- * Compatibility function for contestant.html
- * Accepts the object payload your page is already sending
+ * ✅ Main function used by your page
  */
 export async function startPaidVoteCheckout({
   contestId,
@@ -61,54 +60,24 @@ export async function startPaidVoteCheckout({
 }
 
 /**
- * Optional helper if used elsewhere
+ * Optional UI initializer
  */
 export function initVotingUI(contestantId) {
   const voteBtn = document.getElementById("voteBtn");
-  const pay10Btn = document.getElementById("pay10") || document.getElementById("buy10Btn");
-  const pay50Btn = document.getElementById("pay50") || document.getElementById("buy50Btn");
+  const pay10Btn = document.getElementById("pay10");
+  const pay50Btn = document.getElementById("pay50");
   const totalVotes = document.getElementById("totalVotes");
 
   if (voteBtn) {
-    voteBtn.onclick = async () => {
-      try {
-        await startPaidVoteCheckout({
-          contestId: "direct",
-          contestantId: contestantId || "direct",
-          pack: 1
-        });
-      } catch (err) {
-        alert(err.message || "Checkout failed.");
-      }
-    };
+    voteBtn.onclick = () => startPaidVote(1);
   }
 
   if (pay10Btn) {
-    pay10Btn.onclick = async () => {
-      try {
-        await startPaidVoteCheckout({
-          contestId: "direct",
-          contestantId: contestantId || "direct",
-          pack: 10
-        });
-      } catch (err) {
-        alert(err.message || "Checkout failed.");
-      }
-    };
+    pay10Btn.onclick = () => startPaidVote(10);
   }
 
   if (pay50Btn) {
-    pay50Btn.onclick = async () => {
-      try {
-        await startPaidVoteCheckout({
-          contestId: "direct",
-          contestantId: contestantId || "direct",
-          pack: 50
-        });
-      } catch (err) {
-        alert(err.message || "Checkout failed.");
-      }
-    };
+    pay50Btn.onclick = () => startPaidVote(50);
   }
 
   if (totalVotes && contestantId) {
