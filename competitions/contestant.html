@@ -71,9 +71,9 @@
   </div>
 
   <script type="module">
-    import * as dataApi from "./assets/data.js?v=13";
-    import { startPaidVoteCheckout } from "./assets/vote.js?v=13";
-    import { getParam, setText, toast } from "./assets/ui.js?v=13";
+    import * as dataApi from "./assets/data.js?v=14";
+    import { startPaidVoteCheckout } from "./assets/vote.js?v=14";
+    import { getParam, setText, toast } from "./assets/ui.js?v=14";
 
     const id = getParam("id");
     const slug = getParam("slug");
@@ -99,35 +99,21 @@
 
     function safeImg(url) {
       if (!url) return null;
-
       const u = String(url).trim();
-
       if (u.startsWith("http://") || u.startsWith("https://")) return u;
       if (u.includes("github.io")) return "https://" + u;
       if (u.includes("elyraeditorial.com")) return "https://" + u;
-
       return null;
     }
 
     async function refreshTotals(contestantId) {
       try {
-        if (typeof dataApi.fetchVoteTotalsForContestant !== "function") {
-          setText(totalVotes, "Total votes: —");
-          setText(voteBreakdown, "");
-          return;
-        }
-
         const t = await dataApi.fetchVoteTotalsForContestant(contestantId);
-        const total = t?.total_votes ?? t?.total ?? 0;
-        const paid = t?.paid_votes ?? t?.paid ?? null;
+        const total = t?.total_votes ?? 0;
+        const paid = t?.paid_votes ?? 0;
 
-        setText(totalVotes, `Total votes: ${Number(total || 0).toLocaleString()}`);
-
-        if (paid !== null) {
-          setText(voteBreakdown, `Paid votes: ${Number(paid || 0).toLocaleString()}`);
-        } else {
-          setText(voteBreakdown, "");
-        }
+        setText(totalVotes, `Total votes: ${Number(total).toLocaleString()}`);
+        setText(voteBreakdown, `Paid votes: ${Number(paid).toLocaleString()}`);
       } catch (e) {
         console.error(e);
         setText(totalVotes, "Total votes: —");
@@ -173,7 +159,6 @@
       }
 
       voteBtn.disabled = false;
-
       await refreshTotals(contestantId);
 
       voteBtn.addEventListener("click", async () => {
