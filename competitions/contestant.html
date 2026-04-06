@@ -71,12 +71,13 @@
   </div>
 
   <script type="module">
-    import * as dataApi from "./assets/data.js?v=12";
-    import { startPaidVoteCheckout } from "./assets/vote.js?v=12";
-    import { getParam, setText, toast } from "./assets/ui.js?v=12";
+    import * as dataApi from "./assets/data.js?v=13";
+    import { startPaidVoteCheckout } from "./assets/vote.js?v=13";
+    import { getParam, setText, toast } from "./assets/ui.js?v=13";
 
     const id = getParam("id");
     const slug = getParam("slug");
+    const returnTo = location.origin + location.pathname + location.search;
 
     const name = document.getElementById("name");
     const bio = document.getElementById("bio");
@@ -183,7 +184,8 @@
           await startPaidVoteCheckout({
             contestId,
             contestantId,
-            pack: 1
+            pack: 1,
+            returnTo
           });
         } catch (err) {
           console.error(err);
@@ -199,7 +201,8 @@
           await startPaidVoteCheckout({
             contestId,
             contestantId,
-            pack: 10
+            pack: 10,
+            returnTo
           });
         } catch (err) {
           console.error(err);
@@ -214,7 +217,8 @@
           await startPaidVoteCheckout({
             contestId,
             contestantId,
-            pack: 50
+            pack: 50,
+            returnTo
           });
         } catch (err) {
           console.error(err);
