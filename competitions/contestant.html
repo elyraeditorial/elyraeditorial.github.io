@@ -45,7 +45,7 @@
         <div class="hr"></div>
 
         <div class="btnrow">
-          <button class="btn primary btn3d" id="voteBtn" type="button">Vote ($1)</button>
+          <button class="btn primary btn3d" id="voteBtn" type="button" disabled>Vote ($1)</button>
           <a class="btn" id="backBtn" href="/competitions/">Back</a>
         </div>
 
@@ -71,9 +71,9 @@
   </div>
 
   <script type="module">
-    import * as dataApi from "./assets/data.js?v=8";
-    import { startPaidVoteCheckout } from "./assets/vote.js?v=8";
-    import { getParam, setText, toast } from "./assets/ui.js?v=8";
+    import * as dataApi from "./assets/data.js?v=12";
+    import { startPaidVoteCheckout } from "./assets/vote.js?v=12";
+    import { getParam, setText, toast } from "./assets/ui.js?v=12";
 
     const id = getParam("id");
     const slug = getParam("slug");
@@ -102,7 +102,6 @@
       const u = String(url).trim();
 
       if (u.startsWith("http://") || u.startsWith("https://")) return u;
-
       if (u.includes("github.io")) return "https://" + u;
       if (u.includes("elyraeditorial.com")) return "https://" + u;
 
