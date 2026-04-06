@@ -8,6 +8,86 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+
+  <style>
+    .cover-star-banner{
+      position: relative;
+      margin: 20px 0 24px;
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.08);
+      background: #0d0d0f;
+      box-shadow: 0 20px 60px rgba(0,0,0,.28);
+    }
+
+    .cover-star-banner::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(to top, rgba(0,0,0,.58), rgba(0,0,0,.16) 45%, rgba(0,0,0,.06)),
+        linear-gradient(to right, rgba(0,0,0,.16), rgba(0,0,0,0) 35%, rgba(0,0,0,.08));
+      pointer-events:none;
+    }
+
+    .cover-star-banner img{
+      display:block;
+      width:100%;
+      height:min(58vw, 520px);
+      object-fit:cover;
+      object-position:center;
+    }
+
+    .cover-star-copy{
+      position:absolute;
+      left:22px;
+      bottom:20px;
+      z-index:2;
+      max-width:70%;
+    }
+
+    .cover-star-kicker{
+      display:inline-block;
+      margin-bottom:8px;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.06);
+      color:rgba(255,255,255,.88);
+      font-size:12px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+    }
+
+    .cover-star-title{
+      margin:0;
+      color:#fff;
+      font-family:'Playfair Display', serif;
+      font-size:clamp(28px, 4vw, 54px);
+      line-height:1.02;
+      letter-spacing:.02em;
+    }
+
+    .cover-star-sub{
+      margin:10px 0 0;
+      color:rgba(255,255,255,.84);
+      font-size:14px;
+      line-height:1.5;
+      max-width:560px;
+    }
+
+    @media (max-width: 720px){
+      .cover-star-copy{
+        max-width:84%;
+        left:16px;
+        bottom:16px;
+      }
+
+      .cover-star-banner img{
+        height:420px;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="topbar">
@@ -29,6 +109,22 @@
   <div class="container hero">
     <h1 class="h1" id="title">Loading…</h1>
     <p class="p" id="subtitle"></p>
+  </div>
+
+  <div class="container">
+    <div class="cover-star-banner">
+      <img
+        src="/BFC3FF11-2A93-4391-8F55-7BEF3646789C.png"
+        alt="Elyra Cover Star 2026"
+      />
+      <div class="cover-star-copy">
+        <div class="cover-star-kicker">Elyra Editorial</div>
+        <h2 class="cover-star-title">Next Cover Star</h2>
+        <p class="cover-star-sub">
+          Vote, support contestants, and follow the featured competition for Elyra’s next cover moment.
+        </p>
+      </div>
+    </div>
   </div>
 
   <div class="container">
@@ -66,16 +162,14 @@
       setText(title, contest.title || "Contest");
       setText(subtitle, contest.subtitle || "");
 
-      // ✅ Fetch contestants for this contest
       if(typeof dataApi.fetchContestantsByContestId !== "function"){
-        throw new Error("data.js missing fetchContestantsByContestId(). Paste the new data.js I provided.");
+        throw new Error("data.js missing fetchContestantsByContestId().");
       }
 
       const contestants = await dataApi.fetchContestantsByContestId(contest.id);
 
       setText(badge, contestants.length ? `${contestants.length} Contestant(s)` : "No contestants yet");
 
-      // ✅ Optional: show live vote totals per contestant if the view exists
       let totalsMap = {};
       if(typeof dataApi.fetchVoteTotalsForContest === "function"){
         const totalsRows = await dataApi.fetchVoteTotalsForContest(contest.id);
