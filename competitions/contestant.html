@@ -15,10 +15,7 @@
       <div class="brand">ELYRA</div>
       <div class="navlinks">
         <a href="/competitions/">Competitions</a>
-        <a id="navLoginLink" href="/competitions/login.html">Login</a>
-        <a id="navSignOutLink" href="#" style="display:none;">Sign out</a>
         <a href="/">Home</a>
-        <span id="navWho" class="navwho"></span>
       </div>
     </div>
   </div>
@@ -37,15 +34,14 @@
     <div class="grid">
       <div class="card span12">
         <div class="kpi">
-          <div class="box" id="voteNote">Free vote: 1 per person</div>
-          <div class="box" id="loginState">Checking login…</div>
+          <div class="box" id="voteNote">Vote: $1 each</div>
           <div class="box" id="totalVotes">Total votes: —</div>
         </div>
 
         <div class="hr"></div>
 
         <div class="btnrow">
-          <button class="btn primary btn3d" id="voteBtn" type="button">Vote (Free)</button>
+          <button class="btn primary btn3d" id="voteBtn" type="button">Vote ($1)</button>
           <a class="btn" id="backBtn" href="/competitions/">Back</a>
         </div>
 
@@ -72,12 +68,8 @@
 
   <script type="module">
     import * as dataApi from "./assets/data.js";
-    import { castFreeVote, startPaidVoteCheckout } from "./assets/vote.js?v=5";
-    import { supabase } from "./assets/supabaseClient.js";
+    import { startPaidVoteCheckout } from "./assets/vote.js?v=6";
     import { getParam, setText, toast } from "./assets/ui.js";
-    import { wireNavAuth } from "./assets/navAuth.js";
-
-    wireNavAuth();
 
     const id = getParam("id");
     const slug = getParam("slug");
@@ -86,7 +78,6 @@
     const bio = document.getElementById("bio");
     const msg = document.getElementById("msg");
     const voteBtn = document.getElementById("voteBtn");
-    const loginState = document.getElementById("loginState");
     const totalVotes = document.getElementById("totalVotes");
     const voteBreakdown = document.getElementById("voteBreakdown");
     const backBtn = document.getElementById("backBtn");
@@ -104,31 +95,6 @@
       const u = String(url).trim();
       if(u.startsWith("http://") || u.startsWith("https://")) return u;
       return null;
-    }
-
-    function currentPathWithQuery(){
-      return location.origin + location.pathname + location.search;
-    }
-
-    function goLoginReturnHere(){
-      const next = encodeURIComponent(location.pathname + location.search);
-      location.href = `/competitions/login.html?next=${next}`;
-    }
-
-    async function waitForUser(maxTries = 10, delay = 250){
-      for(let i = 0; i < maxTries; i++){
-        const { data: { user }, error } = await supabase.auth.getUser();
-        if(error) console.warn(error);
-        if(user) return user;
-        await new Promise(r => setTimeout(r, delay));
-      }
-      return null;
-    }
-
-    async function refreshLoginState(){
-      const user = await waitForUser(4, 200);
-      setText(loginState, user ? `Logged in ✅ ${user.email || ""}`.trim() : "Not logged in — free vote requires login");
-      return user;
     }
 
     async function refreshTotals(contestantId){
@@ -196,35 +162,23 @@
 
       voteBtn.disabled = false;
 
-      await refreshLoginState();
       await refreshTotals(contestantId);
 
       voteBtn.addEventListener("click", async () => {
         try{
-          const user = await waitForUser();
-          if(!user){
-            toast("Please log in to cast your free vote.");
-            goLoginReturnHere();
-            return;
-          }
-
           voteBtn.disabled = true;
-          setText(msg, "Submitting vote…");
+          setText(msg, "Redirecting to checkout…");
 
-          await castFreeVote(contestId, contestantId);
-
-          toast("Vote submitted ✅");
-          setText(msg, "Vote submitted. Thank you!");
-
-          await refreshLoginState();
-          await refreshTotals(contestantId);
+          await startPaidVoteCheckout({
+            contestId,
+            contestantId,
+            pack: 1
+          });
 
         }catch(err){
           console.error(err);
-          toast(err?.message || "Vote failed.");
-          setText(msg, err?.message || "Vote failed.");
-          await refreshLoginState();
-        }finally{
+          toast(err?.message || "Checkout failed.");
+          setText(msg, err?.message || "Checkout failed.");
           voteBtn.disabled = false;
         }
       });
@@ -234,8 +188,7 @@
           await startPaidVoteCheckout({
             contestId,
             contestantId,
-            pack: 10,
-            returnTo: currentPathWithQuery()
+            pack: 10
           });
         }catch(err){
           console.error(err);
@@ -248,20 +201,12 @@
           await startPaidVoteCheckout({
             contestId,
             contestantId,
-            pack: 50,
-            returnTo: currentPathWithQuery()
+            pack: 50
           });
         }catch(err){
           console.error(err);
           toast(err?.message || "Checkout failed.");
         }
-      });
-
-      supabase.auth.onAuthStateChange(async (_event, session) => {
-        setText(
-          loginState,
-          session?.user ? `Logged in ✅ ${session.user.email || ""}`.trim() : "Not logged in — free vote requires login"
-        );
       });
 
     }catch(err){
