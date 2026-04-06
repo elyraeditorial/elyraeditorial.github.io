@@ -162,7 +162,7 @@
 
       .editorial-hero{
         width: 100%;
-        max-width: 420px;
+        max-width: 380px;
         margin: 0 auto;
         min-height: auto;
         aspect-ratio: 4 / 5.2;
@@ -181,45 +181,56 @@
       .editorial-hero::before{
         background:
           linear-gradient(to bottom,
-            rgba(0,0,0,.06),
-            rgba(0,0,0,.12) 30%,
-            rgba(0,0,0,.38) 70%,
+            rgba(0,0,0,.04),
+            rgba(0,0,0,.10) 30%,
+            rgba(0,0,0,.35) 70%,
             rgba(0,0,0,.75) 100%);
       }
 
       .editorial-frame{
-        inset: 10px;
+        inset: 8px;
         border-radius: 14px;
       }
 
       .editorial-copy{
-        left: 16px;
-        right: 16px;
-        bottom: 16px;
+        left: 14px;
+        right: 14px;
+        bottom: 14px;
         max-width: none;
       }
 
       .editorial-kicker{
-        margin-bottom: 10px;
-        padding: 7px 11px;
+        margin-bottom: 8px;
+        padding: 6px 10px;
         font-size: 10px;
-        letter-spacing: .16em;
+        letter-spacing: .14em;
       }
 
       .editorial-title{
-        font-size: clamp(30px, 10vw, 46px);
+        font-size: clamp(26px, 9vw, 40px);
         line-height: .95;
+        letter-spacing: -.02em;
       }
 
       .editorial-sub{
-        margin-top: 10px;
-        font-size: 14px;
-        line-height: 1.45;
+        margin-top: 8px;
+        font-size: 13.5px;
+        line-height: 1.4;
         max-width: 100%;
       }
 
       .title-block{
         margin-top: 16px;
+      }
+
+      .title-block .h1{
+        padding-left: 8px;
+        padding-right: 8px;
+      }
+
+      .title-block .p{
+        padding-left: 8px;
+        padding-right: 8px;
       }
     }
   </style>
