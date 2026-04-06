@@ -25,8 +25,12 @@
     <p class="p" id="bio"></p>
 
     <div class="card" id="photoCard" style="display:none; padding:12px; margin-top:14px;">
-      <img id="photoImg" alt="Contestant photo"
-           style="width:100%; border-radius:14px; border:1px solid rgba(255,255,255,.10);" loading="lazy"/>
+      <img
+        id="photoImg"
+        alt="Contestant photo"
+        style="width:100%; border-radius:14px; border:1px solid rgba(255,255,255,.10);"
+        loading="lazy"
+      />
     </div>
   </div>
 
@@ -67,9 +71,9 @@
   </div>
 
   <script type="module">
-    import * as dataApi from "./assets/data.js?v=7";
-    import { startPaidVoteCheckout } from "./assets/vote.js?v=7";
-    import { getParam, setText, toast } from "./assets/ui.js?v=7";
+    import * as dataApi from "./assets/data.js?v=8";
+    import { startPaidVoteCheckout } from "./assets/vote.js?v=8";
+    import { getParam, setText, toast } from "./assets/ui.js?v=8";
 
     const id = getParam("id");
     const slug = getParam("slug");
@@ -86,40 +90,45 @@
     const pay50 = document.getElementById("pay50");
 
     const photoCard = document.getElementById("photoCard");
-    const photoImg  = document.getElementById("photoImg");
+    const photoImg = document.getElementById("photoImg");
 
-    if (slug) backBtn.href = `/competitions/contest.html?slug=${encodeURIComponent(slug)}`;
+    if (slug) {
+      backBtn.href = `/competitions/contest.html?slug=${encodeURIComponent(slug)}`;
+    }
 
-    function safeImg(url){
-      if(!url) return null;
+    function safeImg(url) {
+      if (!url) return null;
+
       const u = String(url).trim();
-      if(u.startsWith("http://") || u.startsWith("https://")) return u;
+
+      if (u.startsWith("http://") || u.startsWith("https://")) return u;
+
+      if (u.includes("github.io")) return "https://" + u;
+      if (u.includes("elyraeditorial.com")) return "https://" + u;
+
       return null;
     }
 
-    async function refreshTotals(contestantId){
-      try{
-        if(typeof dataApi.fetchVoteTotalsForContestant !== "function"){
+    async function refreshTotals(contestantId) {
+      try {
+        if (typeof dataApi.fetchVoteTotalsForContestant !== "function") {
           setText(totalVotes, "Total votes: —");
           setText(voteBreakdown, "");
           return;
         }
 
         const t = await dataApi.fetchVoteTotalsForContestant(contestantId);
-        const total = (t?.total_votes ?? t?.total ?? 0);
-        const paid  = (t?.paid_votes  ?? t?.paid  ?? null);
+        const total = t?.total_votes ?? t?.total ?? 0;
+        const paid = t?.paid_votes ?? t?.paid ?? null;
 
         setText(totalVotes, `Total votes: ${Number(total || 0).toLocaleString()}`);
 
-        if(paid !== null){
-          setText(
-            voteBreakdown,
-            `Paid votes: ${Number(paid || 0).toLocaleString()}`
-          );
+        if (paid !== null) {
+          setText(voteBreakdown, `Paid votes: ${Number(paid || 0).toLocaleString()}`);
         } else {
           setText(voteBreakdown, "");
         }
-      }catch(e){
+      } catch (e) {
         console.error(e);
         setText(totalVotes, "Total votes: —");
         setText(voteBreakdown, "");
@@ -129,15 +138,15 @@
     let contestId = null;
     let contestantId = null;
 
-    if(getParam("paid") === "1"){
+    if (getParam("paid") === "1") {
       setText(msg, "Payment received. Thank you for supporting Elyra.");
     }
 
-    try{
-      if(!id) throw new Error("Missing contestant id in URL.");
+    try {
+      if (!id) throw new Error("Missing contestant id in URL.");
 
       const contestant = await dataApi.fetchContestantById(id);
-      if(!contestant) throw new Error("Contestant not found.");
+      if (!contestant) throw new Error("Contestant not found.");
 
       contestantId = contestant.id;
 
@@ -145,18 +154,22 @@
       setText(bio, contestant.bio || "");
 
       const p = safeImg(contestant.photo_url);
-      if(p){
+      if (p) {
         photoImg.src = p;
         photoCard.style.display = "block";
-      }else{
+      } else {
         photoCard.style.display = "none";
       }
 
-      if(slug){
+      if (slug) {
         const contest = await dataApi.fetchContestBySlug(slug);
         contestId = contest?.id || contestant.contest_id;
-      }else{
+      } else {
         contestId = contestant.contest_id;
+      }
+
+      if (!contestId) {
+        throw new Error("Contest ID is missing for this contestant.");
       }
 
       voteBtn.disabled = false;
@@ -164,7 +177,7 @@
       await refreshTotals(contestantId);
 
       voteBtn.addEventListener("click", async () => {
-        try{
+        try {
           voteBtn.disabled = true;
           setText(msg, "Redirecting to checkout...");
 
@@ -173,8 +186,7 @@
             contestantId,
             pack: 1
           });
-
-        }catch(err){
+        } catch (err) {
           console.error(err);
           toast(err?.message || "Checkout failed.");
           setText(msg, err?.message || "Checkout failed.");
@@ -183,13 +195,14 @@
       });
 
       pay10.addEventListener("click", async () => {
-        try{
+        try {
+          setText(msg, "Redirecting to checkout...");
           await startPaidVoteCheckout({
             contestId,
             contestantId,
             pack: 10
           });
-        }catch(err){
+        } catch (err) {
           console.error(err);
           toast(err?.message || "Checkout failed.");
           setText(msg, err?.message || "Checkout failed.");
@@ -197,20 +210,21 @@
       });
 
       pay50.addEventListener("click", async () => {
-        try{
+        try {
+          setText(msg, "Redirecting to checkout...");
           await startPaidVoteCheckout({
             contestId,
             contestantId,
             pack: 50
           });
-        }catch(err){
+        } catch (err) {
           console.error(err);
           toast(err?.message || "Checkout failed.");
           setText(msg, err?.message || "Checkout failed.");
         }
       });
 
-    }catch(err){
+    } catch (err) {
       console.error(err);
       setText(name, "Contestant unavailable");
       setText(bio, err?.message || "This contestant could not be loaded.");
