@@ -57,7 +57,6 @@
           <div style="height:10px"></div>
 
           <div class="btnrow">
-            <!-- ✅ CHANGED: anchors -> buttons -->
             <button class="btn btn3d glow10" id="pay10" type="button">Buy Votes ($10)</button>
             <button class="btn btn3d glow50" id="pay50" type="button">Buy Votes ($50)</button>
           </div>
@@ -73,11 +72,8 @@
 
   <script type="module">
     import * as dataApi from "./assets/data.js";
-
-    // cache-bust vote.js if you want (optional)
-    import { castFreeVote, startPaidVoteCheckout } from "./assets/vote.js?v=4";
-
-    import { getSession } from "./assets/auth.js";
+    import { castFreeVote, startPaidVoteCheckout } from "./assets/vote.js?v=5";
+    import { supabase } from "./assets/supabaseClient.js";
     import { getParam, setText, toast } from "./assets/ui.js";
     import { wireNavAuth } from "./assets/navAuth.js";
 
@@ -117,6 +113,22 @@
     function goLoginReturnHere(){
       const next = encodeURIComponent(location.pathname + location.search);
       location.href = `/competitions/login.html?next=${next}`;
+    }
+
+    async function waitForUser(maxTries = 10, delay = 250){
+      for(let i = 0; i < maxTries; i++){
+        const { data: { user }, error } = await supabase.auth.getUser();
+        if(error) console.warn(error);
+        if(user) return user;
+        await new Promise(r => setTimeout(r, delay));
+      }
+      return null;
+    }
+
+    async function refreshLoginState(){
+      const user = await waitForUser(4, 200);
+      setText(loginState, user ? `Logged in ✅ ${user.email || ""}`.trim() : "Not logged in — free vote requires login");
+      return user;
     }
 
     async function refreshTotals(contestantId){
@@ -182,16 +194,15 @@
         contestId = contestant.contest_id;
       }
 
-      const session = await getSession();
-      setText(loginState, session ? "Logged in ✅" : "Not logged in — free vote requires login");
       voteBtn.disabled = false;
 
+      await refreshLoginState();
       await refreshTotals(contestantId);
 
       voteBtn.addEventListener("click", async () => {
         try{
-          const s = await getSession();
-          if(!s){
+          const user = await waitForUser();
+          if(!user){
             toast("Please log in to cast your free vote.");
             goLoginReturnHere();
             return;
@@ -199,21 +210,25 @@
 
           voteBtn.disabled = true;
           setText(msg, "Submitting vote…");
+
           await castFreeVote(contestId, contestantId);
+
           toast("Vote submitted ✅");
           setText(msg, "Vote submitted. Thank you!");
+
+          await refreshLoginState();
           await refreshTotals(contestantId);
 
         }catch(err){
           console.error(err);
           toast(err?.message || "Vote failed.");
           setText(msg, err?.message || "Vote failed.");
+          await refreshLoginState();
         }finally{
           voteBtn.disabled = false;
         }
       });
 
-      // ✅ Buttons: no preventDefault needed anymore
       pay10.addEventListener("click", async () => {
         try{
           await startPaidVoteCheckout({
@@ -240,6 +255,13 @@
           console.error(err);
           toast(err?.message || "Checkout failed.");
         }
+      });
+
+      supabase.auth.onAuthStateChange(async (_event, session) => {
+        setText(
+          loginState,
+          session?.user ? `Logged in ✅ ${session.user.email || ""}`.trim() : "Not logged in — free vote requires login"
+        );
       });
 
     }catch(err){
