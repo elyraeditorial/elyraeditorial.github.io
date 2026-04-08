@@ -297,11 +297,15 @@
   </div>
 
   <script type="module">
-    import * as dataApi from "./assets/data.js";
-    import { getParam, setText, setHTML } from "./assets/ui.js";
-    import { wireNavAuth } from "./assets/navAuth.js";
+    import * as dataApi from "./assets/data.js?v=16";
+    import { getParam, setText, setHTML } from "./assets/ui.js?v=16";
+    import { wireNavAuth } from "./assets/navAuth.js?v=16";
 
-    wireNavAuth();
+    try {
+      await wireNavAuth();
+    } catch (e) {
+      console.error("nav auth failed:", e);
+    }
 
     const slug = getParam("slug");
     const title = document.getElementById("title");
@@ -310,7 +314,7 @@
     const list = document.getElementById("list");
     const msg = document.getElementById("msg");
 
-    function money(n){ return Number(n||0).toLocaleString(); }
+    function money(n){ return Number(n || 0).toLocaleString(); }
 
     try{
       if(!slug) throw new Error("Missing contest slug.");
@@ -318,7 +322,7 @@
       const contest = await dataApi.fetchContestBySlug(slug);
       if(!contest) throw new Error("Contest not found.");
 
-      setText(title, contest.title || "Contest");
+      setText(title, contest.title || contest.name || "Contest");
       setText(subtitle, contest.subtitle || "");
 
       if(typeof dataApi.fetchContestantsByContestId !== "function"){
@@ -327,7 +331,10 @@
 
       const contestants = await dataApi.fetchContestantsByContestId(contest.id);
 
-      setText(badge, contestants.length ? `${contestants.length} Contestant(s)` : "No contestants yet");
+      setText(
+        badge,
+        contestants.length ? `${contestants.length} Contestant(s)` : "No contestants yet"
+      );
 
       let totalsMap = {};
       if(typeof dataApi.fetchVoteTotalsForContest === "function"){
@@ -339,14 +346,14 @@
 
       setHTML(list, contestants.map(c => {
         const t = totalsMap[c.id] || {};
-        const totalVotes = t.total_votes ?? t.total ?? null;
+        const totalVotes = t.total_votes ?? t.total ?? 0;
 
         return `
           <div class="item">
             <div>
               <h3>${c.display_name || "Contestant"}</h3>
               <p>${c.bio || ""}</p>
-              ${totalVotes !== null ? `<p class="small">Votes: ${money(totalVotes)}</p>` : ``}
+              <p class="small">Votes: ${money(totalVotes)}</p>
             </div>
             <div class="btnrow">
               <a class="btn primary"
