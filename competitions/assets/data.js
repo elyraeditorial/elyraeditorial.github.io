@@ -1,4 +1,4 @@
-import { supabase } from "./supabaseClient.js?v=16";
+import { supabase } from "./supabaseClient.js?v=17";
 
 /** Active contests list */
 export async function fetchActiveContests() {
