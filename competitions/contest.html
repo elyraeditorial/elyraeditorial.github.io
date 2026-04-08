@@ -125,6 +125,38 @@
       margin-bottom: 10px;
     }
 
+    .contest-info-grid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .contest-info-box{
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .contest-info-label{
+      font-size: 11px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      opacity: .72;
+      margin-bottom: 8px;
+    }
+
+    .contest-info-value{
+      font-size: 1rem;
+      line-height: 1.45;
+      color: rgba(255,255,255,.92);
+    }
+
+    .rules-note{
+      margin-top: 6px;
+    }
+
     @media (max-width: 1100px){
       .editorial-hero{
         min-height: 680px;
@@ -152,6 +184,10 @@
       .editorial-sub{
         font-size: 16px;
         max-width: 92%;
+      }
+
+      .contest-info-grid{
+        grid-template-columns: 1fr;
       }
     }
 
@@ -264,14 +300,14 @@
     <section class="editorial-hero" aria-label="Elyra cover star feature">
       <img
         src="/BFC3FF11-2A93-4391-8F55-7BEF3646789C.png"
-        alt="Elyra Cover Star 2026"
+        alt="Elyra May Cover Star"
       />
       <div class="editorial-frame"></div>
       <div class="editorial-copy">
         <div class="editorial-kicker">Elyra Editorial</div>
-        <h2 class="editorial-title">Next<br>Cover Star</h2>
+        <h2 class="editorial-title">May<br>Cover Star</h2>
         <p class="editorial-sub">
-          A luxury editorial competition where presence, beauty, and star power earn the next Elyra cover moment.
+          Voting is open now through May 31. Support your favorite contestant and help decide the next Elyra cover feature.
         </p>
       </div>
     </section>
@@ -284,6 +320,26 @@
 
   <div class="container">
     <div class="card">
+      <div class="contest-info-grid">
+        <div class="contest-info-box">
+          <div class="contest-info-label">Prize Pool</div>
+          <div class="contest-info-value">Minimum $500 prize pool — increases based on total votes.</div>
+        </div>
+        <div class="contest-info-box">
+          <div class="contest-info-label">Voting Deadline</div>
+          <div class="contest-info-value">Voting closes May 31 at 11:59 PM CST.</div>
+        </div>
+        <div class="contest-info-box">
+          <div class="contest-info-label">How It Works</div>
+          <div class="contest-info-value">$1 equals 1 vote. Highest total votes at the deadline wins.</div>
+        </div>
+      </div>
+
+      <p class="small rules-note">
+        All votes are final. Live totals are displayed publicly. ELYRA reserves the right to remove fraudulent activity or disqualify manipulation that compromises the integrity of the competition.
+      </p>
+
+      <div class="hr"></div>
       <div class="badge" id="badge">Loading contestants…</div>
       <div class="hr"></div>
       <div class="list" id="list"></div>
@@ -312,7 +368,10 @@
       if(!contest) throw new Error("Contest not found.");
 
       setText(title, contest.title || contest.name || "Contest");
-      setText(subtitle, contest.subtitle || "");
+      setText(
+        subtitle,
+        contest.subtitle || "Minimum $500 prize pool — increases based on total votes. Voting closes May 31 at 11:59 PM CST."
+      );
 
       const contestants = await dataApi.fetchContestantsByContestId(contest.id);
 
