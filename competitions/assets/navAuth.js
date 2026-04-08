@@ -1,5 +1,4 @@
-import { supabase } from "./supabaseClient.js";
-import { getSession, signOut } from "./auth.js";
+import { supabase } from "./supabaseClient.js?v=16";
 
 function $(id){ return document.getElementById(id); }
 
@@ -22,26 +21,25 @@ function render(session){
 
 export async function wireNavAuth(){
   const signoutLink = $("navSignOutLink");
-  if(!signoutLink) return;
 
-  // Initial paint
-  try{
-    const session = await getSession();
-    render(session);
-  }catch(e){
+  try {
+    const { data } = await supabase.auth.getSession();
+    render(data?.session || null);
+  } catch (e) {
     console.error(e);
     render(null);
   }
 
-  // ✅ Live updates (this is what you were missing)
   supabase.auth.onAuthStateChange((_event, session) => {
     render(session);
   });
 
-  signoutLink.addEventListener("click", async (e) => {
-    e.preventDefault();
-    try{ await signOut(); } catch(err){ console.error(err); }
-    render(null);
-    location.replace("/competitions/");
-  });
+  if(signoutLink){
+    signoutLink.addEventListener("click", async (e) => {
+      e.preventDefault();
+      try { await supabase.auth.signOut(); } catch(e){}
+      render(null);
+      location.replace("/competitions/");
+    });
+  }
 }
