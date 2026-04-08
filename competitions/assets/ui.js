@@ -1,57 +1,65 @@
-import { supabase } from "./supabaseClient.js";
-import { apiUrl } from "./ui.js";
+export function qs(sel, root=document){ return root.querySelector(sel); }
+export function qsa(sel, root=document){ return [...root.querySelectorAll(sel)]; }
 
-export async function fetchLatestContestantTotals(contestantId) {
-  if (!contestantId) throw new Error("Contestant missing.");
+export function setText(el, text){ if(el) el.textContent = text; }
+export function setHTML(el, html){ if(el) el.innerHTML = html; }
 
-  const { data, error } = await supabase
-    .from("contestant_vote_totals")
-    .select("total_votes, paid_votes")
-    .eq("contestant_id", contestantId)
-    .maybeSingle();
-
-  if (error) throw error;
-
-  return data || { total_votes: 0, paid_votes: 0 };
+export function toast(msg){
+  alert(msg);
 }
 
-export async function startPaidVoteCheckout({
-  contestId,
-  contestantId,
-  pack = 1,
-  returnTo
-} = {}) {
-  if (!contestId) throw new Error("Contest not ready yet.");
-  if (!contestantId) throw new Error("Contestant not ready yet.");
+export function getParam(name){
+  const u = new URL(location.href);
+  return u.searchParams.get(name);
+}
 
-  const res = await fetch(apiUrl("/api/create-checkout-session"), {
-    method: "POST",
+export function go(path){
+  location.href = path;
+}
+
+export function requireParam(name){
+  const v = getParam(name);
+  if(!v) throw new Error(`Missing URL parameter: ${name}`);
+  return v;
+}
+
+export function formatDate(iso){
+  if(!iso) return "";
+  const d = new Date(iso);
+  return d.toLocaleDateString();
+}
+
+export const API_BASE = "https://green-tree-a555.elyra-editorial-42f.workers.dev";
+
+export function apiUrl(path){
+  const p = String(path || "").trim();
+
+  if(p.startsWith("http://") || p.startsWith("https://")) return p;
+
+  const withSlash = p.startsWith("/") ? p : ("/" + p);
+  return `${API_BASE}${withSlash}`;
+}
+
+export async function fetchJson(path, options={}){
+  const res = await fetch(apiUrl(path), {
+    ...options,
     headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      contest_id: contestId,
-      contestant_id: contestantId,
-      pack: Number(pack),
-      return_to: returnTo || (location.origin + location.pathname + location.search)
-    })
+      "Content-Type": "application/json",
+      ...(options.headers || {})
+    }
   });
 
+  let body = null;
   const text = await res.text();
-  let out = {};
-  try {
-    out = text ? JSON.parse(text) : {};
-  } catch {
-    out = { error: text || "Checkout failed." };
+  try { body = text ? JSON.parse(text) : null; } catch { body = text; }
+
+  if(!res.ok){
+    const msg =
+      (body && typeof body === "object" && body.error) ? body.error :
+      (typeof body === "string" && body) ? body :
+      `Request failed (${res.status})`;
+    throw new Error(msg);
   }
 
-  if (!res.ok) {
-    throw new Error(out?.error || "Checkout failed.");
-  }
-
-  if (!out?.url) {
-    throw new Error("Checkout URL missing.");
-  }
-
-  location.href = out.url;
+  return body;
 }
