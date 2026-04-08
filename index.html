@@ -7,35 +7,47 @@
 
   <meta name="description" content="ELYRA is an independent fashion & culture publication exploring identity, presence, and creative expression through editorial storytelling." />
   <meta name="theme-color" content="#050505" />
+  <meta name="application-name" content="ELYRA" />
 
-  <link rel="icon" type="image/jpeg" href="https://elyraeditorial.github.io/IMG_8629.jpeg" />
-  <link rel="shortcut icon" href="https://elyraeditorial.github.io/IMG_8629.jpeg" />
-  <link rel="apple-touch-icon" href="https://elyraeditorial.github.io/IMG_8629.jpeg" />
+  <!-- Icons -->
+  <link rel="icon" type="image/jpeg" href="https://elyraeditorial.github.io/IMG_8629.jpeg?v=2" />
+  <link rel="shortcut icon" href="https://elyraeditorial.github.io/IMG_8629.jpeg?v=2" />
+  <link rel="apple-touch-icon" href="https://elyraeditorial.github.io/IMG_8629.jpeg?v=2" />
 
+  <!-- Open Graph -->
   <meta property="og:title" content="ELYRA" />
   <meta property="og:description" content="ELYRA is an independent fashion & culture publication exploring identity, presence, and creative expression through editorial storytelling." />
-  <meta property="og:image" content="https://elyraeditorial.github.io/IMG_8629.jpeg" />
-  <meta property="og:image:secure_url" content="https://elyraeditorial.github.io/IMG_8629.jpeg" />
+  <meta property="og:image" content="https://elyraeditorial.github.io/IMG_8629.jpeg?v=2" />
+  <meta property="og:image:url" content="https://elyraeditorial.github.io/IMG_8629.jpeg?v=2" />
+  <meta property="og:image:secure_url" content="https://elyraeditorial.github.io/IMG_8629.jpeg?v=2" />
   <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="1200" />
+  <meta property="og:image:alt" content="ELYRA Logo" />
   <meta property="og:url" content="https://elyraeditorial.github.io/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="ELYRA" />
 
+  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="ELYRA" />
   <meta name="twitter:description" content="ELYRA is an independent fashion & culture publication exploring identity, presence, and creative expression through editorial storytelling." />
-  <meta name="twitter:image" content="https://elyraeditorial.github.io/IMG_8629.jpeg" />
+  <meta name="twitter:image" content="https://elyraeditorial.github.io/IMG_8629.jpeg?v=2" />
+  <meta name="twitter:image:alt" content="ELYRA Logo" />
 
+  <!-- PWA / Mobile -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="ELYRA" />
   <meta name="mobile-web-app-capable" content="yes" />
 
   <link rel="manifest" href="manifest.json" />
 
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400&display=swap" rel="stylesheet">
 
+  <!-- Styles -->
   <link rel="stylesheet" href="styles.css" />
 </head>
 
@@ -62,8 +74,6 @@
 
   <main class="hero" role="main">
     <section class="card center" id="heroCard">
-      <!-- Premium badge line -->
-   
 
       <h1 class="h1" style="margin-top:10px">ELYRA</h1>
       <div class="hair"></div>
@@ -81,7 +91,6 @@
         <a class="btn" href="/competitions/">Competitions</a>
       </div>
 
-      <!-- Secondary CTA line (clean, magazine style) -->
       <p class="small" style="margin:18px auto 0; max-width:60ch">
         Curated editions. Limited noise. High presence.
         <span style="color:rgba(242,242,242,.55)">New features and cover stars announced inside Competitions.</span>
@@ -103,10 +112,8 @@
   </main>
 
   <script>
-    // Year stamp
     document.getElementById("yr").textContent = new Date().getFullYear();
 
-    // Subtle, premium tilt for desktop (won't affect mobile)
     (function(){
       const card = document.getElementById("heroCard");
       if(!card) return;
