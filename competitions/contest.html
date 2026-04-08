@@ -255,11 +255,7 @@
       <div class="brand">ELYRA</div>
       <div class="navlinks">
         <a href="/competitions/">Competitions</a>
-        <a href="/competitions/organizer/">Organizer</a>
-        <a id="navLoginLink" href="/competitions/login.html">Login</a>
-        <a id="navSignOutLink" href="#" style="display:none;">Sign out</a>
         <a href="/">Home</a>
-        <span id="navWho" class="navwho"></span>
       </div>
     </div>
   </div>
@@ -297,15 +293,8 @@
   </div>
 
   <script type="module">
-    import * as dataApi from "./assets/data.js?v=16";
-    import { getParam, setText, setHTML } from "./assets/ui.js?v=16";
-    import { wireNavAuth } from "./assets/navAuth.js?v=16";
-
-    try {
-      await wireNavAuth();
-    } catch (e) {
-      console.error("nav auth failed:", e);
-    }
+    import * as dataApi from "./assets/data.js?v=17";
+    import { getParam, setText, setHTML } from "./assets/ui.js?v=17";
 
     const slug = getParam("slug");
     const title = document.getElementById("title");
@@ -325,10 +314,6 @@
       setText(title, contest.title || contest.name || "Contest");
       setText(subtitle, contest.subtitle || "");
 
-      if(typeof dataApi.fetchContestantsByContestId !== "function"){
-        throw new Error("data.js missing fetchContestantsByContestId().");
-      }
-
       const contestants = await dataApi.fetchContestantsByContestId(contest.id);
 
       setText(
@@ -337,16 +322,14 @@
       );
 
       let totalsMap = {};
-      if(typeof dataApi.fetchVoteTotalsForContest === "function"){
-        const totalsRows = await dataApi.fetchVoteTotalsForContest(contest.id);
-        for(const r of (totalsRows || [])){
-          totalsMap[r.contestant_id] = r;
-        }
+      const totalsRows = await dataApi.fetchVoteTotalsForContest(contest.id);
+      for(const r of (totalsRows || [])){
+        totalsMap[r.contestant_id] = r;
       }
 
       setHTML(list, contestants.map(c => {
         const t = totalsMap[c.id] || {};
-        const totalVotes = t.total_votes ?? t.total ?? 0;
+        const totalVotes = t.total_votes ?? 0;
 
         return `
           <div class="item">
