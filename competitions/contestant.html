@@ -47,7 +47,7 @@
         <div class="hr"></div>
 
         <div class="btnrow">
-          <button class="btn primary btn3d" id="voteBtn" disabled>Vote ($1)</button>
+          <button class="btn primary btn3d" id="voteBtn" type="button" disabled>Vote ($1)</button>
           <a class="btn" id="backBtn" href="/competitions/">Back</a>
         </div>
 
@@ -60,8 +60,8 @@
           <div style="height:10px"></div>
 
           <div class="btnrow">
-            <button class="btn btn3d glow10" id="pay10">Buy Votes ($10)</button>
-            <button class="btn btn3d glow50" id="pay50">Buy Votes ($50)</button>
+            <button class="btn btn3d glow10" id="pay10" type="button">Buy Votes ($10)</button>
+            <button class="btn btn3d glow50" id="pay50" type="button">Buy Votes ($50)</button>
           </div>
 
           <p class="small" id="voteBreakdown" style="margin-top:10px;"></p>
@@ -75,13 +75,12 @@
   </div>
 
   <script type="module">
-    import * as dataApi from "./assets/data.js?v=15";
-    import { startPaidVoteCheckout } from "./assets/vote.js?v=15";
-    import { getParam, setText, toast } from "./assets/ui.js?v=15";
+    import * as dataApi from "./assets/data.js?v=16";
+    import { startPaidVoteCheckout } from "./assets/vote.js?v=16";
+    import { getParam, setText, toast } from "./assets/ui.js?v=16";
 
     const id = getParam("id");
     const slug = getParam("slug");
-
     const returnTo = location.origin + location.pathname + location.search;
 
     const name = document.getElementById("name");
@@ -106,6 +105,7 @@
       if (!url) return null;
       const u = String(url).trim();
       if (u.startsWith("http://") || u.startsWith("https://")) return u;
+      if (u.includes("github.io") || u.includes("elyraeditorial.com")) return "https://" + u;
       return null;
     }
 
@@ -143,6 +143,8 @@
       if (img) {
         photoImg.src = img;
         photoCard.style.display = "block";
+      } else {
+        photoCard.style.display = "none";
       }
 
       if (slug) {
@@ -162,9 +164,16 @@
         try {
           voteBtn.disabled = true;
           setText(msg, "Redirecting...");
-          await startPaidVoteCheckout({ contestId, contestantId, pack: 1, returnTo });
+          await startPaidVoteCheckout({
+            contestId,
+            contestantId,
+            pack: 1,
+            returnTo
+          });
         } catch (e) {
-          toast(e.message);
+          console.error(e);
+          toast(e.message || "Checkout failed.");
+          setText(msg, e.message || "Checkout failed.");
           voteBtn.disabled = false;
         }
       };
@@ -172,26 +181,44 @@
       pay10.onclick = async () => {
         try {
           setText(msg, "Redirecting...");
-          await startPaidVoteCheckout({ contestId, contestantId, pack: 10, returnTo });
+          await startPaidVoteCheckout({
+            contestId,
+            contestantId,
+            pack: 10,
+            returnTo
+          });
         } catch (e) {
-          toast(e.message);
+          console.error(e);
+          toast(e.message || "Checkout failed.");
+          setText(msg, e.message || "Checkout failed.");
         }
       };
 
       pay50.onclick = async () => {
         try {
           setText(msg, "Redirecting...");
-          await startPaidVoteCheckout({ contestId, contestantId, pack: 50, returnTo });
+          await startPaidVoteCheckout({
+            contestId,
+            contestantId,
+            pack: 50,
+            returnTo
+          });
         } catch (e) {
-          toast(e.message);
+          console.error(e);
+          toast(e.message || "Checkout failed.");
+          setText(msg, e.message || "Checkout failed.");
         }
       };
 
     } catch (err) {
       console.error(err);
       setText(name, "Contestant unavailable");
-      setText(bio, err.message);
-      setText(msg, err.message);
+      setText(bio, err.message || "This contestant could not be loaded.");
+      setText(msg, err.message || "This contestant could not be loaded.");
+      voteBtn.disabled = true;
+      photoCard.style.display = "none";
+      setText(totalVotes, "Total votes: —");
+      setText(voteBreakdown, "");
     }
   </script>
 
