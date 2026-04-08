@@ -8,6 +8,46 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+
+  <style>
+    .contest-meta{
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .contest-meta-box{
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .contest-meta-label{
+      font-size: 11px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      opacity: .72;
+      margin-bottom: 8px;
+    }
+
+    .contest-meta-value{
+      font-size: 1rem;
+      line-height: 1.45;
+      color: rgba(255,255,255,.92);
+    }
+
+    .contest-note{
+      margin-top: 14px;
+    }
+
+    @media (max-width: 900px){
+      .contest-meta{
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -38,6 +78,27 @@
   <div class="container">
     <div class="grid">
       <div class="card span12">
+
+        <div class="contest-meta">
+          <div class="contest-meta-box">
+            <div class="contest-meta-label">Prize Pool</div>
+            <div class="contest-meta-value">Minimum $500 prize pool — increases based on total votes.</div>
+          </div>
+          <div class="contest-meta-box">
+            <div class="contest-meta-label">Voting Deadline</div>
+            <div class="contest-meta-value">Voting closes May 31 at 11:59 PM CST.</div>
+          </div>
+          <div class="contest-meta-box">
+            <div class="contest-meta-label">How It Works</div>
+            <div class="contest-meta-value">$1 equals 1 vote. Highest total votes at the deadline wins.</div>
+          </div>
+        </div>
+
+        <p class="small contest-note">
+          All votes are final. Live totals are displayed publicly. ELYRA reserves the right to remove fraudulent activity or disqualify manipulation that compromises the integrity of the competition.
+        </p>
+
+        <div class="hr"></div>
 
         <div class="kpi">
           <div class="box">Vote: $1 each</div>
