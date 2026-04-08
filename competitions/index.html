@@ -8,6 +8,199 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+
+  <style>
+    .hero-wrap{
+      padding-top: 18px;
+    }
+
+    .editorial-hero{
+      position: relative;
+      width: 100%;
+      min-height: 720px;
+      border-radius: 30px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 12%, rgba(214,172,84,.18), transparent 26%),
+        linear-gradient(180deg, #17120f 0%, #090909 100%);
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow:
+        0 36px 120px rgba(0,0,0,.42),
+        inset 0 1px 0 rgba(255,255,255,.05);
+      isolation: isolate;
+    }
+
+    .editorial-hero img{
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 18%;
+      transform: scale(1.02);
+    }
+
+    .editorial-hero::before{
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background:
+        radial-gradient(circle at 50% 12%, rgba(255,235,195,.10), transparent 22%),
+        linear-gradient(to bottom, rgba(0,0,0,.06), rgba(0,0,0,.14) 24%, rgba(0,0,0,.44) 66%, rgba(0,0,0,.78) 100%),
+        linear-gradient(to right, rgba(0,0,0,.42) 0%, rgba(0,0,0,.08) 28%, rgba(0,0,0,.08) 72%, rgba(0,0,0,.36) 100%);
+      pointer-events: none;
+    }
+
+    .editorial-hero::after{
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      box-shadow:
+        inset 0 -120px 120px rgba(0,0,0,.28),
+        inset 0 0 90px rgba(0,0,0,.12);
+    }
+
+    .editorial-frame{
+      position: absolute;
+      inset: 18px;
+      z-index: 2;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 24px;
+      pointer-events: none;
+    }
+
+    .editorial-copy{
+      position: absolute;
+      left: clamp(28px, 4vw, 48px);
+      right: clamp(28px, 4vw, 48px);
+      bottom: clamp(28px, 4vw, 46px);
+      z-index: 3;
+      max-width: 760px;
+    }
+
+    .editorial-kicker{
+      display: inline-block;
+      margin-bottom: 16px;
+      padding: 10px 15px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.07);
+      backdrop-filter: blur(10px);
+      color: rgba(255,255,255,.94);
+      font-size: 12px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    .editorial-title{
+      margin: 0;
+      color: #fff;
+      font-family: "Playfair Display", serif;
+      font-weight: 700;
+      font-size: clamp(56px, 7.2vw, 110px);
+      line-height: .9;
+      letter-spacing: -.045em;
+      text-wrap: balance;
+      text-shadow: 0 10px 30px rgba(0,0,0,.34);
+    }
+
+    .editorial-sub{
+      margin: 18px 0 0;
+      max-width: 620px;
+      color: rgba(255,255,255,.90);
+      font-size: clamp(16px, 1.8vw, 21px);
+      line-height: 1.55;
+      text-shadow: 0 4px 18px rgba(0,0,0,.28);
+    }
+
+    .title-block{
+      margin-top: 24px;
+      margin-bottom: 8px;
+    }
+
+    @media (max-width: 900px){
+      .editorial-hero{
+        min-height: 620px;
+      }
+
+      .editorial-copy{
+        max-width: 92%;
+      }
+
+      .editorial-title{
+        font-size: clamp(42px, 9vw, 70px);
+        line-height: .95;
+      }
+
+      .editorial-sub{
+        font-size: 16px;
+        max-width: 92%;
+      }
+    }
+
+    @media (max-width: 640px){
+      .hero-wrap{
+        padding-top: 10px;
+      }
+
+      .editorial-hero{
+        min-height: unset;
+        height: auto;
+        border-radius: 22px;
+      }
+
+      .editorial-hero img{
+        position: relative;
+        display: block;
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        object-position: center top;
+        transform: none;
+        inset: auto;
+      }
+
+      .editorial-frame{
+        inset: 8px;
+        border-radius: 16px;
+      }
+
+      .editorial-copy{
+        left: 14px;
+        right: 14px;
+        bottom: 14px;
+        max-width: none;
+      }
+
+      .editorial-kicker{
+        margin-bottom: 8px;
+        padding: 6px 10px;
+        font-size: 10px;
+        letter-spacing: .14em;
+      }
+
+      .editorial-title{
+        font-size: clamp(24px, 8.2vw, 36px);
+        line-height: .96;
+        letter-spacing: -.02em;
+      }
+
+      .editorial-sub{
+        margin-top: 8px;
+        font-size: 13px;
+        line-height: 1.38;
+        max-width: 100%;
+      }
+
+      .title-block{
+        margin-top: 10px;
+        margin-bottom: 8px;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="topbar">
@@ -15,26 +208,29 @@
       <div class="brand">ELYRA</div>
       <div class="navlinks">
         <a href="/competitions/">Competitions</a>
-        <a href="/competitions/organizer/">Organizer</a>
-
-        <!-- Login becomes Sign out automatically -->
-        <a id="navLoginLink" href="/competitions/login.html">Login</a>
-        <a id="navSignOutLink" href="#" style="display:none;">Sign out</a>
-
         <a href="/">Home</a>
-
-        <!-- shows email when signed in -->
-        <span id="navWho" class="navwho"></span>
       </div>
     </div>
   </div>
 
-  <div class="container hero">
-    <h1 class="h1">Competitions</h1>
-    <p class="p">Vote, support contestants, and follow Elyra Editorial contests.</p>
+  <div class="container hero-wrap">
+    <section class="editorial-hero" aria-label="Elyra competitions feature">
+      <img
+        src="https://elyraeditorial.github.io/54A14304-1FA1-44A7-944D-1998757DB555.png"
+        alt="Elyra Editorial Competitions"
+      />
+      <div class="editorial-frame"></div>
+      <div class="editorial-copy">
+        <div class="editorial-kicker">Elyra Editorial</div>
+        <h1 class="editorial-title">Competitions</h1>
+        <p class="editorial-sub">
+          Vote, support contestants, and follow Elyra Editorial competitions.
+        </p>
+      </div>
+    </section>
   </div>
 
-  <div class="container">
+  <div class="container title-block">
     <div class="card">
       <div class="badge" id="statusBadge">Loading…</div>
       <div class="hr"></div>
@@ -42,7 +238,6 @@
     </div>
   </div>
 
-  <!-- ✅ Non-module fallback: if modules fail to load, you won't be stuck forever -->
   <script>
     setTimeout(() => {
       const badge = document.getElementById("statusBadge");
@@ -52,9 +247,8 @@
         if (list) {
           list.innerHTML = `
             <p class="small">
-              If this stays stuck, it usually means a JS module failed to load (data.js/supabaseClient.js).
-              Open Safari → Share → “Add to Home Screen” isn’t needed — just try a hard refresh,
-              or check Console in desktop devtools.
+              If this stays stuck, a JS module likely failed to load.
+              Refresh the page after deploying updated files.
             </p>
           `;
         }
@@ -63,17 +257,12 @@
   </script>
 
   <script type="module">
-    import { wireNavAuth } from "./assets/navAuth.js";
-    import { fetchActiveContests } from "./assets/data.js";
-    import { setText, setHTML } from "./assets/ui.js";
+    import { fetchActiveContests } from "./assets/data.js?v=16";
+    import { setText, setHTML } from "./assets/ui.js?v=16";
 
     const badge = document.getElementById("statusBadge");
     const list  = document.getElementById("contestList");
 
-    // ✅ nav login/signout + email
-    wireNavAuth();
-
-    // ✅ helper: timeout so it never hangs forever
     function withTimeout(promise, ms = 8000){
       return Promise.race([
         promise,
@@ -107,9 +296,9 @@
 
       if(!count){
         setHTML(list, `<p class="small">No contests are active right now.</p>`);
-      }else{
+      } else {
         setHTML(list, contests.map(c => {
-          const title = esc(c.title || "Untitled Contest");
+          const title = esc(c.title || c.name || "Untitled Contest");
           const subtitle = esc(c.subtitle || "");
           const start = fmtDate(c.start_at);
           const end = fmtDate(c.end_at);
@@ -130,7 +319,7 @@
         }).join(""));
       }
 
-    }catch(err){
+    } catch(err){
       console.error("Competitions load failed:", err);
       setText(badge, "Error loading contests");
       setHTML(list, `
@@ -138,8 +327,8 @@
           ${esc(err?.message || "Unknown error")}
           <br><br>
           Most common causes:
-          <br>• data.js missing fetchActiveContests()
-          <br>• supabaseClient.js path wrong
+          <br>• data.js import cache
+          <br>• supabaseClient.js import cache
           <br>• RLS blocks reading contests table
         </p>
       `);
