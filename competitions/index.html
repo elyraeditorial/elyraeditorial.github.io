@@ -116,6 +116,38 @@
       text-shadow: 0 4px 18px rgba(0,0,0,.28);
     }
 
+    .announcement-card{
+      margin-top: 24px;
+    }
+
+    .announcement-grid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .announcement-box{
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .announcement-label{
+      font-size: 11px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      opacity: .72;
+      margin-bottom: 8px;
+    }
+
+    .announcement-value{
+      font-size: 1rem;
+      line-height: 1.45;
+      color: rgba(255,255,255,.92);
+    }
+
     .title-block{
       margin-top: 24px;
       margin-bottom: 8px;
@@ -138,6 +170,10 @@
       .editorial-sub{
         font-size: 16px;
         max-width: 92%;
+      }
+
+      .announcement-grid{
+        grid-template-columns: 1fr;
       }
     }
 
@@ -222,12 +258,31 @@
       <div class="editorial-frame"></div>
       <div class="editorial-copy">
         <div class="editorial-kicker">Elyra Editorial</div>
-        <h1 class="editorial-title">Competitions</h1>
+        <h1 class="editorial-title">May<br>Cover Star</h1>
         <p class="editorial-sub">
-          Vote, support contestants, and follow Elyra Editorial competitions.
+          Voting is open now through May 31. Support contestants, follow the leaderboard, and help decide the next Elyra cover feature.
         </p>
       </div>
     </section>
+  </div>
+
+  <div class="container announcement-card">
+    <div class="card">
+      <div class="announcement-grid">
+        <div class="announcement-box">
+          <div class="announcement-label">Prize Pool</div>
+          <div class="announcement-value">Minimum $500 prize pool — increases based on total votes.</div>
+        </div>
+        <div class="announcement-box">
+          <div class="announcement-label">Voting Window</div>
+          <div class="announcement-value">Now open. Voting closes May 31 at 11:59 PM CST.</div>
+        </div>
+        <div class="announcement-box">
+          <div class="announcement-label">How Voting Works</div>
+          <div class="announcement-value">$1 equals 1 vote. Highest total votes at the deadline wins.</div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="container title-block">
@@ -299,7 +354,7 @@
       } else {
         setHTML(list, contests.map(c => {
           const title = esc(c.title || c.name || "Untitled Contest");
-          const subtitle = esc(c.subtitle || "");
+          const subtitle = esc(c.subtitle || "Minimum $500 prize pool — increases based on total votes.");
           const start = fmtDate(c.start_at);
           const end = fmtDate(c.end_at);
           const dates = [start ? `Starts: ${start}` : "", end ? `Ends: ${end}` : ""].filter(Boolean).join(" • ");
