@@ -1,5 +1,5 @@
-import { supabase } from "./supabaseClient.js?v=17";
-import { apiUrl } from "./ui.js?v=17";
+import { supabase } from "./supabaseClient.js?v=18";
+import { apiUrl } from "./ui.js?v=18";
 
 export async function fetchLatestContestantTotals(contestantId) {
   if (!contestantId) throw new Error("Contestant missing.");
