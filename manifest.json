@@ -7,9 +7,16 @@
   "theme_color": "#050505",
   "icons": [
     {
-      "src": "https://elyraeditorial.github.io/IMG_8629.jpeg",
+      "src": "https://elyraeditorial.github.io/IMG_8629.jpeg?v=3",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "https://elyraeditorial.github.io/IMG_8629.jpeg?v=3",
       "sizes": "512x512",
-      "type": "image/jpeg"
+      "type": "image/jpeg",
+      "purpose": "any"
     }
   ]
 }
