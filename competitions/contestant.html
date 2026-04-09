@@ -124,8 +124,6 @@
             <button class="btn btn3d glow10" id="pay10" type="button">Buy Votes ($10)</button>
             <button class="btn btn3d glow50" id="pay50" type="button">Buy Votes ($50)</button>
           </div>
-
-          <p class="small" id="voteBreakdown" style="margin-top:10px;"></p>
         </div>
 
         <div class="hr"></div>
@@ -149,7 +147,6 @@
     const msg = document.getElementById("msg");
     const voteBtn = document.getElementById("voteBtn");
     const totalVotes = document.getElementById("totalVotes");
-    const voteBreakdown = document.getElementById("voteBreakdown");
     const backBtn = document.getElementById("backBtn");
 
     const pay10 = document.getElementById("pay10");
@@ -174,11 +171,9 @@
       try {
         const t = await dataApi.fetchVoteTotalsForContestant(contestantId);
         setText(totalVotes, `Total votes: ${Number(t?.total_votes || 0).toLocaleString()}`);
-        setText(voteBreakdown, `Paid votes: ${Number(t?.paid_votes || 0).toLocaleString()}`);
       } catch (e) {
         console.error(e);
         setText(totalVotes, "Total votes: —");
-        setText(voteBreakdown, "");
       }
     }
 
@@ -213,6 +208,10 @@
         contestId = contest?.id || contestant.contest_id;
       } else {
         contestId = contestant.contest_id;
+      }
+
+      if (!contestId) {
+        contestId = contestant.contest_id || null;
       }
 
       if (!contestId) throw new Error("Contest missing.");
@@ -279,7 +278,6 @@
       voteBtn.disabled = true;
       photoCard.style.display = "none";
       setText(totalVotes, "Total votes: —");
-      setText(voteBreakdown, "");
     }
   </script>
 
