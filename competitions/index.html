@@ -116,9 +116,62 @@
       text-shadow: 0 4px 18px rgba(0,0,0,.28);
     }
 
+    .editorial-actions{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 22px;
+      position: relative;
+      z-index: 3;
+    }
+
+    .editorial-apply-btn{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.10);
+      color: #fff;
+      text-decoration: none;
+      font-size: 13px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(0,0,0,.24);
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+    }
+
+    .editorial-apply-btn:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.14);
+      border-color: rgba(255,255,255,.24);
+    }
+
+    .editorial-apply-btn.secondary{
+      background: rgba(0,0,0,.28);
+    }
+
     .title-block{
       margin-top: 24px;
       margin-bottom: 8px;
+    }
+
+    .apply-card{
+      margin-bottom: 16px;
+    }
+
+    .apply-card .small{
+      line-height: 1.65;
+    }
+
+    .apply-card .btnrow{
+      margin-top: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
     @media (max-width: 900px){
@@ -195,6 +248,18 @@
         max-width: 100%;
       }
 
+      .editorial-actions{
+        margin-top: 14px;
+        gap: 8px;
+      }
+
+      .editorial-apply-btn{
+        min-height: 42px;
+        padding: 0 14px;
+        font-size: 11px;
+        letter-spacing: .12em;
+      }
+
       .title-block{
         margin-top: 10px;
         margin-bottom: 8px;
@@ -226,11 +291,42 @@
         <p class="editorial-sub">
           Voting is open now through May 31. Support contestants, follow the leaderboard, and help decide the next Elyra cover feature.
         </p>
+
+        <div class="editorial-actions">
+          <a
+            class="editorial-apply-btn"
+            href="https://docs.google.com/forms/d/e/1FAIpQLSdlE4XzYtoZj1_IIxh8KgipG0XQ5zhoJ0NXEIGqeNrNX5YkPw/viewform"
+            target="_blank"
+            rel="noopener noreferrer"
+          >Apply Now</a>
+
+          <a
+            class="editorial-apply-btn secondary"
+            href="#contest-entry"
+          >Contest Details</a>
+        </div>
       </div>
     </section>
   </div>
 
-  <div class="container title-block">
+  <div class="container title-block" id="contest-entry">
+    <div class="card apply-card">
+      <div class="badge">Contest Entry</div>
+      <div class="hr"></div>
+      <p class="small">
+        Want to be featured in Elyra? Submit your application to be considered for current and upcoming competitions.
+        Selected entrants may be included in editorial features, public voting, and promotional campaign visibility.
+      </p>
+      <div class="btnrow">
+        <a
+          class="btn primary"
+          href="https://docs.google.com/forms/d/e/1FAIpQLSdlE4XzYtoZj1_IIxh8KgipG0XQ5zhoJ0NXEIGqeNrNX5YkPw/viewform"
+          target="_blank"
+          rel="noopener noreferrer"
+        >Start Application</a>
+      </div>
+    </div>
+
     <div class="card">
       <div class="badge" id="statusBadge">Loading…</div>
       <div class="hr"></div>
