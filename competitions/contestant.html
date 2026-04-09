@@ -4,12 +4,6 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Elyra — Contestant</title>
-
-  <!-- FORCE REFRESH -->
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
-  <meta http-equiv="Pragma" content="no-cache"/>
-  <meta http-equiv="Expires" content="0"/>
-
   <link rel="stylesheet" href="./assets/competitions.css?v=19"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -127,8 +121,8 @@
           <div style="height:10px"></div>
 
           <div class="btnrow">
-            <button class="btn btn3d glow10" id="pay10" type="button">Buy Votes ($10)</button>
-            <button class="btn btn3d glow50" id="pay50" type="button">Buy Votes ($50)</button>
+            <button class="btn btn3d glow10" id="pay10" type="button" disabled>Buy Votes ($10)</button>
+            <button class="btn btn3d glow50" id="pay50" type="button" disabled>Buy Votes ($50)</button>
           </div>
         </div>
 
@@ -173,9 +167,28 @@
       return null;
     }
 
+    function withTimeout(promise, ms = 7000) {
+      return Promise.race([
+        promise,
+        new Promise((_, reject) => setTimeout(() => reject(new Error("Request timed out.")), ms))
+      ]);
+    }
+
+    function disableVoting() {
+      voteBtn.disabled = true;
+      pay10.disabled = true;
+      pay50.disabled = true;
+    }
+
+    function enableVoting() {
+      voteBtn.disabled = false;
+      pay10.disabled = false;
+      pay50.disabled = false;
+    }
+
     async function refreshTotals(contestantId) {
       try {
-        const t = await dataApi.fetchVoteTotalsForContestant(contestantId);
+        const t = await withTimeout(dataApi.fetchVoteTotalsForContestant(contestantId), 5000);
         setText(totalVotes, `Total votes: ${Number(t?.total_votes || 0).toLocaleString()}`);
       } catch (e) {
         console.warn("Totals fallback:", e);
@@ -185,17 +198,28 @@
 
     let contestId = null;
     let contestantId = null;
+    let loaded = false;
+
+    const loadingGuard = setTimeout(() => {
+      if (!loaded) {
+        setText(name, "Contestant unavailable");
+        setText(bio, "Please refresh or return to the contest page.");
+        setText(msg, "This contestant is taking too long to load.");
+        setText(totalVotes, "Total votes: 0");
+        photoCard.style.display = "none";
+        disableVoting();
+      }
+    }, 8000);
+
+    if (getParam("paid") === "1") {
+      setText(msg, "Payment received. Thank you for supporting Elyra.");
+    }
 
     try {
       if (!id) throw new Error("Missing contestant id.");
 
-      const contestant = await dataApi.fetchContestantById(id);
-
-      if (!contestant) {
-        setText(name, "Contestant unavailable");
-        setText(bio, "This contestant could not be loaded.");
-        return;
-      }
+      const contestant = await withTimeout(dataApi.fetchContestantById(id), 7000);
+      if (!contestant) throw new Error("Contestant not found.");
 
       contestantId = contestant.id;
 
@@ -206,35 +230,88 @@
       if (img) {
         photoImg.src = img;
         photoCard.style.display = "block";
+      } else {
+        photoCard.style.display = "none";
       }
 
-      contestId = contestant.contest_id;
+      if (slug) {
+        try {
+          const contest = await withTimeout(dataApi.fetchContestBySlug(slug), 5000);
+          contestId = contest?.id || contestant.contest_id;
+        } catch {
+          contestId = contestant.contest_id;
+        }
+      } else {
+        contestId = contestant.contest_id;
+      }
 
-      voteBtn.disabled = false;
+      if (!contestId) throw new Error("Contest missing.");
 
+      enableVoting();
       await refreshTotals(contestantId);
 
       voteBtn.onclick = async () => {
         try {
+          voteBtn.disabled = true;
           setText(msg, "Redirecting...");
-          await startPaidVoteCheckout({ contestId, contestantId, pack: 1, returnTo });
+          await startPaidVoteCheckout({
+            contestId,
+            contestantId,
+            pack: 1,
+            returnTo
+          });
         } catch (e) {
-          toast("Checkout failed.");
+          console.error(e);
+          toast(e.message || "Checkout failed.");
+          setText(msg, e.message || "Checkout failed.");
+          enableVoting();
         }
       };
 
       pay10.onclick = async () => {
-        await startPaidVoteCheckout({ contestId, contestantId, pack: 10, returnTo });
+        try {
+          setText(msg, "Redirecting...");
+          await startPaidVoteCheckout({
+            contestId,
+            contestantId,
+            pack: 10,
+            returnTo
+          });
+        } catch (e) {
+          console.error(e);
+          toast(e.message || "Checkout failed.");
+          setText(msg, e.message || "Checkout failed.");
+        }
       };
 
       pay50.onclick = async () => {
-        await startPaidVoteCheckout({ contestId, contestantId, pack: 50, returnTo });
+        try {
+          setText(msg, "Redirecting...");
+          await startPaidVoteCheckout({
+            contestId,
+            contestantId,
+            pack: 50,
+            returnTo
+          });
+        } catch (e) {
+          console.error(e);
+          toast(e.message || "Checkout failed.");
+          setText(msg, e.message || "Checkout failed.");
+        }
       };
 
+      loaded = true;
+      clearTimeout(loadingGuard);
+
     } catch (err) {
-      console.warn("Safe load fallback:", err);
+      console.error(err);
+      loaded = true;
+      clearTimeout(loadingGuard);
       setText(name, "Contestant unavailable");
-      setText(bio, "Please try again.");
+      setText(bio, err.message || "This contestant could not be loaded.");
+      setText(msg, err.message || "This contestant could not be loaded.");
+      disableVoting();
+      photoCard.style.display = "none";
       setText(totalVotes, "Total votes: 0");
     }
   </script>
