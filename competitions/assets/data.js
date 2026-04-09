@@ -1,16 +1,5 @@
 import { supabase } from "./supabaseClient.js?v=18";
 
-const QUERY_TIMEOUT_MS = 6500;
-
-function withTimeout(promise, ms = QUERY_TIMEOUT_MS) {
-  return Promise.race([
-    promise,
-    new Promise((_, reject) =>
-      setTimeout(() => reject(new Error("Supabase request timed out.")), ms)
-    )
-  ]);
-}
-
 function isActiveContest(c, now = Date.now()) {
   if (!c) return false;
 
@@ -34,20 +23,17 @@ function isActiveContest(c, now = Date.now()) {
 /** Active contests list */
 export async function fetchActiveContests() {
   try {
-    const query = supabase
+    const { data, error } = await supabase
       .from("contests")
       .select("*")
       .order("created_at", { ascending: false });
-
-    const { data, error } = await withTimeout(query);
 
     if (error) {
       console.warn("fetchActiveContests error:", error);
       return [];
     }
 
-    const rows = (data || []).filter(c => !!c?.slug && isActiveContest(c));
-    return rows;
+    return (data || []).filter(c => !!c?.slug && isActiveContest(c));
   } catch (err) {
     console.warn("fetchActiveContests fallback:", err);
     return [];
@@ -59,13 +45,11 @@ export async function fetchContestBySlug(slug) {
   if (!slug) return null;
 
   try {
-    const query = supabase
+    const { data, error } = await supabase
       .from("contests")
       .select("*")
       .eq("slug", slug)
       .maybeSingle();
-
-    const { data, error } = await withTimeout(query);
 
     if (error) {
       console.warn("fetchContestBySlug error:", error);
@@ -84,13 +68,11 @@ export async function fetchContestantById(id) {
   if (!id) return null;
 
   try {
-    const query = supabase
+    const { data, error } = await supabase
       .from("contestants")
       .select("*")
       .eq("id", id)
       .maybeSingle();
-
-    const { data, error } = await withTimeout(query);
 
     if (error) {
       console.warn("fetchContestantById error:", error);
@@ -109,13 +91,11 @@ export async function fetchContestantsByContestId(contestId) {
   if (!contestId) return [];
 
   try {
-    const query = supabase
+    const { data, error } = await supabase
       .from("contestants")
       .select("*")
       .eq("contest_id", contestId)
       .order("created_at", { ascending: true });
-
-    const { data, error } = await withTimeout(query);
 
     if (error) {
       console.warn("fetchContestantsByContestId error:", error);
@@ -136,13 +116,11 @@ export async function fetchVoteTotalsForContestant(contestantId) {
   if (!contestantId) return { total_votes: 0 };
 
   try {
-    const query = supabase
+    const { data, error } = await supabase
       .from("contestant_vote_totals")
       .select("total_votes")
       .eq("contestant_id", contestantId)
       .maybeSingle();
-
-    const { data, error } = await withTimeout(query);
 
     if (error) {
       console.warn("fetchVoteTotalsForContestant error:", error);
@@ -161,12 +139,10 @@ export async function fetchVoteTotalsForContest(contestId) {
   if (!contestId) return [];
 
   try {
-    const query = supabase
+    const { data, error } = await supabase
       .from("contestant_vote_totals")
       .select("contest_id, contestant_id, total_votes")
       .eq("contest_id", contestId);
-
-    const { data, error } = await withTimeout(query);
 
     if (error) {
       console.warn("fetchVoteTotalsForContest error:", error);
