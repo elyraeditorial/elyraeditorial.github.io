@@ -1,91 +1,185 @@
 import { supabase } from "./supabaseClient.js?v=18";
 
+const QUERY_TIMEOUT_MS = 6500;
+
+function withTimeout(promise, ms = QUERY_TIMEOUT_MS) {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("Supabase request timed out.")), ms)
+    )
+  ]);
+}
+
+function isActiveContest(c, now = Date.now()) {
+  if (!c) return false;
+
+  if (typeof c.status === "string" && c.status.length) {
+    const s = c.status.toLowerCase().trim();
+    if (["active", "open", "live"].includes(s)) return true;
+    if (["closed", "ended", "draft", "inactive"].includes(s)) return false;
+  }
+
+  if (typeof c.is_active === "boolean") return c.is_active;
+
+  const startTime = c.start_at ? new Date(c.start_at).getTime() : null;
+  const endTime = c.end_at ? new Date(c.end_at).getTime() : null;
+
+  const startOk = !startTime || !Number.isFinite(startTime) || startTime <= now;
+  const endOk = !endTime || !Number.isFinite(endTime) || endTime >= now;
+
+  return startOk && endOk;
+}
+
 /** Active contests list */
 export async function fetchActiveContests() {
-  const { data, error } = await supabase
-    .from("contests")
-    .select("*")
-    .order("created_at", { ascending: false });
+  try {
+    const query = supabase
+      .from("contests")
+      .select("*")
+      .order("created_at", { ascending: false });
 
-  if (error) throw error;
+    const { data, error } = await withTimeout(query);
 
-  const now = Date.now();
-
-  const rows = (data || []).filter(c => {
-    if (typeof c.status === "string" && c.status.length) {
-      const s = c.status.toLowerCase();
-      if (["active", "open", "live"].includes(s)) return true;
-      if (["closed", "ended", "draft"].includes(s)) return false;
+    if (error) {
+      console.warn("fetchActiveContests error:", error);
+      return [];
     }
 
-    if (typeof c.is_active === "boolean") return c.is_active;
-
-    const startOk = !c.start_at || (new Date(c.start_at).getTime() <= now);
-    const endOk = !c.end_at || (new Date(c.end_at).getTime() >= now);
-    return startOk && endOk;
-  });
-
-  return rows.filter(c => !!c.slug);
+    const rows = (data || []).filter(c => !!c?.slug && isActiveContest(c));
+    return rows;
+  } catch (err) {
+    console.warn("fetchActiveContests fallback:", err);
+    return [];
+  }
 }
 
 /** Contest by slug */
 export async function fetchContestBySlug(slug) {
-  const { data, error } = await supabase
-    .from("contests")
-    .select("*")
-    .eq("slug", slug)
-    .maybeSingle();
+  if (!slug) return null;
 
-  if (error) throw error;
-  return data;
+  try {
+    const query = supabase
+      .from("contests")
+      .select("*")
+      .eq("slug", slug)
+      .maybeSingle();
+
+    const { data, error } = await withTimeout(query);
+
+    if (error) {
+      console.warn("fetchContestBySlug error:", error);
+      return null;
+    }
+
+    return data || null;
+  } catch (err) {
+    console.warn("fetchContestBySlug fallback:", err);
+    return null;
+  }
 }
 
 /** Contestant by id */
 export async function fetchContestantById(id) {
-  const { data, error } = await supabase
-    .from("contestants")
-    .select("*")
-    .eq("id", id)
-    .maybeSingle();
+  if (!id) return null;
 
-  if (error) throw error;
-  return data;
+  try {
+    const query = supabase
+      .from("contestants")
+      .select("*")
+      .eq("id", id)
+      .maybeSingle();
+
+    const { data, error } = await withTimeout(query);
+
+    if (error) {
+      console.warn("fetchContestantById error:", error);
+      return null;
+    }
+
+    return data || null;
+  } catch (err) {
+    console.warn("fetchContestantById fallback:", err);
+    return null;
+  }
 }
 
 /** Contestants for a contest */
 export async function fetchContestantsByContestId(contestId) {
-  const { data, error } = await supabase
-    .from("contestants")
-    .select("*")
-    .eq("contest_id", contestId)
-    .order("created_at", { ascending: true });
+  if (!contestId) return [];
 
-  if (error) throw error;
+  try {
+    const query = supabase
+      .from("contestants")
+      .select("*")
+      .eq("contest_id", contestId)
+      .order("created_at", { ascending: true });
 
-  return (data || []).filter(r =>
-    typeof r.is_published === "boolean" ? r.is_published : true
-  );
+    const { data, error } = await withTimeout(query);
+
+    if (error) {
+      console.warn("fetchContestantsByContestId error:", error);
+      return [];
+    }
+
+    return (data || []).filter(r =>
+      typeof r.is_published === "boolean" ? r.is_published : true
+    );
+  } catch (err) {
+    console.warn("fetchContestantsByContestId fallback:", err);
+    return [];
+  }
 }
 
-/** Live totals for a contestant */
+/** Live total for one contestant */
 export async function fetchVoteTotalsForContestant(contestantId) {
-  const { data, error } = await supabase
-    .from("contestant_vote_totals")
-    .select("free_votes, paid_votes, total_votes")
-    .eq("contestant_id", contestantId)
-    .maybeSingle();
+  if (!contestantId) return { total_votes: 0 };
 
-  if (error) throw error;
-  return data || { free_votes: 0, paid_votes: 0, total_votes: 0 };
+  try {
+    const query = supabase
+      .from("contestant_vote_totals")
+      .select("total_votes")
+      .eq("contestant_id", contestantId)
+      .maybeSingle();
+
+    const { data, error } = await withTimeout(query);
+
+    if (error) {
+      console.warn("fetchVoteTotalsForContestant error:", error);
+      return { total_votes: 0 };
+    }
+
+    return { total_votes: Number(data?.total_votes || 0) };
+  } catch (err) {
+    console.warn("fetchVoteTotalsForContestant fallback:", err);
+    return { total_votes: 0 };
+  }
 }
 
 /** Totals for all contestants in a contest */
 export async function fetchVoteTotalsForContest(contestId) {
-  const { data, error } = await supabase
-    .from("contestant_vote_totals")
-    .select("contest_id, contestant_id, free_votes, paid_votes, total_votes")
-    .eq("contest_id", contestId);
+  if (!contestId) return [];
 
-  if (error) throw error;
-  return data || [];
+  try {
+    const query = supabase
+      .from("contestant_vote_totals")
+      .select("contest_id, contestant_id, total_votes")
+      .eq("contest_id", contestId);
+
+    const { data, error } = await withTimeout(query);
+
+    if (error) {
+      console.warn("fetchVoteTotalsForContest error:", error);
+      return [];
+    }
+
+    return (data || []).map(row => ({
+      contest_id: row.contest_id,
+      contestant_id: row.contestant_id,
+      total_votes: Number(row.total_votes || 0)
+    }));
+  } catch (err) {
+    console.warn("fetchVoteTotalsForContest fallback:", err);
+    return [];
+  }
 }
