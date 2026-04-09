@@ -4,7 +4,13 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Elyra — Contestant</title>
-  <link rel="stylesheet" href="./assets/competitions.css"/>
+
+  <!-- FORCE REFRESH -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+  <meta http-equiv="Pragma" content="no-cache"/>
+  <meta http-equiv="Expires" content="0"/>
+
+  <link rel="stylesheet" href="./assets/competitions.css?v=19"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
@@ -134,9 +140,9 @@
   </div>
 
   <script type="module">
-    import * as dataApi from "./assets/data.js?v=18";
-    import { startPaidVoteCheckout } from "./assets/vote.js?v=18";
-    import { getParam, setText, toast } from "./assets/ui.js?v=18";
+    import * as dataApi from "./assets/data.js?v=19";
+    import { startPaidVoteCheckout } from "./assets/vote.js?v=19";
+    import { getParam, setText, toast } from "./assets/ui.js?v=19";
 
     const id = getParam("id");
     const slug = getParam("slug");
@@ -172,23 +178,24 @@
         const t = await dataApi.fetchVoteTotalsForContestant(contestantId);
         setText(totalVotes, `Total votes: ${Number(t?.total_votes || 0).toLocaleString()}`);
       } catch (e) {
-        console.error(e);
-        setText(totalVotes, "Total votes: —");
+        console.warn("Totals fallback:", e);
+        setText(totalVotes, "Total votes: 0");
       }
     }
 
     let contestId = null;
     let contestantId = null;
 
-    if (getParam("paid") === "1") {
-      setText(msg, "Payment received. Thank you for supporting Elyra.");
-    }
-
     try {
       if (!id) throw new Error("Missing contestant id.");
 
       const contestant = await dataApi.fetchContestantById(id);
-      if (!contestant) throw new Error("Contestant not found.");
+
+      if (!contestant) {
+        setText(name, "Contestant unavailable");
+        setText(bio, "This contestant could not be loaded.");
+        return;
+      }
 
       contestantId = contestant.id;
 
@@ -199,22 +206,9 @@
       if (img) {
         photoImg.src = img;
         photoCard.style.display = "block";
-      } else {
-        photoCard.style.display = "none";
       }
 
-      if (slug) {
-        const contest = await dataApi.fetchContestBySlug(slug);
-        contestId = contest?.id || contestant.contest_id;
-      } else {
-        contestId = contestant.contest_id;
-      }
-
-      if (!contestId) {
-        contestId = contestant.contest_id || null;
-      }
-
-      if (!contestId) throw new Error("Contest missing.");
+      contestId = contestant.contest_id;
 
       voteBtn.disabled = false;
 
@@ -222,62 +216,26 @@
 
       voteBtn.onclick = async () => {
         try {
-          voteBtn.disabled = true;
           setText(msg, "Redirecting...");
-          await startPaidVoteCheckout({
-            contestId,
-            contestantId,
-            pack: 1,
-            returnTo
-          });
+          await startPaidVoteCheckout({ contestId, contestantId, pack: 1, returnTo });
         } catch (e) {
-          console.error(e);
-          toast(e.message || "Checkout failed.");
-          setText(msg, e.message || "Checkout failed.");
-          voteBtn.disabled = false;
+          toast("Checkout failed.");
         }
       };
 
       pay10.onclick = async () => {
-        try {
-          setText(msg, "Redirecting...");
-          await startPaidVoteCheckout({
-            contestId,
-            contestantId,
-            pack: 10,
-            returnTo
-          });
-        } catch (e) {
-          console.error(e);
-          toast(e.message || "Checkout failed.");
-          setText(msg, e.message || "Checkout failed.");
-        }
+        await startPaidVoteCheckout({ contestId, contestantId, pack: 10, returnTo });
       };
 
       pay50.onclick = async () => {
-        try {
-          setText(msg, "Redirecting...");
-          await startPaidVoteCheckout({
-            contestId,
-            contestantId,
-            pack: 50,
-            returnTo
-          });
-        } catch (e) {
-          console.error(e);
-          toast(e.message || "Checkout failed.");
-          setText(msg, e.message || "Checkout failed.");
-        }
+        await startPaidVoteCheckout({ contestId, contestantId, pack: 50, returnTo });
       };
 
     } catch (err) {
-      console.error(err);
+      console.warn("Safe load fallback:", err);
       setText(name, "Contestant unavailable");
-      setText(bio, err.message || "This contestant could not be loaded.");
-      setText(msg, err.message || "This contestant could not be loaded.");
-      voteBtn.disabled = true;
-      photoCard.style.display = "none";
-      setText(totalVotes, "Total votes: —");
+      setText(bio, "Please try again.");
+      setText(totalVotes, "Total votes: 0");
     }
   </script>
 
