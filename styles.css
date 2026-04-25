@@ -333,7 +333,9 @@ img { display: block; max-width: 100%; }
 .kicker::before, .kicker::after { display: none; content: none; }
 
 /* ================================================================
-   ELYRA WORDMARK
+   ELYRA WORDMARK — SOLID GOLD, ALWAYS VISIBLE
+   Fixed: removed background-clip trick that caused
+   invisible text on Safari and mobile browsers
    ================================================================ */
 .h1 {
   font-family: 'Cormorant SC', 'Cormorant Garamond', serif;
@@ -342,20 +344,19 @@ img { display: block; max-width: 100%; }
   letter-spacing: .38em;
   line-height: .94;
   text-transform: uppercase;
-  text-shadow:
-    0 2px 6px rgba(0,0,0,.52),
-    0 28px 100px rgba(0,0,0,.72);
   margin-bottom: 6px;
-  background: linear-gradient(135deg,
-    var(--text)  0%,
-    var(--gold2) 46%,
-    var(--text)  100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  background-size: 200% 100%;
-  animation: titleSheen 9s var(--ease) infinite;
+
+  /* Solid gold — works on every browser, every device */
+  color: #e2cc96;
+  -webkit-text-fill-color: #e2cc96;
+  background: none;
+
+  /* Depth through shadow instead of gradient clip */
+  text-shadow:
+    0 0  40px rgba(200,169,106,.55),
+    0 0  80px rgba(200,169,106,.25),
+    0 4px 14px rgba(0,0,0,.60),
+    0 24px 90px rgba(0,0,0,.72);
 }
 
 .hair {
@@ -520,7 +521,6 @@ img { display: block; max-width: 100%; }
   mix-blend-mode: screen;
 }
 
-/* Vote glow variants */
 .glow10 {
   border-color: rgba(140,255,200,.32);
   background: rgba(140,255,200,.08);
@@ -533,7 +533,6 @@ img { display: block; max-width: 100%; }
 }
 .glow50:hover { background: rgba(255,210,100,.16); }
 
-/* Pay buttons */
 .btn.pay {
   border: 1px solid rgba(255,255,255,.18);
   background: linear-gradient(180deg,
@@ -790,7 +789,7 @@ img { display: block; max-width: 100%; }
 }
 
 /* ================================================================
-   LIST / ITEM — Competitions entries
+   LIST / ITEM
    ================================================================ */
 .list { display: flex; flex-direction: column; gap: 14px; }
 
@@ -864,7 +863,6 @@ img { display: block; max-width: 100%; }
   min-height: 100vh;
 }
 
-/* Issues hero layout */
 .issues-hero {
   display: grid;
   grid-template-columns: 1.12fr .88fr;
@@ -902,7 +900,6 @@ img { display: block; max-width: 100%; }
 }
 .issues-sub .muted { color: var(--faint); margin-left: 5px; }
 
-/* Mini stats */
 .mini-stats { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
 
 .stat {
@@ -946,7 +943,6 @@ img { display: block; max-width: 100%; }
   letter-spacing: .06em;
 }
 
-/* Cover stage */
 .cover-stage {
   position: relative;
   max-width: 420px;
@@ -1025,7 +1021,6 @@ img { display: block; max-width: 100%; }
   opacity: .85;
 }
 
-/* Issues grid */
 .issues-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -1052,7 +1047,6 @@ img { display: block; max-width: 100%; }
     transform     .22s var(--ease),
     box-shadow    .22s var(--ease);
 }
-
 .issue-panel .issue-num {
   position: absolute;
   right: 14px; top: 12px;
@@ -1066,7 +1060,6 @@ img { display: block; max-width: 100%; }
   pointer-events: none;
   user-select: none;
 }
-
 .issue-panel::before {
   content: '';
   position: absolute;
@@ -1110,7 +1103,7 @@ img { display: block; max-width: 100%; }
 }
 
 /* ================================================================
-   COMPETITIONS — Editorial hero
+   COMPETITIONS
    ================================================================ */
 .editorial-hero {
   position: relative;
@@ -1125,7 +1118,6 @@ img { display: block; max-width: 100%; }
   box-shadow: var(--sh-lg), inset 0 1px 0 rgba(200,169,106,.08);
   isolation: isolate;
 }
-
 .editorial-hero img {
   position: absolute;
   inset: 0;
@@ -1135,7 +1127,6 @@ img { display: block; max-width: 100%; }
   object-position: center 18%;
   transform: scale(1.02);
 }
-
 .editorial-hero::before {
   content: '';
   position: absolute;
@@ -1155,7 +1146,6 @@ img { display: block; max-width: 100%; }
       rgba(0,0,0,.36) 100%);
   pointer-events: none;
 }
-
 .editorial-hero::after {
   content: '';
   position: absolute;
@@ -1166,7 +1156,6 @@ img { display: block; max-width: 100%; }
     inset 0 -120px 120px rgba(0,0,0,.28),
     inset 0 0 90px rgba(0,0,0,.12);
 }
-
 .editorial-frame {
   position: absolute;
   inset: 18px;
@@ -1175,7 +1164,6 @@ img { display: block; max-width: 100%; }
   border-radius: calc(var(--rLg) - 6px);
   pointer-events: none;
 }
-
 .editorial-copy {
   position: absolute;
   left: clamp(28px, 4vw, 48px);
@@ -1184,7 +1172,6 @@ img { display: block; max-width: 100%; }
   z-index: 3;
   max-width: 760px;
 }
-
 .editorial-kicker {
   display: inline-block;
   margin-bottom: 16px;
@@ -1199,7 +1186,6 @@ img { display: block; max-width: 100%; }
   letter-spacing: .28em;
   text-transform: uppercase;
 }
-
 .editorial-title {
   margin: 0;
   color: var(--text);
@@ -1210,7 +1196,6 @@ img { display: block; max-width: 100%; }
   letter-spacing: .06em;
   text-shadow: 0 10px 40px rgba(0,0,0,.40);
 }
-
 .editorial-sub {
   margin: 18px 0 0;
   max-width: 580px;
@@ -1220,7 +1205,6 @@ img { display: block; max-width: 100%; }
   font-weight: 300;
   line-height: 1.62;
 }
-
 .editorial-actions {
   display: flex;
   flex-wrap: wrap;
@@ -1229,7 +1213,6 @@ img { display: block; max-width: 100%; }
   position: relative;
   z-index: 3;
 }
-
 .editorial-apply-btn {
   display: inline-flex;
   align-items: center;
@@ -1264,11 +1247,7 @@ img { display: block; max-width: 100%; }
   color: var(--muted);
 }
 
-/* ================================================================
-   COMPETITIONS — Why Compete section
-   ================================================================ */
 .why-compete { margin-top: 28px; }
-
 .why-inner {
   border: 1px solid rgba(200,169,106,.18);
   border-top-color: rgba(200,169,106,.34);
@@ -1282,7 +1261,6 @@ img { display: block; max-width: 100%; }
   position: relative;
   overflow: hidden;
 }
-
 .why-inner::before {
   content: '';
   position: absolute;
@@ -1292,7 +1270,6 @@ img { display: block; max-width: 100%; }
     rgba(200,169,106,.10), transparent 65%);
   pointer-events: none;
 }
-
 .why-kicker {
   font-family: 'Jost', system-ui, sans-serif;
   font-size: .63rem;
@@ -1302,7 +1279,6 @@ img { display: block; max-width: 100%; }
   opacity: .85;
   margin-bottom: 10px;
 }
-
 .why-title {
   margin: 0 0 16px;
   color: var(--text);
@@ -1312,7 +1288,6 @@ img { display: block; max-width: 100%; }
   font-size: clamp(1.9rem, 4vw, 3rem);
   letter-spacing: .06em;
 }
-
 .why-lead {
   margin-bottom: 28px;
   max-width: 620px;
@@ -1322,7 +1297,6 @@ img { display: block; max-width: 100%; }
   font-size: .92rem;
   line-height: 1.82;
 }
-
 .why-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -1331,7 +1305,6 @@ img { display: block; max-width: 100%; }
 @media (max-width: 640px) {
   .why-grid { grid-template-columns: 1fr; }
 }
-
 .why-card {
   border: 1px solid rgba(240,236,228,.08);
   border-top-color: rgba(200,169,106,.16);
@@ -1348,7 +1321,6 @@ img { display: block; max-width: 100%; }
   background: rgba(6,5,4,.44);
   transform: translateY(-2px);
 }
-
 .why-label {
   font-family: 'Jost', system-ui, sans-serif;
   font-size: .62rem;
@@ -1357,7 +1329,6 @@ img { display: block; max-width: 100%; }
   color: var(--gold);
   margin-bottom: 8px;
 }
-
 .why-card p {
   margin: 0;
   color: var(--muted);
@@ -1366,7 +1337,6 @@ img { display: block; max-width: 100%; }
   font-size: .88rem;
   line-height: 1.75;
 }
-
 .why-footer {
   margin-top: 22px;
   font-family: 'Cormorant Garamond', serif;
@@ -1376,16 +1346,8 @@ img { display: block; max-width: 100%; }
   letter-spacing: .05em;
 }
 
-/* ================================================================
-   COMPETITIONS — Hero wrap + title block
-   ================================================================ */
 .hero-wrap { padding-top: 80px; }
-
-.title-block {
-  margin-top: 28px;
-  margin-bottom: 10px;
-}
-
+.title-block { margin-top: 28px; margin-bottom: 10px; }
 .title-block .h1 {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 300;
@@ -1394,13 +1356,12 @@ img { display: block; max-width: 100%; }
   letter-spacing: .08em;
   text-align: left;
   background: none;
-  -webkit-text-fill-color: var(--text);
   color: var(--text);
+  -webkit-text-fill-color: var(--text);
   text-shadow: 0 14px 50px rgba(0,0,0,.55);
   animation: none;
   margin-bottom: 8px;
 }
-
 .title-block .p {
   font-family: 'Jost', system-ui, sans-serif;
   font-weight: 300;
@@ -1409,9 +1370,6 @@ img { display: block; max-width: 100%; }
   line-height: 1.80;
 }
 
-/* ================================================================
-   CONTEST META (contestant page)
-   ================================================================ */
 .contest-meta {
   margin-top: 18px;
   display: grid;
@@ -1421,7 +1379,6 @@ img { display: block; max-width: 100%; }
 @media (max-width: 900px) {
   .contest-meta { grid-template-columns: 1fr; }
 }
-
 .contest-meta-box {
   border: 1px solid rgba(240,236,228,.10);
   border-top-color: rgba(200,169,106,.18);
@@ -1435,7 +1392,6 @@ img { display: block; max-width: 100%; }
   border-color: rgba(200,169,106,.22);
   background: rgba(6,5,4,.46);
 }
-
 .contest-meta-label {
   font-family: 'Jost', system-ui, sans-serif;
   font-size: .60rem;
@@ -1445,7 +1401,6 @@ img { display: block; max-width: 100%; }
   opacity: .85;
   margin-bottom: 8px;
 }
-
 .contest-meta-value {
   font-family: 'Jost', system-ui, sans-serif;
   font-weight: 300;
@@ -1453,7 +1408,6 @@ img { display: block; max-width: 100%; }
   line-height: 1.62;
   color: var(--muted);
 }
-
 .contest-note {
   margin-top: 14px;
   font-family: 'Jost', system-ui, sans-serif;
@@ -1462,9 +1416,6 @@ img { display: block; max-width: 100%; }
   line-height: 1.70;
 }
 
-/* ================================================================
-   APPLY CARD
-   ================================================================ */
 .apply-card { margin-bottom: 16px; }
 .apply-card .small { line-height: 1.72; }
 .apply-card .btnrow { margin-top: 16px; }
@@ -1491,8 +1442,8 @@ img { display: block; max-width: 100%; }
   to   { opacity: 1; }
 }
 @keyframes bgFloat {
-  from { transform: scale(1.05) translateY(0)     translateZ(0); }
-  to   { transform: scale(1.09) translateY(-17px)  translateZ(0); }
+  from { transform: scale(1.05) translateY(0) translateZ(0); }
+  to   { transform: scale(1.09) translateY(-17px) translateZ(0); }
 }
 @keyframes bgDrift {
   from { background-position: center 28%, 10% 6%, 92% 8%, 50% 100%, center 28%; }
@@ -1504,7 +1455,7 @@ img { display: block; max-width: 100%; }
 }
 @keyframes cardIn {
   from { opacity: 0; transform: translateY(30px) rotateX(2deg); }
-  to   { opacity: 1; transform: translateY(0)    rotateX(0deg); }
+  to   { opacity: 1; transform: translateY(0) rotateX(0deg); }
 }
 @keyframes textIn {
   from { opacity: 0; transform: translateY(18px); }
@@ -1512,7 +1463,7 @@ img { display: block; max-width: 100%; }
 }
 @keyframes coverIn {
   from { opacity: 0; transform: translateY(22px) rotateY(-5deg); }
-  to   { opacity: 1; transform: translateY(0)    rotateY(0deg); }
+  to   { opacity: 1; transform: translateY(0) rotateY(0deg); }
 }
 @keyframes floaty {
   0%,100% { transform: translate3d(0,0,0) rotateX(0) rotateY(0); }
@@ -1520,11 +1471,11 @@ img { display: block; max-width: 100%; }
   66%     { transform: translate3d(2px,-4px,0) rotateX(.3deg) rotateY(.4deg); }
 }
 @keyframes glowDrift {
-  from { transform: translateZ(20px) translate(0,0);       opacity: .52; }
+  from { transform: translateZ(20px) translate(0,0); opacity: .52; }
   to   { transform: translateZ(20px) translate(13px,-9px); opacity: .68; }
 }
 @keyframes payGlow {
-  0%,100% { filter: brightness(1)    saturate(1);    transform: translateY(0); }
+  0%,100% { filter: brightness(1) saturate(1); transform: translateY(0); }
   50%     { filter: brightness(1.22) saturate(1.25); transform: translateY(-2px); }
 }
 @keyframes tickerMove {
@@ -1542,7 +1493,7 @@ img { display: block; max-width: 100%; }
 @media (prefers-reduced-motion: reduce) {
   .bg { animation: bgIn .01s linear forwards; }
   .card, .issues-title, .cover-stage { animation: none; opacity: 1; transform: none; }
-  .cover-card.floaty, .h1 { animation: none; }
+  .cover-card.floaty { animation: none; }
   .reveal { opacity: 1; transform: none; transition: none; }
   * {
     animation-duration:   .01ms !important;
