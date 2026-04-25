@@ -1,217 +1,788 @@
-/* Elyra Competitions UI (works with your dark theme) */
-:root{
-  --bg:#050505;
-  --card:rgba(0,0,0,.35);
-  --border:rgba(255,255,255,.12);
-  --text:#f2f2f2;
-  --muted:rgba(242,242,242,.72);
-  --faint:rgba(242,242,242,.45);
-  --radius:18px;
-  --max:980px;
+/* ================================================================
+   ELYRA COMPETITIONS — competitions.css
+   Works alongside styles.css
+   Scoped to competition pages only — zero conflicts
+   ================================================================ */
+
+/* ================================================================
+   BASE OVERRIDES for competition pages
+   ================================================================ */
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Jost', system-ui, sans-serif;
+  font-weight: 300;
 }
 
-*{box-sizing:border-box}
-html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-a{color:inherit;text-decoration:none}
-.container{max-width:var(--max);margin:0 auto;padding:18px}
-
-.topbar{
-  position:sticky;top:0;z-index:50;
-  backdrop-filter: blur(14px);
-  background: rgba(0,0,0,.55);
-  border-bottom:1px solid rgba(255,255,255,.08);
-}
-.topbar .row{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.brand{font-family:"Playfair Display",serif;letter-spacing:.18em;font-weight:600}
-.navlinks{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end}
-.navlinks a{font-size:.85rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:10px 10px;border-radius:12px}
-.navlinks a:hover{background:rgba(255,255,255,.08);color:var(--text)}
-
-.hero{padding:26px 0 10px;}
-.h1{
-  font-family:"Playfair Display",serif;
-  font-size: clamp(2.1rem, 4.5vw, 3.2rem);
-  letter-spacing:.10em;
-  margin:0 0 10px;
-}
-.p{color:var(--muted);line-height:1.7;margin:0 0 16px}
-
-.notice{
-  margin-top:10px;
-  padding:12px 14px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.14);
-  background:rgba(0,0,0,.35);
-  color:var(--text);
-  box-shadow:0 14px 40px rgba(0,0,0,.45);
+/* ================================================================
+   TOPBAR — competition pages use .topbar instead of .nav
+   Already styled in styles.css but scoped here for safety
+   ================================================================ */
+.topbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  padding-top: env(safe-area-inset-top, 0px);
+  backdrop-filter: blur(28px) saturate(1.6);
+  -webkit-backdrop-filter: blur(28px) saturate(1.6);
+  background: rgba(6,5,4,.52);
 }
 
-.card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:16px;
-  box-shadow:0 18px 60px rgba(0,0,0,.55);
-}
-.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
-.span12{grid-column:span 12}
-@media(min-width:900px){
-  .span6{grid-column:span 6}
-  .span4{grid-column:span 4}
-}
-
-.btnrow{display:flex;gap:10px;flex-wrap:wrap}
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;
-  padding:12px 14px;border-radius:999px;
-  border:1px solid rgba(255,255,255,.18);
-  background:rgba(255,255,255,.06);
-  color:var(--text);
-  letter-spacing:.12em;text-transform:uppercase;
-  font-size:.78rem;
-  cursor:pointer;
-  transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
-}
-.btn:hover{background:rgba(255,255,255,.12);transform:translateY(-1px)}
-.btn.primary{background:rgba(255,255,255,.14)}
-.btn.danger{border-color:rgba(255,80,80,.45)}
-.btn:disabled{opacity:.55;cursor:not-allowed}
-
-.input{
-  width:100%;
-  padding:12px 12px;
-  border-radius:12px;
-  border:1px solid rgba(255,255,255,.14);
-  background:rgba(0,0,0,.35);
-  color:var(--text);
-  outline:none;
-}
-.label{font-size:.9rem;color:var(--muted);margin:0 0 8px}
-.small{font-size:.9rem;color:var(--muted)}
-.badge{
-  display:inline-flex;align-items:center;gap:8px;
-  font-size:.82rem;color:var(--muted);
-  padding:8px 10px;border:1px solid rgba(255,255,255,.12);
-  border-radius:999px;background:rgba(0,0,0,.28)
-}
-.hr{height:1px;background:rgba(255,255,255,.12);margin:14px 0}
-
-.list{display:flex;flex-direction:column;gap:12px}
-.item{
-  display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
-}
-.item h3{margin:0 0 6px;font-family:"Playfair Display",serif;letter-spacing:.06em}
-.item p{margin:0;color:var(--muted);line-height:1.6}
-.kpi{display:flex;gap:10px;flex-wrap:wrap}
-.kpi .box{
-  padding:10px 12px;border-radius:14px;
-  border:1px solid rgba(255,255,255,.12);
-  background:rgba(0,0,0,.26);
-  color:var(--muted);font-size:.9rem;
+.topbar::after {
+  content: '';
+  display: block;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(200,169,106,.25) 22%,
+    rgba(200,169,106,.60) 50%,
+    rgba(200,169,106,.25) 78%,
+    transparent 100%
+  );
 }
 
-/* ===========================
-   Flashy 3D “Paid Vote” Buttons
-   (text-only, no images)
-   =========================== */
-
-@keyframes payGlow {
-  0%   { filter: brightness(1) saturate(1); transform: translateY(0); }
-  50%  { filter: brightness(1.22) saturate(1.25); transform: translateY(-2px); }
-  100% { filter: brightness(1) saturate(1); transform: translateY(0); }
+.topbar .row {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 28px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.btn.pay{
-  position:relative;
-  border:1px solid rgba(255,255,255,.18);
-  background:linear-gradient(180deg, rgba(255,255,255,.14), rgba(0,0,0,.35));
+/* Brand hidden — lives in hero */
+.topbar .brand { display: none; }
+
+.navlinks {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  flex-wrap: nowrap;
+}
+
+.navlinks a {
+  font-family: 'Jost', system-ui, sans-serif;
+  font-weight: 300;
+  font-size: .70rem;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 10px 16px;
+  position: relative;
+  transition: color .22s var(--ease);
+  white-space: nowrap;
+}
+
+.navlinks a::after {
+  content: '';
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 18px;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent, var(--gold), transparent);
+  transition: transform .26s var(--ease);
+}
+
+.navlinks a:hover           { color: var(--text); }
+.navlinks a:hover::after,
+.navlinks a.active::after   { transform: translateX(-50%) scaleX(1); }
+.navlinks a.active          { color: var(--text); }
+
+/* ================================================================
+   CONTAINER
+   ================================================================ */
+.container {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ================================================================
+   HERO (competition pages)
+   ================================================================ */
+.hero {
+  padding-top: 80px;
+  padding-bottom: 16px;
+}
+
+/* ================================================================
+   CARD — competition page cards
+   ================================================================ */
+.card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--rMd);
+  border: 1px solid rgba(200,169,106,.16);
+  border-top-color: rgba(200,169,106,.32);
+  background: linear-gradient(168deg,
+    rgba(6,5,4,.14) 0%,
+    rgba(6,5,4,.60) 100%
+  );
+  backdrop-filter: blur(22px) saturate(1.3);
+  -webkit-backdrop-filter: blur(22px) saturate(1.3);
+  padding: clamp(22px, 4vw, 36px) clamp(18px, 4vw, 32px);
+  box-shadow: var(--sh-md), var(--glow);
+  margin-bottom: 16px;
+  animation: cardIn 1.2s var(--ease) .15s forwards;
+  opacity: 0;
+}
+
+/* Crown shimmer */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--rMd);
+  background: radial-gradient(ellipse 75% 30% at 50% 0%,
+    rgba(200,169,106,.10), transparent 65%);
+  pointer-events: none;
+}
+
+/* Corner hairlines */
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 10px;
+  border-radius: var(--r);
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--bg), var(--bg)) padding-box,
+    linear-gradient(135deg,
+      rgba(200,169,106,.26) 0%,
+      transparent 36%,
+      transparent 64%,
+      rgba(200,169,106,.26) 100%
+    ) border-box;
+  pointer-events: none;
+}
+
+/* ================================================================
+   GRID
+   ================================================================ */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 14px;
+}
+
+.span12 { grid-column: span 12; }
+
+@media (min-width: 900px) {
+  .span6 { grid-column: span 6; }
+  .span4 { grid-column: span 4; }
+}
+
+/* ================================================================
+   BADGE
+   ================================================================ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 16px;
+  border-radius: var(--r);
+  border: 1px solid rgba(200,169,106,.20);
+  background: rgba(200,169,106,.07);
+  font-family: 'Jost', system-ui, sans-serif;
+  font-weight: 300;
+  font-size: .67rem;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--gold);
+  transition: border-color .2s, background .2s;
+}
+
+.badge:hover {
+  border-color: rgba(200,169,106,.34);
+  background: rgba(200,169,106,.13);
+}
+
+/* ================================================================
+   HORIZONTAL RULE
+   ================================================================ */
+.hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent, rgba(200,169,106,.24) 50%, transparent);
+  margin: 20px 0;
+}
+
+/* ================================================================
+   LIST + ITEM
+   ================================================================ */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 18px;
+  border-radius: var(--rMd);
+  border: 1px solid rgba(240,236,228,.08);
+  border-top-color: rgba(240,236,228,.13);
+  background: rgba(6,5,4,.28);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+  transition:
+    background    .22s var(--ease),
+    border-color  .22s var(--ease),
+    transform     .22s var(--ease),
+    box-shadow    .22s var(--ease);
+}
+
+.item::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 8%, rgba(200,169,106,.32) 50%, transparent 92%);
+  opacity: 0;
+  transition: opacity .22s var(--ease);
+}
+
+.item:hover::before { opacity: 1; }
+.item:hover {
+  background: rgba(6,5,4,.44);
+  border-color: rgba(200,169,106,.16);
+  transform: translateY(-1px);
+  box-shadow: var(--sh-sm), var(--glow);
+}
+
+.item h3 {
+  margin: 0 0 6px;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 1.28rem;
+  letter-spacing: .06em;
+  color: var(--text);
+  line-height: 1.18;
+}
+
+.item p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.75;
+  font-family: 'Jost', system-ui, sans-serif;
+  font-weight: 300;
+  font-size: .88rem;
+}
+
+/* ================================================================
+   KPI BOXES
+   ================================================================ */
+.kpi { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.kpi .box {
+  padding: 12px 16px;
+  border-radius: var(--r);
+  border: 1px solid rgba(240,236,228,.10);
+  border-top-color: rgba(200,169,106,.18);
+  background: rgba(6,5,4,.30);
+  color: var(--muted);
+  font-family: 'Jost', system-ui, sans-serif;
+  font-weight: 300;
+  font-size: .88rem;
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+  transition: border-color .2s, background .2s;
+}
+
+.kpi .box::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent, rgba(200,169,106,.28), transparent);
+}
+
+.kpi .box:hover {
+  border-color: rgba(200,169,106,.24);
+  background: rgba(6,5,4,.46);
+}
+
+/* ================================================================
+   SMALL TEXT
+   ================================================================ */
+.small {
+  font-family: 'Jost', system-ui, sans-serif;
+  font-weight: 300;
+  font-size: .86rem;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+/* ================================================================
+   LABEL
+   ================================================================ */
+.label {
+  font-family: 'Jost', system-ui, sans-serif;
+  font-size: .65rem;
+  letter-spacing: .32em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 8px;
+}
+
+/* ================================================================
+   PAY BOX
+   ================================================================ */
+.payBox {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(240,236,228,.10);
+  border-top-color: rgba(200,169,106,.24);
+  background: rgba(6,5,4,.22);
+  border-radius: var(--rMd);
+  padding: 20px 18px;
+  backdrop-filter: blur(12px);
+}
+
+.payBox::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent, rgba(200,169,106,.38), transparent);
+}
+
+/* ================================================================
+   BUTTONS — competition page variants
+   ================================================================ */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 13px 26px;
+  border-radius: var(--r);
+  font-family: 'Jost', system-ui, sans-serif;
+  font-weight: 300;
+  font-size: .70rem;
+  letter-spacing: .30em;
+  text-transform: uppercase;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid rgba(200,169,106,.28);
   box-shadow:
-    0 14px 44px rgba(0,0,0,.55),
-    inset 0 1px 0 rgba(255,255,255,.16);
-  transform-style:preserve-3d;
-  will-change: transform, filter;
+    0 6px 28px rgba(0,0,0,.44),
+    inset 0 1px 0 rgba(200,169,106,.12);
+  cursor: pointer;
+  transition:
+    color        .22s var(--ease),
+    border-color .22s var(--ease),
+    box-shadow   .22s var(--ease),
+    transform    .22s var(--spring);
 }
 
-.btn.pay::before{
-  content:"";
-  position:absolute;inset:-2px;
-  border-radius:999px;
-  background:radial-gradient(circle at 30% 20%, rgba(255,255,255,.20), transparent 55%),
-             radial-gradient(circle at 70% 80%, rgba(255,255,255,.12), transparent 60%);
-  opacity:.65;
-  pointer-events:none;
-  filter: blur(6px);
-  transform: translateZ(-1px);
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg,
+    rgba(200,169,106,.16) 0%,
+    rgba(200,169,106,.06) 100%);
+  opacity: 0;
+  transition: opacity .22s var(--ease);
 }
 
-.btn.pay:hover{
+.btn:hover {
+  border-color: var(--goldB);
+  color: var(--gold2);
+  transform: translateY(-2px);
+  box-shadow:
+    0 16px 52px rgba(0,0,0,.54),
+    inset 0 1px 0 rgba(200,169,106,.22),
+    0 0 44px rgba(200,169,106,.14);
+}
+.btn:hover::before  { opacity: 1; }
+.btn:active         { transform: translateY(0) scale(.994); }
+.btn:disabled       { opacity: .42; cursor: not-allowed; pointer-events: none; }
+
+.btn.primary {
+  background: linear-gradient(135deg,
+    rgba(200,169,106,.22), rgba(200,169,106,.10));
+  border-color: var(--goldB);
+  color: var(--gold2);
+}
+.btn.primary:hover {
+  background: linear-gradient(135deg,
+    rgba(200,169,106,.36), rgba(200,169,106,.18));
+  border-color: var(--gold);
+  color: var(--text);
+}
+
+.btn.ghost {
+  background: rgba(0,0,0,.22);
+  border-color: rgba(240,236,228,.14);
+  color: var(--muted);
+}
+.btn.ghost:hover {
+  border-color: rgba(200,169,106,.28);
+  color: var(--text);
+}
+
+.btn.danger {
+  border-color: rgba(255,80,80,.38);
+}
+
+/* ================================================================
+   BTN3D — Vote buttons
+   ================================================================ */
+.btn3d {
+  position: relative;
+  border-radius: var(--r);
+  transform: translateZ(0);
+  box-shadow:
+    0 12px 36px rgba(0,0,0,.52),
+    inset 0 1px 0 rgba(255,255,255,.10);
+  transition:
+    transform    .20s var(--spring),
+    box-shadow   .20s var(--ease),
+    background   .20s var(--ease),
+    border-color .20s var(--ease);
+}
+
+.btn3d:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 22px 56px rgba(0,0,0,.62);
+}
+
+.btn3d:active {
+  transform: translateY(0) scale(.996);
+}
+
+.btn3d::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(90deg,
+    rgba(255,255,255,.14),
+    rgba(255,255,255,0) 50%,
+    rgba(255,255,255,.14));
+  opacity: .50;
+  mix-blend-mode: screen;
+}
+
+/* Glow variants */
+.glow10 {
+  border-color: rgba(140,255,200,.32);
+  background: rgba(140,255,200,.08);
+  color: rgba(160,240,200,.90);
+}
+.glow10:hover {
+  background: rgba(140,255,200,.15);
+  box-shadow:
+    0 22px 56px rgba(0,0,0,.62),
+    0 0 32px rgba(140,255,200,.16);
+}
+
+.glow50 {
+  border-color: rgba(255,210,100,.32);
+  background: rgba(255,210,100,.08);
+  color: rgba(240,210,130,.90);
+}
+.glow50:hover {
+  background: rgba(255,210,100,.16);
+  box-shadow:
+    0 22px 56px rgba(0,0,0,.62),
+    0 0 32px rgba(255,210,100,.16);
+}
+
+/* Pay button */
+.btn.pay {
+  border: 1px solid rgba(255,255,255,.18);
+  background: linear-gradient(180deg,
+    rgba(255,255,255,.11), rgba(0,0,0,.30));
+  box-shadow:
+    0 16px 50px rgba(0,0,0,.58),
+    inset 0 1px 0 rgba(255,255,255,.18);
+}
+
+.btn.pay:hover {
   transform: translateY(-2px) scale(1.02);
   animation: payGlow 1.2s ease-in-out infinite;
 }
 
-.btn.pay:active{
-  transform: translateY(0px) scale(.995);
-  animation:none;
+.btn.pay:active {
+  transform: translateY(0) scale(.995);
+  animation: none;
 }
 
-.btn.pay10{
+.btn.pay10 {
   box-shadow:
     0 16px 48px rgba(0,0,0,.55),
-    0 0 0 1px rgba(255,255,255,.10),
-    0 0 26px rgba(255,255,255,.10);
+    0 0 28px rgba(140,255,200,.10);
 }
 
-.btn.pay50{
+.btn.pay50 {
   box-shadow:
     0 16px 52px rgba(0,0,0,.60),
-    0 0 0 1px rgba(255,255,255,.12),
-    0 0 30px rgba(255,255,255,.14);
-}
-/* ===== 3D animated vote buttons (no images) ===== */
-.btn3d{
-  position:relative;
-  transform: translateZ(0);
-  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
-  box-shadow: 0 10px 26px rgba(0,0,0,.45);
-}
-.btn3d:hover{
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 18px 46px rgba(0,0,0,.55);
-}
-.btn3d:active{
-  transform: translateY(0px) scale(.99);
+    0 0 32px rgba(255,210,100,.12);
 }
 
-.btn3d::after{
-  content:"";
-  position:absolute; inset:-1px;
-  border-radius:999px;
-  pointer-events:none;
-  background: linear-gradient(90deg, rgba(255,255,255,.18), rgba(255,255,255,0), rgba(255,255,255,.18));
-  opacity:.55;
-  filter: blur(0px);
-  mix-blend-mode: screen;
+/* ================================================================
+   BTNROW
+   ================================================================ */
+.btnrow {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
-.glow10{
-  border-color: rgba(160,255,220,.35);
-  background: rgba(160,255,220,.10);
-}
-.glow10:hover{
-  background: rgba(160,255,220,.14);
+/* ================================================================
+   H1 — competition page headings
+   ================================================================ */
+.h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(2rem, 4.5vw, 3.4rem);
+  letter-spacing: .08em;
+  color: var(--text);
+  text-shadow: 0 14px 50px rgba(0,0,0,.55);
+  margin-bottom: 8px;
+  /* No shimmer on competition page inner headings */
+  background: none;
+  -webkit-text-fill-color: var(--text);
 }
 
-.glow50{
-  border-color: rgba(255,215,120,.35);
-  background: rgba(255,215,120,.10);
-}
-.glow50:hover{
-  background: rgba(255,215,120,.14);
+/* ================================================================
+   P — body paragraphs
+   ================================================================ */
+.p {
+  font-family: 'Jost', system-ui, sans-serif;
+  font-weight: 300;
+  font-size: .90rem;
+  color: var(--muted);
+  line-height: 1.82;
 }
 
-.payBox{
-  border: 1px solid rgba(255,255,255,.10);
-  background: rgba(0,0,0,.22);
-  border-radius: 16px;
-  padding: 14px;
+/* ================================================================
+   CONTEST META (contestant page)
+   ================================================================ */
+.contest-meta {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+@media (max-width: 900px) {
+  .contest-meta { grid-template-columns: 1fr; }
+}
+
+.contest-meta-box {
+  border: 1px solid rgba(240,236,228,.10);
+  border-top-color: rgba(200,169,106,.20);
+  background: rgba(6,5,4,.30);
+  border-radius: var(--r);
+  padding: 18px 16px;
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+  transition: border-color .2s, background .2s;
+}
+
+.contest-meta-box::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent, rgba(200,169,106,.28), transparent);
+}
+
+.contest-meta-box:hover {
+  border-color: rgba(200,169,106,.24);
+  background: rgba(6,5,4,.46);
+}
+
+.contest-meta-label {
+  font-family: 'Jost', system-ui, sans-serif;
+  font-size: .60rem;
+  letter-spacing: .30em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: .85;
+  margin-bottom: 8px;
+}
+
+.contest-meta-value {
+  font-family: 'Jost', system-ui, sans-serif;
+  font-weight: 300;
+  font-size: .88rem;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+.contest-note {
+  margin-top: 14px;
+  font-family: 'Jost', system-ui, sans-serif;
+  font-size: .80rem;
+  color: var(--faint);
+  line-height: 1.72;
+}
+
+/* ================================================================
+   TOAST — ui.js toast notifications
+   ================================================================ */
+.elyra-toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  z-index: 999;
+  padding: 13px 22px;
+  border-radius: var(--r);
+  border: 1px solid rgba(200,169,106,.28);
+  background: rgba(6,5,4,.88);
+  backdrop-filter: blur(20px);
+  font-family: 'Jost', system-ui, sans-serif;
+  font-weight: 300;
+  font-size: .82rem;
+  letter-spacing: .06em;
+  color: var(--text);
+  box-shadow: var(--sh-md);
+  opacity: 0;
+  transition:
+    opacity   .3s var(--ease),
+    transform .3s var(--ease);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.elyra-toast.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ================================================================
+   ANIMATIONS — local to competition pages
+   ================================================================ */
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(28px) rotateX(1.5deg); }
+  to   { opacity: 1; transform: translateY(0) rotateX(0deg); }
+}
+
+@keyframes payGlow {
+  0%,100% {
+    filter: brightness(1) saturate(1);
+    transform: translateY(-2px) scale(1.02);
+  }
+  50% {
+    filter: brightness(1.22) saturate(1.25);
+    transform: translateY(-3px) scale(1.025);
+  }
+}
+
+@keyframes titleSheen {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+@keyframes textIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes coverIn {
+  from { opacity: 0; transform: translateY(22px) rotateY(-5deg); }
+  to   { opacity: 1; transform: translateY(0) rotateY(0deg); }
+}
+
+@keyframes shimmerLoad {
+  from { background-position: 200% center; }
+  to   { background-position: -200% center; }
+}
+
+@keyframes bgIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes bgFloat {
+  from { transform: scale(1.05) translateY(0) translateZ(0); }
+  to   { transform: scale(1.09) translateY(-17px) translateZ(0); }
+}
+
+/* ================================================================
+   REDUCED MOTION
+   ================================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .card  { animation: none; opacity: 1; }
+  .h1    { animation: none; }
+  .btn.pay:hover { animation: none; }
+  * {
+    animation-duration:  .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* ================================================================
+   MOBILE
+   ================================================================ */
+@media (max-width: 640px) {
+  .topbar .row {
+    height: 54px;
+    padding: 0 14px;
+  }
+
+  .navlinks a {
+    font-size: .62rem;
+    padding: 8px 9px;
+    letter-spacing: .16em;
+  }
+
+  .card {
+    padding: 22px 16px;
+  }
+
+  .item {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .item .btnrow {
+    width: 100%;
+  }
+
+  .item .btn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .contest-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .btn {
+    padding: 12px 18px;
+    font-size: .66rem;
+  }
+
+  .kpi {
+    flex-direction: column;
+  }
 }
