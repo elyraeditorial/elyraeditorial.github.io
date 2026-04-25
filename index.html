@@ -298,6 +298,60 @@
       color: #c8a96a;
       margin-right: 12px;
     }
+/* Force everything visible — override any opacity/color issues */
+#heroCard {
+  opacity: 1 !important;
+  animation: none !important;
+}
+
+#heroCard .hero-brand {
+  color: #e2cc96 !important;
+  -webkit-text-fill-color: #e2cc96 !important;
+  background: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+#heroCard .hero-kicker,
+#heroCard .hero-lede,
+#heroCard .hero-tagline,
+#heroCard .hero-announce,
+#heroCard .hero-orn em,
+#heroCard .elevara-strip,
+#heroCard .elevara-strip a,
+#heroCard .elevara-strip span,
+#heroCard .home-footer-links a,
+#heroCard .home-copy {
+  opacity: 1 !important;
+  visibility: visible !important;
+  color: rgba(240,236,228,.70) !important;
+}
+
+#heroCard .hero-kicker {
+  color: #c8a96a !important;
+}
+
+#heroCard .hero-brand {
+  color: #e2cc96 !important;
+  -webkit-text-fill-color: #e2cc96 !important;
+}
+
+#heroCard .hero-tagline {
+  color: rgba(240,236,228,.55) !important;
+}
+
+#heroCard .hero-announce span {
+  color: rgba(240,236,228,.42) !important;
+}
+
+#heroCard .elevara-strip a,
+#heroCard .home-footer-links a:hover {
+  color: #c8a96a !important;
+}
+
+#heroCard .home-copy {
+  color: rgba(240,236,228,.38) !important;
+}
 
     /* ── Mobile ── */
     @media (max-width: 480px) {
