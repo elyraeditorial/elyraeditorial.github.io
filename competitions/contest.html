@@ -4,33 +4,43 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Elyra — Contest</title>
-  <link rel="stylesheet" href="./assets/competitions.css"/>
+
+  <!-- Icons -->
+  <link rel="icon" type="image/jpeg" href="https://elyraeditorial.github.io/IMG_8629.jpeg?v=3" />
+  <link rel="apple-touch-icon" href="https://elyraeditorial.github.io/IMG_8629.jpeg?v=3" />
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Cormorant+SC:wght@300;400;500&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../styles.css"/>
+  <link rel="stylesheet" href="./assets/competitions.css"/>
 
   <style>
-    .hero-wrap{
-      padding-top: 18px;
-    }
+    /* ── Contest page extras ── */
 
-    .editorial-hero{
+    body { padding-bottom: 52px; }
+
+    /* Editorial hero — full bleed cinematic */
+    .hero-wrap { padding-top: 80px; }
+
+    .editorial-hero {
       position: relative;
       width: 100%;
       min-height: 760px;
-      border-radius: 30px;
+      border-radius: var(--rLg);
       overflow: hidden;
       background:
-        radial-gradient(circle at 50% 12%, rgba(214,172,84,.18), transparent 26%),
+        radial-gradient(circle at 50% 12%, rgba(200,169,106,.16), transparent 26%),
         linear-gradient(180deg, #17120f 0%, #090909 100%);
-      border: 1px solid rgba(255,255,255,.08);
-      box-shadow:
-        0 36px 120px rgba(0,0,0,.42),
-        inset 0 1px 0 rgba(255,255,255,.05);
+      border: 1px solid rgba(200,169,106,.14);
+      box-shadow: var(--sh-lg), inset 0 1px 0 rgba(200,169,106,.08);
       isolation: isolate;
     }
 
-    .editorial-hero img{
+    .editorial-hero img {
       position: absolute;
       inset: 0;
       width: 100%;
@@ -40,20 +50,28 @@
       transform: scale(1.02);
     }
 
-    .editorial-hero::before{
-      content: "";
+    .editorial-hero::before {
+      content: '';
       position: absolute;
       inset: 0;
       z-index: 1;
       background:
-        radial-gradient(circle at 50% 12%, rgba(255,235,195,.10), transparent 22%),
-        linear-gradient(to bottom, rgba(0,0,0,.06), rgba(0,0,0,.14) 24%, rgba(0,0,0,.44) 66%, rgba(0,0,0,.78) 100%),
-        linear-gradient(to right, rgba(0,0,0,.42) 0%, rgba(0,0,0,.08) 28%, rgba(0,0,0,.08) 72%, rgba(0,0,0,.36) 100%);
+        radial-gradient(circle at 50% 12%, rgba(200,169,106,.10), transparent 22%),
+        linear-gradient(to bottom,
+          rgba(0,0,0,.06),
+          rgba(0,0,0,.14) 24%,
+          rgba(0,0,0,.44) 66%,
+          rgba(0,0,0,.80) 100%),
+        linear-gradient(to right,
+          rgba(0,0,0,.42) 0%,
+          rgba(0,0,0,.06) 28%,
+          rgba(0,0,0,.06) 72%,
+          rgba(0,0,0,.36) 100%);
       pointer-events: none;
     }
 
-    .editorial-hero::after{
-      content: "";
+    .editorial-hero::after {
+      content: '';
       position: absolute;
       inset: 0;
       z-index: 1;
@@ -63,16 +81,16 @@
         inset 0 0 90px rgba(0,0,0,.12);
     }
 
-    .editorial-frame{
+    .editorial-frame {
       position: absolute;
       inset: 18px;
       z-index: 2;
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: 24px;
+      border: 1px solid rgba(200,169,106,.18);
+      border-radius: calc(var(--rLg) - 6px);
       pointer-events: none;
     }
 
-    .editorial-copy{
+    .editorial-copy {
       position: absolute;
       left: clamp(28px, 4vw, 48px);
       right: clamp(28px, 4vw, 48px);
@@ -81,92 +99,299 @@
       max-width: 760px;
     }
 
-    .editorial-kicker{
+    .editorial-kicker {
       display: inline-block;
       margin-bottom: 16px;
-      padding: 10px 15px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.16);
-      background: rgba(255,255,255,.07);
+      padding: 10px 16px;
+      border-radius: var(--r);
+      border: 1px solid rgba(200,169,106,.28);
+      background: rgba(200,169,106,.08);
       backdrop-filter: blur(10px);
-      color: rgba(255,255,255,.94);
-      font-size: 12px;
-      letter-spacing: .18em;
+      color: var(--gold2);
+      font-family: 'Jost', sans-serif;
+      font-size: .65rem;
+      letter-spacing: .28em;
       text-transform: uppercase;
     }
 
-    .editorial-title{
+    .editorial-title {
       margin: 0;
-      color: #fff;
-      font-family: "Playfair Display", serif;
-      font-weight: 700;
-      font-size: clamp(56px, 7.2vw, 110px);
-      line-height: .9;
-      letter-spacing: -.045em;
-      text-wrap: balance;
-      text-shadow: 0 10px 30px rgba(0,0,0,.34);
+      color: var(--text);
+      font-family: 'Cormorant SC', serif;
+      font-weight: 300;
+      font-size: clamp(52px, 7vw, 108px);
+      line-height: .92;
+      letter-spacing: .06em;
+      text-shadow: 0 10px 40px rgba(0,0,0,.40);
     }
 
-    .editorial-sub{
+    .editorial-sub {
       margin: 18px 0 0;
-      max-width: 620px;
-      color: rgba(255,255,255,.90);
-      font-size: clamp(16px, 1.8vw, 21px);
-      line-height: 1.55;
-      text-shadow: 0 4px 18px rgba(0,0,0,.28);
+      max-width: 580px;
+      color: var(--muted);
+      font-family: 'Jost', sans-serif;
+      font-size: clamp(15px, 1.8vw, 20px);
+      font-weight: 300;
+      line-height: 1.62;
     }
 
-    .title-block{
-      margin-top: 24px;
+    /* Title block */
+    .title-block {
+      margin-top: 36px;
+      margin-bottom: 12px;
+    }
+
+    .title-block .contest-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(2rem, 4.5vw, 3.4rem);
+      letter-spacing: .08em;
+      color: var(--text);
+      text-shadow: 0 14px 50px rgba(0,0,0,.55);
+      margin-bottom: 8px;
+      animation: textIn 1.1s var(--ease) .15s forwards;
+      opacity: 0;
+      transform: translateY(16px);
+    }
+
+    .title-block .contest-sub {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: .90rem;
+      color: var(--muted);
+      line-height: 1.82;
+      max-width: 60ch;
+    }
+
+    /* Contestants count badge */
+    .contest-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    /* Contestant list cards */
+    .contestant-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .contestant-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--rMd);
+      border: 1px solid rgba(240,236,228,.08);
+      border-top-color: rgba(240,236,228,.14);
+      background: rgba(6,5,4,.28);
+      backdrop-filter: blur(14px);
+      padding: 22px 20px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      transition:
+        background    .22s var(--ease),
+        border-color  .22s var(--ease),
+        transform     .22s var(--ease),
+        box-shadow    .22s var(--ease);
+    }
+
+    .contestant-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent 8%, rgba(200,169,106,.34) 50%, transparent 92%);
+      opacity: 0;
+      transition: opacity .22s var(--ease);
+    }
+
+    .contestant-card:hover::before { opacity: 1; }
+    .contestant-card:hover {
+      background: rgba(6,5,4,.44);
+      border-color: rgba(200,169,106,.18);
+      transform: translateY(-2px);
+      box-shadow: var(--sh-md), var(--glow);
+    }
+
+    .contestant-info { flex: 1; min-width: 0; }
+
+    .contestant-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: 1.38rem;
+      letter-spacing: .06em;
+      color: var(--text);
+      margin-bottom: 6px;
+      line-height: 1.18;
+    }
+
+    .contestant-bio {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: .86rem;
+      line-height: 1.78;
+      color: var(--muted);
       margin-bottom: 8px;
     }
 
-    .title-block .h1{
+    .contestant-votes {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Jost', sans-serif;
+      font-size: .63rem;
+      letter-spacing: .26em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .contestant-votes::before {
+      content: '✦';
+      font-size: .50rem;
+      opacity: .70;
+    }
+
+    .contestant-action {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+    }
+
+    /* Info panel */
+    .contest-info-panel {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--rMd);
+      border: 1px solid rgba(200,169,106,.16);
+      border-top-color: rgba(200,169,106,.32);
+      background: linear-gradient(168deg,
+        rgba(200,169,106,.07) 0%,
+        rgba(6,5,4,.50) 100%);
+      backdrop-filter: blur(18px);
+      padding: clamp(24px, 4vw, 40px) clamp(20px, 4vw, 36px);
+      margin-bottom: 20px;
+      box-shadow: var(--sh-sm), var(--glow);
+    }
+
+    .contest-info-panel::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: var(--rMd);
+      background: radial-gradient(ellipse 70% 32% at 50% 0%,
+        rgba(200,169,106,.10), transparent 65%);
+      pointer-events: none;
+    }
+
+    .contest-info-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    @media (max-width: 700px) {
+      .contest-info-grid { grid-template-columns: 1fr; }
+    }
+
+    .contest-info-item {
+      border-radius: var(--r);
+      border: 1px solid rgba(240,236,228,.08);
+      border-top-color: rgba(200,169,106,.16);
+      background: rgba(6,5,4,.28);
+      padding: 14px 16px;
+      transition: border-color .2s, background .2s;
+    }
+
+    .contest-info-item:hover {
+      border-color: rgba(200,169,106,.22);
+      background: rgba(6,5,4,.44);
+    }
+
+    .contest-info-label {
+      font-family: 'Jost', sans-serif;
+      font-size: .60rem;
+      letter-spacing: .32em;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: .85;
+      margin-bottom: 6px;
+    }
+
+    .contest-info-value {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: .88rem;
+      line-height: 1.60;
+      color: var(--muted);
+    }
+
+    /* Error state */
+    .error-state {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .error-state .error-icon {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      color: var(--faint);
+      margin-bottom: 16px;
+    }
+
+    .error-state h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 1.8rem;
+      color: var(--text);
       margin-bottom: 10px;
+      letter-spacing: .06em;
     }
 
-    @media (max-width: 1100px){
-      .editorial-hero{
-        min-height: 680px;
-      }
-
-      .editorial-title{
-        font-size: clamp(48px, 8vw, 90px);
-      }
+    .error-state p {
+      font-family: 'Jost', sans-serif;
+      font-size: .88rem;
+      color: var(--muted);
+      line-height: 1.78;
     }
 
-    @media (max-width: 900px){
-      .editorial-hero{
-        min-height: 620px;
-      }
-
-      .editorial-copy{
-        max-width: 92%;
-      }
-
-      .editorial-title{
-        font-size: clamp(42px, 9vw, 70px);
-        line-height: .95;
-      }
-
-      .editorial-sub{
-        font-size: 16px;
-        max-width: 92%;
-      }
+    /* Page footer */
+    .page-footer {
+      text-align: center;
+      padding: 40px 0 52px;
+      font-family: 'Jost', sans-serif;
+      font-size: .70rem;
+      letter-spacing: .20em;
+      text-transform: uppercase;
+      color: var(--faint);
     }
 
-    @media (max-width: 640px){
-      .hero-wrap{
-        padding-top: 10px;
-      }
+    .page-footer a {
+      color: var(--gold);
+      border-bottom: 1px solid rgba(200,169,106,.28);
+      transition: color .2s;
+    }
+    .page-footer a:hover { color: var(--gold2); }
 
-      .editorial-hero{
+    /* Mobile */
+    @media (max-width: 640px) {
+      .editorial-hero {
         min-height: unset;
         height: auto;
-        border-radius: 22px;
+        border-radius: var(--rMd);
       }
-
-      .editorial-hero img{
+      .editorial-hero img {
         position: relative;
         display: block;
         width: 100%;
@@ -176,90 +401,55 @@
         transform: none;
         inset: auto;
       }
-
-      .editorial-hero::before{
-        background:
-          linear-gradient(to bottom,
-            rgba(0,0,0,.04),
-            rgba(0,0,0,.10) 38%,
-            rgba(0,0,0,.42) 72%,
-            rgba(0,0,0,.78) 100%);
-      }
-
-      .editorial-hero::after{
-        box-shadow:
-          inset 0 -80px 90px rgba(0,0,0,.24),
-          inset 0 0 50px rgba(0,0,0,.08);
-      }
-
-      .editorial-frame{
-        inset: 8px;
-        border-radius: 16px;
-      }
-
-      .editorial-copy{
-        left: 14px;
-        right: 14px;
-        bottom: 14px;
+      .editorial-frame { inset: 8px; }
+      .editorial-copy {
+        left: 14px; right: 14px; bottom: 14px;
         max-width: none;
       }
-
-      .editorial-kicker{
-        margin-bottom: 8px;
-        padding: 6px 10px;
-        font-size: 10px;
-        letter-spacing: .14em;
+      .editorial-title {
+        font-size: clamp(28px, 8vw, 44px);
+        letter-spacing: .02em;
       }
-
-      .editorial-title{
-        font-size: clamp(24px, 8.2vw, 36px);
-        line-height: .96;
-        letter-spacing: -.02em;
-      }
-
-      .editorial-sub{
-        margin-top: 8px;
+      .editorial-sub {
         font-size: 13px;
-        line-height: 1.38;
-        max-width: 100%;
-      }
-
-      .title-block{
         margin-top: 8px;
-        margin-bottom: 8px;
+        line-height: 1.45;
       }
-
-      .title-block .h1{
-        font-size: 24px;
-        line-height: 1.05;
-        letter-spacing: -0.02em;
-        margin-bottom: 6px;
-        padding-left: 8px;
-        padding-right: 8px;
+      .contestant-card {
+        flex-direction: column;
+        gap: 12px;
       }
-
-      .title-block .p{
-        font-size: 12.5px;
-        opacity: 0.75;
-        line-height: 1.35;
-        margin-top: 0;
-        padding-left: 8px;
-        padding-right: 8px;
+      .contestant-action {
+        align-items: flex-start;
+        flex-direction: row;
+        flex-wrap: wrap;
       }
     }
   </style>
 </head>
-<body>
+
+<body class="no-scroll-x">
+
+  <!-- Background layers -->
+  <div class="bg" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- Nav -->
   <div class="topbar">
     <div class="container row">
       <div class="brand">ELYRA</div>
       <div class="navlinks">
-        <a href="/competitions/">Competitions</a>
         <a href="/">Home</a>
+        <a href="/issues.html">Issues</a>
+        <a href="/submit.html">Submit</a>
+        <a href="/competitions/" class="active">Competitions</a>
+        <a href="/about.html">About</a>
       </div>
     </div>
   </div>
 
+  <!-- Editorial hero -->
   <div class="container hero-wrap">
     <section class="editorial-hero" aria-label="Elyra cover star feature">
       <img
@@ -271,95 +461,138 @@
         <div class="editorial-kicker">Elyra Editorial</div>
         <h2 class="editorial-title">May<br>Cover Star</h2>
         <p class="editorial-sub">
-          Voting is open now through May 31. Support your favorite contestant and help decide the next Elyra cover feature.
+          Voting is open now through May 31. Support your favorite contestant
+          and help decide the next Elyra cover feature.
         </p>
       </div>
     </section>
   </div>
 
-  <div class="container hero title-block">
-    <h1 class="h1" id="title">Loading…</h1>
-    <p class="p" id="subtitle"></p>
-  </div>
-
-  <div class="container">
-    <div class="card">
-      <div class="badge" id="badge">Loading contestants…</div>
-      <div class="hr"></div>
-      <div class="list" id="list"></div>
-      <div class="hr"></div>
-      <p class="small" id="msg"></p>
+  <!-- Contest info panel -->
+  <div class="container" style="margin-top: 32px;">
+    <div class="contest-info-panel">
+      <div class="contest-info-grid">
+        <div class="contest-info-item">
+          <div class="contest-info-label">Prize Pool</div>
+          <div class="contest-info-value">Minimum $500 — increases based on total votes cast</div>
+        </div>
+        <div class="contest-info-item">
+          <div class="contest-info-label">Voting Closes</div>
+          <div class="contest-info-value">May 31 at 11:59 PM CST</div>
+        </div>
+        <div class="contest-info-item">
+          <div class="contest-info-label">How It Works</div>
+          <div class="contest-info-value">$1 equals 1 vote. Highest total votes wins the cover feature</div>
+        </div>
+      </div>
     </div>
   </div>
+
+  <!-- Title block — populated by JS -->
+  <div class="container title-block">
+    <h1 class="contest-title" id="title">Loading…</h1>
+    <p class="contest-sub" id="subtitle"></p>
+  </div>
+
+  <!-- Contestants -->
+  <div class="container" style="margin-bottom: 16px;">
+    <div class="contest-badge-row">
+      <div class="badge" id="badge">Loading contestants…</div>
+    </div>
+    <div class="contestant-list" id="list"></div>
+    <p class="small" style="margin-top: 12px;" id="msg"></p>
+  </div>
+
+  <!-- Page footer -->
+  <div class="page-footer">
+    <a href="https://houseofelevara.com" target="_blank" rel="noopener">House of Elévara</a>
+    &nbsp;·&nbsp;
+    <a href="/">Elyra Editorial</a>
+    &nbsp;·&nbsp;
+    © <span id="yr"></span> All rights reserved
+  </div>
+
+  <script>
+    document.getElementById('yr').textContent = new Date().getFullYear();
+  </script>
 
   <script type="module">
     import * as dataApi from "./assets/data.js?v=18";
     import { getParam, setText, setHTML } from "./assets/ui.js?v=18";
 
-    const slug = getParam("slug");
-    const title = document.getElementById("title");
-    const subtitle = document.getElementById("subtitle");
-    const badge = document.getElementById("badge");
-    const list = document.getElementById("list");
-    const msg = document.getElementById("msg");
+    const slug     = getParam("slug");
+    const titleEl  = document.getElementById("title");
+    const subEl    = document.getElementById("subtitle");
+    const badgeEl  = document.getElementById("badge");
+    const listEl   = document.getElementById("list");
+    const msgEl    = document.getElementById("msg");
 
-    function money(n){ return Number(n || 0).toLocaleString(); }
+    function money(n) { return Number(n || 0).toLocaleString(); }
 
-    try{
-      if(!slug) throw new Error("Missing contest slug.");
+    try {
+      if (!slug) throw new Error("Missing contest slug.");
 
       const contest = await dataApi.fetchContestBySlug(slug);
-      if(!contest) throw new Error("Contest not found.");
+      if (!contest) throw new Error("Contest not found.");
 
-      setText(title, contest.title || contest.name || "Contest");
-      setText(
-        subtitle,
-        contest.subtitle || "Minimum $500 prize pool — increases based on total votes. Voting closes May 31 at 11:59 PM CST."
+      setText(titleEl, contest.title || contest.name || "Contest");
+      setText(subEl,
+        contest.subtitle ||
+        "Minimum $500 prize pool — increases based on total votes. Voting closes May 31 at 11:59 PM CST."
       );
 
       const contestants = await dataApi.fetchContestantsByContestId(contest.id);
 
-      setText(
-        badge,
-        contestants.length ? `${contestants.length} Contestant(s)` : "No contestants yet"
+      setText(badgeEl,
+        contestants.length
+          ? `${contestants.length} Contestant${contestants.length !== 1 ? "s" : ""}`
+          : "No contestants yet"
       );
 
       let totalsMap = {};
       const totalsRows = await dataApi.fetchVoteTotalsForContest(contest.id);
-      for(const r of (totalsRows || [])){
+      for (const r of (totalsRows || [])) {
         totalsMap[r.contestant_id] = r;
       }
 
-      setHTML(list, contestants.map(c => {
-        const t = totalsMap[c.id] || {};
+      setHTML(listEl, contestants.map(c => {
+        const t          = totalsMap[c.id] || {};
         const totalVotes = t.total_votes ?? 0;
 
         return `
-          <div class="item">
-            <div>
-              <h3>${c.display_name || "Contestant"}</h3>
-              <p>${c.bio || ""}</p>
-              <p class="small">Votes: ${money(totalVotes)}</p>
+          <div class="contestant-card">
+            <div class="contestant-info">
+              <div class="contestant-name">${c.display_name || "Contestant"}</div>
+              <div class="contestant-bio">${c.bio || ""}</div>
+              <div class="contestant-votes">${money(totalVotes)} Votes</div>
             </div>
-            <div class="btnrow">
+            <div class="contestant-action">
               <a class="btn primary"
                  href="/competitions/contestant.html?id=${encodeURIComponent(c.id)}&slug=${encodeURIComponent(slug)}">
-                View
+                View &amp; Vote
               </a>
             </div>
           </div>
         `;
       }).join(""));
 
-      setText(msg, "");
-    }catch(err){
+      setText(msgEl, "");
+
+    } catch (err) {
       console.error(err);
-      setText(title, "Error");
-      setText(subtitle, "");
-      setText(badge, "Failed to load");
-      setHTML(list, `<p class="small">${err?.message || "Unknown error"}</p>`);
-      setText(msg, "If this error mentions RLS or permission denied, fix policies for contests/contestants.");
+      setText(titleEl, "Contest Unavailable");
+      setText(subEl, "");
+      setText(badgeEl, "Unable to load");
+      setHTML(listEl, `
+        <div class="error-state">
+          <div class="error-icon">✦</div>
+          <h2>Something went wrong</h2>
+          <p>${err?.message || "This contest could not be loaded. Please try again."}</p>
+        </div>
+      `);
+      setText(msgEl, "If this error mentions RLS or permission denied, fix policies for contests/contestants.");
     }
   </script>
+
 </body>
 </html>
