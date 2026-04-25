@@ -4,51 +4,738 @@
   <meta charset="UTF-8" />
   <title>ELYRA — Submissions</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Cormorant+SC:wght@300;400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+
+  <style>
+    /* ── Submit page extras ── */
+    .submit-hero {
+      padding: 120px 0 48px;
+      text-align: center;
+    }
+
+    .submit-hero .overline {
+      display: block;
+      font-family: 'Jost', sans-serif;
+      font-size: .65rem;
+      letter-spacing: .44em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+
+    .submit-hero h1 {
+      font-family: 'Cormorant SC', serif;
+      font-weight: 300;
+      font-size: clamp(3rem, 9vw, 6rem);
+      letter-spacing: .34em;
+      line-height: .95;
+      background: linear-gradient(135deg, var(--text) 0%, var(--gold2) 46%, var(--text) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      background-size: 200% 100%;
+      animation: titleSheen 9s var(--ease) infinite;
+    }
+
+    .submit-hero .hair { margin: 20px auto; }
+
+    .submit-hero .lede {
+      max-width: 52ch;
+      margin: 0 auto;
+      font-size: .96rem;
+    }
+
+    /* Status pill */
+    .status-open {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      border-radius: var(--r);
+      border: 1px solid rgba(120,220,160,.35);
+      background: rgba(120,220,160,.08);
+      font-family: 'Jost', sans-serif;
+      font-size: .68rem;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: rgba(140,230,170,.90);
+      margin-bottom: 28px;
+    }
+
+    .status-open::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(120,220,160,.90);
+      box-shadow: 0 0 8px rgba(120,220,160,.60);
+      animation: pulse 2s ease infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: .6; transform: scale(.8); }
+    }
+
+    /* Info panels row */
+    .info-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+
+    @media (max-width: 720px) {
+      .info-row { grid-template-columns: 1fr; }
+    }
+
+    .info-box {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--rMd);
+      border: 1px solid rgba(240,236,228,.08);
+      border-top-color: rgba(200,169,106,.22);
+      background: rgba(6,5,4,.34);
+      backdrop-filter: blur(16px);
+      padding: 22px 20px;
+      transition: border-color .22s var(--ease), transform .22s var(--ease);
+    }
+
+    .info-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent 10%, rgba(200,169,106,.38) 50%, transparent 90%);
+      opacity: 0;
+      transition: opacity .22s var(--ease);
+    }
+
+    .info-box:hover { border-color: rgba(200,169,106,.20); transform: translateY(-2px); }
+    .info-box:hover::before { opacity: 1; }
+
+    .info-box .label {
+      font-family: 'Jost', sans-serif;
+      font-size: .63rem;
+      letter-spacing: .38em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .info-box p {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: .88rem;
+      line-height: 1.75;
+      color: var(--muted);
+    }
+
+    .info-box strong {
+      color: var(--text);
+      font-weight: 400;
+    }
+
+    /* Form card */
+    .form-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--rMd);
+      border: 1px solid rgba(200,169,106,.16);
+      border-top: 1px solid rgba(200,169,106,.34);
+      background: linear-gradient(168deg,
+        rgba(6,5,4,.14) 0%,
+        rgba(6,5,4,.62) 100%);
+      backdrop-filter: blur(24px) saturate(1.4);
+      padding: clamp(28px, 5vw, 52px) clamp(22px, 5vw, 48px);
+      box-shadow: var(--sh-md), var(--glow);
+    }
+
+    .form-card::before {
+      content: '';
+      position: absolute;
+      inset: 11px;
+      border-radius: var(--r);
+      pointer-events: none;
+      border: 1px solid transparent;
+      background:
+        linear-gradient(var(--bg), var(--bg)) padding-box,
+        linear-gradient(135deg,
+          rgba(200,169,106,.28) 0%,
+          transparent 36%,
+          transparent 64%,
+          rgba(200,169,106,.28) 100%
+        ) border-box;
+    }
+
+    .form-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: var(--rMd);
+      background: radial-gradient(ellipse 75% 32% at 50% 0%,
+        rgba(200,169,106,.10), transparent 68%);
+      pointer-events: none;
+    }
+
+    .form-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      letter-spacing: .08em;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .form-sub {
+      font-family: 'Jost', sans-serif;
+      font-size: .88rem;
+      color: var(--muted);
+      margin-bottom: 32px;
+      line-height: 1.75;
+    }
+
+    /* Form fields */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 600px) {
+      .form-grid { grid-template-columns: 1fr; }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group.full { grid-column: 1 / -1; }
+
+    .form-group label {
+      font-family: 'Jost', sans-serif;
+      font-size: .65rem;
+      letter-spacing: .30em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 13px 16px;
+      border-radius: var(--r);
+      border: 1px solid rgba(240,236,228,.12);
+      border-top-color: rgba(240,236,228,.18);
+      background: rgba(6,5,4,.44);
+      color: var(--text);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: .88rem;
+      letter-spacing: .03em;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+      transition:
+        border-color .2s var(--ease),
+        background   .2s var(--ease),
+        box-shadow   .2s var(--ease);
+    }
+
+    .form-group select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(200,169,106,.6)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 38px;
+      cursor: pointer;
+    }
+
+    .form-group select option {
+      background: #0d0b09;
+      color: var(--text);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 110px;
+      line-height: 1.70;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: rgba(200,169,106,.45);
+      background: rgba(6,5,4,.60);
+      box-shadow: 0 0 0 3px rgba(200,169,106,.08);
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: var(--faint); }
+
+    /* Checkbox row */
+    .check-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .check-row input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      min-width: 16px;
+      margin-top: 2px;
+      accent-color: var(--gold);
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .check-row span {
+      font-family: 'Jost', sans-serif;
+      font-size: .82rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .check-row a {
+      color: var(--gold);
+      border-bottom: 1px solid rgba(200,169,106,.28);
+      transition: color .2s, border-color .2s;
+    }
+    .check-row a:hover { color: var(--gold2); border-color: var(--goldB); }
+
+    /* Divider in form */
+    .form-divider {
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent, rgba(200,169,106,.22) 50%, transparent);
+      margin: 24px 0;
+    }
+
+    /* Submit row */
+    .form-submit-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .form-submit-row .note {
+      font-family: 'Jost', sans-serif;
+      font-size: .75rem;
+      color: var(--faint);
+      letter-spacing: .04em;
+      line-height: 1.60;
+    }
+
+    .form-submit-row .note a {
+      color: var(--gold);
+    }
+
+    .btn-submit {
+      padding: 15px 38px;
+      font-size: .72rem;
+      letter-spacing: .32em;
+      border-radius: var(--r);
+      background: linear-gradient(135deg,
+        rgba(200,169,106,.28), rgba(200,169,106,.12));
+      border-color: var(--goldB);
+      color: var(--gold2);
+      min-width: 180px;
+      justify-content: center;
+    }
+
+    .btn-submit:hover {
+      background: linear-gradient(135deg,
+        rgba(200,169,106,.42), rgba(200,169,106,.22));
+      border-color: var(--gold);
+      color: var(--text);
+      box-shadow: 0 16px 52px rgba(0,0,0,.54),
+        0 0 60px rgba(200,169,106,.18);
+    }
+
+    /* Success state */
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .form-success .success-icon {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+
+    .form-success h3 {
+      font-family: 'Cormorant SC', serif;
+      font-weight: 300;
+      font-size: 1.6rem;
+      letter-spacing: .22em;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .form-success p {
+      font-family: 'Jost', sans-serif;
+      font-size: .90rem;
+      color: var(--muted);
+      line-height: 1.80;
+      max-width: 44ch;
+      margin: 0 auto;
+    }
+
+    /* Guidelines section */
+    .guidelines-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 32px;
+    }
+
+    @media (max-width: 640px) {
+      .guidelines-grid { grid-template-columns: 1fr; }
+    }
+
+    .guideline-box {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--rMd);
+      border: 1px solid rgba(240,236,228,.08);
+      border-top-color: rgba(240,236,228,.14);
+      background: rgba(6,5,4,.28);
+      backdrop-filter: blur(14px);
+      padding: 22px 20px;
+      transition: border-color .22s var(--ease), transform .22s var(--ease);
+    }
+
+    .guideline-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent 10%, rgba(200,169,106,.32) 50%, transparent 90%);
+      opacity: 0;
+      transition: opacity .22s var(--ease);
+    }
+
+    .guideline-box:hover { border-color: rgba(200,169,106,.16); transform: translateY(-2px); }
+    .guideline-box:hover::before { opacity: 1; }
+
+    .guideline-box .g-label {
+      font-family: 'Jost', sans-serif;
+      font-size: .63rem;
+      letter-spacing: .36em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .guideline-box p {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: .88rem;
+      line-height: 1.78;
+      color: var(--muted);
+    }
+
+    /* Page footer note */
+    .page-footer {
+      text-align: center;
+      padding: 40px 0 48px;
+      font-family: 'Jost', sans-serif;
+      font-size: .70rem;
+      letter-spacing: .20em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+
+    .page-footer a {
+      color: var(--gold);
+      border-bottom: 1px solid rgba(200,169,106,.28);
+      transition: color .2s;
+    }
+    .page-footer a:hover { color: var(--gold2); }
+  </style>
 </head>
-<body>
 
-<header class="nav">
-  <div class="container nav-inner">
-    <div class="brand">ELYRA</div>
-    <nav class="links">
-      <a href="index.html">Home</a>
-      <a href="issues.html">Issues</a>
-      <a href="submit.html">Submit</a>
-      <a href="about.html">About</a>
-    </nav>
-  </div>
-</header>
+<body class="no-scroll-x">
 
-<main class="container section">
-  <h1 class="h1 center" style="font-size:clamp(2.2rem,4vw,3.2rem);letter-spacing:.12em;">SUBMISSIONS</h1>
-  <div class="hair"></div>
-  <p class="center small">Photographers, stylists, writers, designers, and featured talent — all genders welcome.</p>
+  <!-- Background layers -->
+  <div class="bg" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
 
-  <div class="grid" style="margin-top:22px;">
-    <div class="panel span6">
-      <h2>Status</h2>
-      <p><strong>Currently: Closed</strong><br>Submissions will open soon. Follow our Instagram for announcements.</p>
+  <!-- Nav -->
+  <header class="nav" role="banner">
+    <div class="container nav-inner">
+      <nav class="links" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="issues.html">Issues</a>
+        <a href="submit.html" class="active">Submit</a>
+        <a href="/competitions/">Competitions</a>
+        <a href="about.html">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Hero -->
+    <div class="container">
+      <div class="submit-hero">
+        <span class="overline">Elyra Editorial</span>
+        <div class="status-open">Submissions Open</div>
+        <h1>SUBMISSIONS</h1>
+        <div class="hair"></div>
+        <p class="lede">
+          Photographers, stylists, writers, designers, models, and creative talent —
+          all genders welcome. We curate each issue with intention and presence.
+        </p>
+      </div>
     </div>
 
-    <div class="panel span6">
-      <h2>Contact</h2>
-      <p>Email: <strong>elyra.editorial@gmail.com</strong><br>
-      Subject line: <strong>ELYRA SUBMISSION — [Your Name]</strong></p>
+    <!-- Info row -->
+    <div class="container" style="margin-bottom: 32px;">
+      <div class="info-row">
+
+        <div class="info-box">
+          <div class="label">Status</div>
+          <p><strong>Currently Open</strong><br>
+          We are actively reviewing submissions for upcoming editions. Apply now to be considered.</p>
+        </div>
+
+        <div class="info-box">
+          <div class="label">Contact</div>
+          <p>
+            Primary: <strong>admin@houseofelevara.com</strong><br>
+            Editorial: <strong>elyra.editorial@gmail.com</strong><br>
+            Subject: <strong>ELYRA SUBMISSION — [Your Name]</strong>
+          </p>
+        </div>
+
+        <div class="info-box">
+          <div class="label">What We Look For</div>
+          <p>Clean storytelling, strong styling, and intentional presence. Every submission is reviewed for the next available edition.</p>
+        </div>
+
+      </div>
     </div>
 
-    <div class="panel span12">
-      <h2>Guidelines</h2>
-      <p>
-        Send 5–10 images (or one PDF), a short concept description, credits (photographer, stylist, makeup, hair, designer),
-        and the city. We prioritize clean storytelling, strong styling, and intentional presence.
-      </p>
-    </div>
-  </div>
+    <!-- Submission Form -->
+    <div class="container" style="margin-bottom: 48px;">
+      <div class="form-card">
 
-  <div class="footer center" style="margin-top:34px;">Published by Core Vision Management</div>
-</main>
+        <p class="form-title">Submit Your Work</p>
+        <p class="form-sub">
+          Fill in the details below and we will be in touch. Both our editorial team and management
+          will receive your submission.
+        </p>
+
+        <!-- Success message (shown after submit) -->
+        <div class="form-success" id="formSuccess">
+          <div class="success-icon">✦</div>
+          <h3>Submission Received</h3>
+          <p>
+            Thank you for submitting to Elyra. Our editorial team will review your work
+            and be in touch within 5–10 business days. We appreciate your presence.
+          </p>
+        </div>
+
+        <!-- Form -->
+        <form
+          id="submissionForm"
+          action="https://formsubmit.co/admin@houseofelevara.com"
+          method="POST"
+        >
+          <!-- FormSubmit config — sends to BOTH emails -->
+          <input type="hidden" name="_cc" value="elyra.editorial@gmail.com" />
+          <input type="hidden" name="_subject" value="ELYRA SUBMISSION — New Editorial Submission" />
+          <input type="hidden" name="_template" value="table" />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="hidden" name="_next" value="" id="nextUrl" />
+
+          <div class="form-grid">
+
+            <div class="form-group">
+              <label for="firstName">First Name *</label>
+              <input type="text" id="firstName" name="First Name"
+                placeholder="Your first name" required />
+            </div>
+
+            <div class="form-group">
+              <label for="lastName">Last Name *</label>
+              <input type="text" id="lastName" name="Last Name"
+                placeholder="Your last name" required />
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email Address *</label>
+              <input type="email" id="email" name="Email"
+                placeholder="your@email.com" required />
+            </div>
+
+            <div class="form-group">
+              <label for="instagram">Instagram Handle</label>
+              <input type="text" id="instagram" name="Instagram"
+                placeholder="@handle" />
+            </div>
+
+            <div class="form-group">
+              <label for="role">Your Role *</label>
+              <select id="role" name="Role" required>
+                <option value="" disabled selected>Select your role</option>
+                <option>Photographer</option>
+                <option>Model / Talent</option>
+                <option>Stylist</option>
+                <option>Makeup Artist</option>
+                <option>Hair Stylist</option>
+                <option>Creative Director</option>
+                <option>Writer / Editor</option>
+                <option>Designer</option>
+                <option>Videographer</option>
+                <option>Other Creative</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="city">City / Location *</label>
+              <input type="text" id="city" name="City"
+                placeholder="City, Country" required />
+            </div>
+
+            <div class="form-group full">
+              <label for="concept">Concept / Brief *</label>
+              <textarea id="concept" name="Concept"
+                placeholder="Describe your concept, the story behind the work, or the theme you want to explore. Be as detailed as you like."
+                required></textarea>
+            </div>
+
+            <div class="form-group full">
+              <label for="credits">Credits</label>
+              <textarea id="credits" name="Credits"
+                placeholder="List all collaborators: Photographer, Model(s), Stylist, MUA, Hair, Designer, etc."
+                style="min-height: 80px;"></textarea>
+            </div>
+
+            <div class="form-group full">
+              <label for="portfolio">Portfolio / Work Link *</label>
+              <input type="url" id="portfolio" name="Portfolio Link"
+                placeholder="https://yourwebsite.com or Google Drive link"
+                required />
+            </div>
+
+            <div class="form-group full">
+              <label for="notes">Additional Notes</label>
+              <textarea id="notes" name="Additional Notes"
+                placeholder="Anything else you want us to know — availability, special requests, or questions."
+                style="min-height: 80px;"></textarea>
+            </div>
+
+          </div>
+
+          <div class="form-divider"></div>
+
+          <div class="form-group full" style="margin-bottom: 8px;">
+            <div class="check-row">
+              <input type="checkbox" id="agree" name="Agreement" value="Agreed" required />
+              <span>
+                I confirm this is my original work and I have the rights to submit it.
+                I agree to Elyra's
+                <a href="about.html">editorial standards</a>
+                and understand that submission does not guarantee publication.
+              </span>
+            </div>
+          </div>
+
+          <div class="form-submit-row">
+            <div class="note">
+              Submissions reviewed within 5–10 business days.<br>
+              Questions? <a href="mailto:elyra.editorial@gmail.com">elyra.editorial@gmail.com</a>
+            </div>
+            <button type="submit" class="btn btn-submit">
+              Send Submission
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+    <!-- Guidelines -->
+    <div class="container">
+      <div style="text-align:center; margin-bottom: 28px;">
+        <span style="font-family:'Jost',sans-serif; font-size:.65rem; letter-spacing:.44em; text-transform:uppercase; color:var(--gold);">Submission Guidelines</span>
+        <div style="width:44px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:14px auto 0;opacity:.68;"></div>
+      </div>
+
+      <div class="guidelines-grid">
+
+        <div class="guideline-box">
+          <div class="g-label">Image Requirements</div>
+          <p>Submit 5–10 images or one cohesive PDF. High resolution preferred. We accept editorial, portrait, fashion, and beauty work.</p>
+        </div>
+
+        <div class="guideline-box">
+          <div class="g-label">Concept & Credits</div>
+          <p>Include a short concept description and full credits — photographer, stylist, makeup, hair, designer, and model(s).</p>
+        </div>
+
+        <div class="guideline-box">
+          <div class="g-label">What We Prioritize</div>
+          <p>Clean storytelling, strong styling, and intentional presence. We are drawn to work that feels cinematic, editorial, and timeless.</p>
+        </div>
+
+        <div class="guideline-box">
+          <div class="g-label">Publication</div>
+          <p>Selected work will be featured in upcoming Elyra editions. We will contact you directly with confirmation and next steps.</p>
+        </div>
+
+        <div class="guideline-box">
+          <div class="g-label">Who Can Submit</div>
+          <p>Photographers, models, stylists, MUAs, hair stylists, designers, writers, and all creative talent. All genders welcome.</p>
+        </div>
+
+        <div class="guideline-box">
+          <div class="g-label">Response Time</div>
+          <p>We review all submissions within 5–10 business days. If selected, you will hear from our editorial team directly.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="page-footer">
+      Published by <a href="https://houseofelevara.com" target="_blank" rel="noopener">Core Vision Management</a>
+      &nbsp;·&nbsp; © <span id="yr"></span> Elyra Editorial. All rights reserved.
+    </div>
+
+  </main>
+
+  <script>
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    // Set the success redirect to current page
+    document.getElementById('nextUrl').value = window.location.href + '?submitted=1';
+
+    // Show success message if redirected back after submit
+    if (window.location.search.includes('submitted=1')) {
+      document.getElementById('submissionForm').style.display = 'none';
+      document.getElementById('formSuccess').style.display = 'block';
+    }
+  </script>
 
 </body>
 </html>
