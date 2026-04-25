@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ELYRA — Edition 01</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Cormorant+SC:wght@300;400;500&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+```
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  background: #080503;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.cover {
+  position: relative;
+  width: min(460px, 96vw);
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  background: #120c07;
+  box-shadow:
+    0 60px 180px rgba(0,0,0,.95),
+    0 0 0 1px rgba(200,169,106,.20),
+    0 0 80px rgba(200,169,106,.08);
+  animation: reveal 1.4s cubic-bezier(.16,.84,.2,1) forwards;
+  opacity: 0;
+}
+
+@keyframes reveal {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Photo */
+.cover-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 8%;
+  filter: contrast(1.05) saturate(.92) brightness(.94);
+}
+
+/* Top dark fade — magazine name sits here */
+.ov-top {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(to bottom,
+    rgba(6,4,2,.88) 0%,
+    rgba(6,4,2,.55) 18%,
+    rgba(6,4,2,.08) 38%,
+    transparent 52%
+  );
+}
+
+/* Bottom dark fade — subject name sits here */
+.ov-bottom {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(to top,
+    rgba(6,4,2,.90) 0%,
+    rgba(6,4,2,.55) 18%,
+    rgba(6,4,2,.08) 36%,
+    transparent 50%
+  );
+}
+
+/* Subtle left vignette */
+.ov-left {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(to right,
+    rgba(6,4,2,.28) 0%,
+    transparent 40%
+  );
+}
+
+/* Gold grain texture */
+.grain {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  opacity: .28;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.3'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+/* Inner gold border frame */
+.frame {
+  position: absolute;
+  inset: 14px;
+  z-index: 3;
+  border: 1px solid rgba(200,169,106,.28);
+  pointer-events: none;
+}
+
+/* ── TOP AREA ── */
+.top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  padding: 28px 26px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Edition label */
+.edition-label {
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  font-size: .58rem;
+  letter-spacing: .42em;
+  text-transform: uppercase;
+  color: #c8a96a;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.edition-label::before,
+.edition-label::after {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(200,169,106,.65));
+}
+.edition-label::after {
+  background: linear-gradient(90deg, rgba(200,169,106,.65), transparent);
+}
+
+/* ELYRA wordmark */
+.wordmark {
+  font-family: 'Cormorant SC', serif;
+  font-weight: 300;
+  font-size: clamp(3.2rem, 14vw, 5.8rem);
+  letter-spacing: .40em;
+  line-height: 1;
+  color: #f0ece4;
+  text-align: center;
+  padding-left: .40em;
+  text-shadow:
+    0 2px 8px rgba(0,0,0,.70),
+    0 0 60px rgba(200,169,106,.18);
+}
+
+/* Thin gold rule under wordmark */
+.wordmark-rule {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(200,169,106,.55) 30%,
+    rgba(200,169,106,.85) 50%,
+    rgba(200,169,106,.55) 70%,
+    transparent 100%
+  );
+  margin-top: 10px;
+}
+
+/* Tagline */
+.tagline {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: .72rem;
+  letter-spacing: .22em;
+  color: rgba(200,169,106,.75);
+  margin-top: 7px;
+  text-align: center;
+}
+
+/* ── SIDE LABELS ── */
+.side-left {
+  position: absolute;
+  left: 22px;
+  top: 50%;
+  transform: translateY(-50%) rotate(-90deg);
+  transform-origin: center;
+  z-index: 4;
+  font-family: 'Jost', sans-serif;
+  font-weight: 200;
+  font-size: .52rem;
+  letter-spacing: .36em;
+  text-transform: uppercase;
+  color: rgba(200,169,106,.55);
+  white-space: nowrap;
+}
+
+.side-right {
+  position: absolute;
+  right: 22px;
+  top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+  transform-origin: center;
+  z-index: 4;
+  font-family: 'Jost', sans-serif;
+  font-weight: 200;
+  font-size: .52rem;
+  letter-spacing: .36em;
+  text-transform: uppercase;
+  color: rgba(200,169,106,.45);
+  white-space: nowrap;
+}
+
+/* ── BOTTOM AREA ── */
+.bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  padding: 0 26px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Bottom rule */
+.bottom-rule {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(200,169,106,.45) 30%,
+    rgba(200,169,106,.70) 50%,
+    rgba(200,169,106,.45) 70%,
+    transparent 100%
+  );
+  margin-bottom: 14px;
+}
+
+/* "Digital Cover" label */
+.cover-label {
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  font-size: .55rem;
+  letter-spacing: .44em;
+  text-transform: uppercase;
+  color: rgba(200,169,106,.70);
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+/* Subject name */
+.subject-name {
+  font-family: 'Cormorant SC', serif;
+  font-weight: 400;
+  font-size: clamp(1.3rem, 5.5vw, 2.1rem);
+  letter-spacing: .24em;
+  color: #f0ece4;
+  text-align: center;
+  text-shadow:
+    0 2px 12px rgba(0,0,0,.80),
+    0 0 40px rgba(200,169,106,.14);
+  line-height: 1.1;
+}
+
+/* Issue info */
+.issue-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.issue-info span {
+  font-family: 'Jost', sans-serif;
+  font-weight: 200;
+  font-size: .50rem;
+  letter-spacing: .34em;
+  text-transform: uppercase;
+  color: rgba(200,169,106,.55);
+}
+
+.issue-info .dot {
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: rgba(200,169,106,.45);
+  flex-shrink: 0;
+  letter-spacing: 0;
+}
+
+/* ── Corner ornaments ── */
+.corner {
+  position: absolute;
+  z-index: 4;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+}
+
+.corner-tl { top: 24px; left: 24px;
+  border-top: 1px solid rgba(200,169,106,.50);
+  border-left: 1px solid rgba(200,169,106,.50);
+}
+.corner-tr { top: 24px; right: 24px;
+  border-top: 1px solid rgba(200,169,106,.50);
+  border-right: 1px solid rgba(200,169,106,.50);
+}
+.corner-bl { bottom: 24px; left: 24px;
+  border-bottom: 1px solid rgba(200,169,106,.50);
+  border-left: 1px solid rgba(200,169,106,.50);
+}
+.corner-br { bottom: 24px; right: 24px;
+  border-bottom: 1px solid rgba(200,169,106,.50);
+  border-right: 1px solid rgba(200,169,106,.50);
+}
+
+/* ── Shimmer animation on wordmark ── */
+@keyframes sheen {
+  0%   { text-shadow: 0 2px 8px rgba(0,0,0,.70), 0 0 60px rgba(200,169,106,.18); }
+  50%  { text-shadow: 0 2px 8px rgba(0,0,0,.70), 0 0 80px rgba(200,169,106,.35); }
+  100% { text-shadow: 0 2px 8px rgba(0,0,0,.70), 0 0 60px rgba(200,169,106,.18); }
+}
+
+.wordmark { animation: sheen 4s ease-in-out infinite; }
+```
+
+  </style>
+</head>
+<body>
+
+  <div class="cover">
+
+```
+<!-- Photo -->
+<img
+  class="cover-img"
+  src="https://elyraeditorial.github.io/IMG_9109.jpeg"
+  alt="ELYRA Edition 01 Cover"
+/>
+
+<!-- Overlays -->
+<div class="ov-top"></div>
+<div class="ov-bottom"></div>
+<div class="ov-left"></div>
+<div class="grain"></div>
+
+<!-- Inner frame -->
+<div class="frame"></div>
+
+<!-- Corner ornaments -->
+<div class="corner corner-tl"></div>
+<div class="corner corner-tr"></div>
+<div class="corner corner-bl"></div>
+<div class="corner corner-br"></div>
+
+<!-- Top — ELYRA -->
+<div class="top">
+  <div class="edition-label">Edition 01</div>
+  <div class="wordmark">ELYRA</div>
+  <div class="wordmark-rule"></div>
+  <div class="tagline">Editorial · Presence · Identity</div>
+</div>
+
+<!-- Side labels -->
+<div class="side-left">The Society Issue</div>
+<div class="side-right">elyraeditorial.com</div>
+
+<!-- Bottom — Subject -->
+<div class="bottom">
+  <div class="bottom-rule"></div>
+  <div class="cover-label">Digital Cover</div>
+  <div class="subject-name">The Society Issue</div>
+  <div class="issue-info">
+    <span>Spring 2025</span>
+    <div class="dot"></div>
+    <span>Edition 01</span>
+    <div class="dot"></div>
+    <span>elyraeditorial.com</span>
+  </div>
+</div>
+```
+
+  </div>
+
+</body>
+</html>
