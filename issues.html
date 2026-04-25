@@ -4,199 +4,783 @@
   <meta charset="UTF-8" />
   <title>ELYRA — Issues</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+
+  <meta name="description" content="ELYRA Editorial Issues — Curated editions exploring identity, presence, and creative expression." />
+  <meta name="theme-color" content="#060504" />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/jpeg" href="https://elyraeditorial.github.io/IMG_8629.jpeg?v=3" />
+  <link rel="apple-touch-icon" href="https://elyraeditorial.github.io/IMG_8629.jpeg?v=3" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Cormorant+SC:wght@300;400;500&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    /* ── Issues page extras ── */
+
+    body { padding-bottom: 48px; }
+
+    /* Page hero */
+    .issues-page-hero {
+      padding: 110px 0 0;
+      text-align: center;
+    }
+
+    .issues-page-hero .overline {
+      display: block;
+      font-family: 'Jost', sans-serif;
+      font-size: .63rem;
+      letter-spacing: .46em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+
+    .issues-wordmark {
+      font-family: 'Cormorant SC', serif;
+      font-weight: 300;
+      font-size: clamp(3.2rem, 10vw, 7rem);
+      letter-spacing: .34em;
+      line-height: .94;
+      background: linear-gradient(135deg,
+        var(--text) 0%, var(--gold2) 46%, var(--text) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      background-size: 200% 100%;
+      animation: titleSheen 9s var(--ease) infinite;
+      margin-bottom: 4px;
+    }
+
+    .issues-sub-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1rem, 2.5vw, 1.35rem);
+      letter-spacing: .18em;
+      color: var(--faint);
+      margin-top: 6px;
+    }
+
+    /* ── Featured cover spread ── */
+    .cover-spread {
+      margin-top: 52px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: center;
+    }
+
+    @media (max-width: 820px) {
+      .cover-spread { grid-template-columns: 1fr; gap: 24px; }
+    }
+
+    /* Left — editorial copy */
+    .cover-spread-copy {
+      padding: 8px 0;
+    }
+
+    .edition-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Jost', sans-serif;
+      font-size: .63rem;
+      letter-spacing: .38em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+
+    .edition-label::before {
+      content: '';
+      width: 22px;
+      height: 1px;
+      background: var(--gold);
+      opacity: .55;
+    }
+
+    .cover-spread-copy h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      letter-spacing: .06em;
+      line-height: 1.02;
+      color: var(--text);
+      text-shadow: 0 16px 60px rgba(0,0,0,.60);
+      margin-bottom: 16px;
+    }
+
+    .cover-spread-copy p {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: .92rem;
+      line-height: 1.88;
+      color: var(--muted);
+      max-width: 44ch;
+    }
+
+    .cover-spread-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .meta-pill {
+      font-family: 'Jost', sans-serif;
+      font-size: .63rem;
+      letter-spacing: .26em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 7px 14px;
+      border-radius: var(--r);
+      border: 1px solid rgba(240,236,228,.10);
+      background: rgba(6,5,4,.28);
+    }
+
+    .cover-spread-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    /* Right — 3D cover */
+    .cover-spread-stage {
+      position: relative;
+      max-width: 420px;
+      margin: 0 auto;
+      perspective: 1200px;
+      transform-style: preserve-3d;
+      animation: coverIn 1.4s var(--ease) .45s forwards;
+      opacity: 0;
+    }
+
+    @keyframes coverIn {
+      from { opacity: 0; transform: translateY(24px) rotateY(-5deg); }
+      to   { opacity: 1; transform: translateY(0)    rotateY(0deg); }
+    }
+
+    .cover-spread-card {
+      position: relative;
+      border-radius: var(--rMd);
+      overflow: hidden;
+      border: 1px solid rgba(200,169,106,.18);
+      border-top-color: rgba(200,169,106,.34);
+      background: rgba(6,5,4,.22);
+      box-shadow:
+        var(--sh-lg),
+        inset 0 1px 0 rgba(200,169,106,.16),
+        0 0 120px rgba(200,169,106,.14);
+      transform-style: preserve-3d;
+      transition: transform .25s var(--ease);
+    }
+
+    .cover-spread-card.floaty {
+      animation: floaty 7s ease-in-out infinite;
+    }
+
+    @keyframes floaty {
+      0%,100% { transform: translate3d(0,0,0) rotateX(0) rotateY(0); }
+      33%     { transform: translate3d(0,-7px,0) rotateX(.6deg) rotateY(-.5deg); }
+      66%     { transform: translate3d(2px,-4px,0) rotateX(.3deg) rotateY(.4deg); }
+    }
+
+    .cover-spread-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transform: translateZ(14px);
+    }
+
+    /* Glow overlay on cover */
+    .cover-spread-glow {
+      position: absolute;
+      inset: -35%;
+      background:
+        radial-gradient(ellipse at 28% 22%, rgba(200,169,106,.26), transparent 52%),
+        radial-gradient(ellipse at 76% 16%, rgba(255,255,255,.08), transparent 46%);
+      mix-blend-mode: screen;
+      opacity: .55;
+      transform: translateZ(18px);
+      pointer-events: none;
+      animation: glowDrift 7s ease-in-out infinite alternate;
+    }
+
+    @keyframes glowDrift {
+      from { transform: translateZ(18px) translate(0,0); opacity: .50; }
+      to   { transform: translateZ(18px) translate(12px,-8px); opacity: .65; }
+    }
+
+    /* Cover caption bar */
+    .cover-caption {
+      position: absolute;
+      left: 14px; bottom: 12px;
+      padding: 10px 14px;
+      border-radius: var(--r);
+      background: rgba(6,5,4,.58);
+      border: 1px solid rgba(200,169,106,.16);
+      border-top-color: rgba(200,169,106,.30);
+      backdrop-filter: blur(14px);
+      transform: translateZ(24px);
+    }
+
+    .cover-caption-label {
+      font-family: 'Jost', sans-serif;
+      font-size: .60rem;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .cover-caption-title {
+      margin-top: 4px;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      letter-spacing: .08em;
+      color: var(--text);
+    }
+
+    /* Drop shadow under cover */
+    .cover-shadow {
+      height: 28px;
+      width: 80%;
+      margin: 14px auto 0;
+      background: radial-gradient(closest-side, rgba(0,0,0,.85), transparent);
+      filter: blur(12px);
+      opacity: .82;
+    }
+
+    /* ── Mini stats row ── */
+    .stats-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 48px;
+      justify-content: center;
+    }
+
+    .stat-box {
+      flex: 1;
+      min-width: 140px;
+      max-width: 220px;
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--r);
+      border: 1px solid rgba(200,169,106,.14);
+      border-top-color: rgba(200,169,106,.28);
+      background: rgba(6,5,4,.32);
+      backdrop-filter: blur(10px);
+      padding: 16px 18px;
+      text-align: center;
+      transition: border-color .22s var(--ease), transform .22s var(--ease);
+    }
+
+    .stat-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(200,169,106,.38), transparent);
+    }
+
+    .stat-box:hover {
+      border-color: rgba(200,169,106,.28);
+      transform: translateY(-2px);
+    }
+
+    .stat-box-top {
+      font-family: 'Jost', sans-serif;
+      font-size: .60rem;
+      letter-spacing: .30em;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: .85;
+      margin-bottom: 6px;
+    }
+
+    .stat-box-val {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.10rem;
+      color: var(--text);
+      letter-spacing: .06em;
+    }
+
+    /* ── Section title ── */
+    .section-label {
+      text-align: center;
+      margin: 56px 0 28px;
+    }
+
+    .section-label .overline {
+      display: block;
+      font-family: 'Jost', sans-serif;
+      font-size: .63rem;
+      letter-spacing: .44em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    .section-label h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      letter-spacing: .10em;
+      color: var(--text);
+    }
+
+    .section-label::after {
+      content: '';
+      display: block;
+      width: 44px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 14px auto 0;
+      opacity: .68;
+    }
+
+    /* ── Issue cards grid ── */
+    .issues-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 720px) {
+      .issues-grid { grid-template-columns: 1fr; }
+    }
+
+    .issue-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--rMd);
+      border: 1px solid rgba(240,236,228,.08);
+      border-top-color: rgba(240,236,228,.14);
+      background: rgba(6,5,4,.28);
+      backdrop-filter: blur(14px);
+      padding: 26px 22px;
+      box-shadow: var(--sh-sm);
+      transition:
+        background    .24s var(--ease),
+        border-color  .24s var(--ease),
+        transform     .24s var(--ease),
+        box-shadow    .24s var(--ease);
+    }
+
+    /* Ghost issue number watermark */
+    .issue-card-num {
+      position: absolute;
+      right: 16px;
+      top: 12px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 5rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--gold);
+      opacity: .06;
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* Top shimmer on hover */
+    .issue-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent 8%, rgba(200,169,106,.38) 50%, transparent 92%);
+      opacity: 0;
+      transition: opacity .24s var(--ease);
+    }
+
+    .issue-card:hover::before { opacity: 1; }
+
+    .issue-card:hover {
+      background: rgba(6,5,4,.46);
+      border-color: rgba(200,169,106,.18);
+      transform: translateY(-3px);
+      box-shadow: var(--sh-md), var(--glow);
+    }
+
+    .issue-card-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 12px;
+      border-radius: var(--r);
+      border: 1px solid rgba(200,169,106,.18);
+      background: rgba(200,169,106,.07);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: .63rem;
+      letter-spacing: .26em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+      transition: border-color .2s, background .2s;
+    }
+
+    .issue-card-badge.ghost {
+      border-color: rgba(240,236,228,.12);
+      background: rgba(6,5,4,.28);
+      color: var(--muted);
+    }
+
+    .issue-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: 1.52rem;
+      letter-spacing: .06em;
+      color: var(--text);
+      line-height: 1.16;
+      margin-bottom: 10px;
+    }
+
+    .issue-card p {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: .88rem;
+      line-height: 1.82;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .issue-card-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* ── Callout — submit for next issue ── */
+    .submit-callout {
+      margin-top: 48px;
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--rMd);
+      border: 1px solid rgba(200,169,106,.20);
+      border-top-color: rgba(200,169,106,.38);
+      background: linear-gradient(168deg,
+        rgba(200,169,106,.08) 0%,
+        rgba(6,5,4,.50) 100%);
+      backdrop-filter: blur(20px);
+      padding: clamp(28px, 5vw, 48px) clamp(22px, 5vw, 44px);
+      text-align: center;
+      box-shadow: var(--sh-md), var(--glow);
+    }
+
+    .submit-callout::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: var(--rMd);
+      background: radial-gradient(ellipse 70% 40% at 50% 0%,
+        rgba(200,169,106,.12), transparent 68%);
+      pointer-events: none;
+    }
+
+    .submit-callout .overline {
+      display: block;
+      font-family: 'Jost', sans-serif;
+      font-size: .63rem;
+      letter-spacing: .44em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    .submit-callout h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      letter-spacing: .08em;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .submit-callout p {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: .92rem;
+      line-height: 1.88;
+      color: var(--muted);
+      max-width: 50ch;
+      margin: 0 auto 24px;
+    }
+
+    /* ── Page footer ── */
+    .page-footer {
+      text-align: center;
+      padding: 40px 0 48px;
+      font-family: 'Jost', sans-serif;
+      font-size: .70rem;
+      letter-spacing: .20em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+
+    .page-footer a {
+      color: var(--gold);
+      border-bottom: 1px solid rgba(200,169,106,.28);
+      transition: color .2s;
+    }
+    .page-footer a:hover { color: var(--gold2); }
+  </style>
 </head>
 
-<body class="elyra-issues">
+<body class="elyra-issues no-scroll-x">
 
-  <!-- Cinematic hero background -->
+  <!-- Issues bg layers -->
   <div class="elyra-hero-bg" aria-hidden="true"></div>
   <div class="elyra-vignette" aria-hidden="true"></div>
   <div class="elyra-grain" aria-hidden="true"></div>
 
-  <header class="nav">
+  <!-- Nav -->
+  <header class="nav" role="banner">
     <div class="container nav-inner">
-      <div class="brand">ELYRA</div>
-      <nav class="links">
+      <nav class="links" aria-label="Primary">
         <a href="index.html">Home</a>
-        <a class="active" href="issues.html">Issues</a>
+        <a href="issues.html" class="active" aria-current="page">Issues</a>
         <a href="submit.html">Submit</a>
-        <a href="about.html">About</a>
         <a href="/competitions/">Competitions</a>
+        <a href="about.html">About</a>
       </nav>
     </div>
   </header>
 
-  <main class="container section">
-    <!-- Top hero headline -->
-    <section class="issues-hero">
-      <div class="issues-hero-left">
-        <div class="kicker">CURATED EDITIONS</div>
-        <h1 class="issues-title">ISSUES</h1>
-        <div class="hair"></div>
-        <p class="issues-sub">
-          Curated editions. Limited noise. High presence.
-          <span class="muted">A magazine world built with restraint and power.</span>
-        </p>
+  <main>
+    <div class="container">
 
-        <div class="hero-actions">
-          <a class="btn btn3d" href="submit.html">SUBMISSIONS</a>
-          <a class="btn btn3d ghost" href="/competitions/">VIEW COMPETITIONS</a>
-        </div>
-
-        <div class="mini-stats">
-          <div class="stat">
-            <div class="statTop">Aesthetic</div>
-            <div class="statBottom">Editorial Minimalism</div>
-          </div>
-          <div class="stat">
-            <div class="statTop">Focus</div>
-            <div class="statBottom">Identity & Presence</div>
-          </div>
-          <div class="stat">
-            <div class="statTop">Output</div>
-            <div class="statBottom">Limited Editions</div>
-          </div>
-        </div>
+      <!-- Page hero -->
+      <div class="issues-page-hero">
+        <span class="overline">Curated Editions</span>
+        <div class="issues-wordmark">ISSUES</div>
+        <div class="hair" style="margin: 18px auto;"></div>
+        <div class="issues-sub-title">A magazine world built with restraint and power.</div>
       </div>
 
-      <!-- 3D cover card -->
-      <div class="issues-hero-right">
-        <div class="cover-stage" id="coverStage" aria-label="Featured cover">
-          <div class="cover-card" id="coverCard">
-            <div class="cover-glow"></div>
+      <!-- Featured cover spread -->
+      <div class="cover-spread">
+
+        <!-- Left copy -->
+        <div class="cover-spread-copy">
+          <div class="edition-label">Edition 01</div>
+          <h2>The Society<br>Issue</h2>
+          <p>
+            Our launch edition introducing the ELYRA worldview —
+            editorial restraint, cultural presence, and identity-forward
+            storytelling. A visual statement designed to feel timeless.
+          </p>
+
+          <div class="cover-spread-meta">
+            <div class="meta-pill">Fashion</div>
+            <div class="meta-pill">Culture</div>
+            <div class="meta-pill">Identity</div>
+            <div class="meta-pill">Editorial</div>
+          </div>
+
+          <div class="cover-spread-actions">
+            <a class="btn primary" href="submit.html">Submit for Edition 02</a>
+            <a class="btn ghost" href="/competitions/">Competitions</a>
+          </div>
+        </div>
+
+        <!-- Right — 3D cover -->
+        <div class="cover-spread-stage" id="coverStage">
+          <div class="cover-spread-card" id="coverCard">
+            <div class="cover-spread-glow"></div>
             <img
-              class="cover-img"
               src="/41093FB2-DECE-4FDE-9743-5439E8418148.png"
               alt="ELYRA — The Society Issue cover"
               loading="eager"
             />
-            <div class="cover-meta">
-              <div class="cover-title">Edition 01</div>
-              <div class="cover-subtitle">THE SOCIETY ISSUE</div>
+            <div class="cover-caption">
+              <div class="cover-caption-label">Edition 01</div>
+              <div class="cover-caption-title">The Society Issue</div>
             </div>
           </div>
           <div class="cover-shadow"></div>
         </div>
+
       </div>
-    </section>
 
-    <!-- Issue grid -->
-    <section class="issues-grid" aria-label="Issues list">
-      <article class="issue-panel tilt" data-tilt>
-        <div class="issue-badge">FEATURED</div>
-        <h2>Edition 01 — The Society Issue</h2>
-        <p>
-          Launch edition introducing the ELYRA worldview: editorial restraint,
-          cultural presence, and identity-forward storytelling.
-        </p>
-
-        <div class="issue-actions">
-          <a class="btn btn3d" href="#" aria-disabled="true">COMING SOON</a>
-          <a class="btn btn3d ghost" href="submit.html">SUBMIT FOR NEXT ISSUE</a>
+      <!-- Stats row -->
+      <div class="stats-row">
+        <div class="stat-box">
+          <div class="stat-box-top">Aesthetic</div>
+          <div class="stat-box-val">Editorial Minimalism</div>
         </div>
-      </article>
-
-      <article class="issue-panel tilt" data-tilt>
-        <div class="issue-badge ghost">IN DEVELOPMENT</div>
-        <h2>Edition 02 — Title TBA</h2>
-        <p>
-          Next edition currently in development. Contributors and feature subjects
-          will be announced inside submissions.
-        </p>
-
-        <div class="issue-actions">
-          <a class="btn btn3d" href="submit.html">SUBMISSIONS</a>
-          <a class="btn btn3d ghost" href="about.html">ABOUT ELYRA</a>
+        <div class="stat-box">
+          <div class="stat-box-top">Focus</div>
+          <div class="stat-box-val">Identity &amp; Presence</div>
         </div>
-      </article>
-    </section>
+        <div class="stat-box">
+          <div class="stat-box-top">Output</div>
+          <div class="stat-box-val">Limited Editions</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box-top">Submissions</div>
+          <div class="stat-box-val">Now Open</div>
+        </div>
+      </div>
 
-    <div class="footer center" style="margin-top:34px;">Published by Core Vision Management</div>
+      <!-- Issues section heading -->
+      <div class="section-label">
+        <span class="overline">All Editions</span>
+        <h2>The Archive</h2>
+      </div>
+
+      <!-- Issues grid -->
+      <div class="issues-grid" aria-label="Issues list">
+
+        <!-- Edition 01 -->
+        <article class="issue-card" id="ed01">
+          <div class="issue-card-num">01</div>
+          <div class="issue-card-badge">Featured</div>
+          <h3>Edition 01 —<br>The Society Issue</h3>
+          <p>
+            Launch edition introducing the ELYRA worldview: editorial restraint,
+            cultural presence, and identity-forward storytelling. Our visual
+            debut — cinematic, selective, and built to last.
+          </p>
+          <div class="issue-card-actions">
+            <a class="btn" href="#" aria-disabled="true">Coming Soon</a>
+            <a class="btn ghost" href="submit.html">Submit Work</a>
+          </div>
+        </article>
+
+        <!-- Edition 02 -->
+        <article class="issue-card" id="ed02">
+          <div class="issue-card-num">02</div>
+          <div class="issue-card-badge ghost">In Development</div>
+          <h3>Edition 02 —<br>Title TBA</h3>
+          <p>
+            Our second edition is currently in development. Contributors,
+            feature subjects, and cover talent will be announced through
+            submissions and competitions. Apply now to be considered.
+          </p>
+          <div class="issue-card-actions">
+            <a class="btn primary" href="submit.html">Submit Now</a>
+            <a class="btn ghost" href="about.html">About Elyra</a>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Submit callout -->
+      <div class="submit-callout">
+        <span class="overline">Be Part of Elyra</span>
+        <h2>Submissions Are Open</h2>
+        <p>
+          Photographers, stylists, models, writers, and creative talent —
+          we are actively building the next edition. Submit your work and
+          become part of the Elyra story.
+        </p>
+        <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+          <a class="btn primary" href="submit.html">Submit Your Work</a>
+          <a class="btn ghost" href="/competitions/">Enter Competitions</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Page footer -->
+    <div class="page-footer">
+      Published by
+      <a href="https://houseofelevara.com" target="_blank" rel="noopener">Core Vision Management</a>
+      &nbsp;·&nbsp;
+      <a href="https://houseofelevara.com" target="_blank" rel="noopener">House of Elévara</a>
+      &nbsp;·&nbsp;
+      © <span id="yr"></span> Elyra Editorial
+    </div>
+
   </main>
 
   <script>
-    // Lightweight 3D tilt + parallax (mobile friendly)
-    (function(){
-      const card = document.getElementById('coverCard');
-      const stage = document.getElementById('coverStage');
-      if(!card || !stage) return;
+    document.getElementById('yr').textContent = new Date().getFullYear();
 
-      const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if(prefersReduced) return;
+    // 3D tilt on cover card
+    (function () {
+      const card  = document.getElementById('coverCard');
+      const stage = document.getElementById('coverStage');
+      if (!card || !stage) return;
+
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduced) return;
 
       let raf = null;
 
-      function onMove(clientX, clientY){
-        const r = stage.getBoundingClientRect();
-        const x = (clientX - r.left) / r.width;
-        const y = (clientY - r.top) / r.height;
-
-        const rx = (0.5 - y) * 10;  // rotateX
-        const ry = (x - 0.5) * 12;  // rotateY
-        const tx = (x - 0.5) * 10;  // translateX
-        const ty = (y - 0.5) * 10;  // translateY
-
+      function onMove(clientX, clientY) {
+        const r  = stage.getBoundingClientRect();
+        const x  = (clientX - r.left) / r.width;
+        const y  = (clientY - r.top)  / r.height;
+        const rx = (0.5 - y) * 10;
+        const ry = (x - 0.5) * 12;
+        const tx = (x - 0.5) * 8;
+        const ty = (y - 0.5) * 8;
         card.style.transform =
-          `translate3d(${tx}px, ${ty}px, 0) rotateX(${rx}deg) rotateY(${ry}deg)`;
+          `translate3d(${tx}px,${ty}px,0) rotateX(${rx}deg) rotateY(${ry}deg)`;
       }
 
-      function moveHandler(e){
-        const p = e.touches ? e.touches[0] : e;
-        if(!p) return;
-        if(raf) cancelAnimationFrame(raf);
-        raf = requestAnimationFrame(() => onMove(p.clientX, p.clientY));
+      function onLeave() {
+        card.style.transform = 'translate3d(0,0,0) rotateX(0deg) rotateY(0deg)';
       }
 
-      function leaveHandler(){
-        card.style.transform = `translate3d(0,0,0) rotateX(0deg) rotateY(0deg)`;
-      }
+      stage.addEventListener('mousemove', e => {
+        if (raf) cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => onMove(e.clientX, e.clientY));
+      }, { passive: true });
 
-      stage.addEventListener('mousemove', moveHandler, { passive:true });
-      stage.addEventListener('touchmove', moveHandler, { passive:true });
-      stage.addEventListener('mouseleave', leaveHandler, { passive:true });
-      stage.addEventListener('touchend', leaveHandler, { passive:true });
+      stage.addEventListener('touchmove', e => {
+        const t = e.touches[0];
+        if (!t) return;
+        if (raf) cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => onMove(t.clientX, t.clientY));
+      }, { passive: true });
 
-      // Subtle auto-float
+      stage.addEventListener('mouseleave', onLeave, { passive: true });
+      stage.addEventListener('touchend',   onLeave, { passive: true });
+
       card.classList.add('floaty');
     })();
 
-    // Generic tilt panels
-    (function(){
-      const els = document.querySelectorAll('[data-tilt]');
-      const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if(prefersReduced) return;
+    // Tilt on issue cards
+    (function () {
+      const cards = document.querySelectorAll('.issue-card');
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduced) return;
 
-      els.forEach(el => {
+      cards.forEach(el => {
         let raf = null;
 
-        function handle(clientX, clientY){
-          const r = el.getBoundingClientRect();
-          const x = (clientX - r.left) / r.width;
-          const y = (clientY - r.top) / r.height;
+        el.addEventListener('mousemove', e => {
+          if (raf) cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(() => {
+            const r  = el.getBoundingClientRect();
+            const x  = (e.clientX - r.left) / r.width;
+            const y  = (e.clientY - r.top)  / r.height;
+            const rx = (0.5 - y) * 5;
+            const ry = (x - 0.5) * 7;
+            el.style.transform =
+              `perspective(900px) translateY(-3px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+          });
+        }, { passive: true });
 
-          const rx = (0.5 - y) * 6;
-          const ry = (x - 0.5) * 8;
-
-          el.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(0)`;
-        }
-
-        function move(e){
-          const p = e.touches ? e.touches[0] : e;
-          if(!p) return;
-          if(raf) cancelAnimationFrame(raf);
-          raf = requestAnimationFrame(() => handle(p.clientX, p.clientY));
-        }
-
-        function reset(){
-          el.style.transform = `perspective(900px) rotateX(0deg) rotateY(0deg)`;
-        }
-
-        el.addEventListener('mousemove', move, { passive:true });
-        el.addEventListener('touchmove', move, { passive:true });
-        el.addEventListener('mouseleave', reset, { passive:true });
-        el.addEventListener('touchend', reset, { passive:true });
+        el.addEventListener('mouseleave', () => {
+          el.style.transform = '';
+        }, { passive: true });
       });
     })();
   </script>
