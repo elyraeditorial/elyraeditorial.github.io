@@ -4,239 +4,878 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Elyra — Contestant</title>
-  <link rel="stylesheet" href="./assets/competitions.css?v=19"/>
+
+  <!-- Icons -->
+  <link rel="icon" type="image/jpeg" href="https://elyraeditorial.github.io/IMG_8629.jpeg?v=3" />
+  <link rel="apple-touch-icon" href="https://elyraeditorial.github.io/IMG_8629.jpeg?v=3" />
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Cormorant+SC:wght@300;400;500&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../styles.css"/>
+  <link rel="stylesheet" href="./assets/competitions.css?v=19"/>
 
   <style>
-    .contest-meta{
-      margin-top: 18px;
+    /* ── Contestant page extras ── */
+
+    body { padding-bottom: 52px; }
+
+    .hero-wrap { padding-top: 80px; }
+
+    /* ── Contestant hero ── */
+    .contestant-hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--rLg);
+      border: 1px solid rgba(200,169,106,.16);
+      border-top-color: rgba(200,169,106,.32);
+      background: linear-gradient(168deg,
+        rgba(6,5,4,.14) 0%,
+        rgba(6,5,4,.62) 100%);
+      backdrop-filter: blur(22px);
+      box-shadow: var(--sh-lg), var(--glow);
+      padding: clamp(36px,6vw,64px) clamp(24px,5vw,56px);
+      margin-bottom: 24px;
+      animation: cardIn 1.2s var(--ease) .15s forwards;
+      opacity: 0;
+    }
+
+    /* Corner hairlines */
+    .contestant-hero::before {
+      content: '';
+      position: absolute;
+      inset: 12px;
+      border-radius: var(--r);
+      pointer-events: none;
+      border: 1px solid transparent;
+      background:
+        linear-gradient(var(--bg), var(--bg)) padding-box,
+        linear-gradient(135deg,
+          rgba(200,169,106,.28) 0%,
+          transparent 36%,
+          transparent 64%,
+          rgba(200,169,106,.28) 100%
+        ) border-box;
+    }
+
+    /* Crown shimmer */
+    .contestant-hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: var(--rLg);
+      background: radial-gradient(ellipse 75% 32% at 50% 0%,
+        rgba(200,169,106,.12), transparent 68%);
+      pointer-events: none;
+    }
+
+    .contestant-hero-inner {
+      position: relative;
+      z-index: 1;
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
     }
 
-    .contest-meta-box{
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.03);
-      border-radius: 18px;
-      padding: 18px;
-    }
-
-    .contest-meta-label{
-      font-size: 11px;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      opacity: .72;
-      margin-bottom: 8px;
-    }
-
-    .contest-meta-value{
-      font-size: 1rem;
-      line-height: 1.45;
-      color: rgba(255,255,255,.92);
-    }
-
-    .contest-note{
-      margin-top: 14px;
-    }
-
-    @media (max-width: 900px){
-      .contest-meta{
+    @media (max-width: 720px) {
+      .contestant-hero-inner {
         grid-template-columns: 1fr;
+        gap: 24px;
       }
     }
+
+    /* Left — name + bio + votes */
+    .contestant-copy {}
+
+    .contestant-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Jost', sans-serif;
+      font-size: .63rem;
+      letter-spacing: .40em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+
+    .contestant-kicker::before {
+      content: '';
+      width: 18px;
+      height: 1px;
+      background: var(--gold);
+      opacity: .55;
+    }
+
+    .contestant-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(2.6rem, 6vw, 4.4rem);
+      letter-spacing: .06em;
+      line-height: 1.02;
+      color: var(--text);
+      text-shadow:
+        0 2px 6px rgba(0,0,0,.42),
+        0 20px 80px rgba(0,0,0,.65);
+      margin-bottom: 16px;
+      background: linear-gradient(135deg,
+        var(--text) 0%, var(--gold2) 50%, var(--text) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      background-size: 200% 100%;
+      animation: titleSheen 9s var(--ease) infinite;
+    }
+
+    .contestant-bio-text {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: .92rem;
+      line-height: 1.88;
+      color: var(--muted);
+      max-width: 48ch;
+      margin-bottom: 24px;
+    }
+
+    /* Live vote counter */
+    .vote-counter {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 20px;
+      border-radius: var(--r);
+      border: 1px solid rgba(200,169,106,.20);
+      border-top-color: rgba(200,169,106,.38);
+      background: rgba(6,5,4,.38);
+      backdrop-filter: blur(10px);
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .vote-counter::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent, rgba(200,169,106,.40), transparent);
+    }
+
+    .vote-counter-label {
+      font-family: 'Jost', sans-serif;
+      font-size: .60rem;
+      letter-spacing: .32em;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: .85;
+    }
+
+    .vote-counter-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.55rem;
+      color: var(--text);
+      letter-spacing: .06em;
+      line-height: 1;
+    }
+
+    /* Right — photo */
+    .contestant-photo-wrap {
+      position: relative;
+    }
+
+    .contestant-photo-card {
+      position: relative;
+      border-radius: var(--rMd);
+      overflow: hidden;
+      border: 1px solid rgba(200,169,106,.18);
+      border-top-color: rgba(200,169,106,.32);
+      background: rgba(6,5,4,.28);
+      box-shadow: var(--sh-lg), 0 0 80px rgba(200,169,106,.14);
+    }
+
+    .contestant-photo-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Photo glow */
+    .contestant-photo-glow {
+      position: absolute;
+      inset: -30%;
+      background:
+        radial-gradient(ellipse at 30% 20%,
+          rgba(200,169,106,.22), transparent 52%);
+      mix-blend-mode: screen;
+      opacity: .55;
+      pointer-events: none;
+    }
+
+    /* No photo state */
+    .contestant-no-photo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 280px;
+      border-radius: var(--rMd);
+      border: 1px solid rgba(240,236,228,.08);
+      border-top-color: rgba(200,169,106,.16);
+      background: rgba(6,5,4,.22);
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--faint);
+      letter-spacing: .14em;
+    }
+
+    /* ── How it works ── */
+    .how-it-works {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 700px) {
+      .how-it-works { grid-template-columns: 1fr; }
+    }
+
+    .how-box {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--r);
+      border: 1px solid rgba(240,236,228,.08);
+      border-top-color: rgba(200,169,106,.18);
+      background: rgba(6,5,4,.28);
+      backdrop-filter: blur(10px);
+      padding: 16px 18px;
+      transition: border-color .2s var(--ease), background .2s var(--ease);
+    }
+
+    .how-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent, rgba(200,169,106,.30), transparent);
+    }
+
+    .how-box:hover {
+      border-color: rgba(200,169,106,.22);
+      background: rgba(6,5,4,.44);
+    }
+
+    .how-label {
+      font-family: 'Jost', sans-serif;
+      font-size: .60rem;
+      letter-spacing: .32em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+
+    .how-val {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: .86rem;
+      line-height: 1.65;
+      color: var(--muted);
+    }
+
+    /* ── Voting panel ── */
+    .vote-panel {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--rMd);
+      border: 1px solid rgba(200,169,106,.18);
+      border-top-color: rgba(200,169,106,.36);
+      background: linear-gradient(168deg,
+        rgba(200,169,106,.07) 0%,
+        rgba(6,5,4,.55) 100%);
+      backdrop-filter: blur(22px);
+      padding: clamp(24px, 4vw, 40px) clamp(20px, 4vw, 36px);
+      box-shadow: var(--sh-md), var(--glow);
+    }
+
+    .vote-panel::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: var(--rMd);
+      background: radial-gradient(ellipse 70% 32% at 50% 0%,
+        rgba(200,169,106,.10), transparent 65%);
+      pointer-events: none;
+    }
+
+    .vote-panel-inner { position: relative; z-index: 1; }
+
+    .vote-panel-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      letter-spacing: .07em;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .vote-panel-sub {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: .86rem;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 22px;
+    }
+
+    /* Vote amount selector */
+    .vote-amounts {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 500px) {
+      .vote-amounts { grid-template-columns: 1fr; }
+    }
+
+    .vote-amount-btn {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--r);
+      border: 1px solid rgba(200,169,106,.22);
+      background: rgba(6,5,4,.30);
+      padding: 16px 12px;
+      text-align: center;
+      cursor: pointer;
+      transition:
+        border-color  .2s var(--ease),
+        background    .2s var(--ease),
+        transform     .2s var(--spring),
+        box-shadow    .2s var(--ease);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+    }
+
+    .vote-amount-btn:hover {
+      border-color: var(--goldB);
+      background: rgba(200,169,106,.12);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0,0,0,.45),
+        0 0 30px rgba(200,169,106,.14);
+    }
+
+    .vote-amount-btn::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent, rgba(200,169,106,.38), transparent);
+    }
+
+    .vote-amount-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.55rem;
+      color: var(--text);
+      letter-spacing: .06em;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .vote-amount-label {
+      font-size: .62rem;
+      letter-spacing: .26em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .vote-amount-sub {
+      font-size: .72rem;
+      color: var(--faint);
+      margin-top: 3px;
+      letter-spacing: .04em;
+    }
+
+    /* Divider */
+    .vote-divider {
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent, rgba(200,169,106,.22) 50%, transparent);
+      margin: 20px 0;
+    }
+
+    /* Vote buttons row */
+    .vote-btn-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    /* Status message */
+    .vote-msg {
+      font-family: 'Jost', sans-serif;
+      font-size: .82rem;
+      color: var(--muted);
+      line-height: 1.70;
+      min-height: 20px;
+    }
+
+    .vote-msg.success { color: rgba(140,220,160,.85); }
+    .vote-msg.error   { color: rgba(220,100,100,.80); }
+
+    /* Legal note */
+    .vote-legal {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(240,236,228,.06);
+      font-family: 'Jost', sans-serif;
+      font-size: .75rem;
+      color: var(--faint);
+      line-height: 1.68;
+    }
+
+    /* Back nav */
+    .back-nav {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .back-nav a {
+      font-family: 'Jost', sans-serif;
+      font-size: .68rem;
+      letter-spacing: .26em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: color .2s var(--ease);
+    }
+
+    .back-nav a::before {
+      content: '←';
+      font-size: .80rem;
+    }
+
+    .back-nav a:hover { color: var(--gold); }
+
+    /* Payment success banner */
+    .payment-banner {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      border-radius: var(--r);
+      border: 1px solid rgba(140,220,160,.30);
+      background: rgba(140,220,160,.07);
+      margin-bottom: 20px;
+      font-family: 'Jost', sans-serif;
+      font-size: .86rem;
+      color: rgba(160,230,180,.90);
+      line-height: 1.60;
+    }
+
+    .payment-banner.visible { display: flex; }
+
+    .payment-banner::before {
+      content: '✦';
+      font-size: .70rem;
+      color: rgba(140,220,160,.80);
+      flex-shrink: 0;
+    }
+
+    /* Loading skeleton */
+    .skeleton-name {
+      width: 60%;
+      height: 3rem;
+      border-radius: var(--r);
+      background: linear-gradient(90deg,
+        rgba(240,236,228,.05) 25%,
+        rgba(240,236,228,.10) 50%,
+        rgba(240,236,228,.05) 75%);
+      background-size: 200% 100%;
+      animation: shimmerLoad 1.4s ease infinite;
+      margin-bottom: 14px;
+    }
+
+    .skeleton-bio {
+      width: 85%;
+      height: 1rem;
+      border-radius: var(--r);
+      background: linear-gradient(90deg,
+        rgba(240,236,228,.04) 25%,
+        rgba(240,236,228,.08) 50%,
+        rgba(240,236,228,.04) 75%);
+      background-size: 200% 100%;
+      animation: shimmerLoad 1.4s ease .15s infinite;
+    }
+
+    @keyframes shimmerLoad {
+      from { background-position: 200% center; }
+      to   { background-position: -200% center; }
+    }
+
+    /* Page footer */
+    .page-footer {
+      text-align: center;
+      padding: 40px 0 52px;
+      font-family: 'Jost', sans-serif;
+      font-size: .70rem;
+      letter-spacing: .20em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+
+    .page-footer a {
+      color: var(--gold);
+      border-bottom: 1px solid rgba(200,169,106,.28);
+      transition: color .2s;
+    }
+    .page-footer a:hover { color: var(--gold2); }
   </style>
 </head>
-<body>
 
+<body class="no-scroll-x">
+
+  <!-- Background -->
+  <div class="bg" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- Nav -->
   <div class="topbar">
     <div class="container row">
       <div class="brand">ELYRA</div>
       <div class="navlinks">
-        <a href="/competitions/">Competitions</a>
         <a href="/">Home</a>
+        <a href="/issues.html">Issues</a>
+        <a href="/submit.html">Submit</a>
+        <a href="/competitions/" class="active">Competitions</a>
+        <a href="/about.html">About</a>
       </div>
     </div>
   </div>
 
-  <div class="container hero">
-    <h1 class="h1" id="name">Loading…</h1>
-    <p class="p" id="bio"></p>
+  <div class="container hero-wrap">
 
-    <div class="card" id="photoCard" style="display:none; padding:12px; margin-top:14px;">
-      <img
-        id="photoImg"
-        alt="Contestant photo"
-        style="width:100%; border-radius:14px; border:1px solid rgba(255,255,255,.10);"
-        loading="lazy"
-      />
+    <!-- Back nav -->
+    <div class="back-nav">
+      <a href="/competitions/" id="backBtn">Back to Competitions</a>
     </div>
-  </div>
 
-  <div class="container">
-    <div class="grid">
-      <div class="card span12">
+    <!-- Payment success banner -->
+    <div class="payment-banner" id="paymentBanner">
+      Payment received — thank you for supporting this contestant.
+      Your votes have been counted and totals will update shortly.
+    </div>
 
-        <div class="contest-meta">
-          <div class="contest-meta-box">
-            <div class="contest-meta-label">Prize Pool</div>
-            <div class="contest-meta-value">Minimum $500 prize pool — increases based on total votes.</div>
-          </div>
-          <div class="contest-meta-box">
-            <div class="contest-meta-label">Voting Deadline</div>
-            <div class="contest-meta-value">Voting closes May 31 at 11:59 PM CST.</div>
-          </div>
-          <div class="contest-meta-box">
-            <div class="contest-meta-label">How It Works</div>
-            <div class="contest-meta-value">$1 equals 1 vote. Highest total votes at the deadline wins.</div>
-          </div>
-        </div>
+    <!-- Contestant hero -->
+    <div class="contestant-hero">
+      <div class="contestant-hero-inner">
 
-        <p class="small contest-note">
-          All votes are final. Live totals are displayed publicly. ELYRA reserves the right to remove fraudulent activity or disqualify manipulation that compromises the integrity of the competition.
-        </p>
+        <!-- Left — copy -->
+        <div class="contestant-copy">
+          <div class="contestant-kicker">Elyra Contestant</div>
 
-        <div class="hr"></div>
+          <!-- Loading skeleton -->
+          <div id="skeletonName" class="skeleton-name"></div>
+          <div id="skeletonBio"  class="skeleton-bio"></div>
 
-        <div class="kpi">
-          <div class="box">Vote: $1 each</div>
-          <div class="box" id="totalVotes">Total votes: —</div>
-        </div>
+          <!-- Populated by JS -->
+          <div class="contestant-name"
+               id="name"
+               style="display:none;">Loading…</div>
 
-        <div class="hr"></div>
+          <div class="contestant-bio-text"
+               id="bio"
+               style="display:none;"></div>
 
-        <div class="btnrow">
-          <button class="btn primary btn3d" id="voteBtn" type="button" disabled>Vote ($1)</button>
-          <a class="btn" id="backBtn" href="/competitions/">Back</a>
-        </div>
-
-        <div class="hr"></div>
-
-        <div class="payBox">
-          <div class="label">Choose your vote amount</div>
-          <div class="small">Each vote is paid. You’ll return to Elyra after checkout.</div>
-
-          <div style="height:10px"></div>
-
-          <div class="btnrow">
-            <button class="btn btn3d glow10" id="pay10" type="button" disabled>Buy Votes ($10)</button>
-            <button class="btn btn3d glow50" id="pay50" type="button" disabled>Buy Votes ($50)</button>
+          <!-- Live vote counter -->
+          <div class="vote-counter">
+            <div class="vote-counter-label">Total Votes</div>
+            <div class="vote-counter-num" id="totalVotes">—</div>
           </div>
         </div>
 
-        <div class="hr"></div>
-        <p class="small" id="msg"></p>
+        <!-- Right — photo -->
+        <div class="contestant-photo-wrap">
+          <div id="photoCard" style="display:none;">
+            <div class="contestant-photo-card">
+              <div class="contestant-photo-glow"></div>
+              <img id="photoImg" alt="Contestant photo" loading="lazy" />
+            </div>
+          </div>
+          <div class="contestant-no-photo" id="noPhoto">
+            Image coming soon
+          </div>
+        </div>
 
       </div>
     </div>
+
+    <!-- How it works -->
+    <div class="how-it-works">
+      <div class="how-box">
+        <div class="how-label">Prize Pool</div>
+        <div class="how-val">Minimum $500 — grows with every vote cast</div>
+      </div>
+      <div class="how-box">
+        <div class="how-label">Voting Closes</div>
+        <div class="how-val">May 31 at 11:59 PM CST</div>
+      </div>
+      <div class="how-box">
+        <div class="how-label">How It Works</div>
+        <div class="how-val">$1 = 1 vote. Highest total wins the cover feature</div>
+      </div>
+    </div>
+
+    <!-- Voting panel -->
+    <div class="vote-panel">
+      <div class="vote-panel-inner">
+
+        <div class="vote-panel-title">Cast Your Votes</div>
+        <div class="vote-panel-sub">
+          Every dollar is one vote. Choose your amount below and
+          complete checkout to support this contestant.
+        </div>
+
+        <!-- Vote amount cards -->
+        <div class="vote-amounts">
+
+          <div class="vote-amount-btn" id="triggerPay1">
+            <div class="vote-amount-price">$1</div>
+            <div class="vote-amount-label">1 Vote</div>
+            <div class="vote-amount-sub">Single vote</div>
+          </div>
+
+          <div class="vote-amount-btn" id="triggerPay10">
+            <div class="vote-amount-price">$10</div>
+            <div class="vote-amount-label">10 Votes</div>
+            <div class="vote-amount-sub">Best value</div>
+          </div>
+
+          <div class="vote-amount-btn" id="triggerPay50">
+            <div class="vote-amount-price">$50</div>
+            <div class="vote-amount-label">50 Votes</div>
+            <div class="vote-amount-sub">Maximum support</div>
+          </div>
+
+        </div>
+
+        <div class="vote-divider"></div>
+
+        <!-- Vote buttons -->
+        <div class="vote-btn-row">
+          <button class="btn primary" id="voteBtn"
+                  type="button" disabled>
+            Vote — $1
+          </button>
+          <button class="btn btn3d glow10" id="pay10"
+                  type="button" disabled>
+            Buy 10 Votes — $10
+          </button>
+          <button class="btn btn3d glow50" id="pay50"
+                  type="button" disabled>
+            Buy 50 Votes — $50
+          </button>
+        </div>
+
+        <!-- Status message -->
+        <p class="vote-msg" id="msg"></p>
+
+        <!-- Legal -->
+        <div class="vote-legal">
+          All votes are final. Live totals are displayed publicly.
+          ELYRA reserves the right to remove fraudulent activity or
+          disqualify manipulation that compromises the integrity of
+          the competition.
+        </div>
+
+      </div>
+    </div>
+
   </div>
+
+  <!-- Page footer -->
+  <div class="page-footer">
+    <a href="https://houseofelevara.com" target="_blank" rel="noopener">House of Elévara</a>
+    &nbsp;·&nbsp;
+    <a href="/">Elyra Editorial</a>
+    &nbsp;·&nbsp;
+    © <span id="yr"></span> All rights reserved
+  </div>
+
+  <script>
+    document.getElementById('yr').textContent = new Date().getFullYear();
+  </script>
 
   <script type="module">
     import * as dataApi from "./assets/data.js?v=19";
     import { startPaidVoteCheckout } from "./assets/vote.js?v=19";
     import { getParam, setText, toast } from "./assets/ui.js?v=19";
 
-    const id = getParam("id");
-    const slug = getParam("slug");
+    const id       = getParam("id");
+    const slug     = getParam("slug");
     const returnTo = location.origin + location.pathname + location.search;
 
-    const name = document.getElementById("name");
-    const bio = document.getElementById("bio");
-    const msg = document.getElementById("msg");
-    const voteBtn = document.getElementById("voteBtn");
-    const totalVotes = document.getElementById("totalVotes");
-    const backBtn = document.getElementById("backBtn");
+    /* Elements */
+    const nameEl       = document.getElementById("name");
+    const bioEl        = document.getElementById("bio");
+    const msgEl        = document.getElementById("msg");
+    const voteBtn      = document.getElementById("voteBtn");
+    const totalVotesEl = document.getElementById("totalVotes");
+    const backBtn      = document.getElementById("backBtn");
+    const pay10        = document.getElementById("pay10");
+    const pay50        = document.getElementById("pay50");
+    const photoCard    = document.getElementById("photoCard");
+    const photoImg     = document.getElementById("photoImg");
+    const noPhoto      = document.getElementById("noPhoto");
+    const skeletonName = document.getElementById("skeletonName");
+    const skeletonBio  = document.getElementById("skeletonBio");
+    const payBanner    = document.getElementById("paymentBanner");
 
-    const pay10 = document.getElementById("pay10");
-    const pay50 = document.getElementById("pay50");
+    /* Vote amount card triggers */
+    const trigger1  = document.getElementById("triggerPay1");
+    const trigger10 = document.getElementById("triggerPay10");
+    const trigger50 = document.getElementById("triggerPay50");
 
-    const photoCard = document.getElementById("photoCard");
-    const photoImg = document.getElementById("photoImg");
-
+    /* Back link */
     if (slug) {
-      backBtn.href = `/competitions/contest.html?slug=${encodeURIComponent(slug)}`;
+      backBtn.href =
+        `/competitions/contest.html?slug=${encodeURIComponent(slug)}`;
     }
 
+    /* Show payment success banner */
+    if (getParam("paid") === "1") {
+      payBanner.classList.add("visible");
+    }
+
+    /* Helpers */
     function safeImg(url) {
       if (!url) return null;
       const u = String(url).trim();
       if (u.startsWith("http://") || u.startsWith("https://")) return u;
-      if (u.includes("github.io") || u.includes("elyraeditorial.com")) return "https://" + u;
+      if (u.includes("github.io") || u.includes("elyraeditorial.com"))
+        return "https://" + u;
       return null;
     }
 
     function withTimeout(promise, ms = 7000) {
       return Promise.race([
         promise,
-        new Promise((_, reject) => setTimeout(() => reject(new Error("Request timed out.")), ms))
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("Request timed out.")), ms)
+        )
       ]);
     }
 
     function disableVoting() {
       voteBtn.disabled = true;
-      pay10.disabled = true;
-      pay50.disabled = true;
+      pay10.disabled   = true;
+      pay50.disabled   = true;
+      if (trigger1)  trigger1.style.opacity  = '.45';
+      if (trigger10) trigger10.style.opacity = '.45';
+      if (trigger50) trigger50.style.opacity = '.45';
     }
 
     function enableVoting() {
       voteBtn.disabled = false;
-      pay10.disabled = false;
-      pay50.disabled = false;
+      pay10.disabled   = false;
+      pay50.disabled   = false;
+      if (trigger1)  trigger1.style.opacity  = '1';
+      if (trigger10) trigger10.style.opacity = '1';
+      if (trigger50) trigger50.style.opacity = '1';
+    }
+
+    function showContent() {
+      skeletonName.style.display = 'none';
+      skeletonBio.style.display  = 'none';
+      nameEl.style.display       = 'block';
+      bioEl.style.display        = 'block';
+    }
+
+    function setMsg(text, type = '') {
+      msgEl.textContent  = text;
+      msgEl.className    = 'vote-msg' + (type ? ' ' + type : '');
     }
 
     async function refreshTotals(contestantId) {
       try {
-        const t = await withTimeout(dataApi.fetchVoteTotalsForContestant(contestantId), 5000);
-        setText(totalVotes, `Total votes: ${Number(t?.total_votes || 0).toLocaleString()}`);
+        const t = await withTimeout(
+          dataApi.fetchVoteTotalsForContestant(contestantId), 5000
+        );
+        setText(totalVotesEl,
+          Number(t?.total_votes || 0).toLocaleString()
+        );
       } catch (e) {
         console.warn("Totals fallback:", e);
-        setText(totalVotes, "Total votes: 0");
+        setText(totalVotesEl, "0");
       }
     }
 
-    let contestId = null;
+    let contestId    = null;
     let contestantId = null;
-    let loaded = false;
+    let loaded       = false;
 
+    /* Safety timeout */
     const loadingGuard = setTimeout(() => {
       if (!loaded) {
-        setText(name, "Contestant unavailable");
-        setText(bio, "Please refresh or return to the contest page.");
-        setText(msg, "This contestant is taking too long to load.");
-        setText(totalVotes, "Total votes: 0");
-        photoCard.style.display = "none";
+        showContent();
+        setText(nameEl, "Contestant unavailable");
+        setText(bioEl,  "Please refresh or return to the contest page.");
+        setMsg("This contestant is taking too long to load.", "error");
+        setText(totalVotesEl, "0");
+        noPhoto.style.display = 'flex';
         disableVoting();
       }
     }, 8000);
 
-    if (getParam("paid") === "1") {
-      setText(msg, "Payment received. Thank you for supporting Elyra.");
-    }
-
     try {
       if (!id) throw new Error("Missing contestant id.");
 
-      const contestant = await withTimeout(dataApi.fetchContestantById(id), 7000);
+      const contestant = await withTimeout(
+        dataApi.fetchContestantById(id), 7000
+      );
       if (!contestant) throw new Error("Contestant not found.");
 
       contestantId = contestant.id;
 
-      setText(name, contestant.display_name || "Contestant");
-      setText(bio, contestant.bio || "");
+      /* Populate name + bio */
+      showContent();
+      setText(nameEl, contestant.display_name || "Contestant");
+      setText(bioEl,  contestant.bio || "");
 
+      /* Photo */
       const img = safeImg(contestant.photo_url);
       if (img) {
-        photoImg.src = img;
-        photoCard.style.display = "block";
+        photoImg.src          = img;
+        photoCard.style.display = 'block';
+        noPhoto.style.display   = 'none';
       } else {
-        photoCard.style.display = "none";
+        photoCard.style.display = 'none';
+        noPhoto.style.display   = 'flex';
       }
 
+      /* Contest ID */
       if (slug) {
         try {
-          const contest = await withTimeout(dataApi.fetchContestBySlug(slug), 5000);
+          const contest = await withTimeout(
+            dataApi.fetchContestBySlug(slug), 5000
+          );
           contestId = contest?.id || contestant.contest_id;
         } catch {
           contestId = contestant.contest_id;
@@ -250,55 +889,33 @@
       enableVoting();
       await refreshTotals(contestantId);
 
-      voteBtn.onclick = async () => {
+      /* ── Vote handlers ── */
+      async function doCheckout(pack) {
         try {
-          voteBtn.disabled = true;
-          setText(msg, "Redirecting...");
+          disableVoting();
+          setMsg("Redirecting to checkout…");
           await startPaidVoteCheckout({
             contestId,
             contestantId,
-            pack: 1,
+            pack,
             returnTo
           });
         } catch (e) {
           console.error(e);
           toast(e.message || "Checkout failed.");
-          setText(msg, e.message || "Checkout failed.");
+          setMsg(e.message || "Checkout failed.", "error");
           enableVoting();
         }
-      };
+      }
 
-      pay10.onclick = async () => {
-        try {
-          setText(msg, "Redirecting...");
-          await startPaidVoteCheckout({
-            contestId,
-            contestantId,
-            pack: 10,
-            returnTo
-          });
-        } catch (e) {
-          console.error(e);
-          toast(e.message || "Checkout failed.");
-          setText(msg, e.message || "Checkout failed.");
-        }
-      };
+      voteBtn.onclick   = () => doCheckout(1);
+      pay10.onclick     = () => doCheckout(10);
+      pay50.onclick     = () => doCheckout(50);
 
-      pay50.onclick = async () => {
-        try {
-          setText(msg, "Redirecting...");
-          await startPaidVoteCheckout({
-            contestId,
-            contestantId,
-            pack: 50,
-            returnTo
-          });
-        } catch (e) {
-          console.error(e);
-          toast(e.message || "Checkout failed.");
-          setText(msg, e.message || "Checkout failed.");
-        }
-      };
+      /* Vote amount card clicks */
+      if (trigger1)  trigger1.onclick  = () => doCheckout(1);
+      if (trigger10) trigger10.onclick = () => doCheckout(10);
+      if (trigger50) trigger50.onclick = () => doCheckout(50);
 
       loaded = true;
       clearTimeout(loadingGuard);
@@ -307,12 +924,15 @@
       console.error(err);
       loaded = true;
       clearTimeout(loadingGuard);
-      setText(name, "Contestant unavailable");
-      setText(bio, err.message || "This contestant could not be loaded.");
-      setText(msg, err.message || "This contestant could not be loaded.");
+
+      showContent();
+      setText(nameEl, "Contestant unavailable");
+      setText(bioEl,  err.message || "This contestant could not be loaded.");
+      setMsg(err.message || "This contestant could not be loaded.", "error");
+      setText(totalVotesEl, "0");
+      photoCard.style.display = 'none';
+      noPhoto.style.display   = 'flex';
       disableVoting();
-      photoCard.style.display = "none";
-      setText(totalVotes, "Total votes: 0");
     }
   </script>
 
