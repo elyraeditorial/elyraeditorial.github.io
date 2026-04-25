@@ -50,47 +50,178 @@
   <link rel="stylesheet" href="styles.css" />
 
   <style>
-    /* ── Home page extras ── */
 
-    /* Elevated footer link pills */
-    .home-footer-links {
+    /* ================================================
+       ELYRA WORDMARK — solid gold, always visible
+       on every browser, desktop and mobile
+       ================================================ */
+    .hero-wordmark {
+      font-family: 'Cormorant SC', 'Cormorant Garamond', Georgia, serif;
+      font-weight: 300;
+      font-size: clamp(4.8rem, 16vw, 9rem);
+      letter-spacing: .42em;
+      line-height: 1;
+      text-align: center;
+      text-transform: uppercase;
+      /* Solid gold — no clip, no transparency, works everywhere */
+      color: #e2cc96;
+      /* Subtle text shadow for depth */
+      text-shadow:
+        0 0  30px rgba(200,169,106,.55),
+        0 0  80px rgba(200,169,106,.25),
+        0 4px 12px rgba(0,0,0,.60),
+        0 20px 80px rgba(0,0,0,.70);
+      margin: 0 0 4px;
+      display: block;
+      width: 100%;
+      /* Indented slightly for the letter-spacing overhang */
+      padding-left: .42em;
+    }
+
+    /* ================================================
+       HERO — truly centered on all screen sizes
+       ================================================ */
+    .hero {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 88px 16px 60px;
+      position: relative;
+    }
+
+    /* ================================================
+       CARD — centered glass panel
+       ================================================ */
+    .hero .card {
+      width: 100%;
+      max-width: 680px;
+      margin: 0 auto;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ================================================
+       ORNAMENTAL RULE — Est. 2025
+       ================================================ */
+    .hero-orn {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      justify-content: center;
+      margin-bottom: 20px;
+      width: 100%;
+    }
+
+    .hero-orn::before,
+    .hero-orn::after {
+      content: '';
+      flex: 1;
+      max-width: 64px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(200,169,106,.55));
+    }
+    .hero-orn::after {
+      background: linear-gradient(90deg, rgba(200,169,106,.55), transparent);
+    }
+
+    .hero-orn em {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: normal;
+      font-size: .50rem;
+      letter-spacing: .52em;
+      text-transform: uppercase;
+      color: #c8a96a;
+      opacity: .75;
+      white-space: nowrap;
+    }
+
+    /* ================================================
+       KICKER
+       ================================================ */
+    .hero .kicker {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: .65rem;
+      letter-spacing: .44em;
+      text-transform: uppercase;
+      color: #c8a96a;
+      margin-bottom: 18px;
+      display: block;
+      text-indent: 0;
+      position: static;
+    }
+    .hero .kicker::before,
+    .hero .kicker::after { display: none; content: none; }
+
+    /* ================================================
+       HAIR RULE
+       ================================================ */
+    .hero .hair {
+      width: 52px;
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent, #c8a96a, transparent);
+      margin: 18px auto;
+      opacity: .65;
+      display: block;
+    }
+
+    /* ================================================
+       LEDE
+       ================================================ */
+    .hero .lede {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: .96rem;
+      line-height: 1.95;
+      color: rgba(240,236,228,.70);
+      max-width: 46ch;
+      margin: 0 auto 20px;
+      letter-spacing: .03em;
+      text-align: center;
+    }
+
+    /* ================================================
+       TAGLINE
+       ================================================ */
+    .hero .tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      letter-spacing: .16em;
+      color: rgba(240,236,228,.40);
+      margin-top: 18px;
+      text-align: center;
+    }
+
+    /* ================================================
+       BUTTONS
+       ================================================ */
+    .hero .btnrow {
       display: flex;
       gap: 10px;
       justify-content: center;
       flex-wrap: wrap;
-      margin-top: 16px;
+      margin-top: 24px;
     }
 
-    .home-footer-links a {
-      font-family: 'Jost', sans-serif;
-      font-weight: 300;
-      font-size: .68rem;
-      letter-spacing: .24em;
-      text-transform: uppercase;
-      color: var(--muted);
-      padding: 8px 16px;
-      border-radius: var(--r);
-      border: 1px solid rgba(240,236,228,.10);
-      background: rgba(6,5,4,.28);
-      backdrop-filter: blur(10px);
-      transition:
-        color        .22s var(--ease),
-        border-color .22s var(--ease),
-        background   .22s var(--ease),
-        transform    .22s var(--spring);
-    }
-
-    .home-footer-links a:hover {
-      color: var(--gold2);
-      border-color: rgba(200,169,106,.28);
-      background: rgba(200,169,106,.08);
-      transform: translateY(-1px);
-    }
-
-    /* Elevara integration strip */
-    .elevara-strip {
+    /* ================================================
+       FOOTER INSIDE CARD
+       ================================================ */
+    .hero .footer {
       margin-top: 28px;
-      padding-top: 22px;
+      width: 100%;
+      text-align: center;
+    }
+
+    /* Elevara strip */
+    .elevara-strip {
+      margin-top: 24px;
+      padding-top: 20px;
       border-top: 1px solid rgba(240,236,228,.08);
       display: flex;
       align-items: center;
@@ -101,29 +232,74 @@
 
     .elevara-strip span {
       font-family: 'Jost', sans-serif;
-      font-size: .65rem;
-      letter-spacing: .28em;
+      font-size: .63rem;
+      letter-spacing: .26em;
       text-transform: uppercase;
-      color: var(--faint);
+      color: rgba(240,236,228,.38);
     }
 
     .elevara-strip a {
       font-family: 'Jost', sans-serif;
-      font-size: .65rem;
-      letter-spacing: .28em;
+      font-size: .63rem;
+      letter-spacing: .26em;
       text-transform: uppercase;
-      color: var(--gold);
+      color: #c8a96a;
       border-bottom: 1px solid rgba(200,169,106,.28);
       padding-bottom: 1px;
       transition: color .2s, border-color .2s;
     }
-
     .elevara-strip a:hover {
-      color: var(--gold2);
-      border-color: var(--goldB);
+      color: #e2cc96;
+      border-color: rgba(200,169,106,.55);
     }
 
-    /* Announcement ticker */
+    /* Footer link pills */
+    .home-footer-links {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .home-footer-links a {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: .65rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: rgba(240,236,228,.60);
+      padding: 7px 14px;
+      border-radius: 2px;
+      border: 1px solid rgba(240,236,228,.10);
+      background: rgba(6,5,4,.28);
+      transition:
+        color        .22s ease,
+        border-color .22s ease,
+        background   .22s ease,
+        transform    .22s ease;
+    }
+
+    .home-footer-links a:hover {
+      color: #e2cc96;
+      border-color: rgba(200,169,106,.28);
+      background: rgba(200,169,106,.08);
+      transform: translateY(-1px);
+    }
+
+    /* Copyright */
+    .home-copy {
+      margin-top: 14px;
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: .65rem;
+      letter-spacing: .18em;
+      color: rgba(240,236,228,.35);
+    }
+
+    /* ================================================
+       TICKER
+       ================================================ */
     .ticker-wrap {
       position: fixed;
       bottom: 0;
@@ -132,14 +308,13 @@
       z-index: 100;
       overflow: hidden;
       padding: 10px 0;
-      background: rgba(6,5,4,.72);
-      backdrop-filter: blur(16px);
+      background: rgba(6,5,4,.78);
+      backdrop-filter: blur(18px);
       border-top: 1px solid rgba(200,169,106,.18);
     }
 
     .ticker-track {
       display: flex;
-      gap: 0;
       animation: tickerMove 32s linear infinite;
       white-space: nowrap;
       will-change: transform;
@@ -149,15 +324,15 @@
       flex-shrink: 0;
       font-family: 'Jost', sans-serif;
       font-weight: 300;
-      font-size: .65rem;
+      font-size: .63rem;
       letter-spacing: .28em;
       text-transform: uppercase;
-      color: var(--muted);
-      padding: 0 40px;
+      color: rgba(240,236,228,.60);
+      padding: 0 44px;
     }
 
     .ticker-item span {
-      color: var(--gold);
+      color: #c8a96a;
       margin-right: 12px;
     }
 
@@ -166,48 +341,50 @@
       to   { transform: translateX(-50%); }
     }
 
-    /* Hero ornamental rule */
-    .hero-orn {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      justify-content: center;
-      margin-bottom: 22px;
-    }
-    .hero-orn::before,
-    .hero-orn::after {
-      content: '';
-      flex: 1;
-      max-width: 72px;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--goldB));
-    }
-    .hero-orn::after {
-      background: linear-gradient(90deg, var(--goldB), transparent);
-    }
-    .hero-orn em {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: normal;
-      font-size: .50rem;
-      letter-spacing: .52em;
-      text-transform: uppercase;
-      color: var(--gold);
-      opacity: .78;
-    }
-
-    /* Copyright */
-    .home-copy {
-      margin-top: 14px;
-      font-family: 'Jost', sans-serif;
-      font-weight: 300;
-      font-size: .68rem;
-      letter-spacing: .18em;
-      color: var(--faint);
-      opacity: .75;
-    }
-
-    /* Add bottom padding so ticker doesn't cover content */
+    /* Body padding for ticker */
     body { padding-bottom: 44px; }
+
+    /* ================================================
+       MOBILE REFINEMENTS
+       ================================================ */
+    @media (max-width: 480px) {
+      .hero-wordmark {
+        font-size: clamp(3.8rem, 18vw, 5.5rem);
+        letter-spacing: .30em;
+        padding-left: .30em;
+      }
+
+      .hero {
+        padding: 80px 12px 52px;
+      }
+
+      .hero .card {
+        padding: 36px 18px 28px;
+      }
+
+      .hero .btnrow {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .hero .btnrow .btn {
+        width: 100%;
+        max-width: 260px;
+        justify-content: center;
+      }
+    }
+
+    /* ================================================
+       DESKTOP
+       ================================================ */
+    @media (min-width: 900px) {
+      .hero-wordmark {
+        font-size: clamp(6rem, 10vw, 9rem);
+        letter-spacing: .44em;
+        padding-left: .44em;
+      }
+    }
+
   </style>
 </head>
 
@@ -218,7 +395,7 @@
   <div class="vignette" aria-hidden="true"></div>
   <div class="grain" aria-hidden="true"></div>
 
-  <!-- Nav -->
+  <!-- Nav — centered, clean -->
   <header class="nav" role="banner">
     <div class="container nav-inner">
       <nav class="links" aria-label="Primary">
@@ -231,11 +408,11 @@
     </div>
   </header>
 
-  <!-- Hero -->
+  <!-- Hero — full screen, brand perfectly centered -->
   <main class="hero" role="main">
     <section class="card" id="heroCard" aria-label="ELYRA Editorial">
 
-      <!-- Ornamental rule -->
+      <!-- Est. ornament -->
       <div class="hero-orn">
         <em>Est. 2025</em>
       </div>
@@ -243,20 +420,26 @@
       <!-- Kicker -->
       <div class="kicker">Independent Editorial</div>
 
-      <!-- Wordmark -->
-      <h1 class="h1">ELYRA</h1>
+      <!-- ============================================
+           ELYRA WORDMARK
+           Solid gold. Centered. Visible everywhere.
+           ============================================ -->
+      <span class="hero-wordmark" aria-label="ELYRA">ELYRA</span>
 
-      <!-- Gold hair rule -->
+      <!-- Gold rule -->
       <div class="hair"></div>
 
       <!-- Lede -->
       <p class="lede">
-        Independent fashion &amp; culture publication exploring identity,
-        presence, and creative expression through editorial storytelling.
+        Independent fashion &amp; culture publication exploring
+        identity, presence, and creative expression through
+        editorial storytelling.
       </p>
 
       <!-- Tagline -->
-      <div class="tagline">Editorial &nbsp;·&nbsp; Presence &nbsp;·&nbsp; Identity</div>
+      <div class="tagline">
+        Editorial &nbsp;·&nbsp; Presence &nbsp;·&nbsp; Identity
+      </div>
 
       <!-- CTA buttons -->
       <div class="btnrow" aria-label="Primary actions">
@@ -265,24 +448,31 @@
         <a class="btn ghost" href="/competitions/">Competitions</a>
       </div>
 
-      <!-- Announcement copy -->
-      <p class="small" style="margin: 22px auto 0; max-width: 54ch; line-height: 1.85;">
+      <!-- Small copy -->
+      <p class="small" style="
+        margin: 22px auto 0;
+        max-width: 52ch;
+        line-height: 1.85;
+        text-align: center;
+      ">
         Curated editions. Limited noise. High presence.
-        <span style="color: var(--faint);">
+        <span style="color: rgba(240,236,228,.40);">
           New features and cover stars announced inside Competitions.
         </span>
       </p>
 
-      <!-- Footer area -->
+      <!-- Footer inside card -->
       <div class="footer">
 
         <div class="elevara-strip">
           <span>Published by</span>
-          <a href="https://houseofelevara.com" target="_blank" rel="noopener noreferrer">
+          <a href="https://houseofelevara.com"
+             target="_blank" rel="noopener noreferrer">
             Core Vision Management
           </a>
           <span>&nbsp;·&nbsp;</span>
-          <a href="https://houseofelevara.com" target="_blank" rel="noopener noreferrer">
+          <a href="https://houseofelevara.com"
+             target="_blank" rel="noopener noreferrer">
             House of Elévara
           </a>
         </div>
@@ -291,11 +481,15 @@
           <a href="about.html">About</a>
           <a href="submit.html">Submit</a>
           <a href="/competitions/">Competitions</a>
-          <a href="https://houseofelevara.com" target="_blank" rel="noopener noreferrer">House of Elévara</a>
+          <a href="https://houseofelevara.com"
+             target="_blank" rel="noopener noreferrer">
+            House of Elévara
+          </a>
         </div>
 
         <div class="home-copy">
-          © <span id="yr"></span> Elyra Editorial. All rights reserved.
+          © <span id="yr"></span> Elyra Editorial.
+          All rights reserved.
         </div>
 
       </div>
@@ -303,40 +497,63 @@
     </section>
   </main>
 
-  <!-- Announcement ticker -->
+  <!-- Ticker -->
   <div class="ticker-wrap" aria-hidden="true">
-    <div class="ticker-track" id="ticker">
-      <div class="ticker-item"><span>✦</span> Submissions Now Open — Apply for Edition 02</div>
-      <div class="ticker-item"><span>✦</span> May Cover Star Voting Open Through May 31</div>
-      <div class="ticker-item"><span>✦</span> New Features Announced Inside Competitions</div>
-      <div class="ticker-item"><span>✦</span> Edition 01 — The Society Issue — Coming Soon</div>
-      <div class="ticker-item"><span>✦</span> House of Elévara — houseofelevara.com</div>
+    <div class="ticker-track">
+      <div class="ticker-item">
+        <span>✦</span> Submissions Now Open — Apply for Edition 02
+      </div>
+      <div class="ticker-item">
+        <span>✦</span> May Cover Star Voting Open Through May 31
+      </div>
+      <div class="ticker-item">
+        <span>✦</span> New Features Announced Inside Competitions
+      </div>
+      <div class="ticker-item">
+        <span>✦</span> Edition 01 — The Society Issue — Coming Soon
+      </div>
+      <div class="ticker-item">
+        <span>✦</span> House of Elévara — houseofelevara.com
+      </div>
       <!-- Duplicate for seamless loop -->
-      <div class="ticker-item"><span>✦</span> Submissions Now Open — Apply for Edition 02</div>
-      <div class="ticker-item"><span>✦</span> May Cover Star Voting Open Through May 31</div>
-      <div class="ticker-item"><span>✦</span> New Features Announced Inside Competitions</div>
-      <div class="ticker-item"><span>✦</span> Edition 01 — The Society Issue — Coming Soon</div>
-      <div class="ticker-item"><span>✦</span> House of Elévara — houseofelevara.com</div>
+      <div class="ticker-item">
+        <span>✦</span> Submissions Now Open — Apply for Edition 02
+      </div>
+      <div class="ticker-item">
+        <span>✦</span> May Cover Star Voting Open Through May 31
+      </div>
+      <div class="ticker-item">
+        <span>✦</span> New Features Announced Inside Competitions
+      </div>
+      <div class="ticker-item">
+        <span>✦</span> Edition 01 — The Society Issue — Coming Soon
+      </div>
+      <div class="ticker-item">
+        <span>✦</span> House of Elévara — houseofelevara.com
+      </div>
     </div>
   </div>
 
   <script>
-    // Year
-    document.getElementById('yr').textContent = new Date().getFullYear();
+    document.getElementById('yr').textContent =
+      new Date().getFullYear();
 
-    // 3D tilt on hero card (desktop only)
+    // 3D tilt — desktop only
     (function () {
       const card = document.getElementById('heroCard');
       if (!card) return;
-      const canHover = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+      const canHover =
+        window.matchMedia('(hover:hover) and (pointer:fine)').matches;
       if (!canHover) return;
-      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const prefersReduced =
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (prefersReduced) return;
 
-      const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
+      const clamp = (n, min, max) =>
+        Math.max(min, Math.min(max, n));
 
       card.addEventListener('mousemove', (e) => {
-        const r = card.getBoundingClientRect();
+        const r  = card.getBoundingClientRect();
         const cx = r.left + r.width  / 2;
         const cy = r.top  + r.height / 2;
         const dx = (e.clientX - cx) / (r.width  / 2);
