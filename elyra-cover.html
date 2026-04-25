@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ELYRA — Edition 01</title>
+  <title>ELYRA — Edition 01 · Paula</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Cormorant+SC:wght@300;400;500&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
@@ -15,33 +15,32 @@
 html, body {
   width: 100%;
   min-height: 100vh;
-  background: #080503;
+  background: #060402;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 24px;
+  padding: 20px;
 }
 
 .cover {
   position: relative;
-  width: min(460px, 96vw);
+  width: min(480px, 96vw);
   aspect-ratio: 2 / 3;
   overflow: hidden;
-  background: #120c07;
+  background: #100a06;
   box-shadow:
-    0 60px 180px rgba(0,0,0,.95),
-    0 0 0 1px rgba(200,169,106,.20),
-    0 0 80px rgba(200,169,106,.08);
-  animation: reveal 1.4s cubic-bezier(.16,.84,.2,1) forwards;
+    0 70px 200px rgba(0,0,0,.98),
+    0 0 0 1px rgba(200,169,106,.22),
+    0 0 100px rgba(200,169,106,.06);
+  animation: reveal 1.6s cubic-bezier(.16,.84,.2,1) forwards;
   opacity: 0;
 }
 
 @keyframes reveal {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(22px) scale(.985); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* Photo */
 .cover-img {
   position: absolute;
   inset: 0;
@@ -49,290 +48,251 @@ html, body {
   height: 100%;
   object-fit: cover;
   object-position: center 8%;
-  filter: contrast(1.05) saturate(.92) brightness(.94);
+  filter: contrast(1.06) saturate(.90) brightness(.93);
 }
 
-/* Top dark fade — magazine name sits here */
 .ov-top {
   position: absolute;
   inset: 0;
   z-index: 1;
   background: linear-gradient(to bottom,
-    rgba(6,4,2,.88) 0%,
-    rgba(6,4,2,.55) 18%,
-    rgba(6,4,2,.08) 38%,
-    transparent 52%
+    rgba(5,3,1,.92) 0%,
+    rgba(5,3,1,.60) 16%,
+    rgba(5,3,1,.12) 34%,
+    transparent 48%
   );
 }
 
-/* Bottom dark fade — subject name sits here */
 .ov-bottom {
   position: absolute;
   inset: 0;
   z-index: 1;
   background: linear-gradient(to top,
-    rgba(6,4,2,.90) 0%,
-    rgba(6,4,2,.55) 18%,
-    rgba(6,4,2,.08) 36%,
-    transparent 50%
+    rgba(5,3,1,.95) 0%,
+    rgba(5,3,1,.65) 16%,
+    rgba(5,3,1,.12) 34%,
+    transparent 48%
   );
 }
 
-/* Subtle left vignette */
-.ov-left {
+.ov-vignette {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(to right,
-    rgba(6,4,2,.28) 0%,
-    transparent 40%
+  background: radial-gradient(
+    ellipse 100% 100% at 50% 50%,
+    transparent 40%,
+    rgba(5,3,1,.42) 100%
   );
 }
 
-/* Gold grain texture */
 .grain {
   position: absolute;
   inset: 0;
   z-index: 2;
-  opacity: .28;
+  opacity: .24;
   mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.3'/%3E%3C/svg%3E");
   pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.28'/%3E%3C/svg%3E");
 }
 
-/* Inner gold border frame */
 .frame {
   position: absolute;
-  inset: 14px;
+  inset: 16px;
   z-index: 3;
-  border: 1px solid rgba(200,169,106,.28);
+  border: 1px solid rgba(200,169,106,.26);
   pointer-events: none;
 }
 
-/* ── TOP AREA ── */
+.corner {
+  position: absolute;
+  z-index: 4;
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+}
+.corner-tl { top: 26px; left: 26px;
+  border-top: 1px solid rgba(200,169,106,.55);
+  border-left: 1px solid rgba(200,169,106,.55);
+}
+.corner-tr { top: 26px; right: 26px;
+  border-top: 1px solid rgba(200,169,106,.55);
+  border-right: 1px solid rgba(200,169,106,.55);
+}
+.corner-bl { bottom: 26px; left: 26px;
+  border-bottom: 1px solid rgba(200,169,106,.55);
+  border-left: 1px solid rgba(200,169,106,.55);
+}
+.corner-br { bottom: 26px; right: 26px;
+  border-bottom: 1px solid rgba(200,169,106,.55);
+  border-right: 1px solid rgba(200,169,106,.55);
+}
+
+/* TOP */
 .top {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   z-index: 4;
-  padding: 28px 26px 0;
+  padding: 26px 28px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* Edition label */
 .edition-label {
   font-family: 'Jost', sans-serif;
   font-weight: 300;
-  font-size: .58rem;
-  letter-spacing: .42em;
+  font-size: .54rem;
+  letter-spacing: .46em;
   text-transform: uppercase;
-  color: #c8a96a;
-  margin-bottom: 10px;
+  color: rgba(200,169,106,.75);
+  margin-bottom: 8px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
-
 .edition-label::before,
 .edition-label::after {
   content: '';
-  width: 28px;
+  width: 32px;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(200,169,106,.65));
-}
-.edition-label::after {
-  background: linear-gradient(90deg, rgba(200,169,106,.65), transparent);
+  background: rgba(200,169,106,.45);
 }
 
-/* ELYRA wordmark */
 .wordmark {
   font-family: 'Cormorant SC', serif;
   font-weight: 300;
-  font-size: clamp(3.2rem, 14vw, 5.8rem);
-  letter-spacing: .40em;
+  font-size: clamp(3rem, 13.5vw, 5.6rem);
+  letter-spacing: .44em;
   line-height: 1;
   color: #f0ece4;
   text-align: center;
-  padding-left: .40em;
+  padding-left: .44em;
   text-shadow:
-    0 2px 8px rgba(0,0,0,.70),
+    0 2px 10px rgba(0,0,0,.80),
     0 0 60px rgba(200,169,106,.18);
+  animation: glow 5s ease-in-out infinite;
 }
 
-/* Thin gold rule under wordmark */
+@keyframes glow {
+  0%, 100% { text-shadow: 0 2px 10px rgba(0,0,0,.80), 0 0 60px rgba(200,169,106,.18); }
+  50%       { text-shadow: 0 2px 10px rgba(0,0,0,.80), 0 0 80px rgba(200,169,106,.32); }
+}
+
 .wordmark-rule {
   width: 100%;
   height: 1px;
+  margin-top: 9px;
   background: linear-gradient(90deg,
     transparent 0%,
-    rgba(200,169,106,.55) 30%,
-    rgba(200,169,106,.85) 50%,
-    rgba(200,169,106,.55) 70%,
+    rgba(200,169,106,.40) 20%,
+    rgba(200,169,106,.80) 50%,
+    rgba(200,169,106,.40) 80%,
     transparent 100%
   );
-  margin-top: 10px;
 }
 
-/* Tagline */
 .tagline {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
-  font-size: .72rem;
-  letter-spacing: .22em;
-  color: rgba(200,169,106,.75);
-  margin-top: 7px;
+  font-size: .68rem;
+  letter-spacing: .20em;
+  color: rgba(200,169,106,.65);
+  margin-top: 6px;
   text-align: center;
 }
 
-/* ── SIDE LABELS ── */
-.side-left {
-  position: absolute;
-  left: 22px;
-  top: 50%;
-  transform: translateY(-50%) rotate(-90deg);
-  transform-origin: center;
-  z-index: 4;
-  font-family: 'Jost', sans-serif;
-  font-weight: 200;
-  font-size: .52rem;
-  letter-spacing: .36em;
-  text-transform: uppercase;
-  color: rgba(200,169,106,.55);
-  white-space: nowrap;
-}
-
-.side-right {
-  position: absolute;
-  right: 22px;
-  top: 50%;
-  transform: translateY(-50%) rotate(90deg);
-  transform-origin: center;
-  z-index: 4;
-  font-family: 'Jost', sans-serif;
-  font-weight: 200;
-  font-size: .52rem;
-  letter-spacing: .36em;
-  text-transform: uppercase;
-  color: rgba(200,169,106,.45);
-  white-space: nowrap;
-}
-
-/* ── BOTTOM AREA ── */
+/* BOTTOM */
 .bottom {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   z-index: 4;
-  padding: 0 26px 28px;
+  padding: 0 28px 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* Bottom rule */
 .bottom-rule {
   width: 100%;
   height: 1px;
+  margin-bottom: 12px;
   background: linear-gradient(90deg,
     transparent 0%,
-    rgba(200,169,106,.45) 30%,
-    rgba(200,169,106,.70) 50%,
-    rgba(200,169,106,.45) 70%,
+    rgba(200,169,106,.35) 20%,
+    rgba(200,169,106,.65) 50%,
+    rgba(200,169,106,.35) 80%,
     transparent 100%
   );
-  margin-bottom: 14px;
 }
 
-/* "Digital Cover" label */
 .cover-label {
   font-family: 'Jost', sans-serif;
   font-weight: 300;
-  font-size: .55rem;
-  letter-spacing: .44em;
+  font-size: .50rem;
+  letter-spacing: .48em;
   text-transform: uppercase;
-  color: rgba(200,169,106,.70);
-  margin-bottom: 8px;
+  color: rgba(200,169,106,.65);
+  margin-bottom: 5px;
   text-align: center;
 }
 
-/* Subject name */
+/* PAULA — the star */
 .subject-name {
   font-family: 'Cormorant SC', serif;
-  font-weight: 400;
-  font-size: clamp(1.3rem, 5.5vw, 2.1rem);
-  letter-spacing: .24em;
+  font-weight: 500;
+  font-size: clamp(2rem, 9vw, 3.4rem);
+  letter-spacing: .32em;
   color: #f0ece4;
   text-align: center;
   text-shadow:
-    0 2px 12px rgba(0,0,0,.80),
-    0 0 40px rgba(200,169,106,.14);
-  line-height: 1.1;
+    0 2px 14px rgba(0,0,0,.85),
+    0 0 50px rgba(200,169,106,.16);
+  line-height: 1;
+  padding-left: .32em;
+  margin-bottom: 6px;
 }
 
-/* Issue info */
-.issue-info {
+/* Issue name — smaller, under Paula */
+.issue-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(.78rem, 3.2vw, 1.05rem);
+  letter-spacing: .16em;
+  color: rgba(200,169,106,.65);
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.bottom-info {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-top: 10px;
+  justify-content: center;
+  gap: 10px;
 }
 
-.issue-info span {
+.bottom-info span {
   font-family: 'Jost', sans-serif;
   font-weight: 200;
-  font-size: .50rem;
-  letter-spacing: .34em;
+  font-size: .46rem;
+  letter-spacing: .36em;
   text-transform: uppercase;
-  color: rgba(200,169,106,.55);
+  color: rgba(200,169,106,.48);
+  white-space: nowrap;
 }
 
-.issue-info .dot {
+.bottom-info .sep {
   width: 2px;
   height: 2px;
   border-radius: 50%;
-  background: rgba(200,169,106,.45);
+  background: rgba(200,169,106,.38);
   flex-shrink: 0;
-  letter-spacing: 0;
 }
-
-/* ── Corner ornaments ── */
-.corner {
-  position: absolute;
-  z-index: 4;
-  width: 18px;
-  height: 18px;
-  pointer-events: none;
-}
-
-.corner-tl { top: 24px; left: 24px;
-  border-top: 1px solid rgba(200,169,106,.50);
-  border-left: 1px solid rgba(200,169,106,.50);
-}
-.corner-tr { top: 24px; right: 24px;
-  border-top: 1px solid rgba(200,169,106,.50);
-  border-right: 1px solid rgba(200,169,106,.50);
-}
-.corner-bl { bottom: 24px; left: 24px;
-  border-bottom: 1px solid rgba(200,169,106,.50);
-  border-left: 1px solid rgba(200,169,106,.50);
-}
-.corner-br { bottom: 24px; right: 24px;
-  border-bottom: 1px solid rgba(200,169,106,.50);
-  border-right: 1px solid rgba(200,169,106,.50);
-}
-
-/* ── Shimmer animation on wordmark ── */
-@keyframes sheen {
-  0%   { text-shadow: 0 2px 8px rgba(0,0,0,.70), 0 0 60px rgba(200,169,106,.18); }
-  50%  { text-shadow: 0 2px 8px rgba(0,0,0,.70), 0 0 80px rgba(200,169,106,.35); }
-  100% { text-shadow: 0 2px 8px rgba(0,0,0,.70), 0 0 60px rgba(200,169,106,.18); }
-}
-
-.wordmark { animation: sheen 4s ease-in-out infinite; }
 ```
 
   </style>
@@ -342,29 +302,24 @@ html, body {
   <div class="cover">
 
 ```
-<!-- Photo -->
 <img
   class="cover-img"
   src="https://elyraeditorial.github.io/IMG_9109.jpeg"
-  alt="ELYRA Edition 01 Cover"
+  alt="ELYRA Edition 01 — Paula"
 />
 
-<!-- Overlays -->
 <div class="ov-top"></div>
 <div class="ov-bottom"></div>
-<div class="ov-left"></div>
+<div class="ov-vignette"></div>
 <div class="grain"></div>
-
-<!-- Inner frame -->
 <div class="frame"></div>
 
-<!-- Corner ornaments -->
 <div class="corner corner-tl"></div>
 <div class="corner corner-tr"></div>
 <div class="corner corner-bl"></div>
 <div class="corner corner-br"></div>
 
-<!-- Top — ELYRA -->
+<!-- TOP -->
 <div class="top">
   <div class="edition-label">Edition 01</div>
   <div class="wordmark">ELYRA</div>
@@ -372,20 +327,17 @@ html, body {
   <div class="tagline">Editorial · Presence · Identity</div>
 </div>
 
-<!-- Side labels -->
-<div class="side-left">The Society Issue</div>
-<div class="side-right">elyraeditorial.com</div>
-
-<!-- Bottom — Subject -->
+<!-- BOTTOM -->
 <div class="bottom">
   <div class="bottom-rule"></div>
   <div class="cover-label">Digital Cover</div>
-  <div class="subject-name">The Society Issue</div>
-  <div class="issue-info">
+  <div class="subject-name">Paula</div>
+  <div class="issue-name">The Society Issue</div>
+  <div class="bottom-info">
     <span>Spring 2025</span>
-    <div class="dot"></div>
+    <div class="sep"></div>
     <span>Edition 01</span>
-    <div class="dot"></div>
+    <div class="sep"></div>
     <span>elyraeditorial.com</span>
   </div>
 </div>
