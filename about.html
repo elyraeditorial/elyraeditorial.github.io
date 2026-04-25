@@ -4,80 +4,700 @@
   <meta charset="UTF-8" />
   <title>ELYRA — About</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+
+  <meta name="description" content="About ELYRA — An independent editorial platform devoted to fashion, beauty, culture, and image-making." />
+  <meta name="theme-color" content="#060504" />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/jpeg" href="https://elyraeditorial.github.io/IMG_8629.jpeg?v=3" />
+  <link rel="apple-touch-icon" href="https://elyraeditorial.github.io/IMG_8629.jpeg?v=3" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Cormorant+SC:wght@300;400;500&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    /* ── About page extras ── */
+
+    body { padding-bottom: 48px; }
+
+    /* Page hero */
+    .about-hero {
+      padding: 120px 0 52px;
+      text-align: center;
+    }
+
+    .about-hero .overline {
+      display: block;
+      font-family: 'Jost', sans-serif;
+      font-size: .63rem;
+      letter-spacing: .46em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+
+    .about-wordmark {
+      font-family: 'Cormorant SC', serif;
+      font-weight: 300;
+      font-size: clamp(3rem, 10vw, 6.8rem);
+      letter-spacing: .34em;
+      line-height: .94;
+      background: linear-gradient(135deg,
+        var(--text) 0%, var(--gold2) 46%, var(--text) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      background-size: 200% 100%;
+      animation: titleSheen 9s var(--ease) infinite;
+      margin-bottom: 4px;
+    }
+
+    .about-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1rem, 2.5vw, 1.35rem);
+      letter-spacing: .16em;
+      color: var(--faint);
+      margin-top: 8px;
+    }
+
+    /* ── Manifesto pull quote ── */
+    .manifesto {
+      margin: 0 auto 52px;
+      max-width: 680px;
+      text-align: center;
+      padding: 36px 28px;
+      position: relative;
+      border-top: 1px solid rgba(200,169,106,.22);
+      border-bottom: 1px solid rgba(200,169,106,.22);
+    }
+
+    .manifesto::before,
+    .manifesto::after {
+      content: '✦';
+      position: absolute;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .75rem;
+      color: var(--gold);
+      opacity: .55;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .manifesto::before { top: -8px; }
+    .manifesto::after  { bottom: -8px; }
+
+    .manifesto p {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1.15rem, 2.8vw, 1.55rem);
+      line-height: 1.72;
+      letter-spacing: .04em;
+      color: var(--text);
+    }
+
+    .manifesto cite {
+      display: block;
+      margin-top: 14px;
+      font-family: 'Jost', sans-serif;
+      font-style: normal;
+      font-size: .65rem;
+      letter-spacing: .34em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ── About sections ── */
+    .about-sections {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .about-block {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--rMd);
+      border: 1px solid rgba(240,236,228,.08);
+      border-top-color: rgba(240,236,228,.14);
+      background: rgba(6,5,4,.28);
+      backdrop-filter: blur(16px);
+      padding: clamp(24px, 4vw, 40px) clamp(22px, 4vw, 38px);
+      transition:
+        background    .24s var(--ease),
+        border-color  .24s var(--ease),
+        transform     .24s var(--ease),
+        box-shadow    .24s var(--ease);
+    }
+
+    /* Gold shimmer on hover */
+    .about-block::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent 8%, rgba(200,169,106,.40) 50%, transparent 92%);
+      opacity: 0;
+      transition: opacity .24s var(--ease);
+    }
+
+    .about-block:hover::before { opacity: 1; }
+
+    .about-block:hover {
+      background: rgba(6,5,4,.44);
+      border-color: rgba(200,169,106,.18);
+      transform: translateY(-2px);
+      box-shadow: var(--sh-md), var(--glow);
+    }
+
+    /* Section number watermark */
+    .about-block-num {
+      position: absolute;
+      right: 20px;
+      top: 16px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 5.5rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--gold);
+      opacity: .05;
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* Block label */
+    .about-block-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Jost', sans-serif;
+      font-size: .62rem;
+      letter-spacing: .40em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+
+    .about-block-label::before {
+      content: '';
+      width: 20px;
+      height: 1px;
+      background: var(--gold);
+      opacity: .55;
+    }
+
+    /* Block heading */
+    .about-block h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      letter-spacing: .07em;
+      color: var(--text);
+      line-height: 1.12;
+      margin-bottom: 18px;
+    }
+
+    /* Block body */
+    .about-block p {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: .91rem;
+      line-height: 1.92;
+      color: var(--muted);
+      max-width: 72ch;
+    }
+
+    .about-block p + p {
+      margin-top: 14px;
+    }
+
+    /* ── Two column layout for larger blocks ── */
+    .about-block.two-col .about-block-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+
+    @media (max-width: 700px) {
+      .about-block.two-col .about-block-body {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+    }
+
+    /* ── Values grid ── */
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    @media (max-width: 720px) {
+      .values-grid { grid-template-columns: 1fr; }
+    }
+
+    .value-box {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--r);
+      border: 1px solid rgba(200,169,106,.14);
+      border-top-color: rgba(200,169,106,.26);
+      background: rgba(6,5,4,.32);
+      padding: 20px 18px;
+      transition: border-color .22s var(--ease), transform .22s var(--ease);
+    }
+
+    .value-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent, rgba(200,169,106,.34), transparent);
+    }
+
+    .value-box:hover {
+      border-color: rgba(200,169,106,.26);
+      transform: translateY(-2px);
+    }
+
+    .value-box-label {
+      font-family: 'Jost', sans-serif;
+      font-size: .62rem;
+      letter-spacing: .34em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .value-box p {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: .86rem;
+      line-height: 1.78;
+      color: var(--muted);
+    }
+
+    /* ── Elevara connection block ── */
+    .elevara-block {
+      margin-top: 52px;
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--rMd);
+      border: 1px solid rgba(200,169,106,.22);
+      border-top-color: rgba(200,169,106,.40);
+      background: linear-gradient(168deg,
+        rgba(200,169,106,.08) 0%,
+        rgba(6,5,4,.55) 100%);
+      backdrop-filter: blur(22px);
+      padding: clamp(32px, 5vw, 56px) clamp(24px, 5vw, 48px);
+      box-shadow: var(--sh-md), var(--glow);
+    }
+
+    .elevara-block::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: var(--rMd);
+      background: radial-gradient(ellipse 70% 38% at 50% 0%,
+        rgba(200,169,106,.12), transparent 68%);
+      pointer-events: none;
+    }
+
+    .elevara-block::after {
+      content: '';
+      position: absolute;
+      inset: 12px;
+      border-radius: var(--r);
+      border: 1px solid transparent;
+      background:
+        linear-gradient(var(--bg), var(--bg)) padding-box,
+        linear-gradient(135deg,
+          rgba(200,169,106,.28) 0%,
+          transparent 38%,
+          transparent 62%,
+          rgba(200,169,106,.28) 100%
+        ) border-box;
+      pointer-events: none;
+    }
+
+    .elevara-inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+      align-items: center;
+    }
+
+    @media (max-width: 720px) {
+      .elevara-inner { grid-template-columns: 1fr; gap: 24px; }
+    }
+
+    .elevara-copy .label {
+      font-family: 'Jost', sans-serif;
+      font-size: .62rem;
+      letter-spacing: .42em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .elevara-copy h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      letter-spacing: .06em;
+      color: var(--text);
+      line-height: 1.12;
+      margin-bottom: 16px;
+    }
+
+    .elevara-copy p {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: .90rem;
+      line-height: 1.88;
+      color: var(--muted);
+      margin-bottom: 22px;
+    }
+
+    .elevara-details {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .elevara-detail-row {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--r);
+      border: 1px solid rgba(240,236,228,.08);
+      border-top-color: rgba(200,169,106,.16);
+      background: rgba(6,5,4,.28);
+      padding: 14px 16px;
+      transition: border-color .2s var(--ease), background .2s var(--ease);
+    }
+
+    .elevara-detail-row:hover {
+      border-color: rgba(200,169,106,.22);
+      background: rgba(6,5,4,.44);
+    }
+
+    .elevara-detail-row .d-label {
+      font-family: 'Jost', sans-serif;
+      font-size: .60rem;
+      letter-spacing: .32em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 5px;
+    }
+
+    .elevara-detail-row p {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: .86rem;
+      line-height: 1.70;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    /* ── Contact strip ── */
+    .contact-strip {
+      margin-top: 48px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    @media (max-width: 720px) {
+      .contact-strip { grid-template-columns: 1fr; }
+    }
+
+    .contact-box {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--r);
+      border: 1px solid rgba(240,236,228,.08);
+      border-top-color: rgba(240,236,228,.14);
+      background: rgba(6,5,4,.28);
+      backdrop-filter: blur(12px);
+      padding: 20px 18px;
+      text-align: center;
+      transition: border-color .22s var(--ease), transform .22s var(--ease);
+    }
+
+    .contact-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent, rgba(200,169,106,.30), transparent);
+      opacity: 0;
+      transition: opacity .22s var(--ease);
+    }
+
+    .contact-box:hover { border-color: rgba(200,169,106,.16); transform: translateY(-2px); }
+    .contact-box:hover::before { opacity: 1; }
+
+    .contact-box .c-label {
+      font-family: 'Jost', sans-serif;
+      font-size: .60rem;
+      letter-spacing: .34em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .contact-box p {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: .86rem;
+      line-height: 1.72;
+      color: var(--muted);
+    }
+
+    .contact-box a {
+      color: var(--text);
+      border-bottom: 1px solid rgba(200,169,106,.28);
+      transition: color .2s, border-color .2s;
+    }
+    .contact-box a:hover { color: var(--gold2); border-color: var(--goldB); }
+
+    /* ── Page footer ── */
+    .page-footer {
+      text-align: center;
+      padding: 48px 0 52px;
+      font-family: 'Jost', sans-serif;
+      font-size: .70rem;
+      letter-spacing: .20em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+
+    .page-footer a {
+      color: var(--gold);
+      border-bottom: 1px solid rgba(200,169,106,.28);
+      transition: color .2s;
+    }
+    .page-footer a:hover { color: var(--gold2); }
+  </style>
 </head>
-<body>
 
-<header class="nav">
-  <div class="container nav-inner">
-    <div class="brand">ELYRA</div>
-    <nav class="links">
-      <a href="index.html">Home</a>
-      <a href="issues.html">Issues</a>
-      <a href="submit.html">Submit</a>
-      <a href="about.html">About</a>
-    </nav>
-  </div>
-</header>
+<body class="no-scroll-x">
 
-<main class="container section">
-  <h1 class="h1 center" style="font-size:clamp(2.3rem,4vw,3.5rem);letter-spacing:.14em;">ABOUT</h1>
-  <div class="hair"></div>
+  <!-- Background layers -->
+  <div class="bg" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
 
-  <div class="grid" style="margin-top:24px;">
+  <!-- Nav -->
+  <header class="nav" role="banner">
+    <div class="container nav-inner">
+      <nav class="links" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="issues.html">Issues</a>
+        <a href="submit.html">Submit</a>
+        <a href="/competitions/">Competitions</a>
+        <a href="about.html" class="active" aria-current="page">About</a>
+      </nav>
+    </div>
+  </header>
 
-    <div class="panel span12">
-      <h2>What is ELYRA?</h2>
-      <p>
-        ELYRA is an independent editorial platform devoted to fashion, beauty, culture, and image-making. It exists to document presence with intention — highlighting the individuals, aesthetics, and ideas shaping modern visual identity. Through features, covers, submissions, and curated issues, ELYRA turns creative expression into a refined editorial experience.
-      </p>
-      <p>
-        More than a publication, ELYRA is a visual standard. Its point of view is elevated, cinematic, and selective — balancing softness with power, luxury with clarity, and art direction with cultural relevance. Every issue is designed to feel timeless, striking, and worthy of preservation.
-      </p>
+  <main>
+    <div class="container">
+
+      <!-- Hero -->
+      <div class="about-hero">
+        <span class="overline">The Publication</span>
+        <div class="about-wordmark">ABOUT</div>
+        <div class="hair" style="margin: 18px auto;"></div>
+        <div class="about-sub">A visual standard. A living editorial world.</div>
+      </div>
+
+      <!-- Manifesto pull quote -->
+      <div class="manifesto">
+        <p>
+          More than a publication, ELYRA is a visual standard —
+          elevated, cinematic, and selective. Every issue is designed
+          to feel timeless, striking, and worthy of preservation.
+        </p>
+        <cite>— The Elyra Editorial Standard</cite>
+      </div>
+
+      <!-- About sections -->
+      <div class="about-sections">
+
+        <!-- What is ELYRA -->
+        <div class="about-block">
+          <div class="about-block-num">01</div>
+          <div class="about-block-label">The Publication</div>
+          <h2>What is ELYRA?</h2>
+          <p>
+            ELYRA is an independent editorial platform devoted to fashion, beauty,
+            culture, and image-making. It exists to document presence with intention —
+            highlighting the individuals, aesthetics, and ideas shaping modern visual
+            identity. Through features, covers, submissions, and curated issues,
+            ELYRA turns creative expression into a refined editorial experience.
+          </p>
+          <p>
+            More than a publication, ELYRA is a visual standard. Its point of view
+            is elevated, cinematic, and selective — balancing softness with power,
+            luxury with clarity, and art direction with cultural relevance. Every
+            issue is designed to feel timeless, striking, and worthy of preservation.
+          </p>
+        </div>
+
+        <!-- The Vision -->
+        <div class="about-block">
+          <div class="about-block-num">02</div>
+          <div class="about-block-label">Direction</div>
+          <h2>The Vision</h2>
+          <p>
+            ELYRA was built to create a space where beauty is not reduced to trend
+            alone, but framed through identity, atmosphere, and storytelling. The
+            publication is inclusive in editorial participation and welcomes
+            contributors across fashion, beauty, design, photography, modeling,
+            and culture. Its mission is to present people and creative work with
+            polish, depth, and distinction.
+          </p>
+          <p>
+            At its core, ELYRA is about editorial presence — the kind that leaves an
+            impression before a word is spoken. That principle shapes every feature,
+            cover selection, and visual decision across the platform.
+          </p>
+
+          <!-- Values grid -->
+          <div class="values-grid">
+            <div class="value-box">
+              <div class="value-box-label">Elevated</div>
+              <p>Every visual decision is made with intention. We do not compromise on quality, tone, or presentation.</p>
+            </div>
+            <div class="value-box">
+              <div class="value-box-label">Cinematic</div>
+              <p>We approach editorial storytelling the way a filmmaker approaches a scene — with atmosphere, depth, and movement.</p>
+            </div>
+            <div class="value-box">
+              <div class="value-box-label">Selective</div>
+              <p>Curated editions. Limited noise. We choose presence over volume in everything we publish.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- The Standard -->
+        <div class="about-block">
+          <div class="about-block-num">03</div>
+          <div class="about-block-label">Our Standard</div>
+          <h2>The Standard</h2>
+          <p>
+            ELYRA stands for sophistication, clarity, and cultural style. It is
+            selective in taste, deliberate in tone, and committed to presenting
+            work that feels elevated rather than disposable. Whether through a
+            cover story, a visual submission, or the development of represented
+            talent through House of Elévara, the standard remains the same —
+            strong presence, beautiful execution, and lasting impression.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- House of Elévara connection -->
+      <div class="elevara-block">
+        <div class="elevara-inner">
+
+          <div class="elevara-copy">
+            <span class="label">The Ecosystem</span>
+            <h2>House of Elévara &amp; ELYRA</h2>
+            <p>
+              House of Elévara exists under the broader ELYRA vision as its
+              model management and talent development arm. Where ELYRA serves
+              as the editorial publication, House of Elévara serves as a refined
+              representation pathway for talent aligned with that world.
+            </p>
+            <p>
+              Together, they create a connected ecosystem — one platform publishes
+              the image, the other helps cultivate the presence behind it.
+            </p>
+            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top: 4px;">
+              <a class="btn primary" href="https://houseofelevara.com"
+                target="_blank" rel="noopener">Visit House of Elévara</a>
+              <a class="btn ghost" href="submit.html">Submit Your Work</a>
+            </div>
+          </div>
+
+          <div class="elevara-details">
+            <div class="elevara-detail-row">
+              <div class="d-label">ELYRA</div>
+              <p>The editorial publication — the visual face, the cultural document, the statement.</p>
+            </div>
+            <div class="elevara-detail-row">
+              <div class="d-label">House of Elévara</div>
+              <p>The management extension — talent development, positioning, and long-term representation.</p>
+            </div>
+            <div class="elevara-detail-row">
+              <div class="d-label">Together</div>
+              <p>Editorial visibility and representation working as one — a luxury editorial world with a published voice and a living roster.</p>
+            </div>
+            <div class="elevara-detail-row">
+              <div class="d-label">Published Under</div>
+              <p>Core Vision Management</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Contact strip -->
+      <div class="contact-strip">
+        <div class="contact-box">
+          <div class="c-label">Editorial</div>
+          <p>
+            <a href="mailto:elyra.editorial@gmail.com">elyra.editorial@gmail.com</a>
+          </p>
+        </div>
+        <div class="contact-box">
+          <div class="c-label">Management</div>
+          <p>
+            <a href="mailto:admin@houseofelevara.com">admin@houseofelevara.com</a>
+          </p>
+        </div>
+        <div class="contact-box">
+          <div class="c-label">House of Elévara</div>
+          <p>
+            <a href="https://houseofelevara.com" target="_blank" rel="noopener">houseofelevara.com</a>
+          </p>
+        </div>
+      </div>
+
     </div>
 
-    <div class="panel span12">
-      <h2>The Vision</h2>
-      <p>
-        ELYRA was built to create a space where beauty is not reduced to trend alone, but framed through identity, atmosphere, and storytelling. The publication is inclusive in editorial participation and welcomes contributors across fashion, beauty, design, photography, modeling, and culture. Its mission is to present people and creative work with polish, depth, and distinction.
-      </p>
-      <p>
-        At its core, ELYRA is about editorial presence — the kind that leaves an impression before a word is spoken. That principle shapes every feature, cover selection, and visual decision across the platform.
-      </p>
+    <!-- Page footer -->
+    <div class="page-footer">
+      Published by
+      <a href="https://houseofelevara.com" target="_blank" rel="noopener">Core Vision Management</a>
+      &nbsp;·&nbsp;
+      <a href="https://houseofelevara.com" target="_blank" rel="noopener">House of Elévara</a>
+      &nbsp;·&nbsp;
+      © <span id="yr"></span> Elyra Editorial
     </div>
 
-    <div class="panel span12">
-      <h2>House of Elévara &amp; ELYRA</h2>
-      <p>
-        House of Elévara exists under the broader ELYRA vision as its model management and talent development arm. Where ELYRA serves as the editorial publication, House of Elévara serves as a refined representation pathway for talent aligned with that world. Together, they create a connected ecosystem: one platform publishes the image, the other helps cultivate the presence behind it.
-      </p>
-      <p>
-        This relationship allows editorial storytelling and talent development to move with continuity. ELYRA provides the visual and cultural platform; House of Elévara provides the structure, positioning, and representation that can help talent grow within and beyond that editorial space. The result is a more intentional bridge between publication, branding, and opportunity.
-      </p>
-    </div>
+  </main>
 
-    <div class="panel span12">
-      <h2>How They Correlate</h2>
-      <p>
-        ELYRA and House of Elévara are distinct in function, but unified in identity. ELYRA is the publication — the editorial face, the cultural document, the visual statement. House of Elévara is the management extension — the talent-focused side that supports image development, positioning, and long-term presentation. One shapes the editorial narrative; the other helps shape the people who can inhabit it.
-      </p>
-      <p>
-        That correlation is what makes the platform powerful. Editorial visibility, representation, and aesthetic direction are not treated as separate conversations. Under the ELYRA umbrella, they work together to create something more complete: a luxury editorial world with both a published voice and a living roster of presence.
-      </p>
-    </div>
-
-    <div class="panel span12">
-      <h2>The Standard</h2>
-      <p>
-        ELYRA stands for sophistication, clarity, and cultural style. It is selective in taste, deliberate in tone, and committed to presenting work that feels elevated rather than disposable. Whether through a cover story, a visual submission, or the development of represented talent through House of Elévara, the standard remains the same: strong presence, beautiful execution, and lasting impression.
-      </p>
-    </div>
-
-  </div>
-
-  <div class="footer center" style="margin-top:36px;">Published under the Core Vision Management umbrella</div>
-</main>
+  <script>
+    document.getElementById('yr').textContent = new Date().getFullYear();
+  </script>
 
 </body>
 </html>
