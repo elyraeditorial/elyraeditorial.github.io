@@ -1,4 +1,5 @@
 <!doctype html>
+
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
@@ -24,15 +25,18 @@
     <h1 class="h1" id="title">Processing…</h1>
     <p class="p" id="desc">Please wait.</p>
 
-    <div style="height:14px"></div>
+```
+<div style="height:14px"></div>
 
-    <div class="btnrow">
-      <a class="btn primary btn3d" id="backToContestant" href="/competitions/">Back</a>
-      <a class="btn" href="/competitions/">All Competitions</a>
-    </div>
+<div class="btnrow">
+  <a class="btn primary btn3d" id="backToContestant" href="/competitions/">Back</a>
+  <a class="btn" href="/competitions/">All Competitions</a>
+</div>
 
-    <div style="height:16px"></div>
-    <p class="small" id="note"></p>
+<div style="height:16px"></div>
+<p class="small" id="note"></p>
+```
+
   </div>
 
   <script type="module">
@@ -59,10 +63,11 @@
       back.href = `/competitions/contestant.html?id=${encodeURIComponent(contestantId)}`;
       setText(note, "Tip: If totals don’t update instantly, refresh after 10–30 seconds.");
     } else if(contestId){
-      back.href = `/competitions/contest.html?id=${encodeURIComponent(contestId)}`;
+      back.href = `/competitions/`;
     } else {
       back.href = "/competitions/";
     }
   </script>
+
 </body>
 </html>
