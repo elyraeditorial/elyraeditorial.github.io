@@ -1,29 +1,46 @@
 <!doctype html>
+
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Elyra — Contest</title>
 
+  <!-- OG tags — updated dynamically once contest data loads -->
+
+  <meta property="og:title" content="Elyra Cover Competition" />
+  <meta property="og:description" content="Vote to help decide the next ELYRA cover star. Every dollar is one vote. Voting closes May 31." />
+  <meta property="og:image" content="https://elyraeditorial.github.io/IMG_8629.jpeg?v=3" />
+  <meta property="og:url" content="https://elyraeditorial.github.io/competitions/contest.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="ELYRA" />
+
+  <!-- Twitter -->
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Elyra Cover Competition" />
+  <meta name="twitter:description" content="Vote to help decide the next ELYRA cover star. Every dollar is one vote. Voting closes May 31." />
+  <meta name="twitter:image" content="https://elyraeditorial.github.io/IMG_8629.jpeg?v=3" />
+
   <!-- Icons -->
+
   <link rel="icon" type="image/jpeg" href="https://elyraeditorial.github.io/IMG_8629.jpeg?v=3" />
   <link rel="apple-touch-icon" href="https://elyraeditorial.github.io/IMG_8629.jpeg?v=3" />
 
   <!-- Fonts -->
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Cormorant+SC:wght@300;400;500&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
 
   <!-- Styles -->
+
   <link rel="stylesheet" href="../styles.css"/>
   <link rel="stylesheet" href="./assets/competitions.css"/>
 
   <style>
-    /* ── Contest page extras ── */
-
     body { padding-bottom: 52px; }
 
-    /* Editorial hero — full bleed cinematic */
     .hero-wrap { padding-top: 80px; }
 
     .editorial-hero {
@@ -164,7 +181,61 @@
       max-width: 60ch;
     }
 
-    /* Contestants count badge */
+    /* Share button — sits next to title */
+    .title-share-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .share-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+      margin-top: 6px;
+      padding: 10px 18px;
+      border-radius: var(--r);
+      border: 1px solid rgba(200,169,106,.28);
+      background: rgba(200,169,106,.07);
+      backdrop-filter: blur(10px);
+      font-family: 'Jost', sans-serif;
+      font-size: .63rem;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      cursor: pointer;
+      transition:
+        background .2s var(--ease),
+        border-color .2s var(--ease),
+        transform .2s var(--spring);
+    }
+
+    .share-btn:hover {
+      background: rgba(200,169,106,.14);
+      border-color: rgba(200,169,106,.50);
+      transform: translateY(-1px);
+    }
+
+    .share-btn svg {
+      width: 13px;
+      height: 13px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    .share-btn.copied {
+      color: rgba(140,220,160,.90);
+      border-color: rgba(140,220,160,.35);
+      background: rgba(140,220,160,.07);
+    }
+
     .contest-badge-row {
       display: flex;
       align-items: center;
@@ -173,7 +244,6 @@
       margin-bottom: 20px;
     }
 
-    /* Contestant list cards */
     .contestant-list {
       display: flex;
       flex-direction: column;
@@ -266,7 +336,6 @@
       gap: 8px;
     }
 
-    /* Info panel */
     .contest-info-panel {
       position: relative;
       overflow: hidden;
@@ -336,7 +405,6 @@
       color: var(--muted);
     }
 
-    /* Error state */
     .error-state {
       text-align: center;
       padding: 60px 20px;
@@ -366,7 +434,6 @@
       line-height: 1.78;
     }
 
-    /* Page footer */
     .page-footer {
       text-align: center;
       padding: 40px 0 52px;
@@ -384,7 +451,6 @@
     }
     .page-footer a:hover { color: var(--gold2); }
 
-    /* Mobile */
     @media (max-width: 640px) {
       .editorial-hero {
         min-height: unset;
@@ -424,18 +490,23 @@
         flex-direction: row;
         flex-wrap: wrap;
       }
+      .title-share-row {
+        flex-direction: column;
+        gap: 10px;
+      }
     }
   </style>
+
 </head>
 
 <body class="no-scroll-x">
 
-  <!-- Background layers -->
   <div class="bg" aria-hidden="true"></div>
   <div class="vignette" aria-hidden="true"></div>
   <div class="grain" aria-hidden="true"></div>
 
   <!-- Nav -->
+
   <div class="topbar">
     <div class="container row">
       <div class="brand">ELYRA</div>
@@ -450,6 +521,7 @@
   </div>
 
   <!-- Editorial hero -->
+
   <div class="container hero-wrap">
     <section class="editorial-hero" aria-label="Elyra cover star feature">
       <img
@@ -469,6 +541,7 @@
   </div>
 
   <!-- Contest info panel -->
+
   <div class="container" style="margin-top: 32px;">
     <div class="contest-info-panel">
       <div class="contest-info-grid">
@@ -488,13 +561,28 @@
     </div>
   </div>
 
-  <!-- Title block — populated by JS -->
+  <!-- Title block + share button -->
+
   <div class="container title-block">
-    <h1 class="contest-title" id="title">Loading…</h1>
-    <p class="contest-sub" id="subtitle"></p>
+    <div class="title-share-row">
+      <div>
+        <h1 class="contest-title" id="title">Loading…</h1>
+        <p class="contest-sub" id="subtitle"></p>
+      </div>
+      <button class="share-btn" id="shareBtn" type="button" style="display:none;">
+        <svg viewBox="0 0 24 24">
+          <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/>
+          <circle cx="18" cy="19" r="3"/>
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+        </svg>
+        <span id="shareBtnLabel">Share Competition</span>
+      </button>
+    </div>
   </div>
 
   <!-- Contestants -->
+
   <div class="container" style="margin-bottom: 16px;">
     <div class="contest-badge-row">
       <div class="badge" id="badge">Loading contestants…</div>
@@ -504,6 +592,7 @@
   </div>
 
   <!-- Page footer -->
+
   <div class="page-footer">
     <a href="https://houseofelevara.com" target="_blank" rel="noopener">House of Elévara</a>
     &nbsp;·&nbsp;
@@ -520,14 +609,70 @@
     import * as dataApi from "./assets/data.js?v=18";
     import { getParam, setText, setHTML } from "./assets/ui.js?v=18";
 
-    const slug     = getParam("slug");
-    const titleEl  = document.getElementById("title");
-    const subEl    = document.getElementById("subtitle");
-    const badgeEl  = document.getElementById("badge");
-    const listEl   = document.getElementById("list");
-    const msgEl    = document.getElementById("msg");
+    const slug        = getParam("slug");
+    const titleEl     = document.getElementById("title");
+    const subEl       = document.getElementById("subtitle");
+    const badgeEl     = document.getElementById("badge");
+    const listEl      = document.getElementById("list");
+    const msgEl       = document.getElementById("msg");
+    const shareBtn    = document.getElementById("shareBtn");
+    const shareBtnLabel = document.getElementById("shareBtnLabel");
 
     function money(n) { return Number(n || 0).toLocaleString(); }
+
+    /* ── Dynamic OG updater ── */
+    function updateOG({ title, subtitle, pageUrl }) {
+      const ogTitle = `${title} — ELYRA Cover Competition`;
+      const ogDesc  = subtitle ||
+        'Vote to help decide the next ELYRA cover star. Every dollar is one vote.';
+
+      document.title = `${title} — ELYRA`;
+
+      const set = (sel, attr, val) => {
+        const el = document.querySelector(sel);
+        if (el) el.setAttribute(attr, val);
+      };
+
+      set('meta[property="og:title"]',        'content', ogTitle);
+      set('meta[property="og:description"]',  'content', ogDesc);
+      set('meta[property="og:url"]',          'content', pageUrl);
+      set('meta[name="twitter:title"]',       'content', ogTitle);
+      set('meta[name="twitter:description"]', 'content', ogDesc);
+    }
+
+    /* ── Share button ── */
+    function setupShareBtn(title, pageUrl) {
+      shareBtn.style.display = 'inline-flex';
+
+      shareBtn.addEventListener('click', async () => {
+        const shareData = {
+          title: `${title} — ELYRA Cover Competition`,
+          text:  `Vote now in the ELYRA Cover Competition ✦`,
+          url:   pageUrl,
+        };
+
+        if (navigator.share) {
+          try {
+            await navigator.share(shareData);
+            return;
+          } catch (e) {
+            if (e.name === 'AbortError') return;
+          }
+        }
+
+        try {
+          await navigator.clipboard.writeText(pageUrl);
+          shareBtnLabel.textContent = 'Link Copied ✦';
+          shareBtn.classList.add('copied');
+          setTimeout(() => {
+            shareBtnLabel.textContent = 'Share Competition';
+            shareBtn.classList.remove('copied');
+          }, 2200);
+        } catch {
+          /* silent fallback */
+        }
+      });
+    }
 
     try {
       if (!slug) throw new Error("Missing contest slug.");
@@ -535,13 +680,19 @@
       const contest = await dataApi.fetchContestBySlug(slug);
       if (!contest) throw new Error("Contest not found.");
 
-      setText(titleEl, contest.title || contest.name || "Contest");
-      setText(subEl,
-        contest.subtitle ||
-        "Minimum $500 prize pool — increases based on total votes. Voting closes May 31 at 11:59 PM CST."
-      );
+      const contestTitle = contest.title || contest.name || "Contest";
+      const contestSub   = contest.subtitle ||
+        "Minimum $500 prize pool — increases based on total votes. Voting closes May 31 at 11:59 PM CST.";
 
-      const contestants = await dataApi.fetchContestantsByContestId(contest.id);
+      setText(titleEl, contestTitle);
+      setText(subEl, contestSub);
+
+      /* ── Update OG + share ── */
+      const pageUrl = `${location.origin}/competitions/contest.html?slug=${encodeURIComponent(slug)}`;
+      updateOG({ title: contestTitle, subtitle: contestSub, pageUrl });
+      setupShareBtn(contestTitle, pageUrl);
+
+      const contestants  = await dataApi.fetchContestantsByContestId(contest.id);
 
       setText(badgeEl,
         contestants.length
