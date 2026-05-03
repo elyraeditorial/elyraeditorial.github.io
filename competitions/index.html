@@ -6,7 +6,9 @@
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Elyra — Competitions</title>
   <meta name="description" content="Elyra Editorial Competitions — Apply to be featured, vote for your favourite contestant, and help decide the next Elyra cover star." />
+
   <!-- Open Graph -->
+
   <meta property="og:title" content="Competitions — ELYRA" />
   <meta property="og:description" content="Apply to be featured, vote for your favourite contestant, and help decide the next ELYRA cover star." />
   <meta property="og:image" content="https://elyraeditorial.com/IMG_8629.jpeg?v=3" />
@@ -65,7 +67,6 @@
       transform: scale(1.02);
     }
 
-    /* Dark left column overlay — text lives here, image shows right */
     .editorial-hero::before {
       content: '';
       position: absolute;
@@ -101,7 +102,6 @@
         inset 0 0 80px rgba(0,0,0,.12);
     }
 
-    /* Gold inner frame */
     .editorial-frame {
       position: absolute;
       inset: 16px;
@@ -111,7 +111,6 @@
       pointer-events: none;
     }
 
-    /* Corner accent dots */
     .editorial-frame::before,
     .editorial-frame::after {
       content: '✦';
@@ -124,7 +123,6 @@
     .editorial-frame::before { top: -6px; left: 12px; }
     .editorial-frame::after  { bottom: -6px; right: 12px; }
 
-    /* Text positioned bottom left */
     .editorial-copy {
       position: absolute;
       left: clamp(24px, 4vw, 52px);
@@ -160,7 +158,6 @@
       -webkit-text-fill-color: #c8a96a;
     }
 
-    /* Title — solid white, strong shadow, always readable */
     .editorial-title {
       margin: 0 0 14px;
       font-family: 'Cormorant SC', serif;
@@ -192,7 +189,6 @@
       text-shadow: 0 2px 14px rgba(0,0,0,.75);
     }
 
-    /* Prize strip above buttons */
     .editorial-prize {
       display: inline-flex;
       align-items: center;
@@ -235,13 +231,8 @@
       letter-spacing: .26em;
       text-transform: uppercase;
       backdrop-filter: blur(18px);
-      box-shadow:
-        0 8px 28px rgba(0,0,0,.50),
-        inset 0 1px 0 rgba(200,169,106,.20);
-      transition:
-        transform     .22s var(--ease),
-        background    .22s var(--ease),
-        border-color  .22s var(--ease);
+      box-shadow: 0 8px 28px rgba(0,0,0,.50), inset 0 1px 0 rgba(200,169,106,.20);
+      transition: transform .22s var(--ease), background .22s var(--ease), border-color .22s var(--ease);
     }
 
     .editorial-apply-btn:hover {
@@ -263,7 +254,6 @@
       -webkit-text-fill-color: #e2cc96;
     }
 
-    /* Deadline badge bottom right of hero */
     .editorial-deadline {
       position: absolute;
       right: clamp(24px, 4vw, 48px);
@@ -297,7 +287,7 @@
       letter-spacing: .06em;
     }
 
-    /* ── Stats row below hero ── */
+    /* ── Stats row ── */
     .hero-stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -355,6 +345,187 @@
       letter-spacing: .06em;
     }
 
+    /* ── Countdown ── */
+    .countdown-wrap {
+      margin-top: 14px;
+    }
+
+    .countdown-label-top {
+      font-family: 'Jost', sans-serif;
+      font-size: .60rem;
+      letter-spacing: .32em;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: .80;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .countdown-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    @media (max-width: 640px) {
+      .countdown-row { gap: 6px; }
+    }
+
+    .countdown-box {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--r);
+      border: 1px solid rgba(200,169,106,.20);
+      border-top-color: rgba(200,169,106,.38);
+      background: rgba(6,5,4,.50);
+      backdrop-filter: blur(14px);
+      padding: 14px 8px;
+      text-align: center;
+    }
+
+    .countdown-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(200,169,106,.45), transparent);
+    }
+
+    .countdown-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      color: #e2cc96;
+      -webkit-text-fill-color: #e2cc96;
+      line-height: 1;
+      letter-spacing: .04em;
+      display: block;
+    }
+
+    .countdown-unit {
+      font-family: 'Jost', sans-serif;
+      font-size: .55rem;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: .75;
+      margin-top: 5px;
+      display: block;
+    }
+
+    .countdown-expired {
+      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--gold);
+      padding: 14px;
+      border: 1px solid rgba(200,169,106,.20);
+      border-radius: var(--r);
+      background: rgba(6,5,4,.40);
+    }
+
+    /* ── Leaderboard ── */
+    .leaderboard-section {
+      margin-top: 32px;
+    }
+
+    .leaderboard-heading {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .leaderboard-heading h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      letter-spacing: .07em;
+      color: var(--text);
+    }
+
+    .leaderboard-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .leaderboard-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--rMd);
+      border: 1px solid rgba(240,236,228,.08);
+      border-top-color: rgba(240,236,228,.14);
+      background: rgba(6,5,4,.28);
+      backdrop-filter: blur(14px);
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: background .2s var(--ease), border-color .2s var(--ease), transform .2s var(--ease);
+    }
+
+    .leaderboard-card:hover {
+      background: rgba(6,5,4,.44);
+      border-color: rgba(200,169,106,.18);
+      transform: translateY(-2px);
+    }
+
+    .leaderboard-card.rank-1 {
+      border-color: rgba(200,169,106,.30);
+      border-top-color: rgba(200,169,106,.55);
+      background: linear-gradient(135deg, rgba(200,169,106,.10) 0%, rgba(6,5,4,.40) 100%);
+    }
+
+    .leaderboard-card.rank-2 {
+      border-color: rgba(180,180,180,.22);
+      border-top-color: rgba(200,200,200,.40);
+      background: linear-gradient(135deg, rgba(180,180,180,.07) 0%, rgba(6,5,4,.36) 100%);
+    }
+
+    .leaderboard-card.rank-3 {
+      border-color: rgba(180,120,60,.22);
+      border-top-color: rgba(200,140,80,.38);
+      background: linear-gradient(135deg, rgba(180,120,60,.07) 0%, rgba(6,5,4,.36) 100%);
+    }
+
+    .leaderboard-rank {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.8rem;
+      line-height: 1;
+      min-width: 32px;
+      text-align: center;
+    }
+
+    .rank-1 .leaderboard-rank { color: #e2cc96; -webkit-text-fill-color: #e2cc96; }
+    .rank-2 .leaderboard-rank { color: #c8c8c8; -webkit-text-fill-color: #c8c8c8; }
+    .rank-3 .leaderboard-rank { color: #c8804a; -webkit-text-fill-color: #c8804a; }
+
+    .leaderboard-info { flex: 1; min-width: 0; }
+
+    .leaderboard-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: 1.2rem;
+      letter-spacing: .06em;
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 3px;
+    }
+
+    .leaderboard-votes {
+      font-family: 'Jost', sans-serif;
+      font-size: .63rem;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: .85;
+    }
+
     /* ── Why compete ── */
     .why-compete { margin-top: 32px; }
 
@@ -399,11 +570,7 @@
       pointer-events: none;
     }
 
-    .why-header {
-      position: relative;
-      z-index: 1;
-      margin-bottom: 24px;
-    }
+    .why-header { position: relative; z-index: 1; margin-bottom: 24px; }
 
     .why-kicker {
       font-family: 'Jost', sans-serif;
@@ -446,9 +613,7 @@
       gap: 14px;
     }
 
-    @media (max-width: 640px) {
-      .why-grid { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 640px) { .why-grid { grid-template-columns: 1fr; } }
 
     .why-card {
       border: 1px solid rgba(240,236,228,.08);
@@ -458,10 +623,7 @@
       background: rgba(6,5,4,.28);
       position: relative;
       overflow: hidden;
-      transition:
-        border-color  .24s var(--ease),
-        background    .24s var(--ease),
-        transform     .24s var(--ease);
+      transition: border-color .24s var(--ease), background .24s var(--ease), transform .24s var(--ease);
     }
 
     .why-card::before {
@@ -469,18 +631,13 @@
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 1px;
-      background: linear-gradient(90deg,
-        transparent, rgba(200,169,106,.30), transparent);
+      background: linear-gradient(90deg, transparent, rgba(200,169,106,.30), transparent);
       opacity: 0;
       transition: opacity .24s var(--ease);
     }
 
     .why-card:hover::before { opacity: 1; }
-    .why-card:hover {
-      border-color: rgba(200,169,106,.24);
-      background: rgba(6,5,4,.44);
-      transform: translateY(-2px);
-    }
+    .why-card:hover { border-color: rgba(200,169,106,.24); background: rgba(6,5,4,.44); transform: translateY(-2px); }
 
     .why-label {
       font-family: 'Jost', sans-serif;
@@ -491,14 +648,7 @@
       margin-bottom: 8px;
     }
 
-    .why-card p {
-      margin: 0;
-      color: var(--muted);
-      font-family: 'Jost', sans-serif;
-      font-weight: 300;
-      font-size: .88rem;
-      line-height: 1.78;
-    }
+    .why-card p { margin: 0; color: var(--muted); font-family: 'Jost', sans-serif; font-weight: 300; font-size: .88rem; line-height: 1.78; }
 
     .why-footer {
       position: relative;
@@ -520,9 +670,7 @@
       border-radius: var(--rMd);
       border: 1px solid rgba(200,169,106,.18);
       border-top-color: rgba(200,169,106,.36);
-      background: linear-gradient(168deg,
-        rgba(200,169,106,.08) 0%,
-        rgba(6,5,4,.55) 100%);
+      background: linear-gradient(168deg, rgba(200,169,106,.08) 0%, rgba(6,5,4,.55) 100%);
       backdrop-filter: blur(20px);
       padding: clamp(28px, 5vw, 48px) clamp(22px, 5vw, 44px);
       box-shadow: var(--sh-md), var(--glow);
@@ -532,17 +680,14 @@
       align-items: center;
     }
 
-    @media (max-width: 640px) {
-      .apply-card { grid-template-columns: 1fr; gap: 20px; }
-    }
+    @media (max-width: 640px) { .apply-card { grid-template-columns: 1fr; gap: 20px; } }
 
     .apply-card::before {
       content: '';
       position: absolute;
       inset: 0;
       border-radius: var(--rMd);
-      background: radial-gradient(ellipse 70% 36% at 50% 0%,
-        rgba(200,169,106,.10), transparent 65%);
+      background: radial-gradient(ellipse 70% 36% at 50% 0%, rgba(200,169,106,.10), transparent 65%);
       pointer-events: none;
     }
 
@@ -554,12 +699,7 @@
       border: 1px solid transparent;
       background:
         linear-gradient(var(--bg), var(--bg)) padding-box,
-        linear-gradient(135deg,
-          rgba(200,169,106,.26) 0%,
-          transparent 38%,
-          transparent 62%,
-          rgba(200,169,106,.26) 100%
-        ) border-box;
+        linear-gradient(135deg, rgba(200,169,106,.26) 0%, transparent 38%, transparent 62%, rgba(200,169,106,.26) 100%) border-box;
       pointer-events: none;
     }
 
@@ -634,11 +774,7 @@
       justify-content: space-between;
       gap: 20px;
       box-shadow: var(--sh-sm);
-      transition:
-        background    .22s var(--ease),
-        border-color  .22s var(--ease),
-        transform     .22s var(--ease),
-        box-shadow    .22s var(--ease);
+      transition: background .22s var(--ease), border-color .22s var(--ease), transform .22s var(--ease), box-shadow .22s var(--ease);
     }
 
     .contest-list-card::before {
@@ -646,8 +782,7 @@
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 1px;
-      background: linear-gradient(90deg,
-        transparent 8%, rgba(200,169,106,.36) 50%, transparent 92%);
+      background: linear-gradient(90deg, transparent 8%, rgba(200,169,106,.36) 50%, transparent 92%);
       opacity: 0;
       transition: opacity .22s var(--ease);
     }
@@ -694,16 +829,9 @@
       opacity: .80;
     }
 
-    .contest-list-dates::before {
-      content: '✦';
-      font-size: .48rem;
-    }
+    .contest-list-dates::before { content: '✦'; font-size: .48rem; }
 
-    .contest-list-action {
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-    }
+    .contest-list-action { flex-shrink: 0; display: flex; align-items: center; }
 
     .empty-state {
       text-align: center;
@@ -713,33 +841,9 @@
       background: rgba(6,5,4,.18);
     }
 
-    .empty-state .empty-icon {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2.8rem;
-      color: var(--faint);
-      margin-bottom: 16px;
-      display: block;
-    }
-
-    .empty-state h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-style: italic;
-      font-size: 1.6rem;
-      letter-spacing: .06em;
-      color: var(--text);
-      margin-bottom: 10px;
-    }
-
-    .empty-state p {
-      font-family: 'Jost', sans-serif;
-      font-weight: 300;
-      font-size: .88rem;
-      color: var(--muted);
-      line-height: 1.78;
-      max-width: 40ch;
-      margin: 0 auto;
-    }
+    .empty-state .empty-icon { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; color: var(--faint); margin-bottom: 16px; display: block; }
+    .empty-state h3 { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-style: italic; font-size: 1.6rem; letter-spacing: .06em; color: var(--text); margin-bottom: 10px; }
+    .empty-state p { font-family: 'Jost', sans-serif; font-weight: 300; font-size: .88rem; color: var(--muted); line-height: 1.78; max-width: 40ch; margin: 0 auto; }
 
     .page-footer {
       text-align: center;
@@ -751,75 +855,27 @@
       color: var(--faint);
     }
 
-    .page-footer a {
-      color: var(--gold);
-      border-bottom: 1px solid rgba(200,169,106,.28);
-      transition: color .2s;
-    }
+    .page-footer a { color: var(--gold); border-bottom: 1px solid rgba(200,169,106,.28); transition: color .2s; }
     .page-footer a:hover { color: var(--gold2); }
 
     /* ── Mobile ── */
     @media (max-width: 640px) {
-      .editorial-hero {
-        min-height: unset;
-        height: auto;
-        border-radius: var(--rMd);
-      }
-      .editorial-hero img {
-        position: relative;
-        display: block;
-        width: 100%;
-        height: auto;
-        object-fit: cover;
-        object-position: center 25%;
-        transform: none;
-        inset: auto;
-      }
+      .editorial-hero { min-height: unset; height: auto; border-radius: var(--rMd); }
+      .editorial-hero img { position: relative; display: block; width: 100%; height: auto; object-fit: cover; object-position: center 25%; transform: none; inset: auto; }
       .editorial-frame { inset: 8px; }
-      .editorial-copy {
-        left: 14px; right: 14px; bottom: 14px;
-        max-width: none;
-      }
+      .editorial-copy { left: 14px; right: 14px; bottom: 14px; top: auto; max-width: none; }
       .editorial-deadline { display: none; }
       .editorial-kicker { padding: 6px 10px; font-size: .60rem; }
-      .editorial-title {
-        font-size: clamp(30px, 9vw, 46px);
-        letter-spacing: .03em;
-        margin-bottom: 10px;
-      }
-      .editorial-sub {
-        font-size: 13px;
-        margin-top: 0;
-        margin-bottom: 14px;
-        line-height: 1.50;
-      }
+      .editorial-title { font-size: clamp(30px, 9vw, 46px); letter-spacing: .03em; margin-bottom: 10px; }
+      .editorial-sub { font-size: 13px; margin-top: 0; margin-bottom: 14px; line-height: 1.50; }
       .editorial-actions { gap: 8px; }
-      .editorial-apply-btn {
-        min-height: 42px;
-        padding: 0 16px;
-        font-size: .64rem;
-      }
-      .contest-list-card {
-        flex-direction: column;
-        gap: 14px;
-      }
+      .editorial-apply-btn { min-height: 42px; padding: 0 16px; font-size: .64rem; }
+      .contest-list-card { flex-direction: column; gap: 14px; }
       .contest-list-action { width: 100%; }
-      .contest-list-action .btn {
-        width: 100%;
-        justify-content: center;
-      }
+      .contest-list-action .btn { width: 100%; justify-content: center; }
     }
 
     /* ── Share button ── */
-    .hero-share-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-
     .share-btn {
       display: inline-flex;
       align-items: center;
@@ -835,36 +891,13 @@
       text-transform: uppercase;
       color: var(--gold);
       cursor: pointer;
-      transition:
-        background .2s var(--ease),
-        border-color .2s var(--ease),
-        transform .18s var(--ease);
+      transition: background .2s var(--ease), border-color .2s var(--ease), transform .18s var(--ease);
       flex-shrink: 0;
     }
 
-    .share-btn:hover {
-      background: rgba(200,169,106,.14);
-      border-color: rgba(200,169,106,.50);
-      transform: translateY(-1px);
-    }
-
-    .share-btn svg {
-      width: 13px;
-      height: 13px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 1.8;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      flex-shrink: 0;
-    }
-
-    .share-btn.copied {
-      color: rgba(140,220,160,.90);
-      border-color: rgba(140,220,160,.35);
-      background: rgba(140,220,160,.07);
-    }
-
+    .share-btn:hover { background: rgba(200,169,106,.14); border-color: rgba(200,169,106,.50); transform: translateY(-1px); }
+    .share-btn svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+    .share-btn.copied { color: rgba(140,220,160,.90); border-color: rgba(140,220,160,.35); background: rgba(140,220,160,.07); }
   </style>
 
 </head>
@@ -890,21 +923,14 @@
     </div>
   </div>
 
-  <!-- Back nav for Instagram in-app browser -->
-
   <!-- Hero -->
 
   <div class="container hero-wrap" style="padding-top:80px;">
-    <section class="editorial-hero"
-             aria-label="Elyra competitions feature">
-      <img
-        src="../IMG_9162.jpeg"
-        alt="Elyra Editorial Competitions"
-      />
+    <section class="editorial-hero" aria-label="Elyra competitions feature">
+      <img src="../IMG_9162.jpeg" alt="Elyra Editorial Competitions" />
       <div class="editorial-frame"></div>
 
 ```
-  <!-- Text — bottom left -->
   <div class="editorial-copy">
     <div class="editorial-kicker">Elyra Editorial</div>
     <h1 class="editorial-title">May<br>Cover Star</h1>
@@ -913,33 +939,24 @@
       follow the leaderboard, and help decide the next
       Elyra cover feature.
     </p>
-    <!-- Prize pool pill -->
-    <div class="editorial-prize">
-      ✦ &nbsp; Min. $500 Prize Pool — Grows with every vote
-    </div>
+    <div class="editorial-prize">✦ &nbsp; Min. $500 Prize Pool — Grows with every vote</div>
     <div class="editorial-actions">
       <a class="editorial-apply-btn"
          href="https://docs.google.com/forms/d/e/1FAIpQLSdlE4XzYtoZj1_IIxh8KgipG0XQ5zhoJ0NXEIGqeNrNX5YkPw/viewform"
-         target="_blank"
-         rel="noopener noreferrer">
+         target="_blank" rel="noopener noreferrer">
         Apply Now
       </a>
-      <a class="editorial-apply-btn secondary"
-         href="/submit.html">
-        Submit Your Work
-      </a>
+      <a class="editorial-apply-btn secondary" href="/submit.html">Submit Your Work</a>
     </div>
   </div>
 
-  <!-- Deadline — bottom right (desktop only) -->
   <div class="editorial-deadline" aria-hidden="true">
     <span class="d-label">Voting Closes</span>
     <span class="d-val">May 31, 2026</span>
   </div>
-
 </section>
 
-<!-- Stats row below hero -->
+<!-- Stats row -->
 <div class="hero-stats">
   <div class="hero-stat">
     <span class="hero-stat-label">Prize Pool</span>
@@ -952,6 +969,29 @@
   <div class="hero-stat">
     <span class="hero-stat-label">Deadline</span>
     <span class="hero-stat-val">May 31 · 11:59 PM</span>
+  </div>
+</div>
+
+<!-- Countdown -->
+<div class="countdown-wrap">
+  <div class="countdown-label-top">Voting Closes In</div>
+  <div class="countdown-row" id="countdownRow">
+    <div class="countdown-box">
+      <span class="countdown-num" id="cdDays">--</span>
+      <span class="countdown-unit">Days</span>
+    </div>
+    <div class="countdown-box">
+      <span class="countdown-num" id="cdHours">--</span>
+      <span class="countdown-unit">Hours</span>
+    </div>
+    <div class="countdown-box">
+      <span class="countdown-num" id="cdMins">--</span>
+      <span class="countdown-unit">Minutes</span>
+    </div>
+    <div class="countdown-box">
+      <span class="countdown-num" id="cdSecs">--</span>
+      <span class="countdown-unit">Seconds</span>
+    </div>
   </div>
 </div>
 ```
@@ -1011,12 +1051,21 @@
       <div class="apply-action">
         <a class="btn primary"
            href="https://docs.google.com/forms/d/e/1FAIpQLSdlE4XzYtoZj1_IIxh8KgipG0XQ5zhoJ0NXEIGqeNrNX5YkPw/viewform"
-           target="_blank"
-           rel="noopener noreferrer">
+           target="_blank" rel="noopener noreferrer">
           Start Application
         </a>
       </div>
     </div>
+  </div>
+
+  <!-- Live Leaderboard -->
+
+  <div class="container leaderboard-section">
+    <div class="leaderboard-heading">
+      <h2>Live Leaderboard</h2>
+      <div class="badge" id="lbBadge">Loading…</div>
+    </div>
+    <div class="leaderboard-list" id="leaderboardList"></div>
   </div>
 
   <!-- Active contests -->
@@ -1043,9 +1092,7 @@
   <!-- Footer -->
 
   <div class="page-footer">
-    <a href="https://houseofelevara.com" target="_blank" rel="noopener">
-      House of Elévara
-    </a>
+    <a href="https://houseofelevara.com" target="_blank" rel="noopener">House of Elévara</a>
     &nbsp;·&nbsp;
     <a href="/">Elyra Editorial</a>
     &nbsp;·&nbsp;
@@ -1054,42 +1101,71 @@
 
   <script>
     document.getElementById('yr').textContent = new Date().getFullYear();
+
+    /* ── Countdown to May 31 11:59 PM CST (June 1 04:59 UTC) ── */
+    (function() {
+      const end  = new Date('2026-06-01T04:59:00Z');
+      const days = document.getElementById('cdDays');
+      const hrs  = document.getElementById('cdHours');
+      const mins = document.getElementById('cdMins');
+      const secs = document.getElementById('cdSecs');
+      const row  = document.getElementById('countdownRow');
+
+      function pad(n) { return String(n).padStart(2, '0'); }
+
+      function tick() {
+        const diff = end - Date.now();
+        if (diff <= 0) {
+          row.innerHTML = '<div class="countdown-expired">Voting has closed</div>';
+          return;
+        }
+        const d = Math.floor(diff / 86400000);
+        const h = Math.floor((diff % 86400000) / 3600000);
+        const m = Math.floor((diff % 3600000) / 60000);
+        const s = Math.floor((diff % 60000) / 1000);
+        if (days) days.textContent = pad(d);
+        if (hrs)  hrs.textContent  = pad(h);
+        if (mins) mins.textContent = pad(m);
+        if (secs) secs.textContent = pad(s);
+      }
+
+      tick();
+      setInterval(tick, 1000);
+    })();
   </script>
 
   <script type="module">
-    import { fetchActiveContests } from "./assets/data.js?v=19";
+    import { fetchActiveContests, fetchContestantsByContestId, fetchVoteTotalsForContest } from "./assets/data.js?v=19";
     import { setText, setHTML } from "./assets/ui.js?v=19";
 
     const badge = document.getElementById("statusBadge");
     const list  = document.getElementById("contestList");
+    const lbBadge = document.getElementById("lbBadge");
+    const lbList  = document.getElementById("leaderboardList");
 
     function esc(s) {
       return String(s ?? "")
-        .replaceAll("&",  "&amp;")
-        .replaceAll("<",  "&lt;")
-        .replaceAll(">",  "&gt;")
-        .replaceAll('"',  "&quot;")
-        .replaceAll("'",  "&#039;");
+        .replaceAll("&","&amp;").replaceAll("<","&lt;")
+        .replaceAll(">","&gt;").replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
     }
 
     function fmtDate(v) {
       if (!v) return "";
       const d = new Date(v);
       if (Number.isNaN(d.getTime())) return "";
-      return d.toLocaleDateString("en-US", {
-        month: "long", day: "numeric", year: "numeric"
-      });
+      return d.toLocaleDateString("en-US", { month:"long", day:"numeric", year:"numeric" });
     }
 
+    /* ── Active contests ── */
+    let contests = [];
     try {
       setText(badge, "Loading…");
-      const contests = await fetchActiveContests();
-      const count    = contests?.length || 0;
+      contests = await fetchActiveContests() || [];
+      const count = contests.length;
 
       setText(badge,
-        count
-          ? `${count} Active Contest${count !== 1 ? "s" : ""}`
-          : "No active contests yet"
+        count ? `${count} Active Contest${count !== 1 ? "s" : ""}` : "No active contests yet"
       );
 
       if (!count) {
@@ -1106,11 +1182,7 @@
           const subtitle = esc(c.subtitle || "Minimum $500 prize pool — increases based on total votes.");
           const start    = fmtDate(c.start_at);
           const end      = fmtDate(c.end_at);
-          const dates    = [
-            start ? `Starts: ${start}` : "",
-            end   ? `Ends: ${end}`     : ""
-          ].filter(Boolean).join("  ·  ");
-
+          const dates    = [start ? `Starts: ${start}` : "", end ? `Ends: ${end}` : ""].filter(Boolean).join("  ·  ");
           return `
             <div class="contest-list-card">
               <div class="contest-list-info">
@@ -1119,16 +1191,12 @@
                 ${dates ? `<div class="contest-list-dates">${esc(dates)}</div>` : ""}
               </div>
               <div class="contest-list-action">
-                <a class="btn primary"
-                   href="/competitions/contest.html?slug=${encodeURIComponent(c.slug)}">
-                  View Contest
-                </a>
+                <a class="btn primary" href="/competitions/contest.html?slug=${encodeURIComponent(c.slug)}">View Contest</a>
               </div>
             </div>
           `;
         }).join(""));
       }
-
     } catch (err) {
       console.warn("Competitions load fallback:", err);
       setText(badge, "No active contests yet");
@@ -1141,6 +1209,48 @@
       `);
     }
 
+    /* ── Live Leaderboard — top 3 from first active contest ── */
+    try {
+      if (contests.length > 0) {
+        const contest = contests[0];
+        const [contestants, totalsRows] = await Promise.all([
+          fetchContestantsByContestId(contest.id),
+          fetchVoteTotalsForContest(contest.id)
+        ]);
+
+        const totalsMap = {};
+        for (const r of (totalsRows || [])) { totalsMap[r.contestant_id] = r; }
+
+        const ranked = (contestants || [])
+          .map(c => ({ ...c, votes: Number(totalsMap[c.id]?.total_votes ?? 0) }))
+          .sort((a, b) => b.votes - a.votes)
+          .slice(0, 3);
+
+        setText(lbBadge, ranked.length ? 'Live' : 'No votes yet');
+
+        const rankLabels = ['1', '2', '3'];
+        setHTML(lbList, ranked.length ? ranked.map((c, i) => `
+          <div class="leaderboard-card rank-${rankLabels[i]}">
+            <div class="leaderboard-rank">${rankLabels[i]}</div>
+            <div class="leaderboard-info">
+              <div class="leaderboard-name">${esc(c.display_name || 'Contestant')}</div>
+              <div class="leaderboard-votes">${Number(c.votes).toLocaleString()} Votes</div>
+            </div>
+            <a class="btn primary"
+               href="/competitions/contestant.html?id=${encodeURIComponent(c.id)}&slug=${encodeURIComponent(contest.slug)}">
+              Vote
+            </a>
+          </div>
+        `).join('') : '<p style="color:var(--faint);font-family:\'Jost\',sans-serif;font-size:.88rem;padding:20px 0;">No votes yet — be the first!</p>');
+      } else {
+        setText(lbBadge, '—');
+        setHTML(lbList, '');
+      }
+    } catch(e) {
+      console.warn('Leaderboard error:', e);
+      setText(lbBadge, '—');
+    }
+
     /* ── Share button ── */
     const shareBtn      = document.getElementById("shareBtn");
     const shareBtnLabel = document.getElementById("shareBtnLabel");
@@ -1151,20 +1261,15 @@
         text:  "Vote to help decide the next ELYRA cover star ✦",
         url:   location.href,
       };
-
       if (navigator.share) {
         try { await navigator.share(shareData); return; }
         catch (e) { if (e.name === "AbortError") return; }
       }
-
       try {
         await navigator.clipboard.writeText(location.href);
         shareBtnLabel.textContent = "Copied ✦";
         shareBtn.classList.add("copied");
-        setTimeout(() => {
-          shareBtnLabel.textContent = "Share";
-          shareBtn.classList.remove("copied");
-        }, 2200);
+        setTimeout(() => { shareBtnLabel.textContent = "Share"; shareBtn.classList.remove("copied"); }, 2200);
       } catch { /* silent */ }
     });
   </script>
