@@ -1,20 +1,40 @@
 <!doctype html>
+
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Elyra — Contestant</title>
 
+  <!-- OG tags — updated dynamically once contestant data loads -->
+
+  <meta property="og:title" content="Elyra Cover Competition" />
+  <meta property="og:description" content="Vote to help decide the next ELYRA cover star. Every dollar is one vote." />
+  <meta property="og:image" content="https://elyraeditorial.github.io/IMG_8629.jpeg?v=3" />
+  <meta property="og:url" content="https://elyraeditorial.github.io/competitions/contestant.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="ELYRA" />
+
+  <!-- Twitter -->
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Elyra Cover Competition" />
+  <meta name="twitter:description" content="Vote to help decide the next ELYRA cover star. Every dollar is one vote." />
+  <meta name="twitter:image" content="https://elyraeditorial.github.io/IMG_8629.jpeg?v=3" />
+
   <!-- Icons -->
+
   <link rel="icon" type="image/jpeg" href="https://elyraeditorial.github.io/IMG_8629.jpeg?v=3" />
   <link rel="apple-touch-icon" href="https://elyraeditorial.github.io/IMG_8629.jpeg?v=3" />
 
   <!-- Fonts -->
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Cormorant+SC:wght@300;400;500&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
 
   <!-- Styles -->
+
   <link rel="stylesheet" href="../styles.css"/>
   <link rel="stylesheet" href="./assets/competitions.css?v=19"/>
 
@@ -43,7 +63,6 @@
       opacity: 0;
     }
 
-    /* Corner hairlines */
     .contestant-hero::before {
       content: '';
       position: absolute;
@@ -61,7 +80,6 @@
         ) border-box;
     }
 
-    /* Crown shimmer */
     .contestant-hero::after {
       content: '';
       position: absolute;
@@ -88,7 +106,6 @@
       }
     }
 
-    /* Left — name + bio + votes */
     .contestant-copy {}
 
     .contestant-kicker {
@@ -185,6 +202,52 @@
       line-height: 1;
     }
 
+    /* ── Share button ── */
+    .share-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+      padding: 10px 18px;
+      border-radius: var(--r);
+      border: 1px solid rgba(200,169,106,.28);
+      background: rgba(200,169,106,.07);
+      backdrop-filter: blur(10px);
+      font-family: 'Jost', sans-serif;
+      font-size: .63rem;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      cursor: pointer;
+      transition:
+        background .2s var(--ease),
+        border-color .2s var(--ease),
+        transform .2s var(--spring);
+    }
+
+    .share-btn:hover {
+      background: rgba(200,169,106,.14);
+      border-color: rgba(200,169,106,.50);
+      transform: translateY(-1px);
+    }
+
+    .share-btn svg {
+      width: 13px;
+      height: 13px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    .share-btn.copied {
+      color: rgba(140,220,160,.90);
+      border-color: rgba(140,220,160,.35);
+      background: rgba(140,220,160,.07);
+    }
+
     /* Right — photo */
     .contestant-photo-wrap {
       position: relative;
@@ -206,7 +269,6 @@
       display: block;
     }
 
-    /* Photo glow */
     .contestant-photo-glow {
       position: absolute;
       inset: -30%;
@@ -218,7 +280,6 @@
       pointer-events: none;
     }
 
-    /* No photo state */
     .contestant-no-photo {
       display: flex;
       align-items: center;
@@ -336,7 +397,6 @@
       margin-bottom: 22px;
     }
 
-    /* Vote amount selector */
     .vote-amounts {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -407,7 +467,6 @@
       letter-spacing: .04em;
     }
 
-    /* Divider */
     .vote-divider {
       height: 1px;
       background: linear-gradient(90deg,
@@ -415,7 +474,6 @@
       margin: 20px 0;
     }
 
-    /* Vote buttons row */
     .vote-btn-row {
       display: flex;
       gap: 10px;
@@ -423,7 +481,6 @@
       margin-bottom: 16px;
     }
 
-    /* Status message */
     .vote-msg {
       font-family: 'Jost', sans-serif;
       font-size: .82rem;
@@ -435,7 +492,6 @@
     .vote-msg.success { color: rgba(140,220,160,.85); }
     .vote-msg.error   { color: rgba(220,100,100,.80); }
 
-    /* Legal note */
     .vote-legal {
       margin-top: 16px;
       padding-top: 16px;
@@ -446,7 +502,6 @@
       line-height: 1.68;
     }
 
-    /* Back nav */
     .back-nav {
       display: flex;
       align-items: center;
@@ -473,7 +528,6 @@
 
     .back-nav a:hover { color: var(--gold); }
 
-    /* Payment success banner */
     .payment-banner {
       display: none;
       align-items: center;
@@ -498,7 +552,6 @@
       flex-shrink: 0;
     }
 
-    /* Loading skeleton */
     .skeleton-name {
       width: 60%;
       height: 3rem;
@@ -529,7 +582,6 @@
       to   { background-position: -200% center; }
     }
 
-    /* Page footer */
     .page-footer {
       text-align: center;
       padding: 40px 0 52px;
@@ -547,16 +599,19 @@
     }
     .page-footer a:hover { color: var(--gold2); }
   </style>
+
 </head>
 
 <body class="no-scroll-x">
 
   <!-- Background -->
+
   <div class="bg" aria-hidden="true"></div>
   <div class="vignette" aria-hidden="true"></div>
   <div class="grain" aria-hidden="true"></div>
 
   <!-- Nav -->
+
   <div class="topbar">
     <div class="container row">
       <div class="brand">ELYRA</div>
@@ -572,145 +627,135 @@
 
   <div class="container hero-wrap">
 
-    <!-- Back nav -->
-    <div class="back-nav">
-      <a href="/competitions/" id="backBtn">Back to Competitions</a>
+```
+<!-- Back nav -->
+<div class="back-nav">
+  <a href="/competitions/" id="backBtn">Back to Competitions</a>
+</div>
+
+<!-- Payment success banner -->
+<div class="payment-banner" id="paymentBanner">
+  Payment received — thank you for supporting this contestant.
+  Your votes have been counted and totals will update shortly.
+</div>
+
+<!-- Contestant hero -->
+<div class="contestant-hero">
+  <div class="contestant-hero-inner">
+
+    <!-- Left — copy -->
+    <div class="contestant-copy">
+      <div class="contestant-kicker">Elyra Contestant</div>
+
+      <div id="skeletonName" class="skeleton-name"></div>
+      <div id="skeletonBio"  class="skeleton-bio"></div>
+
+      <div class="contestant-name" id="name" style="display:none;">Loading…</div>
+      <div class="contestant-bio-text" id="bio" style="display:none;"></div>
+
+      <!-- Live vote counter -->
+      <div class="vote-counter">
+        <div class="vote-counter-label">Total Votes</div>
+        <div class="vote-counter-num" id="totalVotes">—</div>
+      </div>
+
+      <!-- Share button -->
+      <button class="share-btn" id="shareBtn" type="button" style="display:none;">
+        <svg viewBox="0 0 24 24">
+          <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/>
+          <circle cx="18" cy="19" r="3"/>
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+        </svg>
+        <span id="shareBtnLabel">Share Contestant</span>
+      </button>
     </div>
 
-    <!-- Payment success banner -->
-    <div class="payment-banner" id="paymentBanner">
-      Payment received — thank you for supporting this contestant.
-      Your votes have been counted and totals will update shortly.
-    </div>
-
-    <!-- Contestant hero -->
-    <div class="contestant-hero">
-      <div class="contestant-hero-inner">
-
-        <!-- Left — copy -->
-        <div class="contestant-copy">
-          <div class="contestant-kicker">Elyra Contestant</div>
-
-          <!-- Loading skeleton -->
-          <div id="skeletonName" class="skeleton-name"></div>
-          <div id="skeletonBio"  class="skeleton-bio"></div>
-
-          <!-- Populated by JS -->
-          <div class="contestant-name"
-               id="name"
-               style="display:none;">Loading…</div>
-
-          <div class="contestant-bio-text"
-               id="bio"
-               style="display:none;"></div>
-
-          <!-- Live vote counter -->
-          <div class="vote-counter">
-            <div class="vote-counter-label">Total Votes</div>
-            <div class="vote-counter-num" id="totalVotes">—</div>
-          </div>
+    <!-- Right — photo -->
+    <div class="contestant-photo-wrap">
+      <div id="photoCard" style="display:none;">
+        <div class="contestant-photo-card">
+          <div class="contestant-photo-glow"></div>
+          <img id="photoImg" alt="Contestant photo" loading="lazy" />
         </div>
-
-        <!-- Right — photo -->
-        <div class="contestant-photo-wrap">
-          <div id="photoCard" style="display:none;">
-            <div class="contestant-photo-card">
-              <div class="contestant-photo-glow"></div>
-              <img id="photoImg" alt="Contestant photo" loading="lazy" />
-            </div>
-          </div>
-          <div class="contestant-no-photo" id="noPhoto">
-            Image coming soon
-          </div>
-        </div>
-
       </div>
-    </div>
-
-    <!-- How it works -->
-    <div class="how-it-works">
-      <div class="how-box">
-        <div class="how-label">Prize Pool</div>
-        <div class="how-val">Minimum $500 — grows with every vote cast</div>
-      </div>
-      <div class="how-box">
-        <div class="how-label">Voting Closes</div>
-        <div class="how-val">May 31 at 11:59 PM CST</div>
-      </div>
-      <div class="how-box">
-        <div class="how-label">How It Works</div>
-        <div class="how-val">$1 = 1 vote. Highest total wins the cover feature</div>
-      </div>
-    </div>
-
-    <!-- Voting panel -->
-    <div class="vote-panel">
-      <div class="vote-panel-inner">
-
-        <div class="vote-panel-title">Cast Your Votes</div>
-        <div class="vote-panel-sub">
-          Every dollar is one vote. Choose your amount below and
-          complete checkout to support this contestant.
-        </div>
-
-        <!-- Vote amount cards -->
-        <div class="vote-amounts">
-
-          <div class="vote-amount-btn" id="triggerPay1">
-            <div class="vote-amount-price">$1</div>
-            <div class="vote-amount-label">1 Vote</div>
-            <div class="vote-amount-sub">Single vote</div>
-          </div>
-
-          <div class="vote-amount-btn" id="triggerPay10">
-            <div class="vote-amount-price">$10</div>
-            <div class="vote-amount-label">10 Votes</div>
-            <div class="vote-amount-sub">Best value</div>
-          </div>
-
-          <div class="vote-amount-btn" id="triggerPay50">
-            <div class="vote-amount-price">$50</div>
-            <div class="vote-amount-label">50 Votes</div>
-            <div class="vote-amount-sub">Maximum support</div>
-          </div>
-
-        </div>
-
-        <div class="vote-divider"></div>
-
-        <!-- Vote buttons -->
-        <div class="vote-btn-row">
-          <button class="btn primary" id="voteBtn"
-                  type="button" disabled>
-            Vote — $1
-          </button>
-          <button class="btn btn3d glow10" id="pay10"
-                  type="button" disabled>
-            Buy 10 Votes — $10
-          </button>
-          <button class="btn btn3d glow50" id="pay50"
-                  type="button" disabled>
-            Buy 50 Votes — $50
-          </button>
-        </div>
-
-        <!-- Status message -->
-        <p class="vote-msg" id="msg"></p>
-
-        <!-- Legal -->
-        <div class="vote-legal">
-          All votes are final. Live totals are displayed publicly.
-          ELYRA reserves the right to remove fraudulent activity or
-          disqualify manipulation that compromises the integrity of
-          the competition.
-        </div>
-
+      <div class="contestant-no-photo" id="noPhoto">
+        Image coming soon
       </div>
     </div>
 
   </div>
+</div>
+
+<!-- How it works -->
+<div class="how-it-works">
+  <div class="how-box">
+    <div class="how-label">Prize Pool</div>
+    <div class="how-val">Minimum $500 — grows with every vote cast</div>
+  </div>
+  <div class="how-box">
+    <div class="how-label">Voting Closes</div>
+    <div class="how-val">May 31 at 11:59 PM CST</div>
+  </div>
+  <div class="how-box">
+    <div class="how-label">How It Works</div>
+    <div class="how-val">$1 = 1 vote. Highest total wins the cover feature</div>
+  </div>
+</div>
+
+<!-- Voting panel -->
+<div class="vote-panel">
+  <div class="vote-panel-inner">
+
+    <div class="vote-panel-title">Cast Your Votes</div>
+    <div class="vote-panel-sub">
+      Every dollar is one vote. Choose your amount below and
+      complete checkout to support this contestant.
+    </div>
+
+    <div class="vote-amounts">
+      <div class="vote-amount-btn" id="triggerPay1">
+        <div class="vote-amount-price">$1</div>
+        <div class="vote-amount-label">1 Vote</div>
+        <div class="vote-amount-sub">Single vote</div>
+      </div>
+      <div class="vote-amount-btn" id="triggerPay10">
+        <div class="vote-amount-price">$10</div>
+        <div class="vote-amount-label">10 Votes</div>
+        <div class="vote-amount-sub">Best value</div>
+      </div>
+      <div class="vote-amount-btn" id="triggerPay50">
+        <div class="vote-amount-price">$50</div>
+        <div class="vote-amount-label">50 Votes</div>
+        <div class="vote-amount-sub">Maximum support</div>
+      </div>
+    </div>
+
+    <div class="vote-divider"></div>
+
+    <div class="vote-btn-row">
+      <button class="btn primary" id="voteBtn" type="button" disabled>Vote — $1</button>
+      <button class="btn btn3d glow10" id="pay10" type="button" disabled>Buy 10 Votes — $10</button>
+      <button class="btn btn3d glow50" id="pay50" type="button" disabled>Buy 50 Votes — $50</button>
+    </div>
+
+    <p class="vote-msg" id="msg"></p>
+
+    <div class="vote-legal">
+      All votes are final. Live totals are displayed publicly.
+      ELYRA reserves the right to remove fraudulent activity or
+      disqualify manipulation that compromises the integrity of
+      the competition.
+    </div>
+
+  </div>
+</div>
+```
+
+  </div>
 
   <!-- Page footer -->
+
   <div class="page-footer">
     <a href="https://houseofelevara.com" target="_blank" rel="noopener">House of Elévara</a>
     &nbsp;·&nbsp;
@@ -747,21 +792,82 @@
     const skeletonName = document.getElementById("skeletonName");
     const skeletonBio  = document.getElementById("skeletonBio");
     const payBanner    = document.getElementById("paymentBanner");
+    const shareBtn     = document.getElementById("shareBtn");
+    const shareBtnLabel = document.getElementById("shareBtnLabel");
 
-    /* Vote amount card triggers */
     const trigger1  = document.getElementById("triggerPay1");
     const trigger10 = document.getElementById("triggerPay10");
     const trigger50 = document.getElementById("triggerPay50");
 
     /* Back link */
     if (slug) {
-      backBtn.href =
-        `/competitions/contest.html?slug=${encodeURIComponent(slug)}`;
+      backBtn.href = `/competitions/contest.html?slug=${encodeURIComponent(slug)}`;
     }
 
-    /* Show payment success banner */
+    /* Payment success banner */
     if (getParam("paid") === "1") {
       payBanner.classList.add("visible");
+    }
+
+    /* ── Dynamic OG tag updater ── */
+    function updateOG({ name, bio, photoUrl, pageUrl }) {
+      const title = `${name} — ELYRA Cover Competition`;
+      const desc  = bio
+        ? `${bio.slice(0, 120)}${bio.length > 120 ? '…' : ''} Vote now for ${name} on ELYRA.`
+        : `Vote for ${name} to become the next ELYRA cover star. Every dollar is one vote.`;
+      const image = photoUrl || 'https://elyraeditorial.github.io/IMG_8629.jpeg?v=3';
+
+      document.title = `${name} — ELYRA`;
+
+      const set = (sel, attr, val) => {
+        const el = document.querySelector(sel);
+        if (el) el.setAttribute(attr, val);
+      };
+
+      set('meta[property="og:title"]',       'content', title);
+      set('meta[property="og:description"]', 'content', desc);
+      set('meta[property="og:image"]',       'content', image);
+      set('meta[property="og:url"]',         'content', pageUrl);
+      set('meta[name="twitter:title"]',      'content', title);
+      set('meta[name="twitter:description"]','content', desc);
+      set('meta[name="twitter:image"]',      'content', image);
+    }
+
+    /* ── Share button ── */
+    function setupShareBtn(name, pageUrl) {
+      shareBtn.style.display = 'inline-flex';
+
+      shareBtn.addEventListener('click', async () => {
+        const shareData = {
+          title: `${name} — ELYRA Cover Competition`,
+          text:  `Vote for ${name} to become the next ELYRA cover star ✦`,
+          url:   pageUrl,
+        };
+
+        /* Native share sheet on mobile */
+        if (navigator.share) {
+          try {
+            await navigator.share(shareData);
+            return;
+          } catch (e) {
+            /* User cancelled — fall through to copy */
+            if (e.name === 'AbortError') return;
+          }
+        }
+
+        /* Fallback: copy link */
+        try {
+          await navigator.clipboard.writeText(pageUrl);
+          shareBtnLabel.textContent = 'Link Copied ✦';
+          shareBtn.classList.add('copied');
+          setTimeout(() => {
+            shareBtnLabel.textContent = 'Share Contestant';
+            shareBtn.classList.remove('copied');
+          }, 2200);
+        } catch {
+          toast('Copy the URL from your address bar.');
+        }
+      });
     }
 
     /* Helpers */
@@ -809,8 +915,8 @@
     }
 
     function setMsg(text, type = '') {
-      msgEl.textContent  = text;
-      msgEl.className    = 'vote-msg' + (type ? ' ' + type : '');
+      msgEl.textContent = text;
+      msgEl.className   = 'vote-msg' + (type ? ' ' + type : '');
     }
 
     async function refreshTotals(contestantId) {
@@ -818,9 +924,7 @@
         const t = await withTimeout(
           dataApi.fetchVoteTotalsForContestant(contestantId), 5000
         );
-        setText(totalVotesEl,
-          Number(t?.total_votes || 0).toLocaleString()
-        );
+        setText(totalVotesEl, Number(t?.total_votes || 0).toLocaleString());
       } catch (e) {
         console.warn("Totals fallback:", e);
         setText(totalVotesEl, "0");
@@ -831,7 +935,6 @@
     let contestantId = null;
     let loaded       = false;
 
-    /* Safety timeout */
     const loadingGuard = setTimeout(() => {
       if (!loaded) {
         showContent();
@@ -862,7 +965,7 @@
       /* Photo */
       const img = safeImg(contestant.photo_url);
       if (img) {
-        photoImg.src          = img;
+        photoImg.src            = img;
         photoCard.style.display = 'block';
         noPhoto.style.display   = 'none';
       } else {
@@ -886,6 +989,18 @@
 
       if (!contestId) throw new Error("Contest missing.");
 
+      /* ── Update OG tags + page title dynamically ── */
+      const pageUrl = `${location.origin}/competitions/contestant.html?id=${encodeURIComponent(id)}${slug ? '&slug=' + encodeURIComponent(slug) : ''}`;
+      updateOG({
+        name:     contestant.display_name || "Contestant",
+        bio:      contestant.bio || "",
+        photoUrl: img,
+        pageUrl,
+      });
+
+      /* ── Wire up share button ── */
+      setupShareBtn(contestant.display_name || "Contestant", pageUrl);
+
       enableVoting();
       await refreshTotals(contestantId);
 
@@ -894,12 +1009,7 @@
         try {
           disableVoting();
           setMsg("Redirecting to checkout…");
-          await startPaidVoteCheckout({
-            contestId,
-            contestantId,
-            pack,
-            returnTo
-          });
+          await startPaidVoteCheckout({ contestId, contestantId, pack, returnTo });
         } catch (e) {
           console.error(e);
           toast(e.message || "Checkout failed.");
@@ -911,8 +1021,6 @@
       voteBtn.onclick   = () => doCheckout(1);
       pay10.onclick     = () => doCheckout(10);
       pay50.onclick     = () => doCheckout(50);
-
-      /* Vote amount card clicks */
       if (trigger1)  trigger1.onclick  = () => doCheckout(1);
       if (trigger10) trigger10.onclick = () => doCheckout(10);
       if (trigger50) trigger50.onclick = () => doCheckout(50);
