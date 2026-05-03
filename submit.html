@@ -1,22 +1,54 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>ELYRA — Submissions</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Submit your work to ELYRA Editorial." />
+  <!-- Open Graph -->
+  <meta property="og:title" content="Submit — ELYRA" />
+  <meta property="og:description" content="Submit your work to ELYRA Editorial. Apply to be featured in an independent fashion & culture publication." />
+  <meta property="og:image" content="https://elyraeditorial.com/IMG_8629.jpeg?v=3" />
+  <meta property="og:url" content="https://elyraeditorial.com/submit.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="ELYRA" />
+
+  <!-- Twitter -->
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Submit — ELYRA" />
+  <meta name="twitter:description" content="Submit your work to ELYRA Editorial. Apply to be featured in an independent fashion & culture publication." />
+  <meta name="twitter:image" content="https://elyraeditorial.com/IMG_8629.jpeg?v=3" />
   <meta name="theme-color" content="#060504" />
+  <!-- Open Graph -->
+  <meta property="og:title" content="Submit — ELYRA" />
+  <meta property="og:description" content="Submit your work to ELYRA Editorial. Apply to be featured in an independent fashion &amp; culture publication." />
+  <meta property="og:image" content="https://elyraeditorial.com/IMG_8629.jpeg?v=3" />
+  <meta property="og:url" content="https://elyraeditorial.com/submit.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="ELYRA" />
+
+  <!-- Twitter -->
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Submit — ELYRA" />
+  <meta name="twitter:description" content="Submit your work to ELYRA Editorial. Apply to be featured in an independent fashion &amp; culture publication." />
+  <meta name="twitter:image" content="https://elyraeditorial.com/IMG_8629.jpeg?v=3" />
 
   <!-- Icons -->
-  <link rel="icon" type="image/jpeg" href="https://elyraeditorial.github.io/IMG_8629.jpeg?v=3" />
-  <link rel="apple-touch-icon" href="https://elyraeditorial.github.io/IMG_8629.jpeg?v=3" />
+
+  <link rel="icon" type="image/jpeg" href="https://elyraeditorial.com/IMG_8629.jpeg?v=3" />
+  <link rel="apple-touch-icon" href="https://elyraeditorial.com/IMG_8629.jpeg?v=3" />
 
   <!-- Fonts -->
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Cormorant+SC:wght@300;400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
 
   <!-- Styles -->
+
   <link rel="stylesheet" href="styles.css" />
 
   <style>
@@ -508,6 +540,7 @@
     }
     .page-footer a:hover { color: var(--gold2); }
   </style>
+
 </head>
 
 <body class="no-scroll-x">
@@ -543,282 +576,284 @@
       </div>
     </div>
 
-    <div class="container" style="margin-bottom: 32px;">
-      <div class="info-row">
+```
+<div class="container" style="margin-bottom: 32px;">
+  <div class="info-row">
 
-        <div class="info-box">
-          <div class="i-label">Status</div>
-          <p>
-            <strong>Currently Open</strong><br>
-            Actively reviewing submissions for upcoming editions.
-          </p>
+    <div class="info-box">
+      <div class="i-label">Status</div>
+      <p>
+        <strong>Currently Open</strong><br>
+        Actively reviewing submissions for upcoming editions.
+      </p>
+    </div>
+
+    <div class="info-box">
+      <div class="i-label">Contact</div>
+      <p>
+        Primary:
+        <a href="mailto:admin@houseofelevara.com">
+          admin@houseofelevara.com
+        </a><br>
+        Editorial:
+        <a href="mailto:elyra.editorial@gmail.com">
+          elyra.editorial@gmail.com
+        </a>
+      </p>
+    </div>
+
+    <div class="info-box">
+      <div class="i-label">What We Look For</div>
+      <p>
+        Clean storytelling, strong styling, and intentional
+        presence. Every submission is reviewed for the
+        next available edition.
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<div class="container" style="margin-bottom: 48px;">
+  <div class="form-card">
+
+    <!-- Success screen -->
+    <div class="form-success" id="formSuccess">
+      <span class="s-icon">✦</span>
+      <h3>Submission Sent</h3>
+      <p>
+        Your email app opened with everything pre-filled.
+        Once you hit send your submission goes directly
+        to our editorial team. We will be in touch within
+        5–10 business days.
+      </p>
+    </div>
+
+    <!-- Form — no action, JS handles it -->
+    <form id="submissionForm">
+
+      <div class="form-body">
+
+        <p class="form-title">Submit Your Work</p>
+        <p class="form-sub">
+          Fill in your details. When you click Send Submission
+          your email app will open pre-filled and ready to go —
+          just hit send.
+        </p>
+
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label for="firstName">First Name *</label>
+            <input type="text" id="firstName"
+              placeholder="Your first name" required />
+          </div>
+
+          <div class="form-group">
+            <label for="lastName">Last Name *</label>
+            <input type="text" id="lastName"
+              placeholder="Your last name" required />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address *</label>
+            <input type="email" id="email"
+              placeholder="your@email.com" required />
+          </div>
+
+          <div class="form-group">
+            <label for="instagram">Instagram Handle</label>
+            <input type="text" id="instagram"
+              placeholder="@handle" />
+          </div>
+
+          <div class="form-group">
+            <label for="role">Your Role *</label>
+            <select id="role" required>
+              <option value="" disabled selected>
+                Select your role
+              </option>
+              <option>Photographer</option>
+              <option>Model / Talent</option>
+              <option>Stylist</option>
+              <option>Makeup Artist</option>
+              <option>Hair Stylist</option>
+              <option>Creative Director</option>
+              <option>Writer / Editor</option>
+              <option>Designer</option>
+              <option>Videographer</option>
+              <option>Other Creative</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="city">City / Location *</label>
+            <input type="text" id="city"
+              placeholder="City, Country" required />
+          </div>
+
+          <div class="form-group full">
+            <label for="concept">Concept / Brief *</label>
+            <textarea id="concept"
+              placeholder="Describe your concept, the story, or the theme you want to explore."
+              required></textarea>
+          </div>
+
+          <div class="form-group full">
+            <label for="credits">Credits</label>
+            <textarea id="credits"
+              placeholder="Photographer, Model(s), Stylist, MUA, Hair, Designer, etc."
+              style="min-height:80px;"></textarea>
+          </div>
+
+          <div class="form-group full">
+            <label for="portfolio">Portfolio / Work Link *</label>
+            <input type="url" id="portfolio"
+              placeholder="https://yourwebsite.com or Google Drive link"
+              required />
+          </div>
+
+          <div class="form-group full">
+            <label for="notes">Additional Notes</label>
+            <textarea id="notes"
+              placeholder="Availability, special requests, or anything else."
+              style="min-height:80px;"></textarea>
+          </div>
+
         </div>
 
-        <div class="info-box">
-          <div class="i-label">Contact</div>
-          <p>
-            Primary:
-            <a href="mailto:admin@houseofelevara.com">
-              admin@houseofelevara.com
-            </a><br>
-            Editorial:
+        <div class="form-divider"></div>
+
+        <div class="check-row">
+          <input
+            type="checkbox"
+            id="agreeCheck"
+          />
+          <span>
+            I confirm this is my original work and I hold
+            the rights to submit it. I agree to Elyra's
+            <a href="about.html">editorial standards</a>
+            and understand that submission does not
+            guarantee publication.
+          </span>
+        </div>
+
+        <div class="form-submit-row">
+          <div class="form-note">
+            Clicking send opens your email app pre-filled.<br>
+            Questions?
             <a href="mailto:elyra.editorial@gmail.com">
               elyra.editorial@gmail.com
             </a>
-          </p>
-        </div>
-
-        <div class="info-box">
-          <div class="i-label">What We Look For</div>
-          <p>
-            Clean storytelling, strong styling, and intentional
-            presence. Every submission is reviewed for the
-            next available edition.
-          </p>
-        </div>
-
-      </div>
-    </div>
-
-    <div class="container" style="margin-bottom: 48px;">
-      <div class="form-card">
-
-        <!-- Success screen -->
-        <div class="form-success" id="formSuccess">
-          <span class="s-icon">✦</span>
-          <h3>Submission Sent</h3>
-          <p>
-            Your email app opened with everything pre-filled.
-            Once you hit send your submission goes directly
-            to our editorial team. We will be in touch within
-            5–10 business days.
-          </p>
-        </div>
-
-        <!-- Form — no action, JS handles it -->
-        <form id="submissionForm">
-
-          <div class="form-body">
-
-            <p class="form-title">Submit Your Work</p>
-            <p class="form-sub">
-              Fill in your details. When you click Send Submission
-              your email app will open pre-filled and ready to go —
-              just hit send.
-            </p>
-
-            <div class="form-grid">
-
-              <div class="form-group">
-                <label for="firstName">First Name *</label>
-                <input type="text" id="firstName"
-                  placeholder="Your first name" required />
-              </div>
-
-              <div class="form-group">
-                <label for="lastName">Last Name *</label>
-                <input type="text" id="lastName"
-                  placeholder="Your last name" required />
-              </div>
-
-              <div class="form-group">
-                <label for="email">Email Address *</label>
-                <input type="email" id="email"
-                  placeholder="your@email.com" required />
-              </div>
-
-              <div class="form-group">
-                <label for="instagram">Instagram Handle</label>
-                <input type="text" id="instagram"
-                  placeholder="@handle" />
-              </div>
-
-              <div class="form-group">
-                <label for="role">Your Role *</label>
-                <select id="role" required>
-                  <option value="" disabled selected>
-                    Select your role
-                  </option>
-                  <option>Photographer</option>
-                  <option>Model / Talent</option>
-                  <option>Stylist</option>
-                  <option>Makeup Artist</option>
-                  <option>Hair Stylist</option>
-                  <option>Creative Director</option>
-                  <option>Writer / Editor</option>
-                  <option>Designer</option>
-                  <option>Videographer</option>
-                  <option>Other Creative</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label for="city">City / Location *</label>
-                <input type="text" id="city"
-                  placeholder="City, Country" required />
-              </div>
-
-              <div class="form-group full">
-                <label for="concept">Concept / Brief *</label>
-                <textarea id="concept"
-                  placeholder="Describe your concept, the story, or the theme you want to explore."
-                  required></textarea>
-              </div>
-
-              <div class="form-group full">
-                <label for="credits">Credits</label>
-                <textarea id="credits"
-                  placeholder="Photographer, Model(s), Stylist, MUA, Hair, Designer, etc."
-                  style="min-height:80px;"></textarea>
-              </div>
-
-              <div class="form-group full">
-                <label for="portfolio">Portfolio / Work Link *</label>
-                <input type="url" id="portfolio"
-                  placeholder="https://yourwebsite.com or Google Drive link"
-                  required />
-              </div>
-
-              <div class="form-group full">
-                <label for="notes">Additional Notes</label>
-                <textarea id="notes"
-                  placeholder="Availability, special requests, or anything else."
-                  style="min-height:80px;"></textarea>
-              </div>
-
-            </div>
-
-            <div class="form-divider"></div>
-
-            <div class="check-row">
-              <input
-                type="checkbox"
-                id="agreeCheck"
-              />
-              <span>
-                I confirm this is my original work and I hold
-                the rights to submit it. I agree to Elyra's
-                <a href="about.html">editorial standards</a>
-                and understand that submission does not
-                guarantee publication.
-              </span>
-            </div>
-
-            <div class="form-submit-row">
-              <div class="form-note">
-                Clicking send opens your email app pre-filled.<br>
-                Questions?
-                <a href="mailto:elyra.editorial@gmail.com">
-                  elyra.editorial@gmail.com
-                </a>
-              </div>
-
-              <button
-                type="button"
-                id="submitBtn"
-                class="btn-submit"
-                disabled
-              >
-                Send Submission
-              </button>
-            </div>
-
           </div>
-        </form>
-      </div>
-    </div>
 
-    <!-- Guidelines -->
-    <div class="container">
-      <div style="text-align:center; margin-bottom:24px;">
-        <span style="
-          font-family:'Jost',sans-serif;
-          font-size:.63rem;
-          letter-spacing:.44em;
-          text-transform:uppercase;
-          color:var(--gold);
-        ">Submission Guidelines</span>
-        <div style="
-          width:44px; height:1px;
-          background:linear-gradient(90deg,transparent,var(--gold),transparent);
-          margin:14px auto 0; opacity:.68;
-        "></div>
-      </div>
-
-      <div class="guidelines-grid">
-
-        <div class="guideline-box">
-          <div class="g-label">Image Requirements</div>
-          <p>
-            Submit 5–10 images or one cohesive PDF. High
-            resolution preferred. Editorial, portrait, fashion,
-            and beauty work all welcome.
-          </p>
-        </div>
-
-        <div class="guideline-box">
-          <div class="g-label">Concept &amp; Credits</div>
-          <p>
-            Include a short concept description and full credits —
-            photographer, stylist, makeup, hair, designer,
-            and model(s).
-          </p>
-        </div>
-
-        <div class="guideline-box">
-          <div class="g-label">What We Prioritize</div>
-          <p>
-            Clean storytelling, strong styling, and intentional
-            presence. Work that feels cinematic, editorial,
-            and timeless.
-          </p>
-        </div>
-
-        <div class="guideline-box">
-          <div class="g-label">Publication</div>
-          <p>
-            Selected work featured in upcoming Elyra editions.
-            We will contact you directly with confirmation
-            and next steps.
-          </p>
-        </div>
-
-        <div class="guideline-box">
-          <div class="g-label">Who Can Submit</div>
-          <p>
-            Photographers, models, stylists, MUAs, hair stylists,
-            designers, writers, and all creative talent.
-            All genders welcome.
-          </p>
-        </div>
-
-        <div class="guideline-box">
-          <div class="g-label">Response Time</div>
-          <p>
-            All submissions reviewed within 5–10 business days.
-            If selected, our editorial team will reach out
-            directly.
-          </p>
+          <button
+            type="button"
+            id="submitBtn"
+            class="btn-submit"
+            disabled
+          >
+            Send Submission
+          </button>
         </div>
 
       </div>
+    </form>
+  </div>
+</div>
+
+<!-- Guidelines -->
+<div class="container">
+  <div style="text-align:center; margin-bottom:24px;">
+    <span style="
+      font-family:'Jost',sans-serif;
+      font-size:.63rem;
+      letter-spacing:.44em;
+      text-transform:uppercase;
+      color:var(--gold);
+    ">Submission Guidelines</span>
+    <div style="
+      width:44px; height:1px;
+      background:linear-gradient(90deg,transparent,var(--gold),transparent);
+      margin:14px auto 0; opacity:.68;
+    "></div>
+  </div>
+
+  <div class="guidelines-grid">
+
+    <div class="guideline-box">
+      <div class="g-label">Image Requirements</div>
+      <p>
+        Submit 5–10 images or one cohesive PDF. High
+        resolution preferred. Editorial, portrait, fashion,
+        and beauty work all welcome.
+      </p>
     </div>
 
-    <div class="page-footer">
-      Published by
-      <a href="https://houseofelevara.com"
-         target="_blank" rel="noopener">
-        Core Vision Management
-      </a>
-      &nbsp;·&nbsp;
-      <a href="https://houseofelevara.com"
-         target="_blank" rel="noopener">
-        House of Elévara
-      </a>
-      &nbsp;·&nbsp;
-      © <span id="yr"></span> Elyra Editorial.
-      All rights reserved.
+    <div class="guideline-box">
+      <div class="g-label">Concept &amp; Credits</div>
+      <p>
+        Include a short concept description and full credits —
+        photographer, stylist, makeup, hair, designer,
+        and model(s).
+      </p>
     </div>
+
+    <div class="guideline-box">
+      <div class="g-label">What We Prioritize</div>
+      <p>
+        Clean storytelling, strong styling, and intentional
+        presence. Work that feels cinematic, editorial,
+        and timeless.
+      </p>
+    </div>
+
+    <div class="guideline-box">
+      <div class="g-label">Publication</div>
+      <p>
+        Selected work featured in upcoming Elyra editions.
+        We will contact you directly with confirmation
+        and next steps.
+      </p>
+    </div>
+
+    <div class="guideline-box">
+      <div class="g-label">Who Can Submit</div>
+      <p>
+        Photographers, models, stylists, MUAs, hair stylists,
+        designers, writers, and all creative talent.
+        All genders welcome.
+      </p>
+    </div>
+
+    <div class="guideline-box">
+      <div class="g-label">Response Time</div>
+      <p>
+        All submissions reviewed within 5–10 business days.
+        If selected, our editorial team will reach out
+        directly.
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<div class="page-footer">
+  Published by
+  <a href="https://houseofelevara.com"
+     target="_blank" rel="noopener">
+    Core Vision Management
+  </a>
+  &nbsp;·&nbsp;
+  <a href="https://houseofelevara.com"
+     target="_blank" rel="noopener">
+    House of Elévara
+  </a>
+  &nbsp;·&nbsp;
+  © <span id="yr"></span> Elyra Editorial.
+  All rights reserved.
+</div>
+```
 
   </main>
 
