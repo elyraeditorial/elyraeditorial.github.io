@@ -1,10 +1,15 @@
 <!doctype html>
+
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>ELYRA — Payment received</title>
   <link rel="stylesheet" href="./assets/competitions.css"/>
+  <link rel="icon" type="image/jpeg" href="https://elyraeditorial.com/IMG_8629.jpeg?v=3" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Cormorant+SC:wght@300;400;500&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="topbar">
@@ -47,8 +52,9 @@
       setText(msg, "Thank you! Your paid votes will be applied shortly.");
       setText(detail, "Redirect link set ✅");
     }else{
-      setText(detail, "Tip: If you want to return to a contestant automatically, pass return_to in your Worker success_url.");
+      setText(detail, "Your votes will be reflected in the contestant's total within a few seconds. Refresh the contestant page if needed.");
     }
   </script>
+
 </body>
 </html>
