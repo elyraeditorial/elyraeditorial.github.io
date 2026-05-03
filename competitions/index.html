@@ -1,21 +1,39 @@
 <!doctype html>
+
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Elyra — Competitions</title>
   <meta name="description" content="Elyra Editorial Competitions — Apply to be featured, vote for your favourite contestant, and help decide the next Elyra cover star." />
+  <!-- Open Graph -->
+  <meta property="og:title" content="Competitions — ELYRA" />
+  <meta property="og:description" content="Apply to be featured, vote for your favourite contestant, and help decide the next ELYRA cover star." />
+  <meta property="og:image" content="https://elyraeditorial.github.io/IMG_8629.jpeg?v=3" />
+  <meta property="og:url" content="https://elyraeditorial.github.io/competitions/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="ELYRA" />
+
+  <!-- Twitter -->
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Competitions — ELYRA" />
+  <meta name="twitter:description" content="Apply to be featured, vote for your favourite contestant, and help decide the next ELYRA cover star." />
+  <meta name="twitter:image" content="https://elyraeditorial.github.io/IMG_8629.jpeg?v=3" />
 
   <!-- Icons -->
+
   <link rel="icon" type="image/jpeg" href="https://elyraeditorial.github.io/IMG_8629.jpeg?v=3" />
   <link rel="apple-touch-icon" href="https://elyraeditorial.github.io/IMG_8629.jpeg?v=3" />
 
   <!-- Fonts -->
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Cormorant+SC:wght@300;400;500&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
 
   <!-- Styles -->
+
   <link rel="stylesheet" href="../styles.css"/>
   <link rel="stylesheet" href="./assets/competitions.css"/>
 
@@ -790,7 +808,64 @@
         justify-content: center;
       }
     }
+
+    /* ── Share button ── */
+    .hero-share-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .share-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: var(--r);
+      border: 1px solid rgba(200,169,106,.28);
+      background: rgba(200,169,106,.07);
+      backdrop-filter: blur(10px);
+      font-family: 'Jost', sans-serif;
+      font-size: .63rem;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      cursor: pointer;
+      transition:
+        background .2s var(--ease),
+        border-color .2s var(--ease),
+        transform .18s var(--ease);
+      flex-shrink: 0;
+    }
+
+    .share-btn:hover {
+      background: rgba(200,169,106,.14);
+      border-color: rgba(200,169,106,.50);
+      transform: translateY(-1px);
+    }
+
+    .share-btn svg {
+      width: 13px;
+      height: 13px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    .share-btn.copied {
+      color: rgba(140,220,160,.90);
+      border-color: rgba(140,220,160,.35);
+      background: rgba(140,220,160,.07);
+    }
+
   </style>
+
 </head>
 
 <body class="no-scroll-x">
@@ -800,6 +875,7 @@
   <div class="grain" aria-hidden="true"></div>
 
   <!-- Nav -->
+
   <div class="topbar">
     <div class="container row">
       <div class="brand">ELYRA</div>
@@ -814,69 +890,73 @@
   </div>
 
   <!-- Hero -->
+
   <div class="container hero-wrap">
     <section class="editorial-hero"
              aria-label="Elyra competitions feature">
       <img
-        src="https://elyraeditorial.github.io/IMG_9162.jpeg"
+        src="../IMG_9162.jpeg"
         alt="Elyra Editorial Competitions"
       />
       <div class="editorial-frame"></div>
 
-      <!-- Text — bottom left -->
-      <div class="editorial-copy">
-        <div class="editorial-kicker">Elyra Editorial</div>
-        <h1 class="editorial-title">May<br>Cover Star</h1>
-        <p class="editorial-sub">
-          Voting is open now through May 31. Support contestants,
-          follow the leaderboard, and help decide the next
-          Elyra cover feature.
-        </p>
-        <!-- Prize pool pill -->
-        <div class="editorial-prize">
-          ✦ &nbsp; Min. $500 Prize Pool — Grows with every vote
-        </div>
-        <div class="editorial-actions">
-          <a class="editorial-apply-btn"
-             href="https://docs.google.com/forms/d/e/1FAIpQLSdlE4XzYtoZj1_IIxh8KgipG0XQ5zhoJ0NXEIGqeNrNX5YkPw/viewform"
-             target="_blank"
-             rel="noopener noreferrer">
-            Apply Now
-          </a>
-          <a class="editorial-apply-btn secondary"
-             href="/submit.html">
-            Submit Your Work
-          </a>
-        </div>
-      </div>
-
-      <!-- Deadline — bottom right (desktop only) -->
-      <div class="editorial-deadline" aria-hidden="true">
-        <span class="d-label">Voting Closes</span>
-        <span class="d-val">May 31, 2026</span>
-      </div>
-
-    </section>
-
-    <!-- Stats row below hero -->
-    <div class="hero-stats">
-      <div class="hero-stat">
-        <span class="hero-stat-label">Prize Pool</span>
-        <span class="hero-stat-val">Min. $500</span>
-      </div>
-      <div class="hero-stat">
-        <span class="hero-stat-label">How to Vote</span>
-        <span class="hero-stat-val">$1 = 1 Vote</span>
-      </div>
-      <div class="hero-stat">
-        <span class="hero-stat-label">Deadline</span>
-        <span class="hero-stat-val">May 31 · 11:59 PM</span>
-      </div>
+```
+  <!-- Text — bottom left -->
+  <div class="editorial-copy">
+    <div class="editorial-kicker">Elyra Editorial</div>
+    <h1 class="editorial-title">May<br>Cover Star</h1>
+    <p class="editorial-sub">
+      Voting is open now through May 31. Support contestants,
+      follow the leaderboard, and help decide the next
+      Elyra cover feature.
+    </p>
+    <!-- Prize pool pill -->
+    <div class="editorial-prize">
+      ✦ &nbsp; Min. $500 Prize Pool — Grows with every vote
     </div>
+    <div class="editorial-actions">
+      <a class="editorial-apply-btn"
+         href="https://docs.google.com/forms/d/e/1FAIpQLSdlE4XzYtoZj1_IIxh8KgipG0XQ5zhoJ0NXEIGqeNrNX5YkPw/viewform"
+         target="_blank"
+         rel="noopener noreferrer">
+        Apply Now
+      </a>
+      <a class="editorial-apply-btn secondary"
+         href="/submit.html">
+        Submit Your Work
+      </a>
+    </div>
+  </div>
+
+  <!-- Deadline — bottom right (desktop only) -->
+  <div class="editorial-deadline" aria-hidden="true">
+    <span class="d-label">Voting Closes</span>
+    <span class="d-val">May 31, 2026</span>
+  </div>
+
+</section>
+
+<!-- Stats row below hero -->
+<div class="hero-stats">
+  <div class="hero-stat">
+    <span class="hero-stat-label">Prize Pool</span>
+    <span class="hero-stat-val">Min. $500</span>
+  </div>
+  <div class="hero-stat">
+    <span class="hero-stat-label">How to Vote</span>
+    <span class="hero-stat-val">$1 = 1 Vote</span>
+  </div>
+  <div class="hero-stat">
+    <span class="hero-stat-label">Deadline</span>
+    <span class="hero-stat-val">May 31 · 11:59 PM</span>
+  </div>
+</div>
+```
 
   </div>
 
   <!-- Why Compete -->
+
   <section class="why-compete">
     <div class="container">
       <div class="why-inner">
@@ -917,6 +997,7 @@
   </section>
 
   <!-- Apply card -->
+
   <div class="container apply-section">
     <div class="apply-card">
       <div class="apply-copy">
@@ -936,15 +1017,28 @@
   </div>
 
   <!-- Active contests -->
+
   <div class="container contests-section" id="contest-entry">
     <div class="contests-heading">
       <h2>Active Contests</h2>
-      <div class="badge" id="statusBadge">Loading…</div>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+        <div class="badge" id="statusBadge">Loading…</div>
+        <button class="share-btn" id="shareBtn" type="button">
+          <svg viewBox="0 0 24 24">
+            <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/>
+            <circle cx="18" cy="19" r="3"/>
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+          </svg>
+          <span id="shareBtnLabel">Share</span>
+        </button>
+      </div>
     </div>
     <div class="contest-list" id="contestList"></div>
   </div>
 
   <!-- Footer -->
+
   <div class="page-footer">
     <a href="https://houseofelevara.com" target="_blank" rel="noopener">
       House of Elévara
@@ -1043,6 +1137,33 @@
         </div>
       `);
     }
+
+    /* ── Share button ── */
+    const shareBtn      = document.getElementById("shareBtn");
+    const shareBtnLabel = document.getElementById("shareBtnLabel");
+
+    shareBtn?.addEventListener("click", async () => {
+      const shareData = {
+        title: "ELYRA Cover Competition",
+        text:  "Vote to help decide the next ELYRA cover star ✦",
+        url:   location.href,
+      };
+
+      if (navigator.share) {
+        try { await navigator.share(shareData); return; }
+        catch (e) { if (e.name === "AbortError") return; }
+      }
+
+      try {
+        await navigator.clipboard.writeText(location.href);
+        shareBtnLabel.textContent = "Copied ✦";
+        shareBtn.classList.add("copied");
+        setTimeout(() => {
+          shareBtnLabel.textContent = "Share";
+          shareBtn.classList.remove("copied");
+        }, 2200);
+      } catch { /* silent */ }
+    });
   </script>
 
 </body>
