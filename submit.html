@@ -13,28 +13,12 @@
   <meta property="og:url" content="https://elyraeditorial.com/submit.html" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="ELYRA" />
-
   <!-- Twitter -->
-
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Submit — ELYRA" />
   <meta name="twitter:description" content="Submit your work to ELYRA Editorial. Apply to be featured in an independent fashion & culture publication." />
   <meta name="twitter:image" content="https://elyraeditorial.com/IMG_8629.jpeg?v=3" />
   <meta name="theme-color" content="#060504" />
-  <!-- Open Graph -->
-  <meta property="og:title" content="Submit — ELYRA" />
-  <meta property="og:description" content="Submit your work to ELYRA Editorial. Apply to be featured in an independent fashion &amp; culture publication." />
-  <meta property="og:image" content="https://elyraeditorial.com/IMG_8629.jpeg?v=3" />
-  <meta property="og:url" content="https://elyraeditorial.com/submit.html" />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="ELYRA" />
-
-  <!-- Twitter -->
-
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Submit — ELYRA" />
-  <meta name="twitter:description" content="Submit your work to ELYRA Editorial. Apply to be featured in an independent fashion &amp; culture publication." />
-  <meta name="twitter:image" content="https://elyraeditorial.com/IMG_8629.jpeg?v=3" />
 
   <!-- Icons -->
 
@@ -591,13 +575,8 @@
     <div class="info-box">
       <div class="i-label">Contact</div>
       <p>
-        Primary:
         <a href="mailto:admin@houseofelevara.com">
           admin@houseofelevara.com
-        </a><br>
-        Editorial:
-        <a href="mailto:elyra.editorial@gmail.com">
-          elyra.editorial@gmail.com
         </a>
       </p>
     </div>
@@ -629,9 +608,8 @@
       </p>
     </div>
 
-    <!-- Form — no action, JS handles it -->
+    <!-- Form -->
     <form id="submissionForm">
-
       <div class="form-body">
 
         <p class="form-title">Submit Your Work</p>
@@ -725,10 +703,7 @@
         <div class="form-divider"></div>
 
         <div class="check-row">
-          <input
-            type="checkbox"
-            id="agreeCheck"
-          />
+          <input type="checkbox" id="agreeCheck" />
           <span>
             I confirm this is my original work and I hold
             the rights to submit it. I agree to Elyra's
@@ -742,8 +717,8 @@
           <div class="form-note">
             Clicking send opens your email app pre-filled.<br>
             Questions?
-            <a href="mailto:elyra.editorial@gmail.com">
-              elyra.editorial@gmail.com
+            <a href="mailto:admin@houseofelevara.com">
+              admin@houseofelevara.com
             </a>
           </div>
 
@@ -842,12 +817,7 @@
   Published by
   <a href="https://houseofelevara.com"
      target="_blank" rel="noopener">
-    Core Vision Management
-  </a>
-  &nbsp;·&nbsp;
-  <a href="https://houseofelevara.com"
-     target="_blank" rel="noopener">
-    House of Elévara
+    House of Elévara LLC
   </a>
   &nbsp;·&nbsp;
   © <span id="yr"></span> Elyra Editorial.
@@ -864,12 +834,10 @@
     const checkbox  = document.getElementById('agreeCheck');
     const submitBtn = document.getElementById('submitBtn');
 
-    // Checkbox toggles button
     checkbox.addEventListener('change', function () {
       submitBtn.disabled = !this.checked;
     });
 
-    // Build mailto and open email app
     submitBtn.addEventListener('click', function () {
 
       const firstName = document.getElementById('firstName').value.trim();
@@ -883,7 +851,6 @@
       const portfolio = document.getElementById('portfolio').value.trim();
       const notes     = document.getElementById('notes').value.trim();
 
-      // Validate required fields
       if (!firstName || !lastName || !email || !role ||
           !city || !concept || !portfolio) {
         alert('Please fill in all required fields before submitting.');
@@ -895,12 +862,10 @@
         return;
       }
 
-      // Email subject
       const subject = encodeURIComponent(
         'ELYRA SUBMISSION — ' + firstName + ' ' + lastName
       );
 
-      // Email body — clean, pre-filled, formatted
       const body = encodeURIComponent(
         'ELYRA EDITORIAL SUBMISSION\n' +
         '================================\n\n' +
@@ -926,17 +891,13 @@
         'Submitted via elyraeditorial.com'
       );
 
-      // mailto — sends to both emails
       const mailto =
         'mailto:admin@houseofelevara.com' +
-        '?cc=elyra.editorial@gmail.com' +
-        '&subject=' + subject +
+        '?subject=' + subject +
         '&body=' + body;
 
-      // Open email app
       window.location.href = mailto;
 
-      // Show success screen after short delay
       setTimeout(function () {
         document.getElementById('submissionForm').style.display = 'none';
         document.getElementById('formSuccess').style.display   = 'block';
