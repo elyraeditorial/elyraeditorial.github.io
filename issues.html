@@ -22,20 +22,6 @@
   <meta name="twitter:description" content="Explore ELYRA's curated editorial issues — editions devoted to identity, presence, and creative expression in fashion and culture." />
   <meta name="twitter:image" content="https://elyraeditorial.com/IMG_8629.jpeg?v=3" />
   <meta name="theme-color" content="#060504" />
-  <!-- Open Graph -->
-  <meta property="og:title" content="Issues — ELYRA" />
-  <meta property="og:description" content="ELYRA Editorial Issues — Curated editions exploring identity, presence, and creative expression." />
-  <meta property="og:image" content="https://elyraeditorial.com/IMG_8629.jpeg?v=3" />
-  <meta property="og:url" content="https://elyraeditorial.com/issues.html" />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="ELYRA" />
-
-  <!-- Twitter -->
-
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Issues — ELYRA" />
-  <meta name="twitter:description" content="ELYRA Editorial Issues — Curated editions exploring identity, presence, and creative expression." />
-  <meta name="twitter:image" content="https://elyraeditorial.com/IMG_8629.jpeg?v=3" />
 
   <!-- Icons -->
 
@@ -57,7 +43,6 @@
 
     body { padding-bottom: 48px; }
 
-    /* Page hero */
     .issues-page-hero {
       padding: 110px 0 0;
       text-align: center;
@@ -98,7 +83,6 @@
       margin-top: 6px;
     }
 
-    /* ── Featured cover spread ── */
     .cover-spread {
       margin-top: 52px;
       display: grid;
@@ -111,10 +95,7 @@
       .cover-spread { grid-template-columns: 1fr; gap: 24px; }
     }
 
-    /* Left — editorial copy */
-    .cover-spread-copy {
-      padding: 8px 0;
-    }
+    .cover-spread-copy { padding: 8px 0; }
 
     .edition-label {
       display: inline-flex;
@@ -183,7 +164,6 @@
       margin-top: 24px;
     }
 
-    /* Right — 3D cover */
     .cover-spread-stage {
       position: relative;
       max-width: 420px;
@@ -231,7 +211,6 @@
       transform: translateZ(14px);
     }
 
-    /* Glow overlay on cover */
     .cover-spread-glow {
       position: absolute;
       inset: -35%;
@@ -250,7 +229,6 @@
       to   { transform: translateZ(18px) translate(12px,-8px); opacity: .65; }
     }
 
-    /* Cover caption bar */
     .cover-caption {
       position: absolute;
       left: 14px; bottom: 12px;
@@ -280,7 +258,6 @@
       color: var(--text);
     }
 
-    /* Drop shadow under cover */
     .cover-shadow {
       height: 28px;
       width: 80%;
@@ -290,7 +267,6 @@
       opacity: .82;
     }
 
-    /* ── Mini stats row ── */
     .stats-row {
       display: flex;
       flex-wrap: wrap;
@@ -346,7 +322,6 @@
       letter-spacing: .06em;
     }
 
-    /* ── Section title ── */
     .section-label {
       text-align: center;
       margin: 56px 0 28px;
@@ -381,7 +356,6 @@
       opacity: .68;
     }
 
-    /* ── Issue cards grid ── */
     .issues-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -409,7 +383,6 @@
         box-shadow    .24s var(--ease);
     }
 
-    /* Ghost issue number watermark */
     .issue-card-num {
       position: absolute;
       right: 16px;
@@ -425,7 +398,6 @@
       user-select: none;
     }
 
-    /* Top shimmer on hover */
     .issue-card::before {
       content: '';
       position: absolute;
@@ -495,7 +467,6 @@
       flex-wrap: wrap;
     }
 
-    /* ── Callout — submit for next issue ── */
     .submit-callout {
       margin-top: 48px;
       position: relative;
@@ -552,7 +523,6 @@
       margin: 0 auto 24px;
     }
 
-    /* ── Page footer ── */
     .page-footer {
       text-align: center;
       padding: 40px 0 48px;
@@ -735,11 +705,9 @@
 <!-- Page footer -->
 <div class="page-footer">
   Published by
-  <a href="https://houseofelevara.com" target="_blank" rel="noopener">Core Vision Management</a>
+  <a href="https://houseofelevara.com" target="_blank" rel="noopener">House of Elévara LLC</a>
   &nbsp;·&nbsp;
-  <a href="https://houseofelevara.com" target="_blank" rel="noopener">House of Elévara</a>
-  &nbsp;·&nbsp;
-  © <span id="yr"></span> Elyra Editorial
+  © <span id="yr"></span> Elyra Editorial. All rights reserved.
 </div>
 ```
 
