@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -11,337 +10,330 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-```
-html, body {
-  width: 100%;
-  min-height: 100vh;
-  background: #060402;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
+    html, body {
+      width: 100%;
+      min-height: 100vh;
+      background: #060402;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
 
-.cover {
-  position: relative;
-  width: min(480px, 96vw);
-  aspect-ratio: 2 / 3;
-  overflow: hidden;
-  background: #100a06;
-  box-shadow:
-    0 70px 200px rgba(0,0,0,.98),
-    0 0 0 1px rgba(200,169,106,.22),
-    0 0 100px rgba(200,169,106,.06);
-  animation: reveal 1.6s cubic-bezier(.16,.84,.2,1) forwards;
-  opacity: 0;
-}
+    .cover {
+      position: relative;
+      width: min(480px, 96vw);
+      aspect-ratio: 2 / 3;
+      overflow: hidden;
+      background: #100a06;
+      box-shadow:
+        0 70px 200px rgba(0,0,0,.98),
+        0 0 0 1px rgba(200,169,106,.22),
+        0 0 100px rgba(200,169,106,.06);
+      animation: reveal 1.6s cubic-bezier(.16,.84,.2,1) forwards;
+      opacity: 0;
+    }
 
-@keyframes reveal {
-  from { opacity: 0; transform: translateY(22px) scale(.985); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
-}
+    @keyframes reveal {
+      from { opacity: 0; transform: translateY(22px) scale(.985); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
 
-.cover-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 8%;
-  filter: contrast(1.06) saturate(.90) brightness(.93);
-}
+    .cover-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 8%;
+      filter: contrast(1.06) saturate(.90) brightness(.93);
+    }
 
-.ov-top {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: linear-gradient(to bottom,
-    rgba(5,3,1,.92) 0%,
-    rgba(5,3,1,.60) 16%,
-    rgba(5,3,1,.12) 34%,
-    transparent 48%
-  );
-}
+    .ov-top {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(to bottom,
+        rgba(5,3,1,.92) 0%,
+        rgba(5,3,1,.60) 16%,
+        rgba(5,3,1,.12) 34%,
+        transparent 48%
+      );
+    }
 
-.ov-bottom {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: linear-gradient(to top,
-    rgba(5,3,1,.95) 0%,
-    rgba(5,3,1,.65) 16%,
-    rgba(5,3,1,.12) 34%,
-    transparent 48%
-  );
-}
+    .ov-bottom {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(to top,
+        rgba(5,3,1,.95) 0%,
+        rgba(5,3,1,.65) 16%,
+        rgba(5,3,1,.12) 34%,
+        transparent 48%
+      );
+    }
 
-.ov-vignette {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: radial-gradient(
-    ellipse 100% 100% at 50% 50%,
-    transparent 40%,
-    rgba(5,3,1,.42) 100%
-  );
-}
+    .ov-vignette {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: radial-gradient(
+        ellipse 100% 100% at 50% 50%,
+        transparent 40%,
+        rgba(5,3,1,.42) 100%
+      );
+    }
 
-.grain {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  opacity: .24;
-  mix-blend-mode: overlay;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.28'/%3E%3C/svg%3E");
-}
+    .grain {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      opacity: .24;
+      mix-blend-mode: overlay;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.28'/%3E%3C/svg%3E");
+    }
 
-.frame {
-  position: absolute;
-  inset: 16px;
-  z-index: 3;
-  border: 1px solid rgba(200,169,106,.26);
-  pointer-events: none;
-}
+    .frame {
+      position: absolute;
+      inset: 16px;
+      z-index: 3;
+      border: 1px solid rgba(200,169,106,.26);
+      pointer-events: none;
+    }
 
-.corner {
-  position: absolute;
-  z-index: 4;
-  width: 16px;
-  height: 16px;
-  pointer-events: none;
-}
-.corner-tl { top: 26px; left: 26px;
-  border-top: 1px solid rgba(200,169,106,.55);
-  border-left: 1px solid rgba(200,169,106,.55);
-}
-.corner-tr { top: 26px; right: 26px;
-  border-top: 1px solid rgba(200,169,106,.55);
-  border-right: 1px solid rgba(200,169,106,.55);
-}
-.corner-bl { bottom: 26px; left: 26px;
-  border-bottom: 1px solid rgba(200,169,106,.55);
-  border-left: 1px solid rgba(200,169,106,.55);
-}
-.corner-br { bottom: 26px; right: 26px;
-  border-bottom: 1px solid rgba(200,169,106,.55);
-  border-right: 1px solid rgba(200,169,106,.55);
-}
+    .corner {
+      position: absolute;
+      z-index: 4;
+      width: 16px;
+      height: 16px;
+      pointer-events: none;
+    }
+    .corner-tl { top: 26px; left: 26px;
+      border-top: 1px solid rgba(200,169,106,.55);
+      border-left: 1px solid rgba(200,169,106,.55);
+    }
+    .corner-tr { top: 26px; right: 26px;
+      border-top: 1px solid rgba(200,169,106,.55);
+      border-right: 1px solid rgba(200,169,106,.55);
+    }
+    .corner-bl { bottom: 26px; left: 26px;
+      border-bottom: 1px solid rgba(200,169,106,.55);
+      border-left: 1px solid rgba(200,169,106,.55);
+    }
+    .corner-br { bottom: 26px; right: 26px;
+      border-bottom: 1px solid rgba(200,169,106,.55);
+      border-right: 1px solid rgba(200,169,106,.55);
+    }
 
-/* TOP */
-.top {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 4;
-  padding: 26px 28px 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+    /* TOP */
+    .top {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 4;
+      padding: 26px 28px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-.edition-label {
-  font-family: 'Jost', sans-serif;
-  font-weight: 300;
-  font-size: .54rem;
-  letter-spacing: .46em;
-  text-transform: uppercase;
-  color: rgba(200,169,106,.75);
-  margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.edition-label::before,
-.edition-label::after {
-  content: '';
-  width: 32px;
-  height: 1px;
-  background: rgba(200,169,106,.45);
-}
+    .edition-label {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: .54rem;
+      letter-spacing: .46em;
+      text-transform: uppercase;
+      color: rgba(200,169,106,.75);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .edition-label::before,
+    .edition-label::after {
+      content: '';
+      width: 32px;
+      height: 1px;
+      background: rgba(200,169,106,.45);
+    }
 
-.wordmark {
-  font-family: 'Cormorant SC', serif;
-  font-weight: 300;
-  font-size: clamp(3rem, 13.5vw, 5.6rem);
-  letter-spacing: .44em;
-  line-height: 1;
-  color: #f0ece4;
-  text-align: center;
-  padding-left: .44em;
-  text-shadow:
-    0 2px 10px rgba(0,0,0,.80),
-    0 0 60px rgba(200,169,106,.18);
-  animation: glow 5s ease-in-out infinite;
-}
+    .wordmark {
+      font-family: 'Cormorant SC', serif;
+      font-weight: 300;
+      font-size: clamp(3rem, 13.5vw, 5.6rem);
+      letter-spacing: .44em;
+      line-height: 1;
+      color: #f0ece4;
+      text-align: center;
+      padding-left: .44em;
+      text-shadow:
+        0 2px 10px rgba(0,0,0,.80),
+        0 0 60px rgba(200,169,106,.18);
+      animation: glow 5s ease-in-out infinite;
+    }
 
-@keyframes glow {
-  0%, 100% { text-shadow: 0 2px 10px rgba(0,0,0,.80), 0 0 60px rgba(200,169,106,.18); }
-  50%       { text-shadow: 0 2px 10px rgba(0,0,0,.80), 0 0 80px rgba(200,169,106,.32); }
-}
+    @keyframes glow {
+      0%, 100% { text-shadow: 0 2px 10px rgba(0,0,0,.80), 0 0 60px rgba(200,169,106,.18); }
+      50%       { text-shadow: 0 2px 10px rgba(0,0,0,.80), 0 0 80px rgba(200,169,106,.32); }
+    }
 
-.wordmark-rule {
-  width: 100%;
-  height: 1px;
-  margin-top: 9px;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(200,169,106,.40) 20%,
-    rgba(200,169,106,.80) 50%,
-    rgba(200,169,106,.40) 80%,
-    transparent 100%
-  );
-}
+    .wordmark-rule {
+      width: 100%;
+      height: 1px;
+      margin-top: 9px;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(200,169,106,.40) 20%,
+        rgba(200,169,106,.80) 50%,
+        rgba(200,169,106,.40) 80%,
+        transparent 100%
+      );
+    }
 
-.tagline {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: .68rem;
-  letter-spacing: .20em;
-  color: rgba(200,169,106,.65);
-  margin-top: 6px;
-  text-align: center;
-}
+    .tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: .68rem;
+      letter-spacing: .20em;
+      color: rgba(200,169,106,.65);
+      margin-top: 6px;
+      text-align: center;
+    }
 
-/* BOTTOM */
-.bottom {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 4;
-  padding: 0 28px 24px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+    /* BOTTOM */
+    .bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 4;
+      padding: 0 28px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-.bottom-rule {
-  width: 100%;
-  height: 1px;
-  margin-bottom: 12px;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(200,169,106,.35) 20%,
-    rgba(200,169,106,.65) 50%,
-    rgba(200,169,106,.35) 80%,
-    transparent 100%
-  );
-}
+    .bottom-rule {
+      width: 100%;
+      height: 1px;
+      margin-bottom: 12px;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(200,169,106,.35) 20%,
+        rgba(200,169,106,.65) 50%,
+        rgba(200,169,106,.35) 80%,
+        transparent 100%
+      );
+    }
 
-.cover-label {
-  font-family: 'Jost', sans-serif;
-  font-weight: 300;
-  font-size: .50rem;
-  letter-spacing: .48em;
-  text-transform: uppercase;
-  color: rgba(200,169,106,.65);
-  margin-bottom: 5px;
-  text-align: center;
-}
+    .cover-label {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: .50rem;
+      letter-spacing: .48em;
+      text-transform: uppercase;
+      color: rgba(200,169,106,.65);
+      margin-bottom: 5px;
+      text-align: center;
+    }
 
-/* PAULA — the star */
-.subject-name {
-  font-family: 'Cormorant SC', serif;
-  font-weight: 500;
-  font-size: clamp(2rem, 9vw, 3.4rem);
-  letter-spacing: .32em;
-  color: #f0ece4;
-  text-align: center;
-  text-shadow:
-    0 2px 14px rgba(0,0,0,.85),
-    0 0 50px rgba(200,169,106,.16);
-  line-height: 1;
-  padding-left: .32em;
-  margin-bottom: 6px;
-}
+    .subject-name {
+      font-family: 'Cormorant SC', serif;
+      font-weight: 500;
+      font-size: clamp(2rem, 9vw, 3.4rem);
+      letter-spacing: .32em;
+      color: #f0ece4;
+      text-align: center;
+      text-shadow:
+        0 2px 14px rgba(0,0,0,.85),
+        0 0 50px rgba(200,169,106,.16);
+      line-height: 1;
+      padding-left: .32em;
+      margin-bottom: 6px;
+    }
 
-/* Issue name — smaller, under Paula */
-.issue-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-weight: 300;
-  font-size: clamp(.78rem, 3.2vw, 1.05rem);
-  letter-spacing: .16em;
-  color: rgba(200,169,106,.65);
-  text-align: center;
-  margin-bottom: 12px;
-}
+    .issue-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(.78rem, 3.2vw, 1.05rem);
+      letter-spacing: .16em;
+      color: rgba(200,169,106,.65);
+      text-align: center;
+      margin-bottom: 12px;
+    }
 
-.bottom-info {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-}
+    .bottom-info {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
 
-.bottom-info span {
-  font-family: 'Jost', sans-serif;
-  font-weight: 200;
-  font-size: .46rem;
-  letter-spacing: .36em;
-  text-transform: uppercase;
-  color: rgba(200,169,106,.48);
-  white-space: nowrap;
-}
+    .bottom-info span {
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: .46rem;
+      letter-spacing: .36em;
+      text-transform: uppercase;
+      color: rgba(200,169,106,.48);
+      white-space: nowrap;
+    }
 
-.bottom-info .sep {
-  width: 2px;
-  height: 2px;
-  border-radius: 50%;
-  background: rgba(200,169,106,.38);
-  flex-shrink: 0;
-}
-```
-
+    .bottom-info .sep {
+      width: 2px;
+      height: 2px;
+      border-radius: 50%;
+      background: rgba(200,169,106,.38);
+      flex-shrink: 0;
+    }
   </style>
 </head>
 <body>
 
   <div class="cover">
 
-```
-<img
-  class="cover-img"
-  src="https://elyraeditorial.github.io/IMG_9109.jpeg"
-  alt="ELYRA Edition 01 — Paula"
-/>
+    <img
+      class="cover-img"
+      src="https://elyraeditorial.github.io/IMG_1837.jpeg"
+      alt="ELYRA Edition 01 — Anuradha"
+    />
 
-<div class="ov-top"></div>
-<div class="ov-bottom"></div>
-<div class="ov-vignette"></div>
-<div class="grain"></div>
-<div class="frame"></div>
+    <div class="ov-top"></div>
+    <div class="ov-bottom"></div>
+    <div class="ov-vignette"></div>
+    <div class="grain"></div>
+    <div class="frame"></div>
 
-<div class="corner corner-tl"></div>
-<div class="corner corner-tr"></div>
-<div class="corner corner-bl"></div>
-<div class="corner corner-br"></div>
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-tr"></div>
+    <div class="corner corner-bl"></div>
+    <div class="corner corner-br"></div>
 
-<!-- TOP -->
-<div class="top">
-  <div class="edition-label">Edition 01</div>
-  <div class="wordmark">ELYRA</div>
-  <div class="wordmark-rule"></div>
-  <div class="tagline">Editorial · Presence · Identity</div>
-</div>
+    <!-- TOP -->
+    <div class="top">
+      <div class="edition-label">Edition 01</div>
+      <div class="wordmark">ELYRA</div>
+      <div class="wordmark-rule"></div>
+      <div class="tagline">Editorial · Presence · Identity</div>
+    </div>
 
-<!-- BOTTOM -->
-<div class="bottom">
-  <div class="bottom-rule"></div>
-  <div class="cover-label">Digital Cover</div>
-  <div class="subject-name">Paula</div>
-  <div class="issue-name">The Society Issue</div>
-  <div class="bottom-info">
-    <span>Spring 2025</span>
-    <div class="sep"></div>
-    <span>Edition 01</span>
-    <div class="sep"></div>
-    <span>elyraeditorial.com</span>
-  </div>
-</div>
-```
+    <!-- BOTTOM -->
+    <div class="bottom">
+      <div class="bottom-rule"></div>
+      <div class="cover-label">Digital Cover</div>
+      <div class="subject-name">Anuradha</div>
+      <div class="issue-name">The Society Issue</div>
+      <div class="bottom-info">
+        <span>Spring 2025</span>
+        <div class="sep"></div>
+        <span>Edition 01</span>
+        <div class="sep"></div>
+        <span>elyraeditorial.com</span>
+      </div>
+    </div>
 
   </div>
 
