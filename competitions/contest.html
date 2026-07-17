@@ -29,288 +29,310 @@
 
   <style>
     body { padding-bottom: 52px; }
-    .hero-wrap { padding-top: 80px; }
 
-    .editorial-hero {
+    /* ══ HERO ══ */
+    .contest-hero {
       position: relative;
       width: 100%;
-      min-height: 520px;
+      min-height: min(560px, 74vh);
       border-radius: var(--rLg);
       overflow: hidden;
-      background:
-        radial-gradient(circle at 50% 12%, rgba(200,169,106,.16), transparent 26%),
-        linear-gradient(180deg, #17120f 0%, #090909 100%);
-      border: 1px solid rgba(200,169,106,.14);
-      box-shadow: var(--sh-lg), inset 0 1px 0 rgba(200,169,106,.08);
+      background: linear-gradient(180deg, #17120f 0%, #090909 100%);
+      border: 1px solid rgba(200,169,106,.20);
+      box-shadow: var(--sh-lg), inset 0 1px 0 rgba(200,169,106,.10);
       isolation: isolate;
+      display: flex;
+      align-items: flex-end;
     }
 
-    .editorial-hero img {
+    .contest-hero img {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center 40%;
-      transform: scale(1.02);
+      object-position: center 35%;
+      transform: scale(1.03);
+      animation: heroDrift 24s ease-in-out infinite alternate;
     }
 
-    .editorial-hero::before {
+    @keyframes heroDrift {
+      from { transform: scale(1.03) translateY(0); }
+      to   { transform: scale(1.08) translateY(-10px); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .contest-hero img { animation: none; }
+    }
+
+    .contest-hero::before {
       content: '';
       position: absolute;
       inset: 0;
       z-index: 1;
       background:
-        radial-gradient(circle at 50% 12%, rgba(200,169,106,.10), transparent 22%),
         linear-gradient(to bottom,
-          rgba(0,0,0,.06),
-          rgba(0,0,0,.14) 24%,
-          rgba(0,0,0,.44) 66%,
-          rgba(0,0,0,.80) 100%),
+          rgba(0,0,0,.30) 0%,
+          rgba(0,0,0,.10) 30%,
+          rgba(0,0,0,.55) 70%,
+          rgba(0,0,0,.90) 100%),
         linear-gradient(to right,
-          rgba(0,0,0,.42) 0%,
-          rgba(0,0,0,.06) 28%,
-          rgba(0,0,0,.06) 72%,
-          rgba(0,0,0,.36) 100%);
+          rgba(0,0,0,.55) 0%,
+          rgba(0,0,0,.10) 40%,
+          rgba(0,0,0,.10) 70%,
+          rgba(0,0,0,.40) 100%);
       pointer-events: none;
     }
 
-    .editorial-hero::after {
-      content: '';
+    .hero-frame {
       position: absolute;
-      inset: 0;
-      z-index: 1;
-      pointer-events: none;
-      box-shadow:
-        inset 0 -120px 120px rgba(0,0,0,.28),
-        inset 0 0 90px rgba(0,0,0,.12);
-    }
-
-    .editorial-frame {
-      position: absolute;
-      inset: 18px;
+      inset: 16px;
       z-index: 2;
-      border: 1px solid rgba(200,169,106,.18);
+      border: 1px solid rgba(200,169,106,.24);
       border-radius: calc(var(--rLg) - 6px);
       pointer-events: none;
     }
 
-    .editorial-copy {
+    .hero-frame::before,
+    .hero-frame::after {
+      content: '✦';
       position: absolute;
-      left: clamp(28px, 4vw, 48px);
-      right: clamp(28px, 4vw, 48px);
-      bottom: clamp(28px, 4vw, 46px);
-      z-index: 3;
-      max-width: 760px;
-    }
-
-    .editorial-kicker {
-      display: inline-block;
-      margin-bottom: 16px;
-      padding: 10px 16px;
-      border-radius: var(--r);
-      border: 1px solid rgba(200,169,106,.28);
-      background: rgba(200,169,106,.08);
-      backdrop-filter: blur(10px);
-      color: var(--gold2);
-      font-family: 'Jost', sans-serif;
-      font-size: .65rem;
-      letter-spacing: .28em;
-      text-transform: uppercase;
-    }
-
-    .editorial-title {
-      margin: 0;
-      color: var(--text);
-      font-family: 'Cormorant SC', serif;
-      font-weight: 300;
-      font-size: clamp(52px, 7vw, 108px);
-      line-height: .92;
-      letter-spacing: .06em;
-      text-shadow: 0 10px 40px rgba(0,0,0,.40);
-    }
-
-    .editorial-sub {
-      margin: 18px 0 0;
-      max-width: 580px;
-      color: var(--muted);
-      font-family: 'Jost', sans-serif;
-      font-size: clamp(15px, 1.8vw, 20px);
-      font-weight: 300;
-      line-height: 1.62;
-    }
-
-    .title-block {
-      margin-top: 36px;
-      margin-bottom: 12px;
-    }
-
-    .title-block .contest-title {
       font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-style: italic;
-      font-size: clamp(2rem, 4.5vw, 3.4rem);
-      letter-spacing: .08em;
-      color: var(--text);
-      text-shadow: 0 14px 50px rgba(0,0,0,.55);
-      margin-bottom: 8px;
-      animation: textIn 1.1s var(--ease) .15s forwards;
-      opacity: 0;
-      transform: translateY(16px);
+      font-size: .55rem;
+      color: rgba(200,169,106,.60);
+      line-height: 1;
+    }
+    .hero-frame::before { top: -6px; left: 14px; }
+    .hero-frame::after  { bottom: -6px; right: 14px; }
+
+    .hero-copy {
+      position: relative;
+      z-index: 3;
+      width: 100%;
+      padding: clamp(28px, 5vw, 56px);
+      max-width: 860px;
     }
 
-    .title-block .contest-sub {
-      font-family: 'Jost', sans-serif;
-      font-weight: 300;
-      font-size: .90rem;
-      color: var(--muted);
-      line-height: 1.82;
-      max-width: 60ch;
-    }
-
-    .title-share-row {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .share-btn {
+    .hero-kicker {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      flex-shrink: 0;
-      margin-top: 6px;
+      margin-bottom: 16px;
+      padding: 9px 18px;
+      border-radius: var(--r);
+      border: 1px solid rgba(200,169,106,.42);
+      background: rgba(6,5,4,.68);
+      backdrop-filter: blur(16px);
+      color: #e2cc96;
+      font-family: 'Jost', sans-serif;
+      font-size: .64rem;
+      letter-spacing: .30em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      box-shadow: 0 6px 24px rgba(0,0,0,.45);
+    }
+
+    .hero-kicker::before {
+      content: '✦';
+      font-size: .48rem;
+      color: #c8a96a;
+    }
+
+    .hero-title {
+      margin: 0 0 14px;
+      font-family: 'Cormorant SC', serif;
+      font-weight: 400;
+      font-size: clamp(46px, 8vw, 116px);
+      line-height: .94;
+      letter-spacing: .05em;
+      color: #f0ece4;
+      text-shadow:
+        0 2px 8px rgba(0,0,0,.92),
+        0 10px 34px rgba(0,0,0,.78),
+        0 30px 80px rgba(0,0,0,.60);
+    }
+
+    .hero-sub {
+      margin: 0 0 22px;
+      max-width: 520px;
+      color: rgba(240,236,228,.92);
+      font-family: 'Jost', sans-serif;
+      font-size: clamp(14px, 1.7vw, 18px);
+      font-weight: 300;
+      line-height: 1.72;
+      text-shadow: 0 2px 16px rgba(0,0,0,.80);
+    }
+
+    .hero-prize {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
       padding: 10px 18px;
       border-radius: var(--r);
-      border: 1px solid rgba(200,169,106,.28);
-      background: rgba(200,169,106,.07);
-      backdrop-filter: blur(10px);
+      border: 1px solid rgba(200,169,106,.38);
+      background: linear-gradient(135deg, rgba(200,169,106,.18), rgba(6,5,4,.62));
+      backdrop-filter: blur(14px);
       font-family: 'Jost', sans-serif;
-      font-size: .63rem;
-      letter-spacing: .28em;
+      font-size: .66rem;
+      letter-spacing: .24em;
       text-transform: uppercase;
-      color: var(--gold);
-      cursor: pointer;
-      transition: background .2s var(--ease), border-color .2s var(--ease), transform .2s var(--spring);
+      color: #e2cc96;
+      box-shadow: 0 0 28px rgba(200,169,106,.18);
     }
 
-    .share-btn:hover {
-      background: rgba(200,169,106,.14);
-      border-color: rgba(200,169,106,.50);
-      transform: translateY(-1px);
+    /* ══ ROUND TRACKER ══ */
+    .round-tracker {
+      display: none;
+      margin-top: 18px;
+      border: 1px solid rgba(200,169,106,.18);
+      border-top-color: rgba(200,169,106,.34);
+      border-radius: var(--rMd);
+      background: rgba(6,5,4,.36);
+      backdrop-filter: blur(16px);
+      padding: 18px clamp(16px, 3vw, 28px);
     }
 
-    .share-btn svg {
-      width: 13px; height: 13px;
-      stroke: currentColor; fill: none;
-      stroke-width: 1.8;
-      stroke-linecap: round; stroke-linejoin: round;
-      flex-shrink: 0;
-    }
+    .round-tracker.visible { display: block; }
 
-    .share-btn.copied {
-      color: rgba(140,220,160,.90);
-      border-color: rgba(140,220,160,.35);
-      background: rgba(140,220,160,.07);
-    }
-
-    .contest-badge-row {
-      display: flex;
+    .round-steps {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
       align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .round-step { text-align: center; }
+
+    .round-dot {
+      width: 12px; height: 12px;
+      margin: 0 auto 8px;
+      border-radius: 50%;
+      border: 1px solid rgba(200,169,106,.45);
+      background: rgba(6,5,4,.60);
+      transition: all .3s var(--ease);
+    }
+
+    .round-step.done .round-dot {
+      background: rgba(200,169,106,.35);
+      border-color: rgba(200,169,106,.60);
+    }
+
+    .round-step.current .round-dot {
+      background: #c8a96a;
+      border-color: #e2cc96;
+      box-shadow: 0 0 16px rgba(200,169,106,.65), 0 0 4px rgba(226,204,150,.9);
+      animation: dotPulse 2.2s ease-in-out infinite;
+    }
+
+    @keyframes dotPulse {
+      0%, 100% { box-shadow: 0 0 16px rgba(200,169,106,.65); }
+      50%      { box-shadow: 0 0 26px rgba(200,169,106,.95); }
+    }
+
+    .round-name {
+      font-family: 'Jost', sans-serif;
+      font-size: .58rem;
+      letter-spacing: .26em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+
+    .round-step.current .round-name { color: #e2cc96; }
+    .round-step.done .round-name    { color: var(--gold); opacity: .75; }
+
+    .round-line {
+      height: 1px;
+      background: linear-gradient(90deg, rgba(200,169,106,.10), rgba(200,169,106,.40), rgba(200,169,106,.10));
       margin-bottom: 20px;
     }
 
-    .contestant-list {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
+    .round-note {
+      margin-top: 12px;
+      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: .98rem;
+      letter-spacing: .05em;
+      color: var(--muted);
     }
 
-    .contestant-card {
+    /* ══ COUNTDOWN ══ */
+    .countdown-wrap { margin-top: 18px; }
+
+    .countdown-label-top {
+      font-family: 'Jost', sans-serif;
+      font-size: .60rem;
+      letter-spacing: .34em;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: .85;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .countdown-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    @media (max-width: 640px) { .countdown-row { gap: 6px; } }
+
+    .countdown-box {
       position: relative;
       overflow: hidden;
-      border-radius: var(--rMd);
-      border: 1px solid rgba(240,236,228,.08);
-      border-top-color: rgba(240,236,228,.14);
-      background: rgba(6,5,4,.28);
+      border-radius: var(--r);
+      border: 1px solid rgba(200,169,106,.22);
+      border-top-color: rgba(200,169,106,.42);
+      background: rgba(6,5,4,.52);
       backdrop-filter: blur(14px);
-      padding: 22px 20px;
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 16px;
-      transition: background .22s var(--ease), border-color .22s var(--ease), transform .22s var(--ease), box-shadow .22s var(--ease);
+      padding: 16px 8px;
+      text-align: center;
     }
 
-    .contestant-card::before {
+    .countdown-box::before {
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 1px;
-      background: linear-gradient(90deg, transparent 8%, rgba(200,169,106,.34) 50%, transparent 92%);
-      opacity: 0;
-      transition: opacity .22s var(--ease);
+      background: linear-gradient(90deg, transparent, rgba(200,169,106,.50), transparent);
     }
 
-    .contestant-card:hover::before { opacity: 1; }
-    .contestant-card:hover {
-      background: rgba(6,5,4,.44);
-      border-color: rgba(200,169,106,.18);
-      transform: translateY(-2px);
-      box-shadow: var(--sh-md), var(--glow);
-    }
-
-    .contestant-info { flex: 1; min-width: 0; }
-
-    .contestant-name {
+    .countdown-num {
       font-family: 'Cormorant Garamond', serif;
-      font-weight: 400;
       font-style: italic;
-      font-size: 1.38rem;
-      letter-spacing: .06em;
-      color: var(--text);
-      margin-bottom: 6px;
-      line-height: 1.18;
+      font-size: clamp(1.9rem, 4.2vw, 2.8rem);
+      color: #e2cc96;
+      line-height: 1;
+      letter-spacing: .04em;
+      display: block;
+      font-variant-numeric: tabular-nums;
     }
 
-    .contestant-bio {
+    .countdown-unit {
       font-family: 'Jost', sans-serif;
-      font-weight: 300;
-      font-size: .86rem;
-      line-height: 1.78;
-      color: var(--muted);
-      margin-bottom: 8px;
-    }
-
-    .contestant-votes {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-family: 'Jost', sans-serif;
-      font-size: .63rem;
-      letter-spacing: .26em;
+      font-size: .55rem;
+      letter-spacing: .28em;
       text-transform: uppercase;
       color: var(--gold);
+      opacity: .75;
+      margin-top: 6px;
+      display: block;
     }
 
-    .contestant-votes::before {
-      content: '✦';
-      font-size: .50rem;
-      opacity: .70;
+    .countdown-expired {
+      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--gold);
+      padding: 16px;
+      border: 1px solid rgba(200,169,106,.20);
+      border-radius: var(--r);
+      background: rgba(6,5,4,.40);
     }
 
-    .contestant-action {
-      flex-shrink: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 8px;
-    }
-
+    /* ══ INFO PANEL ══ */
     .contest-info-panel {
       position: relative;
       overflow: hidden;
@@ -319,31 +341,20 @@
       border-top-color: rgba(200,169,106,.32);
       background: linear-gradient(168deg, rgba(200,169,106,.07) 0%, rgba(6,5,4,.50) 100%);
       backdrop-filter: blur(18px);
-      padding: clamp(24px, 4vw, 40px) clamp(20px, 4vw, 36px);
-      margin-bottom: 20px;
+      padding: clamp(20px, 3.5vw, 32px) clamp(18px, 3.5vw, 30px);
+      margin-top: 18px;
       box-shadow: var(--sh-sm), var(--glow);
-    }
-
-    .contest-info-panel::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: var(--rMd);
-      background: radial-gradient(ellipse 70% 32% at 50% 0%, rgba(200,169,106,.10), transparent 65%);
-      pointer-events: none;
     }
 
     .contest-info-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
+      gap: 12px;
       position: relative;
       z-index: 1;
     }
 
-    @media (max-width: 700px) {
-      .contest-info-grid { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 700px) { .contest-info-grid { grid-template-columns: 1fr; } }
 
     .contest-info-item {
       border-radius: var(--r);
@@ -377,22 +388,315 @@
       color: var(--muted);
     }
 
+    /* ══ UPCOMING BANNER ══ */
     .upcoming-banner {
       display: none;
-      margin-bottom: 20px;
-      padding: 16px 20px;
+      margin-top: 18px;
+      padding: 18px 22px;
       border-radius: var(--rMd);
-      border: 1px solid rgba(200,169,106,.28);
-      background: rgba(200,169,106,.07);
-      backdrop-filter: blur(12px);
+      border: 1px solid rgba(200,169,106,.32);
+      background: linear-gradient(135deg, rgba(200,169,106,.12), rgba(6,5,4,.55));
+      backdrop-filter: blur(14px);
       font-family: 'Jost', sans-serif;
       font-weight: 300;
-      font-size: .88rem;
-      line-height: 1.7;
-      color: var(--gold2);
+      font-size: .90rem;
+      line-height: 1.72;
+      color: #e2cc96;
+      box-shadow: 0 0 30px rgba(200,169,106,.12);
     }
 
     .upcoming-banner.visible { display: block; }
+
+    /* ══ CONTESTANTS ══ */
+    .section-heading {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 40px 0 18px;
+    }
+
+    .section-heading h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(1.6rem, 3.2vw, 2.3rem);
+      letter-spacing: .07em;
+      color: var(--text);
+      margin: 0;
+    }
+
+    .contestant-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .contestant-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--rMd);
+      border: 1px solid rgba(240,236,228,.08);
+      border-top-color: rgba(240,236,228,.14);
+      background: rgba(6,5,4,.30);
+      backdrop-filter: blur(14px);
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      transition: background .22s var(--ease), border-color .22s var(--ease), transform .22s var(--ease), box-shadow .22s var(--ease);
+    }
+
+    .contestant-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 8%, rgba(200,169,106,.36) 50%, transparent 92%);
+      opacity: 0;
+      transition: opacity .22s var(--ease);
+    }
+
+    .contestant-card:hover::before { opacity: 1; }
+    .contestant-card:hover {
+      background: rgba(6,5,4,.48);
+      border-color: rgba(200,169,106,.20);
+      transform: translateY(-3px);
+      box-shadow: var(--sh-md), var(--glow);
+    }
+
+    .contestant-card.rank-1 {
+      border-color: rgba(200,169,106,.34);
+      border-top-color: rgba(200,169,106,.58);
+      background: linear-gradient(135deg, rgba(200,169,106,.11) 0%, rgba(6,5,4,.42) 100%);
+    }
+
+    .contestant-card.rank-2 {
+      border-color: rgba(180,180,180,.24);
+      border-top-color: rgba(200,200,200,.42);
+      background: linear-gradient(135deg, rgba(180,180,180,.07) 0%, rgba(6,5,4,.38) 100%);
+    }
+
+    .contestant-card.rank-3 {
+      border-color: rgba(180,120,60,.24);
+      border-top-color: rgba(200,140,80,.40);
+      background: linear-gradient(135deg, rgba(180,120,60,.07) 0%, rgba(6,5,4,.38) 100%);
+    }
+
+    .card-rank {
+      flex-shrink: 0;
+      min-width: 34px;
+      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.7rem;
+      line-height: 1;
+      color: var(--faint);
+    }
+
+    .rank-1 .card-rank { color: #e2cc96; text-shadow: 0 0 18px rgba(200,169,106,.55); }
+    .rank-2 .card-rank { color: #c8c8c8; }
+    .rank-3 .card-rank { color: #c8804a; }
+
+    .card-photo {
+      flex-shrink: 0;
+      width: 74px;
+      height: 74px;
+      border-radius: var(--r);
+      overflow: hidden;
+      border: 1px solid rgba(200,169,106,.26);
+      background:
+        radial-gradient(circle at 50% 35%, rgba(200,169,106,.14), transparent 60%),
+        rgba(6,5,4,.60);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    .card-photo .no-photo {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.35rem;
+      color: rgba(200,169,106,.55);
+    }
+
+    .contestant-info { flex: 1; min-width: 0; }
+
+    .contestant-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: 1.38rem;
+      letter-spacing: .06em;
+      color: var(--text);
+      margin-bottom: 4px;
+      line-height: 1.18;
+    }
+
+    .contestant-bio {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: .84rem;
+      line-height: 1.68;
+      color: var(--muted);
+      margin-bottom: 8px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .contestant-votes {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Jost', sans-serif;
+      font-size: .63rem;
+      letter-spacing: .26em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .contestant-votes::before { content: '✦'; font-size: .50rem; opacity: .70; }
+
+    .contestant-action { flex-shrink: 0; }
+
+    .vote-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 26px;
+      border-radius: var(--r);
+      border: 1px solid rgba(200,169,106,.48);
+      background: linear-gradient(135deg, rgba(200,169,106,.20), rgba(6,5,4,.55));
+      color: #e2cc96;
+      font-family: 'Jost', sans-serif;
+      font-size: .66rem;
+      letter-spacing: .26em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      transition: transform .2s var(--ease), background .2s var(--ease), border-color .2s var(--ease), box-shadow .2s var(--ease);
+    }
+
+    .vote-cta:hover {
+      transform: translateY(-2px);
+      background: rgba(200,169,106,.30);
+      border-color: rgba(200,169,106,.72);
+      box-shadow: 0 0 24px rgba(200,169,106,.30);
+    }
+
+    /* ══ REWARDS STRIP ══ */
+    .rewards-strip {
+      margin-top: 28px;
+      border: 1px solid rgba(200,169,106,.20);
+      border-top-color: rgba(200,169,106,.38);
+      border-radius: var(--rMd);
+      background: linear-gradient(168deg, rgba(200,169,106,.08) 0%, rgba(6,5,4,.55) 100%);
+      backdrop-filter: blur(18px);
+      padding: clamp(22px, 4vw, 36px) clamp(18px, 4vw, 32px);
+    }
+
+    .rewards-strip .rw-kicker {
+      font-family: 'Jost', sans-serif;
+      font-size: .60rem;
+      letter-spacing: .38em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .rewards-strip h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(1.4rem, 2.8vw, 1.9rem);
+      letter-spacing: .06em;
+      color: var(--text);
+      margin: 0 0 14px;
+    }
+
+    .rw-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    @media (max-width: 700px) { .rw-grid { grid-template-columns: 1fr; } }
+
+    .rw-item {
+      border: 1px solid rgba(240,236,228,.08);
+      border-top-color: rgba(200,169,106,.18);
+      border-radius: var(--r);
+      background: rgba(6,5,4,.30);
+      padding: 16px;
+    }
+
+    .rw-item .rw-amt {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.35rem;
+      color: #e2cc96;
+      margin-bottom: 6px;
+    }
+
+    .rw-item p {
+      margin: 0;
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: .82rem;
+      line-height: 1.7;
+      color: var(--muted);
+    }
+
+    /* ══ SHARE / MISC ══ */
+    .share-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+      padding: 10px 18px;
+      border-radius: var(--r);
+      border: 1px solid rgba(200,169,106,.28);
+      background: rgba(200,169,106,.07);
+      backdrop-filter: blur(10px);
+      font-family: 'Jost', sans-serif;
+      font-size: .63rem;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      cursor: pointer;
+      transition: background .2s var(--ease), border-color .2s var(--ease), transform .18s var(--ease);
+    }
+
+    .share-btn:hover {
+      background: rgba(200,169,106,.14);
+      border-color: rgba(200,169,106,.50);
+      transform: translateY(-1px);
+    }
+
+    .share-btn svg {
+      width: 13px; height: 13px;
+      stroke: currentColor; fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round; stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    .share-btn.copied {
+      color: rgba(140,220,160,.90);
+      border-color: rgba(140,220,160,.35);
+      background: rgba(140,220,160,.07);
+    }
 
     .error-state {
       text-align: center;
@@ -440,29 +744,20 @@
     }
     .page-footer a:hover { color: var(--gold2); }
 
+    /* ══ MOBILE ══ */
     @media (max-width: 640px) {
-      .editorial-hero {
-        min-height: unset;
-        height: auto;
-        border-radius: var(--rMd);
-      }
-      .editorial-hero img {
-        position: relative;
-        display: block;
-        width: 100%;
-        height: auto;
-        object-fit: cover;
-        object-position: center top;
-        transform: none;
-        inset: auto;
-      }
-      .editorial-frame { inset: 8px; }
-      .editorial-copy { left: 14px; right: 14px; bottom: 14px; max-width: none; }
-      .editorial-title { font-size: clamp(28px, 8vw, 44px); letter-spacing: .02em; }
-      .editorial-sub { font-size: 13px; margin-top: 8px; line-height: 1.45; }
-      .contestant-card { flex-direction: column; gap: 12px; }
-      .contestant-action { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
-      .title-share-row { flex-direction: column; gap: 10px; }
+      .contest-hero { min-height: min(420px, 78vh); border-radius: var(--rMd); }
+      .hero-frame { inset: 8px; }
+      .hero-copy { padding: 18px 16px; }
+      .hero-kicker { padding: 7px 12px; font-size: .58rem; letter-spacing: .22em; white-space: normal; }
+      .hero-title { font-size: clamp(34px, 10vw, 52px); letter-spacing: .03em; }
+      .hero-sub { font-size: 13px; line-height: 1.55; margin-bottom: 16px; }
+      .contestant-card { flex-wrap: wrap; padding: 14px; gap: 12px; }
+      .card-rank { min-width: 26px; font-size: 1.4rem; }
+      .card-photo { width: 60px; height: 60px; }
+      .contestant-action { width: 100%; }
+      .vote-cta { width: 100%; }
+      .round-name { font-size: .50rem; letter-spacing: .18em; }
     }
   </style>
 </head>
@@ -488,7 +783,7 @@
   </div>
 
   <!-- Back nav -->
-  <div class="container" style="padding-top:80px; padding-bottom:10px;">
+  <div class="container" style="padding-top:84px; padding-bottom:12px;">
     <a href="/competitions/" style="
       display:inline-flex;align-items:center;gap:8px;
       font-family:'Jost',sans-serif;font-size:.68rem;
@@ -498,27 +793,58 @@
     </a>
   </div>
 
-  <!-- Editorial hero -->
+  <!-- Hero -->
   <div class="container" style="padding-top:0;">
-    <section class="editorial-hero" aria-label="ELYRA cover competition feature">
-      <img
-        src="../IMG_9162.jpeg"
-        alt="ELYRA Cover Competition"
-      />
-      <div class="editorial-frame"></div>
-      <div class="editorial-copy">
-        <div class="editorial-kicker" id="heroKicker">Elyra Editorial</div>
-        <h2 class="editorial-title" id="heroTitle">Cover<br>Star</h2>
-        <p class="editorial-sub" id="heroSub">
+    <section class="contest-hero" aria-label="ELYRA cover competition">
+      <img src="../IMG_9162.jpeg" alt="" onerror="this.style.display='none'" />
+      <div class="hero-frame"></div>
+      <div class="hero-copy">
+        <div class="hero-kicker" id="heroKicker">Elyra Editorial</div>
+        <h1 class="hero-title" id="heroTitle">Cover<br>Star</h1>
+        <p class="hero-sub" id="heroSub">
           Support your favorite contestant and help decide the next
-          Elyra cover feature. Every dollar is one vote.
+          ELYRA cover feature. Every dollar is one vote.
         </p>
+        <div class="hero-prize">✦ &nbsp; Min. $500 Prize Pool — Grows With Every Vote</div>
       </div>
     </section>
-  </div>
 
-  <!-- Contest info panel -->
-  <div class="container" style="margin-top: 32px;">
+    <!-- Round tracker -->
+    <div class="round-tracker" id="roundTracker">
+      <div class="round-steps">
+        <div class="round-step" id="stepOpen">
+          <div class="round-dot"></div>
+          <div class="round-name">Open Round</div>
+        </div>
+        <div class="round-line" style="margin-bottom:20px;"></div>
+        <div class="round-step" id="stepSemis">
+          <div class="round-dot"></div>
+          <div class="round-name">Semi-Finals</div>
+        </div>
+        <div class="round-line" style="margin-bottom:20px;"></div>
+        <div class="round-step" id="stepFinale">
+          <div class="round-dot"></div>
+          <div class="round-name">The Finale</div>
+        </div>
+      </div>
+      <div class="round-note" id="roundNote"></div>
+    </div>
+
+    <!-- Countdown -->
+    <div class="countdown-wrap">
+      <div class="countdown-label-top" id="countdownLabel">Voting Closes In</div>
+      <div class="countdown-row" id="countdownRow">
+        <div class="countdown-box"><span class="countdown-num" id="cdDays">--</span><span class="countdown-unit">Days</span></div>
+        <div class="countdown-box"><span class="countdown-num" id="cdHours">--</span><span class="countdown-unit">Hours</span></div>
+        <div class="countdown-box"><span class="countdown-num" id="cdMins">--</span><span class="countdown-unit">Minutes</span></div>
+        <div class="countdown-box"><span class="countdown-num" id="cdSecs">--</span><span class="countdown-unit">Seconds</span></div>
+      </div>
+    </div>
+
+    <!-- Upcoming banner -->
+    <div class="upcoming-banner" id="upcomingBanner"></div>
+
+    <!-- Info panel -->
     <div class="contest-info-panel">
       <div class="contest-info-grid">
         <div class="contest-info-item">
@@ -537,46 +863,104 @@
     </div>
   </div>
 
-  <!-- Title block + share button -->
-  <div class="container title-block">
-    <div class="title-share-row">
-      <div>
-        <h1 class="contest-title" id="title">Loading…</h1>
-        <p class="contest-sub" id="subtitle"></p>
-      </div>
-      <button class="share-btn" id="shareBtn" type="button" style="display:none;">
-        <svg viewBox="0 0 24 24">
-          <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/>
-          <circle cx="18" cy="19" r="3"/>
-          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
-          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
-        </svg>
-        <span id="shareBtnLabel">Share Competition</span>
-      </button>
-    </div>
-  </div>
-
   <!-- Contestants -->
   <div class="container" style="margin-bottom: 16px;">
-    <div class="upcoming-banner" id="upcomingBanner"></div>
-    <div class="contest-badge-row">
-      <div class="badge" id="badge">Loading contestants…</div>
+    <div class="section-heading">
+      <h2 id="contestName">Contestants</h2>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+        <div class="badge" id="badge">Loading…</div>
+        <button class="share-btn" id="shareBtn" type="button" style="display:none;">
+          <svg viewBox="0 0 24 24">
+            <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/>
+            <circle cx="18" cy="19" r="3"/>
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+          </svg>
+          <span id="shareBtnLabel">Share</span>
+        </button>
+      </div>
     </div>
+
     <div class="contestant-list" id="list"></div>
     <p class="small" style="margin-top: 12px;" id="msg"></p>
+
+    <!-- Rewards strip -->
+    <div class="rewards-strip">
+      <div class="rw-kicker">For Our Supporters</div>
+      <h3>Every Vote Rewards You Back</h3>
+      <div class="rw-grid">
+        <div class="rw-item">
+          <div class="rw-amt">Every $1</div>
+          <p>One automatic entry into the Issue Voter Drawing — win a complimentary digital copy of the new ELYRA issue plus a public thank-you.</p>
+        </div>
+        <div class="rw-item">
+          <div class="rw-amt">$10 — The Circle</div>
+          <p>Your name printed on the Patrons page inside the issue your contestant is competing for. Your support becomes part of the magazine.</p>
+        </div>
+        <div class="rw-item">
+          <div class="rw-amt">$50 — Patron</div>
+          <p>Everything above, plus entry into the Patron Feature Drawing — one patron per issue has their story published inside ELYRA.</p>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- Page footer -->
+  <!-- Footer -->
   <div class="page-footer">
     <a href="https://houseofelevara.com" target="_blank" rel="noopener">House of Elévara</a>
     &nbsp;·&nbsp;
     <a href="/">Elyra Editorial</a>
+    &nbsp;·&nbsp;
+    <a href="/advertise.html">Advertise</a>
     &nbsp;·&nbsp;
     © <span id="yr"></span> All rights reserved
   </div>
 
   <script>
     document.getElementById('yr').textContent = new Date().getFullYear();
+
+    /* Countdown engine — target + label set by module below */
+    (function() {
+      const days = document.getElementById('cdDays');
+      const hrs  = document.getElementById('cdHours');
+      const mins = document.getElementById('cdMins');
+      const secs = document.getElementById('cdSecs');
+      const row  = document.getElementById('countdownRow');
+
+      let end = null;
+      let timer = null;
+
+      function pad(n) { return String(n).padStart(2, '0'); }
+
+      function tick() {
+        if (!end) return;
+        const diff = end - Date.now();
+        if (diff <= 0) {
+          row.innerHTML = '<div class="countdown-expired">Voting has closed — results announced soon</div>';
+          if (timer) clearInterval(timer);
+          return;
+        }
+        const d = Math.floor(diff / 86400000);
+        const h = Math.floor((diff % 86400000) / 3600000);
+        const m = Math.floor((diff % 3600000) / 60000);
+        const s = Math.floor((diff % 60000) / 1000);
+        if (days) days.textContent = pad(d);
+        if (hrs)  hrs.textContent  = pad(h);
+        if (mins) mins.textContent = pad(m);
+        if (secs) secs.textContent = pad(s);
+      }
+
+      window.__contestCountdown = function(endIso, label) {
+        const d = new Date(endIso);
+        if (Number.isNaN(d.getTime())) return;
+        end = d;
+        const lbl = document.getElementById('countdownLabel');
+        if (lbl && label) lbl.textContent = label;
+        if (timer) clearInterval(timer);
+        tick();
+        timer = setInterval(tick, 1000);
+      };
+    })();
   </script>
 
   <script type="module">
@@ -584,8 +968,6 @@
     import { getParam, setText, setHTML } from "./assets/ui.js?v=20";
 
     const slug          = getParam("slug");
-    const titleEl       = document.getElementById("title");
-    const subEl         = document.getElementById("subtitle");
     const badgeEl       = document.getElementById("badge");
     const listEl        = document.getElementById("list");
     const msgEl         = document.getElementById("msg");
@@ -593,8 +975,10 @@
     const shareBtnLabel = document.getElementById("shareBtnLabel");
     const heroTitleEl   = document.getElementById("heroTitle");
     const heroKickerEl  = document.getElementById("heroKicker");
+    const heroSubEl     = document.getElementById("heroSub");
     const closesEl      = document.getElementById("closesVal");
     const upcomingEl    = document.getElementById("upcomingBanner");
+    const contestNameEl = document.getElementById("contestName");
 
     function money(n) { return Number(n || 0).toLocaleString(); }
 
@@ -610,6 +994,13 @@
       const d = new Date(v);
       if (Number.isNaN(d.getTime())) return "";
       return d.toLocaleDateString("en-US", { month:"long", day:"numeric", year:"numeric" });
+    }
+
+    function safeImg(url) {
+      if (!url) return null;
+      const u = String(url).trim();
+      if (u.startsWith("https://") || u.startsWith("http://")) return u;
+      return null;
     }
 
     function updateOG({ title, subtitle, pageUrl }) {
@@ -641,14 +1032,46 @@
         }
         try {
           await navigator.clipboard.writeText(pageUrl);
-          shareBtnLabel.textContent = 'Link Copied ✦';
+          shareBtnLabel.textContent = 'Copied ✦';
           shareBtn.classList.add('copied');
           setTimeout(() => {
-            shareBtnLabel.textContent = 'Share Competition';
+            shareBtnLabel.textContent = 'Share';
             shareBtn.classList.remove('copied');
           }, 2200);
         } catch { /* silent */ }
       });
+    }
+
+    /* ── Round tracker from slug ── */
+    function setupRoundTracker(theSlug) {
+      const s = String(theSlug || "").toLowerCase();
+      let current = null;
+      if (s.endsWith("-open") || s.includes("-open-")) current = 0;
+      else if (s.includes("semifinal")) current = 1;
+      else if (s.includes("finale") || s.endsWith("-final")) current = 2;
+      if (current === null) return;
+
+      const tracker = document.getElementById("roundTracker");
+      const steps = [
+        document.getElementById("stepOpen"),
+        document.getElementById("stepSemis"),
+        document.getElementById("stepFinale")
+      ];
+      const notes = [
+        "All contestants compete. The Top 8 advance to the Semi-Finals.",
+        "Top 8 remain. Votes have reset — every supporter counts again. Top 4 advance.",
+        "The Final 4. Votes have reset one last time. The winner takes the ELYRA cover."
+      ];
+
+      steps.forEach((el, i) => {
+        if (!el) return;
+        if (i < current) el.classList.add("done");
+        if (i === current) el.classList.add("current");
+      });
+
+      const note = document.getElementById("roundNote");
+      if (note) note.textContent = notes[current];
+      tracker.classList.add("visible");
     }
 
     try {
@@ -660,11 +1083,9 @@
       const contestSub   = contest.subtitle ||
         "Minimum $500 prize pool — increases based on total votes.";
 
-      setText(titleEl, contestTitle);
-      setText(subEl, contestSub);
-
-      /* ── Hero: split the title across two lines ── */
-      const words = String(contestTitle).replace(/—/g, " ").trim().split(/\s+/).filter(Boolean);
+      /* ── Hero title: strip the round suffix for impact, split across lines ── */
+      const mainTitle = String(contestTitle).split("—")[0].trim();
+      const words = mainTitle.split(/\s+/).filter(Boolean);
       if (words.length > 1) {
         const mid = Math.ceil(words.length / 2);
         heroTitleEl.innerHTML =
@@ -673,57 +1094,86 @@
         heroTitleEl.textContent = words[0];
       }
 
-      /* ── Hero kicker: month + year of the voting window ── */
-      if (contest.end_at) {
+      /* ── Kicker: round name (or month/year) ── */
+      const roundPart = String(contestTitle).includes("—")
+        ? String(contestTitle).split("—").slice(1).join("—").trim()
+        : "";
+      if (roundPart) {
+        heroKickerEl.textContent = `Elyra Editorial · ${roundPart}`;
+      } else if (contest.end_at) {
         const d = new Date(contest.end_at);
         if (!Number.isNaN(d.getTime())) {
-          const monthYear = d.toLocaleDateString("en-US", { month: "long", year: "numeric" });
-          heroKickerEl.textContent = `Elyra Editorial · ${monthYear}`;
+          heroKickerEl.textContent =
+            `Elyra Editorial · ${d.toLocaleDateString("en-US", { month: "long", year: "numeric" })}`;
         }
       }
 
-      /* ── Voting Closes ── */
+      if (contest.subtitle) setText(heroSubEl, contest.subtitle);
+      setText(contestNameEl, contestTitle);
+
+      /* ── Deadline + countdown (opens vs closes) ── */
       const endStr = fmtDate(contest.end_at);
       if (endStr) setText(closesEl, endStr);
 
-      /* ── Upcoming banner if voting hasn't started yet ── */
-      if (contest.start_at) {
-        const startTime = new Date(contest.start_at).getTime();
-        if (Number.isFinite(startTime) && startTime > Date.now()) {
-          const startStr = fmtDate(contest.start_at);
-          upcomingEl.textContent =
-            `✦ Voting opens ${startStr}. Contestants are being finalized now — check back on opening day to cast your first votes.`;
-          upcomingEl.classList.add("visible");
-        }
+      const now = Date.now();
+      const startTime = contest.start_at ? new Date(contest.start_at).getTime() : null;
+
+      if (startTime && Number.isFinite(startTime) && startTime > now) {
+        /* Upcoming: count down to open */
+        if (window.__contestCountdown) window.__contestCountdown(contest.start_at, "Voting Opens In");
+        upcomingEl.textContent =
+          `✦ Voting opens ${fmtDate(contest.start_at)}. Contestants are being finalized now — come back on opening day to cast the first votes.`;
+        upcomingEl.classList.add("visible");
+      } else if (contest.end_at) {
+        /* Live: count down to close */
+        if (window.__contestCountdown) window.__contestCountdown(contest.end_at, "Voting Closes In");
       }
+
+      setupRoundTracker(slug);
 
       const pageUrl = `${location.origin}/competitions/contest.html?slug=${encodeURIComponent(slug)}`;
       updateOG({ title: contestTitle, subtitle: contestSub, pageUrl });
       setupShareBtn(contestTitle, pageUrl);
 
-      const contestants = await dataApi.fetchContestantsByContestId(contest.id);
+      /* ── Contestants, ranked by votes ── */
+      const [contestants, totalsRows] = await Promise.all([
+        dataApi.fetchContestantsByContestId(contest.id),
+        dataApi.fetchVoteTotalsForContest(contest.id)
+      ]);
+
+      const totalsMap = {};
+      for (const r of (totalsRows || [])) { totalsMap[r.contestant_id] = r; }
+
+      const ranked = (contestants || [])
+        .map(c => ({ ...c, votes: Number(totalsMap[c.id]?.total_votes ?? 0) }))
+        .sort((a, b) => b.votes - a.votes);
+
       setText(badgeEl,
-        contestants.length
-          ? `${contestants.length} Contestant${contestants.length !== 1 ? "s" : ""}`
+        ranked.length
+          ? `${ranked.length} Contestant${ranked.length !== 1 ? "s" : ""}`
           : "Contestants announced soon"
       );
 
-      let totalsMap = {};
-      const totalsRows = await dataApi.fetchVoteTotalsForContest(contest.id);
-      for (const r of (totalsRows || [])) { totalsMap[r.contestant_id] = r; }
-
-      setHTML(listEl, contestants.map(c => {
-        const t          = totalsMap[c.id] || {};
-        const totalVotes = t.total_votes ?? 0;
+      setHTML(listEl, ranked.map((c, i) => {
+        const rank    = i + 1;
+        const rankCls = rank <= 3 ? ` rank-${rank}` : "";
+        const img     = safeImg(c.photo_url);
+        const initial = esc((c.display_name || "E").trim().charAt(0).toUpperCase());
         return `
-          <div class="contestant-card">
+          <div class="contestant-card${rankCls}">
+            <div class="card-rank">${rank}</div>
+            <div class="card-photo">
+              ${img
+                ? `<img src="${esc(img)}" alt="" loading="lazy" onerror="this.parentElement.innerHTML='<span class=&quot;no-photo&quot;>${initial}</span>'" />`
+                : `<span class="no-photo">${initial}</span>`}
+            </div>
             <div class="contestant-info">
               <div class="contestant-name">${esc(c.display_name || "Contestant")}</div>
               <div class="contestant-bio">${esc(c.bio || "")}</div>
-              <div class="contestant-votes">${money(totalVotes)} Votes</div>
+              <div class="contestant-votes">${money(c.votes)} Votes</div>
             </div>
             <div class="contestant-action">
-              <a class="btn primary"
+              <a class="vote-cta"
                  href="/competitions/contestant.html?id=${encodeURIComponent(c.id)}&slug=${encodeURIComponent(slug)}">
                 View &amp; Vote
               </a>
@@ -736,8 +1186,6 @@
 
     } catch (err) {
       console.error(err);
-      setText(titleEl, "Competition Unavailable");
-      setText(subEl, "");
       setText(badgeEl, "Unable to load");
       setHTML(listEl, `
         <div class="error-state">
