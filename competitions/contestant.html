@@ -627,7 +627,6 @@
 
   <div class="container hero-wrap">
 
-```
 <!-- Back nav -->
 <div class="back-nav">
   <a href="/competitions/" id="backBtn">Back to Competitions</a>
@@ -695,7 +694,7 @@
   </div>
   <div class="how-box">
     <div class="how-label">Voting Closes</div>
-    <div class="how-val">May 31 at 11:59 PM CST</div>
+    <div class="how-val" id="closesVal">—</div>
   </div>
   <div class="how-box">
     <div class="how-label">How It Works</div>
@@ -741,6 +740,14 @@
 
     <p class="vote-msg" id="msg"></p>
 
+    <div class="vote-legal" style="border-top:1px solid rgba(200,169,106,.16); margin-top:14px; padding-top:14px; color:var(--gold);">
+      ✦ Voter Rewards — Every $1 vote is one entry into the Issue Voter
+      Drawing. Cast $10+ in one checkout and your name is printed on the
+      Patrons page of the issue. Cast $50 and you're entered to have your
+      story featured inside ELYRA. Rewards apply automatically via your
+      checkout email.
+    </div>
+
     <div class="vote-legal">
       All votes are final. Live totals are displayed publicly.
       ELYRA reserves the right to remove fraudulent activity or
@@ -750,7 +757,6 @@
 
   </div>
 </div>
-```
 
   </div>
 
@@ -973,13 +979,23 @@
         noPhoto.style.display   = 'flex';
       }
 
-      /* Contest ID */
+      /* Contest ID + live deadline */
+      const closesVal = document.getElementById("closesVal");
+      function setCloses(contest) {
+        if (!closesVal || !contest?.end_at) return;
+        const d = new Date(contest.end_at);
+        if (Number.isNaN(d.getTime())) return;
+        closesVal.textContent = d.toLocaleDateString("en-US",
+          { month: "long", day: "numeric", year: "numeric" });
+      }
+
       if (slug) {
         try {
           const contest = await withTimeout(
             dataApi.fetchContestBySlug(slug), 5000
           );
           contestId = contest?.id || contestant.contest_id;
+          setCloses(contest);
         } catch {
           contestId = contestant.contest_id;
         }
