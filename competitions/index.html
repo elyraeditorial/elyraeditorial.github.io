@@ -930,14 +930,12 @@
       <img src="../IMG_9162.jpeg" alt="Elyra Editorial Competitions" />
       <div class="editorial-frame"></div>
 
-```
   <div class="editorial-copy">
     <div class="editorial-kicker">Elyra Editorial</div>
-    <h1 class="editorial-title">May<br>Cover Star</h1>
-    <p class="editorial-sub">
-      Voting is open now through May 31. Support contestants,
-      follow the leaderboard, and help decide the next
-      Elyra cover feature.
+    <h1 class="editorial-title" id="heroTitle">Cover<br>Star</h1>
+    <p class="editorial-sub" id="heroSub">
+      Support contestants, follow the leaderboard, and help
+      decide the next Elyra cover feature. Every dollar is one vote.
     </p>
     <div class="editorial-prize">✦ &nbsp; Min. $500 Prize Pool — Grows with every vote</div>
     <div class="editorial-actions">
@@ -952,7 +950,7 @@
 
   <div class="editorial-deadline" aria-hidden="true">
     <span class="d-label">Voting Closes</span>
-    <span class="d-val">May 31, 2026</span>
+    <span class="d-val" id="heroDeadline">—</span>
   </div>
 </section>
 
@@ -968,7 +966,7 @@
   </div>
   <div class="hero-stat">
     <span class="hero-stat-label">Deadline</span>
-    <span class="hero-stat-val">May 31 · 11:59 PM</span>
+    <span class="hero-stat-val" id="statDeadline">—</span>
   </div>
 </div>
 
@@ -994,7 +992,6 @@
     </div>
   </div>
 </div>
-```
 
   </div>
 
@@ -1034,6 +1031,46 @@
         <div class="why-footer">
           Winning is a milestone. Participation is leverage.
           The Elyra platform is designed to give both.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Voter Rewards -->
+
+  <section class="why-compete">
+    <div class="container">
+      <div class="why-inner">
+        <div class="why-header">
+          <div class="why-kicker">For Our Supporters</div>
+          <h2 class="why-title">Voter Rewards</h2>
+        </div>
+        <p class="why-lead">
+          Every vote does more than move the leaderboard. When you support
+          a contestant, ELYRA rewards you back — automatically, using the
+          email from your checkout receipt. No extra steps.
+        </p>
+        <div class="why-grid">
+          <div class="why-card">
+            <div class="why-label">Every $1 Vote</div>
+            <p>Each dollar you cast is one automatic entry into the Issue Voter Drawing. One supporter per issue wins a complimentary digital copy of the new ELYRA issue and a public thank-you on our channels.</p>
+          </div>
+          <div class="why-card">
+            <div class="why-label">$10 — The Circle</div>
+            <p>Cast 10+ votes in a single checkout and your name is printed on the Patrons page inside the issue your contestant is competing for. Your support becomes part of the magazine itself.</p>
+          </div>
+          <div class="why-card">
+            <div class="why-label">$50 — Patron</div>
+            <p>Cast 50 votes and you receive everything above, plus entry into the Patron Feature Drawing — one patron per issue is interviewed and has their story published inside ELYRA.</p>
+          </div>
+          <div class="why-card">
+            <div class="why-label">Sponsors</div>
+            <p>Brands and businesses can present an entire competition — logo on this page, a full-page placement in the issue, and a mention in every contest share. <a href="/advertise.html" style="color:var(--gold);border-bottom:1px solid rgba(200,169,106,.3);">See sponsorship &amp; advertising</a>.</p>
+          </div>
+        </div>
+        <div class="why-footer">
+          Rewards are honored per issue cycle. Drawing winners are selected
+          at random after voting closes and announced within 7 days.
         </div>
       </div>
     </div>
@@ -1096,27 +1133,33 @@
     &nbsp;·&nbsp;
     <a href="/">Elyra Editorial</a>
     &nbsp;·&nbsp;
+    <a href="/advertise.html">Advertise</a>
+    &nbsp;·&nbsp;
     © <span id="yr"></span> All rights reserved
   </div>
 
   <script>
     document.getElementById('yr').textContent = new Date().getFullYear();
 
-    /* ── Countdown to May 31 11:59 PM CST (June 1 04:59 UTC) ── */
+    /* ── Countdown — driven by the live contest end date (set by the module below) ── */
     (function() {
-      const end  = new Date('2026-06-01T04:59:00Z');
       const days = document.getElementById('cdDays');
       const hrs  = document.getElementById('cdHours');
       const mins = document.getElementById('cdMins');
       const secs = document.getElementById('cdSecs');
       const row  = document.getElementById('countdownRow');
 
+      let end   = null;
+      let timer = null;
+
       function pad(n) { return String(n).padStart(2, '0'); }
 
       function tick() {
+        if (!end) return;
         const diff = end - Date.now();
         if (diff <= 0) {
-          row.innerHTML = '<div class="countdown-expired">Voting has closed</div>';
+          row.innerHTML = '<div class="countdown-expired">Voting has closed — next competition announced soon</div>';
+          if (timer) clearInterval(timer);
           return;
         }
         const d = Math.floor(diff / 86400000);
@@ -1129,8 +1172,14 @@
         if (secs) secs.textContent = pad(s);
       }
 
-      tick();
-      setInterval(tick, 1000);
+      window.__elyraCountdown = function(endIso) {
+        const d = new Date(endIso);
+        if (Number.isNaN(d.getTime())) return;
+        end = d;
+        if (timer) clearInterval(timer);
+        tick();
+        timer = setInterval(tick, 1000);
+      };
     })();
   </script>
 
@@ -1167,6 +1216,31 @@
       setText(badge,
         count ? `${count} Active Contest${count !== 1 ? "s" : ""}` : "No active contests yet"
       );
+
+      /* ── Feed the hero + countdown from the featured (first) contest ── */
+      if (count) {
+        const featured = contests[0];
+        const heroTitle    = document.getElementById("heroTitle");
+        const heroDeadline = document.getElementById("heroDeadline");
+        const statDeadline = document.getElementById("statDeadline");
+
+        if (heroTitle && (featured.title || featured.name)) {
+          const words = String(featured.title || featured.name).trim().split(/\s+/);
+          heroTitle.innerHTML = words.length > 1
+            ? esc(words.slice(0, Math.ceil(words.length / 2)).join(" ")) + "<br>" + esc(words.slice(Math.ceil(words.length / 2)).join(" "))
+            : esc(words[0]);
+        }
+
+        if (featured.end_at) {
+          const endStr = fmtDate(featured.end_at);
+          if (heroDeadline && endStr) heroDeadline.textContent = endStr;
+          if (statDeadline && endStr) statDeadline.textContent = endStr;
+          if (window.__elyraCountdown) window.__elyraCountdown(featured.end_at);
+        }
+      } else {
+        const row = document.getElementById("countdownRow");
+        if (row) row.innerHTML = '<div class="countdown-expired">Next competition announced soon — apply now to be considered</div>';
+      }
 
       if (!count) {
         setHTML(list, `
