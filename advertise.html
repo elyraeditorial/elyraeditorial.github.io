@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Advertise — ELYRA</title>
+  <meta name="description" content="Advertise with ELYRA Editorial — sponsor a cover competition, place a full-page ad in the issue, or commission sponsored editorial." />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Advertise — ELYRA" />
+  <meta property="og:description" content="Put your brand inside a luxury editorial platform. Sponsor a competition or place your ad in the next ELYRA issue." />
+  <meta property="og:image" content="https://elyraeditorial.com/IMG_8629.jpeg?v=3" />
+  <meta property="og:url" content="https://elyraeditorial.com/advertise.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="ELYRA" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Advertise — ELYRA" />
+  <meta name="twitter:description" content="Put your brand inside a luxury editorial platform. Sponsor a competition or place your ad in the next ELYRA issue." />
+  <meta name="twitter:image" content="https://elyraeditorial.com/IMG_8629.jpeg?v=3" />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/jpeg" href="https://elyraeditorial.com/IMG_8629.jpeg?v=3" />
+  <link rel="apple-touch-icon" href="https://elyraeditorial.com/IMG_8629.jpeg?v=3" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Cormorant+SC:wght@300;400;500&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css"/>
+
+  <style>
+    body { padding-bottom: 52px; }
+
+    .ad-hero {
+      padding-top: 120px;
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .ad-kicker {
+      font-family: 'Jost', sans-serif;
+      font-size: .63rem;
+      letter-spacing: .42em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+
+    .ad-title {
+      font-family: 'Cormorant SC', serif;
+      font-weight: 400;
+      font-size: clamp(40px, 7vw, 84px);
+      line-height: .96;
+      letter-spacing: .05em;
+      color: var(--text);
+      margin: 0 0 18px;
+    }
+
+    .ad-lead {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: clamp(14px, 1.6vw, 17px);
+      line-height: 1.8;
+      color: var(--muted);
+      margin: 0 auto 26px;
+      max-width: 560px;
+    }
+
+    .ad-cta-row { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+
+    .ad-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 26px;
+      border-radius: var(--r);
+      border: 1px solid rgba(200,169,106,.44);
+      background: rgba(200,169,106,.10);
+      color: #e2cc96;
+      font-family: 'Jost', sans-serif;
+      font-size: .68rem;
+      letter-spacing: .26em;
+      text-transform: uppercase;
+      transition: transform .22s var(--ease), background .22s var(--ease), border-color .22s var(--ease);
+    }
+
+    .ad-btn:hover {
+      transform: translateY(-2px);
+      background: rgba(200,169,106,.22);
+      border-color: rgba(200,169,106,.65);
+    }
+
+    /* ── Rate card grid ── */
+    .rate-section { margin-top: 56px; }
+
+    .rate-heading {
+      text-align: center;
+      margin-bottom: 26px;
+    }
+
+    .rate-heading .k {
+      font-family: 'Jost', sans-serif;
+      font-size: .62rem;
+      letter-spacing: .38em;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: .85;
+      margin-bottom: 8px;
+    }
+
+    .rate-heading h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(1.7rem, 3.4vw, 2.6rem);
+      letter-spacing: .07em;
+      color: var(--text);
+      margin: 0;
+    }
+
+    .rate-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 860px) { .rate-grid { grid-template-columns: 1fr; } }
+
+    .rate-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--rMd);
+      border: 1px solid rgba(240,236,228,.08);
+      border-top-color: rgba(200,169,106,.24);
+      background: rgba(6,5,4,.30);
+      backdrop-filter: blur(14px);
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      transition: border-color .22s var(--ease), background .22s var(--ease), transform .22s var(--ease);
+    }
+
+    .rate-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(200,169,106,.40), transparent);
+    }
+
+    .rate-card:hover {
+      border-color: rgba(200,169,106,.26);
+      background: rgba(6,5,4,.48);
+      transform: translateY(-3px);
+    }
+
+    .rate-card.flagship {
+      border-color: rgba(200,169,106,.34);
+      background: linear-gradient(160deg, rgba(200,169,106,.10) 0%, rgba(6,5,4,.50) 100%);
+    }
+
+    .rate-tag {
+      display: inline-block;
+      align-self: flex-start;
+      padding: 5px 12px;
+      border-radius: var(--r);
+      border: 1px solid rgba(200,169,106,.30);
+      font-family: 'Jost', sans-serif;
+      font-size: .56rem;
+      letter-spacing: .30em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+
+    .rate-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: 1.45rem;
+      letter-spacing: .05em;
+      color: var(--text);
+      margin-bottom: 6px;
+      line-height: 1.15;
+    }
+
+    .rate-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 2.1rem;
+      color: #e2cc96;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .rate-price small {
+      font-size: .85rem;
+      color: var(--faint);
+      letter-spacing: .06em;
+    }
+
+    .rate-list {
+      list-style: none;
+      margin: 0 0 22px;
+      padding: 0;
+      flex: 1;
+    }
+
+    .rate-list li {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 10px;
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: .85rem;
+      line-height: 1.65;
+      color: var(--muted);
+    }
+
+    .rate-list li::before {
+      content: '✦';
+      position: absolute;
+      left: 0;
+      top: 2px;
+      font-size: .55rem;
+      color: var(--gold);
+    }
+
+    .rate-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      border-radius: var(--r);
+      border: 1px solid rgba(200,169,106,.40);
+      background: rgba(200,169,106,.08);
+      color: #e2cc96;
+      font-family: 'Jost', sans-serif;
+      font-size: .64rem;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+      transition: background .2s var(--ease), border-color .2s var(--ease);
+    }
+
+    .rate-cta:hover { background: rgba(200,169,106,.20); border-color: rgba(200,169,106,.62); }
+
+    /* ── Why advertise ── */
+    .why-band {
+      margin-top: 56px;
+      border: 1px solid rgba(200,169,106,.18);
+      border-top-color: rgba(200,169,106,.36);
+      border-radius: var(--rMd);
+      background: linear-gradient(168deg, rgba(200,169,106,.07) 0%, rgba(6,5,4,.58) 100%);
+      backdrop-filter: blur(20px);
+      padding: clamp(28px, 5vw, 48px) clamp(22px, 5vw, 44px);
+    }
+
+    .why-band h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      letter-spacing: .07em;
+      color: var(--text);
+      margin: 0 0 16px;
+    }
+
+    .why-band-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    @media (max-width: 860px) { .why-band-grid { grid-template-columns: 1fr; } }
+
+    .why-band-card {
+      border: 1px solid rgba(240,236,228,.08);
+      border-radius: var(--r);
+      padding: 18px 16px;
+      background: rgba(6,5,4,.28);
+    }
+
+    .why-band-card .l {
+      font-family: 'Jost', sans-serif;
+      font-size: .60rem;
+      letter-spacing: .32em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .why-band-card p {
+      margin: 0;
+      color: var(--muted);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: .85rem;
+      line-height: 1.75;
+    }
+
+    /* ── Contact band ── */
+    .contact-band {
+      margin-top: 56px;
+      text-align: center;
+      border: 1px solid rgba(200,169,106,.20);
+      border-radius: var(--rMd);
+      background: rgba(6,5,4,.32);
+      backdrop-filter: blur(16px);
+      padding: clamp(32px, 6vw, 56px) 24px;
+    }
+
+    .contact-band h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+      letter-spacing: .07em;
+      color: var(--text);
+      margin: 0 0 12px;
+    }
+
+    .contact-band p {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: .92rem;
+      line-height: 1.8;
+      color: var(--muted);
+      max-width: 520px;
+      margin: 0 auto 24px;
+    }
+
+    .page-footer {
+      text-align: center;
+      padding: 44px 0 52px;
+      font-family: 'Jost', sans-serif;
+      font-size: .70rem;
+      letter-spacing: .20em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+
+    .page-footer a { color: var(--gold); border-bottom: 1px solid rgba(200,169,106,.28); transition: color .2s; }
+    .page-footer a:hover { color: var(--gold2); }
+  </style>
+</head>
+
+<body class="no-scroll-x">
+
+  <div class="bg" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- Nav -->
+  <div class="topbar">
+    <div class="container row">
+      <div class="brand">ELYRA</div>
+      <div class="navlinks">
+        <a href="/">Home</a>
+        <a href="/issues.html">Issues</a>
+        <a href="/submit.html">Submit</a>
+        <a href="/competitions/">Competitions</a>
+        <a href="/about.html">About</a>
+        <a href="/advertise.html" class="active">Advertise</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <div class="container">
+    <div class="ad-hero">
+      <div class="ad-kicker">Elyra Editorial · Partnerships</div>
+      <h1 class="ad-title">Advertise<br>With Elyra</h1>
+      <p class="ad-lead">
+        ELYRA is a luxury editorial platform built around identity, style,
+        and live cover-star competitions. Our audience doesn't scroll past —
+        they vote, share, and campaign. Put your brand inside that attention.
+      </p>
+      <div class="ad-cta-row">
+        <a class="ad-btn" href="mailto:admin@houseofelevara.com?subject=ELYRA%20Advertising%20Inquiry">Request the Media Kit</a>
+        <a class="ad-btn" href="/competitions/" style="background:rgba(6,5,4,.52); border-color:rgba(240,236,228,.22); color:rgba(240,236,228,.88);">See a Live Competition</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rate card -->
+  <div class="container rate-section">
+    <div class="rate-heading">
+      <div class="k">Placements</div>
+      <h2>Rate Card</h2>
+    </div>
+
+    <div class="rate-grid">
+
+      <div class="rate-card flagship">
+        <span class="rate-tag">Flagship</span>
+        <div class="rate-name">Presenting Sponsor</div>
+        <div class="rate-price">$500 <small>/ competition cycle</small></div>
+        <ul class="rate-list">
+          <li>"Presented by" branding on the Competitions page for the full voting window</li>
+          <li>Full-page brand placement inside the issue tied to the competition</li>
+          <li>Logo and mention in every official contest share and announcement</li>
+          <li>Thank-you credit on the winner's cover reveal</li>
+        </ul>
+        <a class="rate-cta" href="mailto:admin@houseofelevara.com?subject=ELYRA%20Presenting%20Sponsor%20—%20Inquiry">Sponsor a Competition</a>
+      </div>
+
+      <div class="rate-card">
+        <span class="rate-tag">In-Issue</span>
+        <div class="rate-name">Full-Page Placement</div>
+        <div class="rate-price">$250 <small>/ issue</small></div>
+        <ul class="rate-list">
+          <li>One full page inside the digital issue, designed to match ELYRA's editorial standard</li>
+          <li>Live link embedded in the digital edition</li>
+          <li>Half-page option available at $150</li>
+          <li>Design assistance included if you don't have finished artwork</li>
+        </ul>
+        <a class="rate-cta" href="mailto:admin@houseofelevara.com?subject=ELYRA%20Full-Page%20Ad%20—%20Inquiry">Book a Page</a>
+      </div>
+
+      <div class="rate-card">
+        <span class="rate-tag">Editorial</span>
+        <div class="rate-name">Sponsored Feature</div>
+        <div class="rate-price">$400 <small>/ feature</small></div>
+        <ul class="rate-list">
+          <li>A written editorial feature about your brand, product, or founder story</li>
+          <li>Published inside the issue and on elyraeditorial.com</li>
+          <li>Written in ELYRA's voice, clearly marked as a partner feature</li>
+          <li>Permanent link you can use in your own marketing</li>
+        </ul>
+        <a class="rate-cta" href="mailto:admin@houseofelevara.com?subject=ELYRA%20Sponsored%20Feature%20—%20Inquiry">Commission a Feature</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Why advertise -->
+  <div class="container">
+    <div class="why-band">
+      <h2>Why ELYRA Works for Brands</h2>
+      <div class="why-band-grid">
+        <div class="why-band-card">
+          <div class="l">Engaged, Not Passive</div>
+          <p>Competition audiences actively campaign, vote with real dollars, and share contest pages to their own followers. Your placement rides that organic push.</p>
+        </div>
+        <div class="why-band-card">
+          <div class="l">Luxury Context</div>
+          <p>Your brand appears inside a curated black-and-gold editorial environment — not a cluttered feed. Placement is limited per issue to protect the experience.</p>
+        </div>
+        <div class="why-band-card">
+          <div class="l">Permanent Asset</div>
+          <p>Issues live on. A page in ELYRA remains visible to every future reader, and sponsored features remain linkable indefinitely.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact -->
+  <div class="container">
+    <div class="contact-band">
+      <h2>Custom Packages</h2>
+      <p>
+        Launching a product, opening a studio, or building a brand that fits
+        the ELYRA aesthetic? We build custom packages combining sponsorship,
+        in-issue placement, and social amplification. Tell us what you're
+        working toward.
+      </p>
+      <a class="ad-btn" href="mailto:admin@houseofelevara.com?subject=ELYRA%20Custom%20Partnership">admin@houseofelevara.com</a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="page-footer">
+    <a href="https://houseofelevara.com" target="_blank" rel="noopener">House of Elévara</a>
+    &nbsp;·&nbsp;
+    <a href="/">Elyra Editorial</a>
+    &nbsp;·&nbsp;
+    <a href="/competitions/">Competitions</a>
+    &nbsp;·&nbsp;
+    © <span id="yr"></span> All rights reserved
+  </div>
+
+  <script>
+    document.getElementById('yr').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
