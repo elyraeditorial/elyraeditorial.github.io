@@ -3,22 +3,22 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Elyra — June Cover Competition</title>
+  <title>ELYRA — Cover Competition</title>
 
-  <meta property="og:title" content="Elyra June Cover Competition" />
-  <meta property="og:description" content="Vote to help decide the next ELYRA cover star. Every dollar is one vote. Voting closes July 1." />
-  <meta property="og:image" content="https://elyraeditorial.github.io/IMG_0062.jpeg" />
-  <meta property="og:url" content="https://elyraeditorial.com/competitions/contest-june.html" />
+  <meta property="og:title" content="ELYRA Cover Competition" />
+  <meta property="og:description" content="Vote to help decide the next ELYRA cover star. Every dollar is one vote." />
+  <meta property="og:image" content="https://elyraeditorial.com/IMG_8629.jpeg?v=3" />
+  <meta property="og:url" content="https://elyraeditorial.com/competitions/contest.html" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="ELYRA" />
 
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Elyra June Cover Competition" />
-  <meta name="twitter:description" content="Vote to help decide the next ELYRA cover star. Every dollar is one vote. Voting closes July 1." />
-  <meta name="twitter:image" content="https://elyraeditorial.github.io/IMG_0062.jpeg" />
+  <meta name="twitter:title" content="ELYRA Cover Competition" />
+  <meta name="twitter:description" content="Vote to help decide the next ELYRA cover star. Every dollar is one vote." />
+  <meta name="twitter:image" content="https://elyraeditorial.com/IMG_8629.jpeg?v=3" />
 
-  <link rel="icon" type="image/jpeg" href="https://elyraeditorial.github.io/IMG_0062.jpeg" />
-  <link rel="apple-touch-icon" href="https://elyraeditorial.github.io/IMG_0062.jpeg" />
+  <link rel="icon" type="image/jpeg" href="https://elyraeditorial.com/IMG_8629.jpeg?v=3" />
+  <link rel="apple-touch-icon" href="https://elyraeditorial.com/IMG_8629.jpeg?v=3" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,7 +34,7 @@
     .editorial-hero {
       position: relative;
       width: 100%;
-      min-height: 760px;
+      min-height: 520px;
       border-radius: var(--rLg);
       overflow: hidden;
       background:
@@ -51,7 +51,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center 18%;
+      object-position: center 40%;
       transform: scale(1.02);
     }
 
@@ -377,6 +377,23 @@
       color: var(--muted);
     }
 
+    .upcoming-banner {
+      display: none;
+      margin-bottom: 20px;
+      padding: 16px 20px;
+      border-radius: var(--rMd);
+      border: 1px solid rgba(200,169,106,.28);
+      background: rgba(200,169,106,.07);
+      backdrop-filter: blur(12px);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: .88rem;
+      line-height: 1.7;
+      color: var(--gold2);
+    }
+
+    .upcoming-banner.visible { display: block; }
+
     .error-state {
       text-align: center;
       padding: 60px 20px;
@@ -483,18 +500,18 @@
 
   <!-- Editorial hero -->
   <div class="container" style="padding-top:0;">
-    <section class="editorial-hero" aria-label="Elyra June Cover Star feature">
+    <section class="editorial-hero" aria-label="ELYRA cover competition feature">
       <img
-        src="https://elyraeditorial.github.io/IMG_0062.jpeg"
-        alt="Elyra June Cover Star — The Power Issue"
+        src="../IMG_9162.jpeg"
+        alt="ELYRA Cover Competition"
       />
       <div class="editorial-frame"></div>
       <div class="editorial-copy">
-        <div class="editorial-kicker">Elyra Editorial · June 2025</div>
-        <h2 class="editorial-title">June<br>Cover Star</h2>
-        <p class="editorial-sub">
-          Voting is open now through July 1. Support your favorite contestant
-          and help decide the next Elyra cover feature — The Power Issue.
+        <div class="editorial-kicker" id="heroKicker">Elyra Editorial</div>
+        <h2 class="editorial-title" id="heroTitle">Cover<br>Star</h2>
+        <p class="editorial-sub" id="heroSub">
+          Support your favorite contestant and help decide the next
+          Elyra cover feature. Every dollar is one vote.
         </p>
       </div>
     </section>
@@ -510,7 +527,7 @@
         </div>
         <div class="contest-info-item">
           <div class="contest-info-label">Voting Closes</div>
-          <div class="contest-info-value">July 1 at 11:59 PM CST</div>
+          <div class="contest-info-value" id="closesVal">—</div>
         </div>
         <div class="contest-info-item">
           <div class="contest-info-label">How It Works</div>
@@ -541,6 +558,7 @@
 
   <!-- Contestants -->
   <div class="container" style="margin-bottom: 16px;">
+    <div class="upcoming-banner" id="upcomingBanner"></div>
     <div class="contest-badge-row">
       <div class="badge" id="badge">Loading contestants…</div>
     </div>
@@ -562,8 +580,8 @@
   </script>
 
   <script type="module">
-    import * as dataApi from "./assets/data.js?v=18";
-    import { getParam, setText, setHTML } from "./assets/ui.js?v=18";
+    import * as dataApi from "./assets/data.js?v=20";
+    import { getParam, setText, setHTML } from "./assets/ui.js?v=20";
 
     const slug          = getParam("slug");
     const titleEl       = document.getElementById("title");
@@ -573,12 +591,30 @@
     const msgEl         = document.getElementById("msg");
     const shareBtn      = document.getElementById("shareBtn");
     const shareBtnLabel = document.getElementById("shareBtnLabel");
+    const heroTitleEl   = document.getElementById("heroTitle");
+    const heroKickerEl  = document.getElementById("heroKicker");
+    const closesEl      = document.getElementById("closesVal");
+    const upcomingEl    = document.getElementById("upcomingBanner");
 
     function money(n) { return Number(n || 0).toLocaleString(); }
 
+    function esc(s) {
+      return String(s ?? "")
+        .replaceAll("&","&amp;").replaceAll("<","&lt;")
+        .replaceAll(">","&gt;").replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    function fmtDate(v) {
+      if (!v) return "";
+      const d = new Date(v);
+      if (Number.isNaN(d.getTime())) return "";
+      return d.toLocaleDateString("en-US", { month:"long", day:"numeric", year:"numeric" });
+    }
+
     function updateOG({ title, subtitle, pageUrl }) {
       const ogTitle = `${title} — ELYRA Cover Competition`;
-      const ogDesc  = subtitle || 'Vote to help decide the next ELYRA cover star. Every dollar is one vote. Voting closes July 1.';
+      const ogDesc  = subtitle || 'Vote to help decide the next ELYRA cover star. Every dollar is one vote.';
       document.title = `${title} — ELYRA`;
       const set = (sel, attr, val) => {
         const el = document.querySelector(sel);
@@ -596,7 +632,7 @@
       shareBtn.addEventListener('click', async () => {
         const shareData = {
           title: `${title} — ELYRA Cover Competition`,
-          text:  `Vote now in the ELYRA June Cover Competition ✦`,
+          text:  `Vote now in the ELYRA Cover Competition ✦`,
           url:   pageUrl,
         };
         if (navigator.share) {
@@ -620,14 +656,48 @@
       const contest = await dataApi.fetchContestBySlug(slug);
       if (!contest) throw new Error("Contest not found.");
 
-      const contestTitle = contest.title || contest.name || "June Cover Star — The Power Issue";
+      const contestTitle = contest.title || contest.name || "ELYRA Cover Star";
       const contestSub   = contest.subtitle ||
-        "Minimum $500 prize pool — increases based on total votes. Voting closes July 1 at 11:59 PM CST.";
+        "Minimum $500 prize pool — increases based on total votes.";
 
       setText(titleEl, contestTitle);
       setText(subEl, contestSub);
 
-      const pageUrl = `${location.origin}/competitions/contest-june.html?slug=${encodeURIComponent(slug)}`;
+      /* ── Hero: split the title across two lines ── */
+      const words = String(contestTitle).replace(/—/g, " ").trim().split(/\s+/).filter(Boolean);
+      if (words.length > 1) {
+        const mid = Math.ceil(words.length / 2);
+        heroTitleEl.innerHTML =
+          esc(words.slice(0, mid).join(" ")) + "<br>" + esc(words.slice(mid).join(" "));
+      } else if (words.length === 1) {
+        heroTitleEl.textContent = words[0];
+      }
+
+      /* ── Hero kicker: month + year of the voting window ── */
+      if (contest.end_at) {
+        const d = new Date(contest.end_at);
+        if (!Number.isNaN(d.getTime())) {
+          const monthYear = d.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+          heroKickerEl.textContent = `Elyra Editorial · ${monthYear}`;
+        }
+      }
+
+      /* ── Voting Closes ── */
+      const endStr = fmtDate(contest.end_at);
+      if (endStr) setText(closesEl, endStr);
+
+      /* ── Upcoming banner if voting hasn't started yet ── */
+      if (contest.start_at) {
+        const startTime = new Date(contest.start_at).getTime();
+        if (Number.isFinite(startTime) && startTime > Date.now()) {
+          const startStr = fmtDate(contest.start_at);
+          upcomingEl.textContent =
+            `✦ Voting opens ${startStr}. Contestants are being finalized now — check back on opening day to cast your first votes.`;
+          upcomingEl.classList.add("visible");
+        }
+      }
+
+      const pageUrl = `${location.origin}/competitions/contest.html?slug=${encodeURIComponent(slug)}`;
       updateOG({ title: contestTitle, subtitle: contestSub, pageUrl });
       setupShareBtn(contestTitle, pageUrl);
 
@@ -635,7 +705,7 @@
       setText(badgeEl,
         contestants.length
           ? `${contestants.length} Contestant${contestants.length !== 1 ? "s" : ""}`
-          : "No contestants yet"
+          : "Contestants announced soon"
       );
 
       let totalsMap = {};
@@ -648,8 +718,8 @@
         return `
           <div class="contestant-card">
             <div class="contestant-info">
-              <div class="contestant-name">${c.display_name || "Contestant"}</div>
-              <div class="contestant-bio">${c.bio || ""}</div>
+              <div class="contestant-name">${esc(c.display_name || "Contestant")}</div>
+              <div class="contestant-bio">${esc(c.bio || "")}</div>
               <div class="contestant-votes">${money(totalVotes)} Votes</div>
             </div>
             <div class="contestant-action">
@@ -666,17 +736,17 @@
 
     } catch (err) {
       console.error(err);
-      setText(titleEl, "June Cover Star — The Power Issue");
-      setText(subEl, "Minimum $500 prize pool — increases based on total votes. Voting closes July 1 at 11:59 PM CST.");
+      setText(titleEl, "Competition Unavailable");
+      setText(subEl, "");
       setText(badgeEl, "Unable to load");
       setHTML(listEl, `
         <div class="error-state">
           <div class="error-icon">✦</div>
-          <h2>Something went wrong</h2>
-          <p>${err?.message || "This contest could not be loaded. Please try again."}</p>
+          <h2>This competition could not be loaded</h2>
+          <p>${esc(err?.message || "Please try again, or return to the competitions page.")}</p>
         </div>
       `);
-      setText(msgEl, "If this error mentions RLS or permission denied, fix policies for contests/contestants.");
+      setText(msgEl, "");
     }
   </script>
 
