@@ -4,17 +4,17 @@
   <meta charset="UTF-8" />
   <title>ELYRA — Issues</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="ELYRA Editorial Issues — Curated editions exploring identity, presence, and creative expression." />
+  <meta name="description" content="ELYRA Editorial Issues — The Identity Issue is out now. Curated editions exploring identity, presence, and creative expression." />
   <meta property="og:title" content="Issues — ELYRA" />
-  <meta property="og:description" content="Explore ELYRA's curated editorial issues — editions devoted to identity, presence, and creative expression in fashion and culture." />
-  <meta property="og:image" content="https://elyraeditorial.com/IMG_8629.jpeg?v=3" />
+  <meta property="og:description" content="The Identity Issue — ELYRA's debut edition — is out now. Get the digital issue and explore upcoming editions." />
+  <meta property="og:image" content="https://elyraeditorial.github.io/Screenshot_21-7-2026_10943.jpg" />
   <meta property="og:url" content="https://elyraeditorial.com/issues.html" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="ELYRA" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Issues — ELYRA" />
-  <meta name="twitter:description" content="Explore ELYRA's curated editorial issues — editions devoted to identity, presence, and creative expression in fashion and culture." />
-  <meta name="twitter:image" content="https://elyraeditorial.com/IMG_8629.jpeg?v=3" />
+  <meta name="twitter:description" content="The Identity Issue — ELYRA's debut edition — is out now. Get the digital issue and explore upcoming editions." />
+  <meta name="twitter:image" content="https://elyraeditorial.github.io/Screenshot_21-7-2026_10943.jpg" />
   <meta name="theme-color" content="#060504" />
   <link rel="icon" type="image/jpeg" href="https://elyraeditorial.com/IMG_8629.jpeg?v=3" />
   <link rel="apple-touch-icon" href="https://elyraeditorial.com/IMG_8629.jpeg?v=3" />
@@ -41,23 +41,23 @@
     .cover-spread-copy p { font-family: 'Jost', sans-serif; font-weight: 300; font-size: .92rem; line-height: 1.88; color: var(--muted); max-width: 44ch; }
     .cover-spread-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
     .meta-pill { font-family: 'Jost', sans-serif; font-size: .63rem; letter-spacing: .26em; text-transform: uppercase; color: var(--muted); padding: 7px 14px; border-radius: var(--r); border: 1px solid rgba(240,236,228,.10); background: rgba(6,5,4,.28); }
+    .meta-pill.outnow { color: #e2cc96; border-color: rgba(200,169,106,.42); background: rgba(200,169,106,.10); display: inline-flex; align-items: center; gap: 8px; }
     .cover-spread-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 24px; }
 
     .cover-spread-stage { position: relative; max-width: 420px; margin: 0 auto; perspective: 1200px; transform-style: preserve-3d; animation: coverIn 1.4s var(--ease) .45s forwards; opacity: 0; }
     @keyframes coverIn { from { opacity: 0; transform: translateY(24px) rotateY(-5deg); } to { opacity: 1; transform: translateY(0) rotateY(0deg); } }
 
-    /* ── OFFICIAL COVER CARD ── */
+    /* ── OFFICIAL COVER CARD — displays the finished cover artwork clean ── */
     .cover-spread-card {
       position: relative;
       border-radius: var(--rMd);
       overflow: hidden;
-      border: 1px solid rgba(200,169,106,.18);
-      border-top-color: rgba(200,169,106,.34);
+      border: 1px solid rgba(200,169,106,.22);
+      border-top-color: rgba(200,169,106,.40);
       background: #0d0b09;
-      box-shadow: var(--sh-lg), inset 0 1px 0 rgba(200,169,106,.16), 0 0 120px rgba(200,169,106,.14);
+      box-shadow: var(--sh-lg), inset 0 1px 0 rgba(200,169,106,.16), 0 0 120px rgba(200,169,106,.16);
       transform-style: preserve-3d;
       transition: transform .25s var(--ease);
-      aspect-ratio: 2 / 3;
     }
 
     .cover-spread-card.floaty { animation: floaty 7s ease-in-out infinite; }
@@ -67,48 +67,38 @@
       66%     { transform: translate3d(2px,-4px,0) rotateX(.3deg) rotateY(.4deg); }
     }
 
-    /* Photo layer */
+    /* The finished cover — shown as designed, no overlays on the artwork */
     .cover-spread-card .oc-photo {
-      position: absolute;
-      inset: 0;
+      display: block;
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center 12%;
-      filter: contrast(1.08) saturate(.88) brightness(.86);
+      height: auto;
     }
 
-    /* Overlays */
-    .oc-ov-top    { position: absolute; inset: 0; z-index: 1; background: linear-gradient(to bottom, rgba(0,0,0,.75) 0%, rgba(0,0,0,.28) 22%, transparent 40%); }
-    .oc-ov-bottom { position: absolute; inset: 0; z-index: 1; background: linear-gradient(to top,   rgba(0,0,0,.82) 0%, rgba(0,0,0,.28) 18%, transparent 38%); }
-    .oc-ov-left   { position: absolute; inset: 0; z-index: 1; background: linear-gradient(to right,  rgba(0,0,0,.56) 0%, rgba(0,0,0,.16) 28%, transparent 48%); }
-    .oc-ov-right  { position: absolute; inset: 0; z-index: 1; background: linear-gradient(to left,   rgba(0,0,0,.48) 0%, rgba(0,0,0,.14) 26%, transparent 46%); }
-    .oc-grain     { position: absolute; inset: 0; z-index: 2; opacity: .16; mix-blend-mode: overlay; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.28'/%3E%3C/svg%3E"); }
+    /* Subtle sheen only — sits above the print like glass, not over the design */
+    .cover-spread-glow { position: absolute; inset: -35%; background: radial-gradient(ellipse at 28% 22%, rgba(200,169,106,.18), transparent 52%), radial-gradient(ellipse at 76% 16%, rgba(255,255,255,.06), transparent 46%); mix-blend-mode: screen; opacity: .45; transform: translateZ(18px); pointer-events: none; animation: glowDrift 7s ease-in-out infinite alternate; z-index: 3; }
+    @keyframes glowDrift { from { transform: translateZ(18px) translate(0,0); opacity: .40; } to { transform: translateZ(18px) translate(12px,-8px); opacity: .55; } }
 
-    /* Masthead */
-    .oc-masthead  { position: absolute; top: 0; left: 0; right: 0; z-index: 4; padding: 14px 16px 0; text-align: center; }
-    .oc-wordmark  { font-family: 'Playfair Display', serif; font-weight: 900; font-size: clamp(2.8rem, 12vw, 5.2rem); letter-spacing: .12em; line-height: 1; color: #f5efe6; text-shadow: 0 2px 0 rgba(0,0,0,.60), 0 6px 20px rgba(0,0,0,.70); padding-left: .12em; display: block; }
-
-    /* Side text */
-    .oc-left  { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); z-index: 4; max-width: 72px; }
-    .oc-left-text  { font-family: 'Playfair Display', serif; font-weight: 700; font-style: italic; font-size: clamp(.60rem, 2.6vw, .84rem); line-height: 1.20; color: #f5efe6; text-shadow: 0 2px 10px rgba(0,0,0,.80); text-transform: uppercase; letter-spacing: .04em; }
-    .oc-right { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); z-index: 4; text-align: right; max-width: 72px; }
-    .oc-right-text { font-family: 'Cormorant Garamond', serif; font-weight: 400; font-style: italic; font-size: clamp(.52rem, 2.2vw, .76rem); line-height: 1.24; color: #c8a96a; text-shadow: 0 2px 10px rgba(0,0,0,.80); text-transform: uppercase; letter-spacing: .10em; display: block; }
-
-    /* Bottom credit */
-    .oc-bottom { position: absolute; bottom: 0; left: 0; right: 0; z-index: 4; padding: 0 14px 12px; display: flex; flex-direction: column; align-items: center; gap: 5px; }
-    .oc-rule   { width: 55%; height: 1px; background: linear-gradient(90deg, transparent, rgba(200,169,106,.55) 50%, transparent); }
-    .oc-pub    { font-family: 'Jost', sans-serif; font-weight: 300; font-size: clamp(.28rem, 1.1vw, .40rem); letter-spacing: .32em; text-transform: uppercase; color: rgba(240,236,228,.58); text-align: center; }
-
-    /* Coming soon overlay on cover */
-    .oc-coming { position: absolute; inset: 0; z-index: 5; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,.22); }
-    .oc-coming-badge { padding: 9px 18px; border-radius: var(--r); border: 1px solid rgba(200,169,106,.42); background: rgba(5,3,1,.72); backdrop-filter: blur(12px); font-family: 'Jost', sans-serif; font-size: .55rem; letter-spacing: .36em; text-transform: uppercase; color: rgba(200,169,106,.88); white-space: nowrap; }
-
-    /* Placeholder cover (no image yet) */
-    .cover-spread-card.placeholder { background: linear-gradient(168deg, #17120f 0%, #090909 100%); display: flex; align-items: center; justify-content: center; }
-
-    .cover-spread-glow { position: absolute; inset: -35%; background: radial-gradient(ellipse at 28% 22%, rgba(200,169,106,.26), transparent 52%), radial-gradient(ellipse at 76% 16%, rgba(255,255,255,.08), transparent 46%); mix-blend-mode: screen; opacity: .55; transform: translateZ(18px); pointer-events: none; animation: glowDrift 7s ease-in-out infinite alternate; z-index: 3; }
-    @keyframes glowDrift { from { transform: translateZ(18px) translate(0,0); opacity: .50; } to { transform: translateZ(18px) translate(12px,-8px); opacity: .65; } }
+    /* Out-now ribbon on the cover corner */
+    .oc-ribbon {
+      position: absolute;
+      top: 14px; left: 14px;
+      z-index: 4;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 15px;
+      border-radius: var(--r);
+      border: 1px solid rgba(200,169,106,.48);
+      background: rgba(5,3,1,.74);
+      backdrop-filter: blur(12px);
+      font-family: 'Jost', sans-serif;
+      font-size: .56rem;
+      letter-spacing: .34em;
+      text-transform: uppercase;
+      color: #e2cc96;
+      white-space: nowrap;
+      box-shadow: 0 6px 22px rgba(0,0,0,.5);
+    }
 
     .cover-shadow { height: 28px; width: 80%; margin: 14px auto 0; background: radial-gradient(closest-side, rgba(0,0,0,.85), transparent); filter: blur(12px); opacity: .82; }
 
@@ -128,11 +118,12 @@
     @media (max-width: 720px) { .issues-grid { grid-template-columns: 1fr; } }
 
     .issue-card { position: relative; overflow: hidden; border-radius: var(--rMd); border: 1px solid rgba(240,236,228,.08); border-top-color: rgba(240,236,228,.14); background: rgba(6,5,4,.28); backdrop-filter: blur(14px); padding: 26px 22px; box-shadow: var(--sh-sm); transition: background .24s var(--ease), border-color .24s var(--ease), transform .24s var(--ease), box-shadow .24s var(--ease); }
+    .issue-card.featured { border-color: rgba(200,169,106,.30); border-top-color: rgba(200,169,106,.52); background: linear-gradient(160deg, rgba(200,169,106,.09) 0%, rgba(6,5,4,.42) 100%); }
     .issue-card-num { position: absolute; right: 16px; top: 12px; font-family: 'Cormorant Garamond', serif; font-size: 5rem; font-weight: 300; font-style: italic; color: var(--gold); opacity: .06; line-height: 1; pointer-events: none; user-select: none; }
     .issue-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent 8%, rgba(200,169,106,.38) 50%, transparent 92%); opacity: 0; transition: opacity .24s var(--ease); }
     .issue-card:hover::before { opacity: 1; }
     .issue-card:hover { background: rgba(6,5,4,.46); border-color: rgba(200,169,106,.18); transform: translateY(-3px); box-shadow: var(--sh-md), var(--glow); }
-    .issue-card-badge { display: inline-flex; align-items: center; padding: 6px 12px; border-radius: var(--r); border: 1px solid rgba(200,169,106,.18); background: rgba(200,169,106,.07); font-family: 'Jost', sans-serif; font-weight: 300; font-size: .63rem; letter-spacing: .26em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; transition: border-color .2s, background .2s; }
+    .issue-card-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: var(--r); border: 1px solid rgba(200,169,106,.18); background: rgba(200,169,106,.07); font-family: 'Jost', sans-serif; font-weight: 300; font-size: .63rem; letter-spacing: .26em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; transition: border-color .2s, background .2s; }
     .issue-card-badge.ghost { border-color: rgba(240,236,228,.12); background: rgba(6,5,4,.28); color: var(--muted); }
     .issue-card h3 { font-family: 'Cormorant Garamond', serif; font-weight: 400; font-style: italic; font-size: 1.52rem; letter-spacing: .06em; color: var(--text); line-height: 1.16; margin-bottom: 10px; }
     .issue-card p { font-family: 'Jost', sans-serif; font-weight: 300; font-size: .88rem; line-height: 1.82; color: var(--muted); margin-bottom: 18px; }
@@ -163,6 +154,7 @@
         <a href="submit.html">Submit</a>
         <a href="/competitions/">Competitions</a>
         <a href="about.html">About</a>
+        <a href="advertise.html">Advertise</a>
       </nav>
     </div>
   </header>
@@ -178,52 +170,38 @@
         <div class="issues-sub-title">A magazine world built with restraint and power.</div>
       </div>
 
-      <!-- Featured cover spread — Edition 01 Paula -->
+      <!-- Featured cover spread — Issue 01 · The Identity Issue -->
       <div class="cover-spread">
 
         <div class="cover-spread-copy">
-          <div class="edition-label">Edition 01</div>
-          <h2>The ELYRA<br>Issue</h2>
+          <div class="edition-label">Issue 01 · Out Now</div>
+          <h2>The Identity<br>Issue</h2>
           <p>
-            The very first ELYRA cover — introducing Paula as the face
-            of the inaugural edition. Identity-forward, cinematic, and
-            built to be remembered.
+            ELYRA's debut edition is finished. Twenty pages of editorial
+            storytelling on who we are when the styling comes off —
+            identity, presence, and the people building themselves in
+            public. The digital issue is available now.
           </p>
           <div class="cover-spread-meta">
+            <div class="meta-pill outnow"><span class="live-dot" aria-hidden="true"></span> Available Now</div>
             <div class="meta-pill">Fashion</div>
             <div class="meta-pill">Culture</div>
             <div class="meta-pill">Identity</div>
-            <div class="meta-pill">Editorial</div>
           </div>
           <div class="cover-spread-actions">
-            <a class="btn primary" href="submit.html">Submit for Edition 02</a>
-            <a class="btn ghost" href="/competitions/">Competitions</a>
+            <a class="cta-mega" href="https://shop.houseofelevara.com" target="_blank" rel="noopener">Get the Digital Issue</a>
+            <a class="btn ghost" href="submit.html" style="min-height:54px;">Be In Issue 02</a>
           </div>
         </div>
 
-        <!-- Official cover — Paula -->
+        <!-- The finished Identity Issue cover — displayed as designed -->
         <div class="cover-spread-stage" id="coverStage">
           <div class="cover-spread-card" id="coverCard">
-            <img class="oc-photo" src="https://elyraeditorial.github.io/IMG_9109.jpeg" alt="ELYRA Edition 01 — Paula" />
-            <div class="oc-ov-top"></div>
-            <div class="oc-ov-bottom"></div>
-            <div class="oc-ov-left"></div>
-            <div class="oc-ov-right"></div>
-            <div class="oc-grain"></div>
+            <img class="oc-photo"
+                 src="https://elyraeditorial.github.io/Screenshot_21-7-2026_10943.jpg"
+                 alt="ELYRA Issue 01 — The Identity Issue — official cover" />
             <div class="cover-spread-glow"></div>
-            <div class="oc-masthead">
-              <span class="oc-wordmark">ELYRA</span>
-            </div>
-            <div class="oc-left">
-              <span class="oc-left-text">Beauty<br>&amp;<br>Power</span>
-            </div>
-            <div class="oc-right">
-              <span class="oc-right-text">The<br>Society<br>Issue</span>
-            </div>
-            <div class="oc-bottom">
-              <div class="oc-rule"></div>
-              <div class="oc-pub">A Publication by House of Elévara</div>
-            </div>
+            <div class="oc-ribbon"><span class="live-dot" aria-hidden="true"></span> Out Now</div>
           </div>
           <div class="cover-shadow"></div>
         </div>
@@ -233,8 +211,8 @@
       <!-- Stats row -->
       <div class="stats-row">
         <div class="stat-box">
-          <div class="stat-box-top">Aesthetic</div>
-          <div class="stat-box-val">Editorial Minimalism</div>
+          <div class="stat-box-top">Issue 01</div>
+          <div class="stat-box-val">Out Now</div>
         </div>
         <div class="stat-box">
           <div class="stat-box-top">Focus</div>
@@ -246,7 +224,7 @@
         </div>
         <div class="stat-box">
           <div class="stat-box-top">Submissions</div>
-          <div class="stat-box-val">Now Open</div>
+          <div class="stat-box-val">Open for Issue 02</div>
         </div>
       </div>
 
@@ -259,50 +237,35 @@
       <!-- Issues grid -->
       <div class="issues-grid" aria-label="Issues list">
 
-        <!-- Edition 01 — Paula -->
-        <article class="issue-card" id="ed01">
+        <!-- Issue 01 — The Identity Issue -->
+        <article class="issue-card featured" id="ed01">
           <div class="issue-card-num">01</div>
-          <div class="issue-card-badge">Featured</div>
-          <h3>Edition 01 —<br>The ELYRA Issue</h3>
+          <div class="issue-card-badge"><span class="live-dot" aria-hidden="true"></span> Out Now</div>
+          <h3>Issue 01 —<br>The Identity Issue</h3>
           <p>
-            The inaugural ELYRA cover featuring Paula. Our visual debut —
-            cinematic, selective, and built to last. The cover that started it all.
+            The debut ELYRA edition — fully written, fully designed, and
+            available today. Twenty pages of identity-forward editorial
+            storytelling. Get your digital copy from the House of Elévara shop.
           </p>
           <div class="issue-card-actions">
-            <a class="btn" href="#" aria-disabled="true">Coming Soon</a>
+            <a class="btn primary" href="https://shop.houseofelevara.com" target="_blank" rel="noopener">Buy the Digital Issue</a>
             <a class="btn ghost" href="submit.html">Submit Work</a>
           </div>
         </article>
 
-        <!-- Edition 02 — The Society Issue · Anuradha -->
+        <!-- Issue 02 — The Society Issue -->
         <article class="issue-card" id="ed02">
           <div class="issue-card-num">02</div>
-          <div class="issue-card-badge ghost">Coming Soon</div>
-          <h3>Edition 02 —<br>The Society Issue</h3>
-          <p>
-            Featuring Anuradha as the May Cover Star. Editorial restraint,
-            cultural presence, and identity-forward storytelling.
-            Cover image coming soon.
-          </p>
-          <div class="issue-card-actions">
-            <a class="btn" href="#" aria-disabled="true">Coming Soon</a>
-            <a class="btn ghost" href="submit.html">Submit Work</a>
-          </div>
-        </article>
-
-        <!-- Edition 03 — The Power Issue -->
-        <article class="issue-card" id="ed03">
-          <div class="issue-card-num">03</div>
           <div class="issue-card-badge ghost">In Development</div>
-          <h3>Edition 03 —<br>The Power Issue</h3>
+          <h3>Issue 02 —<br>The Society Issue</h3>
           <p>
-            Our third edition is currently in development. Contributors,
-            feature subjects, and cover talent will be announced through
-            submissions and competitions. Apply now to be considered.
+            Editorial restraint, cultural presence, and identity-forward
+            storytelling. Contributors and cover talent are being selected
+            now through submissions and the Cover Star competitions.
           </p>
           <div class="issue-card-actions">
             <a class="btn primary" href="submit.html">Submit Now</a>
-            <a class="btn ghost" href="/competitions/">Competitions</a>
+            <a class="btn ghost" href="/competitions/">Compete for the Cover</a>
           </div>
         </article>
 
@@ -311,15 +274,16 @@
       <!-- Submit callout -->
       <div class="submit-callout">
         <span class="overline">Be Part of Elyra</span>
-        <h2>Submissions Are Open</h2>
+        <h2>The Next Cover Is Undecided</h2>
         <p>
           Photographers, stylists, models, writers, and creative talent —
-          we are actively building the next edition. Submit your work and
-          become part of the Elyra story.
+          Issue 02 is being built right now, and its cover will be won in
+          the August Cover Star competition. Submit your work or step into
+          the competition and claim it.
         </p>
         <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
           <a class="btn primary" href="submit.html">Submit Your Work</a>
-          <a class="btn ghost" href="/competitions/">Enter Competitions</a>
+          <a class="btn ghost" href="/competitions/">Enter the Competition</a>
         </div>
       </div>
 
@@ -328,6 +292,8 @@
     <div class="page-footer">
       Published by
       <a href="https://houseofelevara.com" target="_blank" rel="noopener">House of Elévara LLC</a>
+      &nbsp;·&nbsp;
+      <a href="https://shop.houseofelevara.com" target="_blank" rel="noopener">The Shop</a>
       &nbsp;·&nbsp;
       © <span id="yr"></span> Elyra Editorial. All rights reserved.
     </div>
