@@ -242,6 +242,35 @@
     }
 
     /* ================================================================
+       LIVE STATUS PILL — new
+       ================================================================ */
+    .hero-live {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 9px !important;
+      margin-top: 20px !important;
+      padding: 9px 17px !important;
+      border-radius: 3px !important;
+      border: 1px solid rgba(200,169,106,.40) !important;
+      background: rgba(200,169,106,.09) !important;
+      backdrop-filter: blur(12px) !important;
+      font-family: 'Jost', sans-serif !important;
+      font-size: .62rem !important;
+      letter-spacing: .26em !important;
+      text-transform: uppercase !important;
+      color: #e2cc96 !important;
+      -webkit-text-fill-color: #e2cc96 !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      transition: background .2s, border-color .2s, transform .2s !important;
+    }
+    .hero-live:hover {
+      background: rgba(200,169,106,.17) !important;
+      border-color: rgba(200,169,106,.62) !important;
+      transform: translateY(-1px) !important;
+    }
+
+    /* ================================================================
        BUTTONS
        ================================================================ */
     #heroCard .btnrow {
@@ -461,6 +490,7 @@
         <a href="submit.html">Submit</a>
         <a href="/competitions/">Competitions</a>
         <a href="about.html">About</a>
+        <a href="advertise.html">Advertise</a>
       </nav>
     </div>
   </header>
@@ -496,18 +526,24 @@
     Editorial &nbsp;·&nbsp; Presence &nbsp;·&nbsp; Identity
   </div>
 
+  <!-- Live status pill — always points at the current money moment -->
+  <a class="hero-live" href="/competitions/" id="heroLive">
+    <span class="live-dot" aria-hidden="true"></span>
+    <span id="heroLiveText">August Cover Star — Applications Open</span>
+  </a>
+
   <!-- Buttons -->
   <div class="btnrow" aria-label="Primary actions">
-    <a class="btn primary" href="issues.html">View Issues</a>
-    <a class="btn" href="submit.html">Submissions</a>
-    <a class="btn ghost" href="/competitions/">Competitions</a>
+    <a class="btn primary" href="/competitions/">Enter the Competition</a>
+    <a class="btn" href="issues.html">Read the Identity Issue</a>
+    <a class="btn ghost" href="submit.html">Submissions</a>
   </div>
 
   <!-- Announcement -->
   <p class="hero-announce">
     Curated editions. Limited noise. High presence.
     <span class="muted-text">
-      New features and cover stars announced inside Competitions.
+      Voting for the August Cover Star opens August 1.
     </span>
   </p>
 
@@ -528,6 +564,7 @@
     <a href="about.html">About</a>
     <a href="submit.html">Submit</a>
     <a href="/competitions/">Competitions</a>
+    <a href="advertise.html">Advertise</a>
     <a href="https://houseofelevara.com"
        target="_blank" rel="noopener noreferrer">
       House of Elévara
@@ -541,41 +578,157 @@
 
 </section>
 
+    <!-- Scroll cue -->
+    <div class="hs-scroll-cue" aria-hidden="true">Discover</div>
+
   </main>
+
+  <!-- ═══════════════ BELOW THE FOLD — CONVERSION SECTIONS ═══════════════ -->
+
+  <!-- 1 · AUGUST COVER STAR -->
+  <section class="hs-section" aria-label="August Cover Star competition">
+    <div class="container">
+      <div class="hs-split">
+        <div class="reveal">
+          <div class="hs-kicker">Live Competition</div>
+          <h2 class="hs-title">The August<br>Cover Star</h2>
+          <p class="hs-lead">
+            Three rounds. One cover. All contestants open the month together —
+            the Top 8 survive to the Semi-Finals, the Final 4 battle for the
+            cover, and votes reset at every cut. Every dollar is one vote,
+            and a minimum $500 prize pool grows with every vote cast.
+          </p>
+
+          <div class="hs-count" id="homeCount" aria-label="Countdown">
+            <div class="hs-count-box"><span class="hs-count-num" id="hcD">--</span><span class="hs-count-unit">Days</span></div>
+            <div class="hs-count-box"><span class="hs-count-num" id="hcH">--</span><span class="hs-count-unit">Hours</span></div>
+            <div class="hs-count-box"><span class="hs-count-num" id="hcM">--</span><span class="hs-count-unit">Mins</span></div>
+            <div class="hs-count-box"><span class="hs-count-num" id="hcS">--</span><span class="hs-count-unit">Secs</span></div>
+          </div>
+
+          <div style="display:flex; gap:12px; flex-wrap:wrap;">
+            <a class="cta-mega" href="/competitions/" id="compCta">Apply to Compete</a>
+            <a class="btn ghost" href="/competitions/" style="min-height:54px;">Watch the Leaderboard</a>
+          </div>
+        </div>
+
+        <div class="hs-visual reveal reveal-delay-2">
+          <img src="IMG_9162.jpeg" alt="ELYRA Cover Star competition" loading="lazy"
+               onerror="this.style.display='none'" />
+          <div class="hs-visual-tag" id="visualTag">Voting Opens August 1</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · VOTER REWARDS -->
+  <section class="hs-section" style="padding-top:0;" aria-label="Voter rewards">
+    <div class="container">
+      <div class="reveal">
+        <div class="hs-kicker">For Our Supporters</div>
+        <h2 class="hs-title">Every Vote Rewards You Back</h2>
+        <p class="hs-lead">
+          Supporting a contestant isn't a donation — it's membership.
+          Rewards apply automatically at checkout, no extra steps.
+        </p>
+      </div>
+      <div class="hs-grid3">
+        <div class="hs-tile reveal reveal-delay-1">
+          <div class="hs-tile-amt">Every $1</div>
+          <p>One automatic entry into the Issue Voter Drawing. One supporter per issue wins a complimentary digital copy of the new ELYRA issue and a public thank-you.</p>
+        </div>
+        <div class="hs-tile reveal reveal-delay-2">
+          <div class="hs-tile-amt">$10 · The Circle</div>
+          <p>Your name printed on the Patrons page inside the issue your contestant is competing for. Your support becomes part of the magazine itself.</p>
+        </div>
+        <div class="hs-tile reveal reveal-delay-3">
+          <div class="hs-tile-amt">$50 · Patron</div>
+          <p>Everything above, plus entry into the Patron Feature Drawing — one patron per issue is interviewed and has their story published inside ELYRA.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · THE IDENTITY ISSUE -->
+  <section class="hs-section" style="padding-top:0;" aria-label="The Identity Issue">
+    <div class="container">
+      <div class="hs-split">
+        <div class="hs-visual reveal" style="aspect-ratio: 3 / 4;">
+          <img src="IMG_8629.jpeg" alt="ELYRA — The Identity Issue" loading="lazy"
+               onerror="this.style.display='none'" />
+          <div class="hs-visual-tag">Issue 01 · Out Now</div>
+        </div>
+        <div class="reveal reveal-delay-2">
+          <div class="hs-kicker">The Debut Edition</div>
+          <h2 class="hs-title">The Identity Issue</h2>
+          <p class="hs-lead">
+            Twenty pages of editorial storytelling on who we are when the
+            styling comes off — identity, presence, and the people building
+            themselves in public. ELYRA's first issue is finished and ready
+            to read.
+          </p>
+          <div style="display:flex; gap:12px; flex-wrap:wrap;">
+            <a class="cta-mega" href="issues.html">Read Issue 01</a>
+            <a class="btn ghost" href="submit.html" style="min-height:54px;">Be In Issue 02</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · SPONSOR BAND -->
+  <section class="hs-section" style="padding-top:0;" aria-label="Advertise with ELYRA">
+    <div class="container">
+      <div class="hs-band reveal">
+        <div class="hs-band-copy">
+          <div class="hs-kicker">One Slot Per Cycle</div>
+          <h2 class="hs-title" style="margin-bottom:10px;">Present the August Competition</h2>
+          <p class="hs-lead" style="margin-bottom:0;">
+            Put your brand on a page where supporters vote with real dollars
+            and share all month. One presenting sponsor per competition —
+            plus full-page placements and sponsored features inside the issue.
+          </p>
+        </div>
+        <div class="hs-band-cta">
+          <a class="cta-mega" href="advertise.html">View the Rate Card</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- Ticker -->
 
   <div class="ticker-wrap" aria-hidden="true">
     <div class="ticker-track">
       <div class="ticker-item">
-        <span>✦</span> Submissions Now Open — Apply for Edition 02
+        <span>✦</span> The Identity Issue — Issue 01 — Out Now
       </div>
       <div class="ticker-item">
-        <span>✦</span> May Cover Star Voting Open Through May 31
+        <span>✦</span> August Cover Star — Voting Opens August 1
       </div>
       <div class="ticker-item">
-        <span>✦</span> New Features Announced Inside Competitions
+        <span>✦</span> Voter Rewards — Your Name In The Issue From $10
       </div>
       <div class="ticker-item">
-        <span>✦</span> Edition 01 — The Society Issue — Coming Soon
+        <span>✦</span> Applications Open — Compete For The Cover
       </div>
       <div class="ticker-item">
-        <span>✦</span> House of Elévara LLC — houseofelevara.com
+        <span>✦</span> Advertise With ELYRA — One Sponsor Per Cycle
       </div>
       <div class="ticker-item">
-        <span>✦</span> Submissions Now Open — Apply for Edition 02
+        <span>✦</span> The Identity Issue — Issue 01 — Out Now
       </div>
       <div class="ticker-item">
-        <span>✦</span> May Cover Star Voting Open Through May 31
+        <span>✦</span> August Cover Star — Voting Opens August 1
       </div>
       <div class="ticker-item">
-        <span>✦</span> New Features Announced Inside Competitions
+        <span>✦</span> Voter Rewards — Your Name In The Issue From $10
       </div>
       <div class="ticker-item">
-        <span>✦</span> Edition 01 — The Society Issue — Coming Soon
+        <span>✦</span> Applications Open — Compete For The Cover
       </div>
       <div class="ticker-item">
-        <span>✦</span> House of Elévara LLC — houseofelevara.com
+        <span>✦</span> Advertise With ELYRA — One Sponsor Per Cycle
       </div>
     </div>
   </div>
@@ -613,6 +766,81 @@
       card.addEventListener('mouseleave', () => {
         card.style.transform = '';
       });
+    })();
+
+    // ── August countdown — flips to "live" mode automatically ──
+    (function () {
+      const OPEN  = new Date('2026-08-01T05:00:00Z');  // Aug 1, 12:00 AM CST
+      const CLOSE = new Date('2026-09-01T04:59:00Z');  // Aug 31, 11:59 PM CST
+
+      const D = document.getElementById('hcD');
+      const H = document.getElementById('hcH');
+      const M = document.getElementById('hcM');
+      const S = document.getElementById('hcS');
+      const liveText  = document.getElementById('heroLiveText');
+      const visualTag = document.getElementById('visualTag');
+      const compCta   = document.getElementById('compCta');
+      const countWrap = document.getElementById('homeCount');
+
+      const pad = n => String(n).padStart(2, '0');
+      let target = OPEN;
+
+      function applyMode() {
+        const now = Date.now();
+        if (now < OPEN.getTime()) {
+          target = OPEN;
+          if (liveText)  liveText.textContent  = 'August Cover Star — Applications Open';
+          if (visualTag) visualTag.textContent = 'Voting Opens August 1';
+          if (compCta)   compCta.textContent   = 'Apply to Compete';
+        } else if (now < CLOSE.getTime()) {
+          target = CLOSE;
+          if (liveText)  liveText.textContent  = 'August Cover Star — Voting Is Live';
+          if (visualTag) visualTag.textContent = 'Voting Live Now';
+          if (compCta)   compCta.textContent   = 'Vote Now';
+        } else {
+          target = null;
+          if (liveText)  liveText.textContent  = 'Cover Star Results — Announced Soon';
+          if (visualTag) visualTag.textContent = 'Voting Closed';
+          if (compCta)   compCta.textContent   = 'See the Results';
+          if (countWrap) countWrap.style.display = 'none';
+        }
+      }
+
+      function tick() {
+        applyMode();
+        if (!target) return;
+        const diff = target.getTime() - Date.now();
+        if (diff <= 0) { applyMode(); return; }
+        const d = Math.floor(diff / 86400000);
+        const h = Math.floor((diff % 86400000) / 3600000);
+        const m = Math.floor((diff % 3600000) / 60000);
+        const s = Math.floor((diff % 60000) / 1000);
+        if (D) D.textContent = pad(d);
+        if (H) H.textContent = pad(h);
+        if (M) M.textContent = pad(m);
+        if (S) S.textContent = pad(s);
+      }
+
+      tick();
+      setInterval(tick, 1000);
+    })();
+
+    // ── Scroll reveal ──
+    (function () {
+      const els = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window)) {
+        els.forEach(el => el.classList.add('visible'));
+        return;
+      }
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      els.forEach(el => io.observe(el));
     })();
   </script>
 
