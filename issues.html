@@ -125,6 +125,9 @@
     .issue-card:hover { background: rgba(6,5,4,.46); border-color: rgba(200,169,106,.18); transform: translateY(-3px); box-shadow: var(--sh-md), var(--glow); }
     .issue-card-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: var(--r); border: 1px solid rgba(200,169,106,.18); background: rgba(200,169,106,.07); font-family: 'Jost', sans-serif; font-weight: 300; font-size: .63rem; letter-spacing: .26em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; transition: border-color .2s, background .2s; }
     .issue-card-badge.ghost { border-color: rgba(240,236,228,.12); background: rgba(6,5,4,.28); color: var(--muted); }
+    .issue-card-cover { position: relative; border-radius: var(--r); overflow: hidden; border: 1px solid rgba(200,169,106,.24); margin-bottom: 16px; box-shadow: 0 12px 40px rgba(0,0,0,.5); }
+    .issue-card-cover img { display: block; width: 100%; height: auto; transition: transform .6s var(--ease); }
+    .issue-card:hover .issue-card-cover img { transform: scale(1.03); }
     .issue-card h3 { font-family: 'Cormorant Garamond', serif; font-weight: 400; font-style: italic; font-size: 1.52rem; letter-spacing: .06em; color: var(--text); line-height: 1.16; margin-bottom: 10px; }
     .issue-card p { font-family: 'Jost', sans-serif; font-weight: 300; font-size: .88rem; line-height: 1.82; color: var(--muted); margin-bottom: 18px; }
     .issue-card-actions { display: flex; gap: 10px; flex-wrap: wrap; }
@@ -256,16 +259,39 @@
         <!-- Issue 02 — The Society Issue -->
         <article class="issue-card" id="ed02">
           <div class="issue-card-num">02</div>
-          <div class="issue-card-badge ghost">In Development</div>
+          <div class="issue-card-badge">Cover Revealed</div>
+          <div class="issue-card-cover">
+            <img src="https://elyraeditorial.github.io/IMG_0061.jpeg"
+                 alt="ELYRA Issue 02 — The Society Issue — official cover"
+                 loading="lazy" onerror="this.parentElement.style.display='none'" />
+          </div>
           <h3>Issue 02 —<br>The Society Issue</h3>
           <p>
-            Editorial restraint, cultural presence, and identity-forward
-            storytelling. Contributors and cover talent are being selected
-            now through submissions and the Cover Star competitions.
+            The cover was won — our May Cover Star champion claimed the
+            face of Issue 02. Editorial restraint, cultural presence, and
+            identity-forward storytelling. The full issue is in production;
+            contributor submissions are open now.
           </p>
           <div class="issue-card-actions">
-            <a class="btn primary" href="submit.html">Submit Now</a>
-            <a class="btn ghost" href="/competitions/">Compete for the Cover</a>
+            <a class="btn primary" href="submit.html">Submit for Issue 02</a>
+            <a class="btn ghost" href="/competitions/">Competitions</a>
+          </div>
+        </article>
+
+        <!-- Issue 03 — The Power Issue -->
+        <article class="issue-card" id="ed03">
+          <div class="issue-card-num">03</div>
+          <div class="issue-card-badge ghost"><span class="live-dot" aria-hidden="true"></span> Cover Decided This August</div>
+          <h3>Issue 03 —<br>The Power Issue</h3>
+          <p>
+            This cover belongs to no one yet. The winner of the August
+            Cover Star competition — three rounds, public votes, one
+            champion — takes the face of The Power Issue. Apply now or
+            back your favorite when voting opens August 1.
+          </p>
+          <div class="issue-card-actions">
+            <a class="btn primary" href="/competitions/">Compete for This Cover</a>
+            <a class="btn ghost" href="submit.html">Submit Work</a>
           </div>
         </article>
 
@@ -277,9 +303,10 @@
         <h2>The Next Cover Is Undecided</h2>
         <p>
           Photographers, stylists, models, writers, and creative talent —
-          Issue 02 is being built right now, and its cover will be won in
-          the August Cover Star competition. Submit your work or step into
-          the competition and claim it.
+          The Society Issue is in production and The Power Issue cover
+          will be won in the August Cover Star competition. Submit your
+          work for Issue 02, or step into the competition and claim the
+          cover of Issue 03.
         </p>
         <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
           <a class="btn primary" href="submit.html">Submit Your Work</a>
