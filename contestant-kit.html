@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cover Star — Contestant Kit · ELYRA Editorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#0A0908;
+    --ink:#151310;
+    --raise:#1D1A15;
+    --gold:#C6A15B;
+    --gold-pale:#E8D3A0;
+    --bone:#EFE9DE;
+    --muted:#8C8272;
+    --line:rgba(198,161,91,.22);
+    --display:'Playfair Display',Georgia,serif;
+    --body:'EB Garamond',Garamond,Georgia,serif;
+    --util:'Jost',-apple-system,BlinkMacSystemFont,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--void);color:var(--bone);
+    font-family:var(--body);font-size:19px;line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:860px;margin:0 auto;padding:0 28px 120px}
+
+  /* ---------- eyebrow / utility type ---------- */
+  .eyebrow{
+    font-family:var(--util);font-size:11px;font-weight:400;
+    letter-spacing:.34em;text-transform:uppercase;color:var(--gold);
+  }
+  .muted{color:var(--muted)}
+
+  /* ---------- masthead ---------- */
+  header.masthead{
+    padding:96px 0 64px;text-align:center;position:relative;
+  }
+  .crest{
+    width:34px;height:34px;margin:0 auto 30px;border:1px solid var(--gold);
+    border-radius:50%;position:relative;
+  }
+  .crest::after{
+    content:"";position:absolute;inset:6px;border:1px solid var(--gold);
+    border-radius:50%;opacity:.45;
+  }
+  .masthead h1{
+    font-family:var(--display);font-weight:400;
+    font-size:clamp(46px,10vw,86px);line-height:.98;margin:0;
+    letter-spacing:.02em;color:var(--bone);
+  }
+  .masthead h1 em{font-style:italic;color:var(--gold-pale)}
+  .masthead .sub{
+    margin-top:22px;font-family:var(--util);font-size:12px;
+    letter-spacing:.3em;text-transform:uppercase;color:var(--muted);
+  }
+  .rule{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);
+    margin:56px 0;opacity:.55}
+
+  .lede{
+    font-size:22px;line-height:1.55;text-align:center;
+    max-width:600px;margin:0 auto;color:var(--bone);
+  }
+  .lede strong{color:var(--gold-pale);font-weight:500}
+
+  /* ---------- section headings ---------- */
+  section{padding-top:78px}
+  h2{
+    font-family:var(--display);font-weight:400;
+    font-size:clamp(30px,5vw,42px);line-height:1.12;
+    margin:14px 0 10px;letter-spacing:.01em;
+  }
+  h3{
+    font-family:var(--display);font-weight:400;font-size:24px;
+    margin:44px 0 8px;color:var(--gold-pale);
+  }
+  .sec-intro{color:var(--muted);font-size:19px;margin:0 0 8px}
+
+  /* ---------- THE SPINE: signature element ---------- */
+  .ledger{margin-top:44px;border-left:1px solid var(--line);padding-left:0}
+  .step{
+    position:relative;padding:0 0 0 62px;margin-bottom:44px;
+  }
+  .step .num{
+    position:absolute;left:-14px;top:2px;width:28px;height:28px;
+    border:1px solid var(--gold);border-radius:50%;background:var(--void);
+    font-family:var(--util);font-size:11px;letter-spacing:.04em;
+    color:var(--gold);display:flex;align-items:center;justify-content:center;
+  }
+  .step h4{
+    font-family:var(--display);font-weight:500;font-size:23px;
+    margin:0 0 10px;color:var(--bone);letter-spacing:.01em;
+  }
+  .step p{margin:0 0 10px}
+  .step ol.fine{
+    margin:12px 0 0;padding-left:0;list-style:none;counter-reset:fine;
+  }
+  .step ol.fine li{
+    counter-increment:fine;position:relative;padding-left:34px;
+    margin-bottom:9px;font-size:18px;line-height:1.55;
+  }
+  .step ol.fine li::before{
+    content:counter(fine);position:absolute;left:0;top:.15em;
+    font-family:var(--util);font-size:11px;letter-spacing:.08em;
+    color:var(--gold);opacity:.75;
+  }
+  .why{
+    margin-top:14px;padding-left:16px;border-left:2px solid var(--line);
+    font-style:italic;color:var(--muted);font-size:17.5px;
+  }
+  .why b{font-style:normal;font-family:var(--util);font-size:10px;
+    letter-spacing:.26em;text-transform:uppercase;color:var(--gold);
+    display:block;margin-bottom:4px;font-weight:400}
+
+  /* ---------- script + caption cards ---------- */
+  .card{
+    background:var(--ink);border:1px solid var(--line);
+    padding:26px 28px;margin:18px 0;position:relative;
+  }
+  .card .tag{
+    font-family:var(--util);font-size:10.5px;letter-spacing:.26em;
+    text-transform:uppercase;color:var(--gold);display:block;margin-bottom:14px;
+  }
+  .card .script{
+    font-family:var(--display);font-size:22px;line-height:1.5;
+    font-style:italic;color:var(--bone);margin:0;
+  }
+  .card .body-copy{margin:0;white-space:pre-line;font-size:18.5px}
+  .card .when{
+    margin-top:16px;font-family:var(--util);font-size:12.5px;
+    letter-spacing:.05em;color:var(--muted);
+  }
+  .copy{
+    margin-top:18px;background:transparent;border:1px solid var(--line);
+    color:var(--gold);font-family:var(--util);font-size:11px;
+    letter-spacing:.22em;text-transform:uppercase;padding:9px 18px;
+    cursor:pointer;transition:background .25s,color .25s,border-color .25s;
+  }
+  .copy:hover,.copy:focus-visible{background:var(--gold);color:var(--void);border-color:var(--gold)}
+  .copy.done{background:var(--gold);color:var(--void);border-color:var(--gold)}
+
+  /* ---------- rounds table ---------- */
+  .rounds{width:100%;border-collapse:collapse;margin-top:32px}
+  .rounds th{
+    font-family:var(--util);font-size:10.5px;font-weight:400;
+    letter-spacing:.24em;text-transform:uppercase;color:var(--gold);
+    text-align:left;padding:0 0 14px;border-bottom:1px solid var(--line);
+  }
+  .rounds td{
+    padding:20px 22px 20px 0;border-bottom:1px solid rgba(255,255,255,.06);
+    vertical-align:top;font-size:18px;
+  }
+  .rounds td:first-child{
+    font-family:var(--display);font-size:21px;color:var(--gold-pale);
+    width:34%;padding-right:26px;
+  }
+
+  /* ---------- checklist ---------- */
+  .day{
+    display:flex;gap:18px;align-items:flex-start;
+    padding:20px 0;border-bottom:1px solid rgba(255,255,255,.06);
+  }
+  .day input{
+    appearance:none;-webkit-appearance:none;flex:0 0 auto;
+    width:19px;height:19px;margin-top:6px;border:1px solid var(--gold);
+    background:transparent;cursor:pointer;position:relative;border-radius:2px;
+  }
+  .day input:checked{background:var(--gold)}
+  .day input:checked::after{
+    content:"";position:absolute;left:6px;top:2px;width:5px;height:10px;
+    border:solid var(--void);border-width:0 2px 2px 0;transform:rotate(42deg);
+  }
+  .day input:focus-visible{outline:2px solid var(--gold-pale);outline-offset:3px}
+  .day .d{
+    font-family:var(--util);font-size:10.5px;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--gold);flex:0 0 62px;margin-top:8px;
+  }
+  .day .t{flex:1}
+  .day .t b{font-weight:400;font-family:var(--display);font-size:20px;display:block;margin-bottom:3px}
+  .day .t span{color:var(--muted);font-size:17.5px}
+  .day input:checked ~ .t{opacity:.4}
+
+  /* ---------- rules ---------- */
+  .rules{margin-top:34px;border:1px solid var(--line);padding:8px 30px}
+  .rules li{
+    list-style:none;padding:20px 0 20px 30px;position:relative;
+    border-bottom:1px solid rgba(255,255,255,.06);font-size:18px;
+  }
+  .rules li:last-child{border-bottom:none}
+  .rules li::before{
+    content:"—";position:absolute;left:0;color:var(--gold);
+  }
+  .rules ul{padding:0;margin:0}
+  .rules b{color:var(--gold-pale);font-weight:500}
+
+  /* ---------- moves list ---------- */
+  .moves li{
+    list-style:none;padding:18px 0;border-bottom:1px solid rgba(255,255,255,.06);
+    font-size:18.5px;
+  }
+  .moves ul{padding:0;margin:28px 0 0}
+  .moves b{font-family:var(--display);font-weight:500;color:var(--gold-pale);font-size:20px}
+
+  footer{
+    text-align:center;padding-top:90px;
+  }
+  footer .mark{
+    font-family:var(--display);font-size:24px;letter-spacing:.16em;color:var(--gold-pale);
+  }
+  footer .url{
+    margin-top:14px;font-family:var(--util);font-size:11px;
+    letter-spacing:.3em;text-transform:uppercase;color:var(--muted);
+  }
+
+  @media (max-width:620px){
+    body{font-size:18px}
+    .wrap{padding:0 20px 90px}
+    .step{padding-left:40px}
+    .step .num{left:-14px;width:26px;height:26px}
+    .rounds td:first-child{width:40%}
+    .day{gap:12px}
+    .day .d{flex-basis:44px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important;scroll-behavior:auto!important}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="crest" aria-hidden="true"></div>
+    <div class="eyebrow">ELYRA Editorial · Issue 03 · The Power Issue</div>
+    <h1>Cover<br><em>Star</em></h1>
+    <div class="sub">The Contestant Campaign Kit</div>
+  </header>
+
+  <p class="lede">You are one of the faces in the running for the cover. <strong>The public decides who gets it.</strong> This is exactly how you win the votes — every step, in order, nothing left for you to guess.</p>
+
+  <div class="rule"></div>
+
+  <!-- ============ HOW VOTING WORKS ============ -->
+  <section id="rounds">
+    <div class="eyebrow">01 — The Format</div>
+    <h2>Three rounds. Votes reset each time.</h2>
+    <p class="sec-intro">Read the last line of this table twice. It is the single thing most contestants get wrong.</p>
+
+    <table class="rounds">
+      <thead><tr><th>Round</th><th>What happens</th></tr></thead>
+      <tbody>
+        <tr><td>Open Round</td><td>Everyone competes. The top vote-getters advance to the Semi-Finals.</td></tr>
+        <tr><td>Semi-Finals</td><td>Every score returns to zero. The field narrows again to the Finalists.</td></tr>
+        <tr><td>Finale</td><td>Zero again. One winner takes the cover of the Power Issue.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="why" style="margin-top:30px">
+      <b>What this means for you</b>
+      A commanding lead in the Open Round is worth nothing on the first morning of the Semi-Finals. You are not running one campaign. You are running three. Contestants lose this by celebrating a win and going quiet for a week.
+    </div>
+  </section>
+
+  <!-- ============ SETUP ============ -->
+  <section id="setup">
+    <div class="eyebrow">02 — Do This First</div>
+    <h2>Your first 30 minutes</h2>
+    <p class="sec-intro">Finish all six before you post anything. If your link isn't working, every share you send is wasted.</p>
+
+    <div class="ledger">
+
+      <div class="step">
+        <div class="num">1</div>
+        <h4>Find your voting link and test it</h4>
+        <ol class="fine">
+          <li>Open elyraeditorial.com and go to the competition page.</li>
+          <li>Find your own name and photo in the contestant list.</li>
+          <li>Copy the link that opens your profile.</li>
+          <li>Send that link to yourself in a text message.</li>
+          <li>Open it from your phone. Confirm your face and name appear, and confirm the vote button works.</li>
+        </ol>
+        <div class="why"><b>Why</b>If the link is broken, every text, story and post you send after this points at nothing. Test before you promote — not after.</div>
+      </div>
+
+      <div class="step">
+        <div class="num">2</div>
+        <h4>Put the link in your bio</h4>
+        <ol class="fine">
+          <li>Open Instagram and tap your profile picture in the bottom right corner.</li>
+          <li>Tap <b>Edit profile</b>.</li>
+          <li>Tap <b>Links</b>, then <b>Add external link</b>.</li>
+          <li>Paste your voting link. In the title field type: <b>VOTE FOR ME — Cover Star</b>.</li>
+          <li>Tap Done, then go back to your profile and tap the link yourself to confirm it opens.</li>
+          <li>Repeat on TikTok: Edit profile → Website → paste → save.</li>
+        </ol>
+        <div class="why"><b>Why</b>Most platforms hide or strip links inside captions. The bio link is the one place a tap reliably works, so every post you make will point people there.</div>
+      </div>
+
+      <div class="step">
+        <div class="num">3</div>
+        <h4>Add the ask to your bio text</h4>
+        <ol class="fine">
+          <li>Still in Edit profile, tap into your bio text.</li>
+          <li>Add a new line at the very bottom: <b>🖤 Cover Star finalist — vote below ↓</b></li>
+          <li>Save.</li>
+        </ol>
+        <div class="why"><b>Why</b>A link with no instruction gets ignored. The arrow tells a stranger what to do in under a second.</div>
+      </div>
+
+      <div class="step">
+        <div class="num">4</div>
+        <h4>Record your announcement video</h4>
+        <ol class="fine">
+          <li>Stand facing a window, with the light on your face — never behind you.</li>
+          <li>Hold the phone at eye level, slightly above. Not below your chin.</li>
+          <li>Film vertical. Look at the lens, not at your own face on the screen.</li>
+          <li>Say Script A from the next section. Say your own full name in it.</li>
+          <li>Keep it under 12 seconds. Record it three times and keep the most natural take.</li>
+        </ol>
+        <div class="why"><b>Why</b>People vote for a person, not a poster. A plain phone video of you asking sincerely outperforms a polished graphic almost every time.</div>
+      </div>
+
+      <div class="step">
+        <div class="num">5</div>
+        <h4>Post it and pin it to the top of your profile</h4>
+        <ol class="fine">
+          <li>Post the video as a Reel with the Launch caption from below.</li>
+          <li>Once it's live, tap the three dots on the post.</li>
+          <li>Tap <b>Pin to your profile</b>.</li>
+        </ol>
+        <div class="why"><b>Why</b>Pinning means every single new person who lands on your profile for the rest of the competition sees the ask first, without scrolling.</div>
+      </div>
+
+      <div class="step">
+        <div class="num">6</div>
+        <h4>Text twenty people individually</h4>
+        <ol class="fine">
+          <li>Open your messages and scroll your recent contacts.</li>
+          <li>Write down twenty names. Family, close friends, old colleagues, group chats.</li>
+          <li>Message each one <b>separately</b>. Use their name. Never send a group blast.</li>
+          <li>Send: <em>"Hey [name] — I'm competing for a magazine cover and it's decided by public votes. Takes 5 seconds, would mean a lot: [link]"</em></li>
+          <li>Tick them off your list as you go.</li>
+        </ol>
+        <div class="why"><b>Why</b>This is the highest-converting thing in the entire kit. A personal message gets a vote roughly one time in two. A story to two thousand followers rarely does better than one in a hundred.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ SCRIPTS ============ -->
+  <section id="scripts">
+    <div class="eyebrow">03 — Say This</div>
+    <h2>Five scripts, ten seconds each</h2>
+    <p class="sec-intro">Your voice, your face, straight to camera. Say your own name once so people can find you on the voting page.</p>
+
+    <div class="card">
+      <span class="tag">Script A · Launch</span>
+      <p class="script">I'm [your name], and I'm competing for the cover of ELYRA Editorial's Power Issue. This is decided by votes. One tap, link in my bio. Let's get me on that cover.</p>
+      <div class="when">Use the day voting opens.</div>
+      <button class="copy">Copy script</button>
+    </div>
+
+    <div class="card">
+      <span class="tag">Script B · Warm</span>
+      <p class="script">Something big is happening. I'm in the running for a magazine cover, and votes decide it. It takes five seconds. Link in my bio — go vote for me. Please.</p>
+      <div class="when">Use mid-round, around day 3.</div>
+      <button class="copy">Copy script</button>
+    </div>
+
+    <div class="card">
+      <span class="tag">Script C · Urgent</span>
+      <p class="script">Voting closes soon and I'm right there. Every single vote counts in this round. Link in my bio, takes five seconds. Don't let me miss this one.</p>
+      <div class="when">Use in the final 48 hours of any round.</div>
+      <button class="copy">Copy script</button>
+    </div>
+
+    <div class="card">
+      <span class="tag">Script D · Round reset</span>
+      <p class="script">I made it to the next round — thank you. But the votes reset to zero, so I need you one more time. Same link, five seconds. Let's finish this.</p>
+      <div class="when">Record fresh on day one of the Semi-Finals and again for the Finale.</div>
+      <button class="copy">Copy script</button>
+    </div>
+
+    <div class="card">
+      <span class="tag">Script E · Thank you</span>
+      <p class="script">We did it. I'm through to the next round because of you. I'm not done asking, but right now I just want to say thank you. Genuinely.</p>
+      <div class="when">Post within hours of each round closing.</div>
+      <button class="copy">Copy script</button>
+    </div>
+
+    <h3>How to record it properly</h3>
+    <ol class="fine" style="padding-left:0;list-style:none;counter-reset:fine;margin-top:14px">
+      <li style="counter-increment:fine;position:relative;padding-left:34px;margin-bottom:9px">Face a window. Daylight on your face beats any ring light.</li>
+      <li style="counter-increment:fine;position:relative;padding-left:34px;margin-bottom:9px">Phone at eye level or just above. Never angled up from your chest.</li>
+      <li style="counter-increment:fine;position:relative;padding-left:34px;margin-bottom:9px">Quiet room. No music behind you — it competes with your voice.</li>
+      <li style="counter-increment:fine;position:relative;padding-left:34px;margin-bottom:9px">Look into the lens. Not at yourself on screen.</li>
+      <li style="counter-increment:fine;position:relative;padding-left:34px;margin-bottom:9px">Add captions in the app. Most people watch with the sound off.</li>
+      <li style="counter-increment:fine;position:relative;padding-left:34px;margin-bottom:9px">Three takes, keep the warmest one. Don't chase perfect — chase sincere.</li>
+    </ol>
+  </section>
+
+  <!-- ============ CAPTIONS ============ -->
+  <section id="captions">
+    <div class="eyebrow">04 — Post This</div>
+    <h2>Captions, ready to paste</h2>
+    <p class="sec-intro">Copy, swap in your details, post. Keep the link in your bio, not in the caption.</p>
+
+    <div class="card">
+      <span class="tag">Launch post</span>
+      <p class="body-copy">I'm officially in the running for the cover of ELYRA Editorial's Power Issue.
+
+This is decided by votes. Public votes. Which means it's decided by you.
+
+Link in bio. It takes five seconds. 🖤
+
+#ELYRAEditorial #CoverStar #ThePowerIssue</p>
+      <button class="copy">Copy caption</button>
+    </div>
+
+    <div class="card">
+      <span class="tag">Mid-round push</span>
+      <p class="body-copy">Still asking. Still climbing.
+
+Voting for Cover Star is open and every single one counts. If you've already voted — thank you, seriously. If you haven't, the link is in my bio.
+
+#ELYRAEditorial #CoverStar</p>
+      <button class="copy">Copy caption</button>
+    </div>
+
+    <div class="card">
+      <span class="tag">Round reset</span>
+      <p class="body-copy">ROUND [2 / 3] — votes reset to zero.
+
+Everything we built last round is gone. Good news is, so is everyone else's. Back to the start line, and I'd love to have you with me again.
+
+Link in bio. 🖤
+
+#CoverStar #ELYRAEditorial</p>
+      <button class="copy">Copy caption</button>
+    </div>
+
+    <div class="card">
+      <span class="tag">Final 24 hours</span>
+      <p class="body-copy">24 hours left.
+
+I've never asked for anything like this before. One tap. Link in bio. That's it.
+
+#CoverStar #ELYRAEditorial</p>
+      <button class="copy">Copy caption</button>
+    </div>
+
+    <div class="card">
+      <span class="tag">Winner</span>
+      <p class="body-copy">Cover Star. The Power Issue.
+
+I don't have the words yet. Every person who voted, shared, texted a friend, posted a story — this is yours too.
+
+Thank you. 🖤
+
+#ELYRAEditorial #ThePowerIssue</p>
+      <button class="copy">Copy caption</button>
+    </div>
+  </section>
+
+  <!-- ============ STORIES ============ -->
+  <section id="stories">
+    <div class="eyebrow">05 — Daily Stories</div>
+    <h2>Seven frames to rotate</h2>
+    <p class="sec-intro">Two or three a day while a round is live. Rotate them, or it reads as spam and people mute you.</p>
+
+    <div class="ledger">
+      <div class="step"><div class="num">1</div><h4>Selfie with a link sticker</h4><p>Text on frame: "Voting is open. One tap." Add the link sticker so it's tappable — don't make people go find your bio.</p></div>
+      <div class="step"><div class="num">2</div><h4>Screenshot of your competition profile</h4><p>Seeing the real page proves it's legitimate. Circle your own name with the draw tool.</p></div>
+      <div class="step"><div class="num">3</div><h4>Behind the scenes</h4><p>Getting ready, a shoot, your ordinary day. Put "and voting's still open" as a small line at the bottom, not the headline.</p></div>
+      <div class="step"><div class="num">4</div><h4>Countdown sticker</h4><p>Set it to the exact hour the round closes. It reappears in people's feeds as the deadline approaches.</p></div>
+      <div class="step"><div class="num">5</div><h4>Repost a supporter</h4><p>When someone shares your link, reshare it. A recommendation from them carries further than another ask from you.</p></div>
+      <div class="step"><div class="num">6</div><h4>Question sticker</h4><p>"Ask me anything about the competition." Answer in follow-up frames, link sticker on each one.</p></div>
+      <div class="step"><div class="num">7</div><h4>End-of-round recap</h4><p>Where you landed, who to thank, what's coming next. This one earns you the right to ask again.</p></div>
+    </div>
+  </section>
+
+  <!-- ============ 7 DAY ============ -->
+  <section id="week">
+    <div class="eyebrow">06 — The Rhythm</div>
+    <h2>Your seven-day push</h2>
+    <p class="sec-intro">Run this once per round. Tick each day as you finish it.</p>
+
+    <div style="margin-top:34px">
+      <label class="day"><input type="checkbox"><span class="d">Day 1</span><span class="t"><b>Announce and pin</b><span>Post the Reel. Pin it to your profile. Story with the link sticker. Text twenty people one by one.</span></span></label>
+      <label class="day"><input type="checkbox"><span class="d">Day 2</span><span class="t"><b>Show up in the comments</b><span>Reply to every single comment on the announcement. Post a behind-the-scenes story set.</span></span></label>
+      <label class="day"><input type="checkbox"><span class="d">Day 3</span><span class="t"><b>Fresh video</b><span>Record and post Script B. New outfit, new setting — not a repost of day one.</span></span></label>
+      <label class="day"><input type="checkbox"><span class="d">Day 4</span><span class="t"><b>Borrow other audiences</b><span>Repost every supporter story. Ask five friends to post their own ask to their followers.</span></span></label>
+      <label class="day"><input type="checkbox"><span class="d">Day 5</span><span class="t"><b>Mid-round post</b><span>New photo with the mid-round caption. Text the twenty who haven't replied yet.</span></span></label>
+      <label class="day"><input type="checkbox"><span class="d">Day 6</span><span class="t"><b>Turn on urgency</b><span>Post Script C. Add the countdown sticker to stories and keep it running.</span></span></label>
+      <label class="day"><input type="checkbox"><span class="d">Day 7</span><span class="t"><b>Close hard</b><span>Final 24-hour post. Story every few hours. Direct-message your strongest supporters personally.</span></span></label>
+    </div>
+  </section>
+
+  <!-- ============ WHAT WORKS ============ -->
+  <section id="moves" class="moves">
+    <div class="eyebrow">07 — The Difference</div>
+    <h2>What actually moves votes</h2>
+    <ul>
+      <li><b>One-to-one beats one-to-many.</b> Twenty personal texts will out-convert a story seen by two thousand people. This is the whole game.</li>
+      <li><b>Pin the post.</b> Every new visitor should hit the ask before they scroll.</li>
+      <li><b>Get other people posting.</b> Their followers are an audience you can't reach yourself.</li>
+      <li><b>Say your name out loud.</b> Supporters arrive at a page of faces and leave without voting if they can't find you.</li>
+      <li><b>Post when your people are awake.</b> Check your own analytics. Ignore general advice, including this sentence.</li>
+      <li><b>Finish strong.</b> Most contestants fade in the last 48 hours. That's precisely when the round is decided.</li>
+    </ul>
+  </section>
+
+  <!-- ============ RULES ============ -->
+  <section id="rules" class="rules-sec">
+    <div class="eyebrow">08 — Non-Negotiable</div>
+    <h2>The rules</h2>
+    <p class="sec-intro">Breaking any of these removes you from the competition. No warnings, no appeals.</p>
+
+    <div class="rules">
+      <ul>
+        <li><b>No bought votes, bots, or vote-farming services.</b> Purchased or automated votes are grounds for immediate disqualification.</li>
+        <li><b>No fake or duplicate accounts.</b> One person, one vote.</li>
+        <li><b>No campaigning against other contestants.</b> Compete for yourself. Disparaging another entrant is grounds for removal.</li>
+        <li><b>No announcing results before we do.</b> Wait for the official publication of each round.</li>
+        <li><b>Tag @elyraeditorial</b> so your posts can be found and reshared by the House.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <div class="rule"></div>
+    <div class="mark">ELYRA EDITORIAL</div>
+    <div class="url">elyraeditorial.com</div>
+  </footer>
+
+</div>
+
+<script>
+document.querySelectorAll('.copy').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var card = btn.closest('.card');
+    var el = card.querySelector('.script') || card.querySelector('.body-copy');
+    var text = el.innerText.trim();
+    var finish = function(){
+      var original = btn.textContent;
+      btn.textContent = 'Copied';
+      btn.classList.add('done');
+      setTimeout(function(){ btn.textContent = original; btn.classList.remove('done'); }, 1800);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(finish).catch(function(){ fallback(text, finish); });
+    } else { fallback(text, finish); }
+  });
+});
+function fallback(text, done){
+  var ta = document.createElement('textarea');
+  ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); done(); } catch(e){}
+  document.body.removeChild(ta);
+}
+</script>
+</body>
+</html>
