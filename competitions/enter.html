@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>Enter the Competition — ELYRA Editorial</title>
+<meta name="description" content="Submit your entry to the ELYRA Editorial competition. Free to enter. Open to models, photographers, stylists, and creative directors."/>
+<meta property="og:title" content="Enter the Competition — ELYRA Editorial"/>
+<meta property="og:description" content="Free to enter. Real editorial credit. Open now."/>
+<meta property="og:type" content="website"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<link rel="stylesheet" href="assets/competitions.css"/>
+<style>
+  :root {
+    --e-black: #060605;
+    --e-surface: #121211;
+    --e-surface2: #1a1a18;
+    --e-line: #232320;
+    --e-gold: #8f7a45;
+    --e-gold2: #c9a961;
+    --e-goldline: rgba(200,169,90,0.22);
+    --e-white: #f4f2ec;
+    --e-muted: #726f66;
+    --e-muted2: #a5a196;
+  }
+  .enter-wrap { max-width: 780px; margin: 0 auto; padding: clamp(40px,7vw,80px) 20px 80px; }
+
+  .enter-eyebrow {
+    font-size: 9px; letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--e-gold); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .enter-eyebrow::before { content: ''; width: 30px; height: 1px; background: var(--e-gold); opacity: 0.6; }
+  .enter-title {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(38px,6.5vw,68px); font-weight: 300;
+    line-height: 1.02; color: var(--e-white); margin-bottom: 18px;
+  }
+  .enter-title em { font-style: italic; color: var(--e-gold2); display: block; }
+  .enter-sub {
+    font-size: 14.5px; color: var(--e-muted2); line-height: 1.88;
+    max-width: 58ch; margin-bottom: 34px;
+  }
+
+  .enter-facts {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
+    gap: 1px; background: var(--e-goldline);
+    border: 1px solid var(--e-goldline); border-radius: 3px;
+    overflow: hidden; margin-bottom: 40px;
+  }
+  .enter-fact { background: var(--e-surface); padding: 20px 18px; text-align: center; }
+  .enter-fact b {
+    display: block; font-family: Georgia, serif; font-size: 24px;
+    font-weight: 300; color: var(--e-gold2); margin-bottom: 5px;
+  }
+  .enter-fact span { font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--e-muted); }
+
+  .enter-form {
+    border: 1px solid var(--e-goldline); border-radius: 3px;
+    background: radial-gradient(ellipse 90% 60% at 50% 0%, rgba(200,169,90,0.07), transparent 55%), var(--e-surface);
+    padding: clamp(24px,4vw,42px); position: relative; overflow: hidden;
+  }
+  .enter-form::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--e-gold2), transparent); opacity: 0.6;
+  }
+
+  .fgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
+  @media (max-width: 620px) { .fgrid { grid-template-columns: 1fr; } }
+
+  .fgroup { display: flex; flex-direction: column; gap: 8px; }
+  .fgroup.full { grid-column: 1 / -1; }
+  .fgroup label {
+    font-size: 8.5px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--e-gold); font-weight: 600;
+  }
+  .fgroup label i { font-style: normal; color: var(--e-gold2); }
+  .fgroup input[type=text],
+  .fgroup input[type=email],
+  .fgroup select,
+  .fgroup textarea {
+    width: 100%; padding: 13px 15px;
+    background: var(--e-black); color: var(--e-white);
+    border: 1px solid var(--e-line); border-radius: 2px;
+    font-family: inherit; font-size: 14px; letter-spacing: 0.02em;
+    transition: border-color 0.2s;
+  }
+  .fgroup input:focus, .fgroup select:focus, .fgroup textarea:focus {
+    outline: none; border-color: var(--e-goldline);
+  }
+  .fgroup textarea { resize: vertical; line-height: 1.7; }
+  .fgroup small { font-size: 11px; color: var(--e-muted); letter-spacing: 0.02em; line-height: 1.6; }
+
+  .fphoto {
+    border: 1px dashed var(--e-goldline); border-radius: 2px;
+    padding: 24px; text-align: center; background: var(--e-black);
+    cursor: pointer; transition: border-color 0.22s, background 0.22s;
+  }
+  .fphoto:hover { border-color: var(--e-gold2); background: var(--e-surface2); }
+  .fphoto input { display: none; }
+  .fphoto__text { font-size: 13px; color: var(--e-muted2); margin-bottom: 5px; }
+  .fphoto__hint { font-size: 10.5px; color: var(--e-muted); letter-spacing: 0.06em; }
+  .fphoto__preview { max-width: 150px; margin: 0 auto 12px; display: none; }
+  .fphoto__preview img { width: 100%; border-radius: 2px; display: block; border: 1px solid var(--e-goldline); }
+
+  .fcheck {
+    display: flex; align-items: flex-start; gap: 12px;
+    font-size: 12.5px; color: var(--e-muted2); line-height: 1.7;
+    padding: 14px 0; border-top: 1px solid var(--e-line);
+  }
+  .fcheck input { margin-top: 3px; accent-color: var(--e-gold2); flex-shrink: 0; width: 15px; height: 15px; }
+
+  .fsubmit {
+    width: 100%; margin-top: 22px; padding: 16px;
+    background: linear-gradient(135deg, var(--e-gold2), var(--e-gold));
+    color: var(--e-black); border: none; border-radius: 2px;
+    font-family: inherit; font-size: 10px; font-weight: 700;
+    letter-spacing: 0.26em; text-transform: uppercase;
+    cursor: pointer; transition: opacity 0.2s;
+  }
+  .fsubmit:hover:not(:disabled) { opacity: 0.88; }
+  .fsubmit:disabled { opacity: 0.45; cursor: default; }
+
+  .fmsg { margin-top: 16px; font-size: 13px; line-height: 1.7; text-align: center; }
+  .fmsg--err { color: #c98585; }
+
+  .fdone { display: none; text-align: center; padding: 30px 10px; }
+  .fdone__mark { font-family: Georgia, serif; font-size: 44px; color: var(--e-gold2); opacity: 0.5; line-height: 1; margin-bottom: 18px; }
+  .fdone__title { font-family: Georgia, serif; font-size: 28px; font-weight: 300; color: var(--e-white); margin-bottom: 12px; }
+  .fdone__text { font-size: 13.5px; color: var(--e-muted2); line-height: 1.85; max-width: 44ch; margin: 0 auto; }
+
+  .honey { position: absolute; left: -9999px; }
+</style>
+</head>
+<body>
+
+<div class="enter-wrap">
+
+  <div class="enter-eyebrow">ELYRA Editorial · Now Accepting Entries</div>
+  <h1 class="enter-title">Enter the<em>Competition</em></h1>
+  <p class="enter-sub">
+    Three rounds. Open Round, Semi-Finals, then the Finale — votes reset at every
+    cut, so nobody coasts on an early lead. Free to enter, open to models,
+    photographers, stylists, makeup artists, and creative directors at any level.
+    Winners receive a full editorial feature and a real publishing credit.
+  </p>
+
+  <div class="enter-facts">
+    <div class="enter-fact"><b>Free</b><span>To Enter</span></div>
+    <div class="enter-fact"><b>3</b><span>Rounds</span></div>
+    <div class="enter-fact"><b>18+</b><span>Open To</span></div>
+    <div class="enter-fact"><b>1</b><span>Entry Each</span></div>
+  </div>
+
+  <div class="enter-form">
+    <form id="entryForm">
+
+      <div class="fgrid">
+        <div class="fgroup full">
+          <label for="contest">Competition <i>*</i></label>
+          <select id="contest" name="contest_id" required>
+            <option value="">Loading competitions…</option>
+          </select>
+        </div>
+
+        <div class="fgroup">
+          <label for="name">Full Name <i>*</i></label>
+          <input type="text" id="name" name="display_name" required maxlength="80" autocomplete="name"/>
+        </div>
+
+        <div class="fgroup">
+          <label for="email">Email <i>*</i></label>
+          <input type="email" id="email" name="email" required autocomplete="email"/>
+        </div>
+
+        <div class="fgroup">
+          <label for="category">Category <i>*</i></label>
+          <select id="category" name="category" required>
+            <option value="">Select one</option>
+            <option>Model</option>
+            <option>Photographer</option>
+            <option>Stylist</option>
+            <option>Makeup Artist</option>
+            <option>Creative Director</option>
+          </select>
+        </div>
+
+        <div class="fgroup">
+          <label for="instagram">Instagram</label>
+          <input type="text" id="instagram" name="instagram" placeholder="@yourhandle" maxlength="40"/>
+        </div>
+
+        <div class="fgroup full">
+          <label for="bio">Your Statement</label>
+          <textarea id="bio" name="bio" rows="4" maxlength="600"
+            placeholder="Tell us who you are and what you're building. This appears on your contestant profile."></textarea>
+          <small><span id="bioCount">0</span> / 600</small>
+        </div>
+
+        <div class="fgroup full">
+          <label>Photograph <i>*</i></label>
+          <label class="fphoto" for="photo">
+            <div class="fphoto__preview" id="preview"><img id="previewImg" alt=""/></div>
+            <div class="fphoto__text" id="photoText">Choose your photograph</div>
+            <div class="fphoto__hint">JPG, PNG, or WEBP · Under 8MB · This is what voters will see</div>
+            <input type="file" id="photo" name="photo" accept="image/jpeg,image/png,image/webp" required/>
+          </label>
+        </div>
+      </div>
+
+      <label class="fcheck">
+        <input type="checkbox" id="c18" required/>
+        <span>I confirm I am 18 years of age or older.</span>
+      </label>
+
+      <label class="fcheck">
+        <input type="checkbox" id="crights" required/>
+        <span>I confirm I hold the rights to this photograph and grant ELYRA Editorial permission to publish it in connection with this competition.</span>
+      </label>
+
+      <input type="text" name="website" class="honey" tabindex="-1" autocomplete="off" aria-hidden="true"/>
+
+      <button type="submit" class="fsubmit" id="submitBtn">Submit Entry</button>
+      <p class="fmsg" id="msg"></p>
+    </form>
+
+    <div class="fdone" id="done">
+      <div class="fdone__mark">&#10003;</div>
+      <div class="fdone__title">Your entry is in.</div>
+      <p class="fdone__text">
+        Every submission is reviewed by the House before it appears. You'll hear
+        from us by email once yours has been read.
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<script type="module">
+import { supabase } from './assets/supabaseClient.js';
+import { apiUrl } from './assets/ui.js';
+
+const form   = document.getElementById('entryForm');
+const btn    = document.getElementById('submitBtn');
+const msg    = document.getElementById('msg');
+const done   = document.getElementById('done');
+const select = document.getElementById('contest');
+
+// Load open competitions using the existing public read policy.
+(async function loadContests() {
+  try {
+    const { data, error } = await supabase
+      .from('contests')
+      .select('id, title, subtitle, is_active')
+      .eq('is_active', true)
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+
+    if (!data || !data.length) {
+      select.innerHTML = '<option value="">No competitions are open right now</option>';
+      btn.disabled = true;
+      btn.textContent = 'Entries Closed';
+      return;
+    }
+
+    select.innerHTML = '<option value="">Select a competition</option>' +
+      data.map(c => `<option value="${c.id}">${c.title}</option>`).join('');
+
+    if (data.length === 1) select.value = data[0].id;
+  } catch (e) {
+    select.innerHTML = '<option value="">Could not load competitions</option>';
+    console.warn('loadContests:', e);
+  }
+})();
+
+// Statement counter
+const bio = document.getElementById('bio');
+const bioCount = document.getElementById('bioCount');
+bio.addEventListener('input', () => { bioCount.textContent = bio.value.length; });
+
+// Photo preview
+const photo = document.getElementById('photo');
+photo.addEventListener('change', function () {
+  const f = this.files && this.files[0];
+  if (!f) return;
+  document.getElementById('photoText').textContent = f.name;
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById('previewImg').src = e.target.result;
+    document.getElementById('preview').style.display = 'block';
+  };
+  reader.readAsDataURL(f);
+});
+
+form.addEventListener('submit', async function (e) {
+  e.preventDefault();
+
+  const fd = new FormData(form);
+  fd.set('confirmed_18', document.getElementById('c18').checked ? 'true' : 'false');
+  fd.set('confirmed_rights', document.getElementById('crights').checked ? 'true' : 'false');
+
+  btn.disabled = true;
+  btn.textContent = 'Submitting…';
+  msg.textContent = '';
+  msg.className = 'fmsg';
+
+  try {
+    const res  = await fetch(apiUrl('/api/enter'), { method: 'POST', body: fd });
+    const data = await res.json();
+
+    if (res.ok) {
+      form.style.display = 'none';
+      done.style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      msg.className = 'fmsg fmsg--err';
+      msg.textContent = data.error || 'Something went wrong. Please try again.';
+      btn.disabled = false;
+      btn.textContent = 'Submit Entry';
+    }
+  } catch (err) {
+    msg.className = 'fmsg fmsg--err';
+    msg.textContent = 'Could not reach the server. Check your connection and try again.';
+    btn.disabled = false;
+    btn.textContent = 'Submit Entry';
+  }
+});
+</script>
+
+</body>
+</html>
