@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="robots" content="noindex, nofollow"/>
+<title>Entry Review — ELYRA Editorial</title>
+<style>
+  :root {
+    --black: #060605;
+    --black2: #0d0d0c;
+    --surface: #121211;
+    --surface2: #1a1a18;
+    --line: #232320;
+    --gold: #8f7a45;
+    --gold2: #c9a961;
+    --gold-line: rgba(200,169,90,0.22);
+    --white: #f4f2ec;
+    --muted: #726f66;
+    --muted2: #a5a196;
+    --ok: #4a7c59;
+    --no: #7c4a4a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    padding: 28px 20px 60px;
+    min-height: 100vh;
+  }
+  .wrap { max-width: 1000px; margin: 0 auto; }
+
+  header { border-bottom: 1px solid var(--gold-line); padding-bottom: 22px; margin-bottom: 28px; }
+  .eyebrow { font-size: 9px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  h1 { font-family: Georgia, "Times New Roman", serif; font-size: 34px; font-weight: 300; letter-spacing: 0.01em; }
+  h1 em { font-style: italic; color: var(--gold2); }
+
+  .gate { max-width: 400px; margin-top: 32px; }
+  .gate p { font-size: 13px; color: var(--muted2); line-height: 1.7; margin-bottom: 16px; }
+
+  input[type=password] {
+    width: 100%; padding: 13px 15px;
+    background: var(--surface); color: var(--white);
+    border: 1px solid var(--line); border-radius: 2px;
+    font-size: 14px; letter-spacing: 0.04em; margin-bottom: 12px;
+  }
+  input[type=password]:focus { outline: none; border-color: var(--gold-line); }
+
+  button {
+    font-family: inherit; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 12px 22px; border-radius: 2px; cursor: pointer;
+    border: 1px solid var(--gold-line); background: var(--surface);
+    color: var(--gold2); transition: all 0.2s;
+  }
+  button:hover:not(:disabled) { background: var(--surface2); border-color: var(--gold2); }
+  button:disabled { opacity: 0.4; cursor: default; }
+  .btn-gold { background: linear-gradient(135deg, var(--gold2), var(--gold)); color: var(--black); border-color: transparent; }
+  .btn-ok { border-color: rgba(74,124,89,0.5); color: #7fb08d; }
+  .btn-ok:hover:not(:disabled) { background: rgba(74,124,89,0.14); }
+  .btn-no { border-color: rgba(124,74,74,0.5); color: #b08585; }
+  .btn-no:hover:not(:disabled) { background: rgba(124,74,74,0.14); }
+
+  .bar {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 14px; flex-wrap: wrap; margin-bottom: 22px;
+  }
+  .count { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+  .count b { color: var(--gold2); font-weight: 600; }
+
+  .entry {
+    display: grid; grid-template-columns: 220px 1fr;
+    gap: 26px; padding: 24px;
+    border: 1px solid var(--line); border-radius: 3px;
+    background: var(--surface); margin-bottom: 14px;
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  .entry.gone { opacity: 0; transform: translateX(-16px); }
+  .entry img {
+    width: 100%; aspect-ratio: 3/4; object-fit: cover;
+    border-radius: 2px; border: 1px solid var(--gold-line);
+    background: var(--black2); display: block; cursor: zoom-in;
+  }
+  .name { font-family: Georgia, serif; font-size: 24px; font-weight: 300; margin-bottom: 4px; }
+  .cat { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold2); margin-bottom: 16px; }
+  .meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap: 12px; margin-bottom: 16px; }
+  .meta div { font-size: 12px; color: var(--muted2); word-break: break-word; }
+  .meta span { display: block; font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+  .statement {
+    font-size: 13px; color: var(--muted2); line-height: 1.75;
+    padding: 14px 16px; background: var(--black2);
+    border-left: 1px solid var(--gold-line); border-radius: 2px; margin-bottom: 18px;
+  }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  .msg { font-size: 13px; color: var(--muted2); padding: 40px 0; text-align: center; line-height: 1.7; }
+  .err { color: #b08585; }
+
+  .lightbox {
+    position: fixed; inset: 0; background: rgba(6,6,5,0.94);
+    display: none; align-items: center; justify-content: center;
+    z-index: 50; padding: 30px; cursor: zoom-out;
+  }
+  .lightbox.on { display: flex; }
+  .lightbox img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 2px; }
+
+  @media (max-width: 680px) {
+    .entry { grid-template-columns: 1fr; gap: 18px; }
+    .entry img { max-width: 240px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">ELYRA Editorial · Internal</div>
+    <h1>Entry <em>Review</em></h1>
+  </header>
+
+  <div id="gate" class="gate">
+    <p>Enter the admin key to load pending entries.</p>
+    <input type="password" id="key" placeholder="Admin key" autocomplete="off"/>
+    <button class="btn-gold" id="unlock">Unlock</button>
+    <p id="gateErr" class="err" style="margin-top:12px;display:none;"></p>
+  </div>
+
+  <div id="panel" style="display:none;">
+    <div class="bar">
+      <div class="count"><b id="num">0</b> pending</div>
+      <button id="refresh">Refresh</button>
+    </div>
+    <div id="list"></div>
+  </div>
+
+</div>
+
+<div class="lightbox" id="lightbox"><img id="lightboxImg" alt=""/></div>
+
+<script>
+var WORKER = 'https://green-tree-a555.elyra-editorial-42f.workers.dev/api/review';
+var KEY = '';
+
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+    return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
+  });
+}
+
+async function call(payload) {
+  var res = await fetch(WORKER, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(Object.assign({ key: KEY }, payload))
+  });
+  var data = await res.json();
+  if (!res.ok) throw new Error(data.error || 'request_failed');
+  return data;
+}
+
+document.getElementById('unlock').addEventListener('click', async function () {
+  var err = document.getElementById('gateErr');
+  KEY = document.getElementById('key').value.trim();
+  if (!KEY) return;
+  err.style.display = 'none';
+  try {
+    await call({ action: 'list' });
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('panel').style.display = 'block';
+    load();
+  } catch (e) {
+    err.textContent = e.message === 'unauthorized'
+      ? 'That key was not accepted.'
+      : 'Could not reach the server. Check your connection.';
+    err.style.display = 'block';
+  }
+});
+
+document.getElementById('key').addEventListener('keydown', function (e) {
+  if (e.key === 'Enter') document.getElementById('unlock').click();
+});
+
+document.getElementById('refresh').addEventListener('click', load);
+
+async function load() {
+  var list = document.getElementById('list');
+  list.innerHTML = '<div class="msg">Loading…</div>';
+  try {
+    var data = await call({ action: 'list' });
+    render(data.entries || []);
+  } catch (e) {
+    list.innerHTML = '<div class="msg err">Could not load entries. ' + esc(e.message) + '</div>';
+  }
+}
+
+function render(entries) {
+  var list = document.getElementById('list');
+  document.getElementById('num').textContent = entries.length;
+
+  if (!entries.length) {
+    list.innerHTML = '<div class="msg">No entries waiting. Everything is reviewed.</div>';
+    return;
+  }
+
+  list.innerHTML = entries.map(function (x) {
+    var contest = (x.contests && x.contests.title) ? x.contests.title : '—';
+    return '<div class="entry" id="e-' + esc(x.id) + '">' +
+      '<img src="' + esc(x.photo_url) + '" alt="' + esc(x.display_name) + '" loading="lazy" data-full="' + esc(x.photo_url) + '"/>' +
+      '<div>' +
+        '<div class="name">' + esc(x.display_name) + '</div>' +
+        '<div class="cat">' + esc(x.category) + ' &middot; ' + esc(contest) + '</div>' +
+        '<div class="meta">' +
+          '<div><span>Email</span>' + esc(x.email) + '</div>' +
+          '<div><span>Instagram</span>' + (x.instagram ? '@' + esc(x.instagram) : '\u2014') + '</div>' +
+          '<div><span>Received</span>' + new Date(x.created_at).toLocaleDateString() + '</div>' +
+        '</div>' +
+        (x.bio ? '<div class="statement">' + esc(x.bio) + '</div>' : '') +
+        '<div class="actions">' +
+          '<button class="btn-ok" data-act="approve" data-id="' + esc(x.id) + '">Approve &amp; Publish</button>' +
+          '<button class="btn-no" data-act="decline" data-id="' + esc(x.id) + '">Decline</button>' +
+          (x.instagram ? '<button onclick="window.open(\'https://instagram.com/' + esc(x.instagram) + '\',\'_blank\')">Open Instagram</button>' : '') +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+document.addEventListener('click', async function (e) {
+  var img = e.target.closest('.entry img');
+  if (img) {
+    document.getElementById('lightboxImg').src = img.dataset.full;
+    document.getElementById('lightbox').classList.add('on');
+    return;
+  }
+
+  var btn = e.target.closest('button[data-act]');
+  if (!btn) return;
+
+  var id = btn.dataset.id;
+  var act = btn.dataset.act;
+  var card = document.getElementById('e-' + id);
+  var all = card.querySelectorAll('button');
+
+  all.forEach(function (b) { b.disabled = true; });
+  btn.textContent = act === 'approve' ? 'Approving…' : 'Declining…';
+
+  try {
+    await call({ action: act, id: id });
+    card.classList.add('gone');
+    setTimeout(function () {
+      card.remove();
+      var n = document.querySelectorAll('.entry').length;
+      document.getElementById('num').textContent = n;
+      if (!n) render([]);
+    }, 300);
+  } catch (err) {
+    btn.textContent = 'Failed — retry';
+    all.forEach(function (b) { b.disabled = false; });
+  }
+});
+
+document.getElementById('lightbox').addEventListener('click', function () {
+  this.classList.remove('on');
+});
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('on');
+});
+</script>
+</body>
+</html>
