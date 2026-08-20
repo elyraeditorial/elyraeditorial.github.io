@@ -534,7 +534,7 @@
 
   <!-- Buttons -->
   <div class="btnrow" aria-label="Primary actions">
-    <a class="btn primary" href="/competitions/">Enter the Competition</a>
+    <a class="btn primary" href="/competitions/enter.html">Enter the Competition</a>
     <a class="btn" href="issues.html">Read the Identity Issue</a>
     <a class="btn ghost" href="submit.html">Submissions</a>
   </div>
@@ -542,8 +542,8 @@
   <!-- Announcement -->
   <p class="hero-announce">
     Curated editions. Limited noise. High presence.
-    <span class="muted-text">
-      Voting for the August Cover Star opens August 1.
+    <span class="muted-text" id="heroAnnounce">
+      Voting for the August Cover Star is live now.
     </span>
   </p>
 
@@ -607,7 +607,7 @@
           </div>
 
           <div style="display:flex; gap:12px; flex-wrap:wrap;">
-            <a class="cta-mega" href="/competitions/" id="compCta">Apply to Compete</a>
+            <a class="cta-mega" href="/competitions/enter.html" id="compCta">Enter Free</a>
             <a class="btn ghost" href="/competitions/" style="min-height:54px;">Watch the Leaderboard</a>
           </div>
         </div>
@@ -704,13 +704,13 @@
         <span>✦</span> The Identity Issue — Issue 01 — Out Now
       </div>
       <div class="ticker-item">
-        <span>✦</span> August Cover Star — Voting Opens August 1
+        <span>✦</span> August Cover Star — Voting Live Now
       </div>
       <div class="ticker-item">
         <span>✦</span> Voter Rewards — Your Name In The Issue From $10
       </div>
       <div class="ticker-item">
-        <span>✦</span> Applications Open — Compete For The Cover
+        <span>✦</span> Entries Open — Free To Enter — Compete For The Cover
       </div>
       <div class="ticker-item">
         <span>✦</span> Advertise With ELYRA — One Sponsor Per Cycle
@@ -719,13 +719,13 @@
         <span>✦</span> The Identity Issue — Issue 01 — Out Now
       </div>
       <div class="ticker-item">
-        <span>✦</span> August Cover Star — Voting Opens August 1
+        <span>✦</span> August Cover Star — Voting Live Now
       </div>
       <div class="ticker-item">
         <span>✦</span> Voter Rewards — Your Name In The Issue From $10
       </div>
       <div class="ticker-item">
-        <span>✦</span> Applications Open — Compete For The Cover
+        <span>✦</span> Entries Open — Free To Enter — Compete For The Cover
       </div>
       <div class="ticker-item">
         <span>✦</span> Advertise With ELYRA — One Sponsor Per Cycle
@@ -781,6 +781,7 @@
       const visualTag = document.getElementById('visualTag');
       const compCta   = document.getElementById('compCta');
       const countWrap = document.getElementById('homeCount');
+      const announce  = document.getElementById('heroAnnounce');
 
       const pad = n => String(n).padStart(2, '0');
       let target = OPEN;
@@ -788,20 +789,35 @@
       function applyMode() {
         const now = Date.now();
         if (now < OPEN.getTime()) {
+          /* Before the round opens — entries are the action. */
           target = OPEN;
-          if (liveText)  liveText.textContent  = 'August Cover Star — Applications Open';
+          if (liveText)  liveText.textContent  = 'August Cover Star — Entries Open';
           if (visualTag) visualTag.textContent = 'Voting Opens August 1';
-          if (compCta)   compCta.textContent   = 'Apply to Compete';
+          if (announce)  announce.textContent  = 'Voting for the August Cover Star opens August 1.';
+          if (compCta) {
+            compCta.textContent = 'Enter Free';
+            compCta.href = '/competitions/enter.html';
+          }
         } else if (now < CLOSE.getTime()) {
+          /* Voting is live — the button must point at the leaderboard,
+             not the entry form, or "Vote Now" sends people to a form. */
           target = CLOSE;
           if (liveText)  liveText.textContent  = 'August Cover Star — Voting Is Live';
           if (visualTag) visualTag.textContent = 'Voting Live Now';
-          if (compCta)   compCta.textContent   = 'Vote Now';
+          if (announce)  announce.textContent  = 'Voting for the August Cover Star is live now.';
+          if (compCta) {
+            compCta.textContent = 'Vote Now';
+            compCta.href = '/competitions/';
+          }
         } else {
           target = null;
           if (liveText)  liveText.textContent  = 'Cover Star Results — Announced Soon';
           if (visualTag) visualTag.textContent = 'Voting Closed';
-          if (compCta)   compCta.textContent   = 'See the Results';
+          if (announce)  announce.textContent  = 'The August Cover Star results are announced soon.';
+          if (compCta) {
+            compCta.textContent = 'See the Results';
+            compCta.href = '/competitions/';
+          }
           if (countWrap) countWrap.style.display = 'none';
         }
       }
