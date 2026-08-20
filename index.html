@@ -526,10 +526,10 @@
     Editorial &nbsp;·&nbsp; Presence &nbsp;·&nbsp; Identity
   </div>
 
-  <!-- Live status pill — always points at the current money moment -->
-  <a class="hero-live" href="/competitions/" id="heroLive">
+  <!-- Live status pill — href and text both set by the script below -->
+  <a class="hero-live" href="/competitions/enter.html" id="heroLive">
     <span class="live-dot" aria-hidden="true"></span>
-    <span id="heroLiveText">August Cover Star — Applications Open</span>
+    <span id="heroLiveText">September Cover Star — Entries Open</span>
   </a>
 
   <!-- Buttons -->
@@ -543,7 +543,7 @@
   <p class="hero-announce">
     Curated editions. Limited noise. High presence.
     <span class="muted-text" id="heroAnnounce">
-      Voting for the August Cover Star is live now.
+      Entries are open now. Voting for the September Cover Star begins September 1.
     </span>
   </p>
 
@@ -585,13 +585,13 @@
 
   <!-- ═══════════════ BELOW THE FOLD — CONVERSION SECTIONS ═══════════════ -->
 
-  <!-- 1 · AUGUST COVER STAR -->
-  <section class="hs-section" aria-label="August Cover Star competition">
+  <!-- 1 · SEPTEMBER COVER STAR -->
+  <section class="hs-section" aria-label="September Cover Star competition">
     <div class="container">
       <div class="hs-split">
         <div class="reveal">
-          <div class="hs-kicker">Live Competition</div>
-          <h2 class="hs-title">The August<br>Cover Star</h2>
+          <div class="hs-kicker" id="compKicker">Entries Open</div>
+          <h2 class="hs-title">The September<br>Cover Star</h2>
           <p class="hs-lead">
             Three rounds. One cover. All contestants open the month together —
             the Top 8 survive to the Semi-Finals, the Final 4 battle for the
@@ -605,8 +605,12 @@
             <div class="hs-count-box"><span class="hs-count-num" id="hcM">--</span><span class="hs-count-unit">Mins</span></div>
             <div class="hs-count-box"><span class="hs-count-num" id="hcS">--</span><span class="hs-count-unit">Secs</span></div>
           </div>
+          <div class="hs-count-label" id="countLabel"
+               style="font-family:'Jost',sans-serif;font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;color:#c8a96a;opacity:.8;margin-top:10px;">
+            Until Voting Opens
+          </div>
 
-          <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:20px;">
             <a class="cta-mega" href="/competitions/enter.html" id="compCta">Enter Free</a>
             <a class="btn ghost" href="/competitions/" style="min-height:54px;">Watch the Leaderboard</a>
           </div>
@@ -615,7 +619,7 @@
         <div class="hs-visual reveal reveal-delay-2">
           <img src="IMG_9162.jpeg" alt="ELYRA Cover Star competition" loading="lazy"
                onerror="this.style.display='none'" />
-          <div class="hs-visual-tag" id="visualTag">Voting Opens August 1</div>
+          <div class="hs-visual-tag" id="visualTag">Voting Opens September 1</div>
         </div>
       </div>
     </div>
@@ -682,7 +686,7 @@
       <div class="hs-band reveal">
         <div class="hs-band-copy">
           <div class="hs-kicker">One Slot Per Cycle</div>
-          <h2 class="hs-title" style="margin-bottom:10px;">Present the August Competition</h2>
+          <h2 class="hs-title" style="margin-bottom:10px;">Present the September Competition</h2>
           <p class="hs-lead" style="margin-bottom:0;">
             Put your brand on a page where supporters vote with real dollars
             and share all month. One presenting sponsor per competition —
@@ -704,13 +708,13 @@
         <span>✦</span> The Identity Issue — Issue 01 — Out Now
       </div>
       <div class="ticker-item">
-        <span>✦</span> August Cover Star — Voting Live Now
+        <span>✦</span> September Cover Star — Entries Open Now
       </div>
       <div class="ticker-item">
         <span>✦</span> Voter Rewards — Your Name In The Issue From $10
       </div>
       <div class="ticker-item">
-        <span>✦</span> Entries Open — Free To Enter — Compete For The Cover
+        <span>✦</span> Free To Enter — 18+ — Compete For The Cover
       </div>
       <div class="ticker-item">
         <span>✦</span> Advertise With ELYRA — One Sponsor Per Cycle
@@ -719,13 +723,13 @@
         <span>✦</span> The Identity Issue — Issue 01 — Out Now
       </div>
       <div class="ticker-item">
-        <span>✦</span> August Cover Star — Voting Live Now
+        <span>✦</span> September Cover Star — Entries Open Now
       </div>
       <div class="ticker-item">
         <span>✦</span> Voter Rewards — Your Name In The Issue From $10
       </div>
       <div class="ticker-item">
-        <span>✦</span> Entries Open — Free To Enter — Compete For The Cover
+        <span>✦</span> Free To Enter — 18+ — Compete For The Cover
       </div>
       <div class="ticker-item">
         <span>✦</span> Advertise With ELYRA — One Sponsor Per Cycle
@@ -768,57 +772,75 @@
       });
     })();
 
-    // ── August countdown — flips to "live" mode automatically ──
+    // ── September countdown — flips to "live" mode automatically ──
     (function () {
-      const OPEN  = new Date('2026-08-01T05:00:00Z');  // Aug 1, 12:00 AM CST
-      const CLOSE = new Date('2026-09-01T04:59:00Z');  // Aug 31, 11:59 PM CST
+      const OPEN  = new Date('2026-09-01T05:00:00Z');  // Sep 1, 12:00 AM CST
+      const CLOSE = new Date('2026-10-01T04:59:00Z');  // Sep 30, 11:59 PM CST
 
       const D = document.getElementById('hcD');
       const H = document.getElementById('hcH');
       const M = document.getElementById('hcM');
       const S = document.getElementById('hcS');
-      const liveText  = document.getElementById('heroLiveText');
-      const visualTag = document.getElementById('visualTag');
-      const compCta   = document.getElementById('compCta');
-      const countWrap = document.getElementById('homeCount');
-      const announce  = document.getElementById('heroAnnounce');
+      const liveText   = document.getElementById('heroLiveText');
+      const liveLink   = document.getElementById('heroLive');
+      const visualTag  = document.getElementById('visualTag');
+      const compCta    = document.getElementById('compCta');
+      const compKicker = document.getElementById('compKicker');
+      const countWrap  = document.getElementById('homeCount');
+      const countLabel = document.getElementById('countLabel');
+      const announce   = document.getElementById('heroAnnounce');
 
       const pad = n => String(n).padStart(2, '0');
       let target = OPEN;
 
       function applyMode() {
         const now = Date.now();
+
         if (now < OPEN.getTime()) {
-          /* Before the round opens — entries are the action. */
+          /* Pre-launch — entries are the only action. Counting down to voting. */
           target = OPEN;
-          if (liveText)  liveText.textContent  = 'August Cover Star — Entries Open';
-          if (visualTag) visualTag.textContent = 'Voting Opens August 1';
-          if (announce)  announce.textContent  = 'Voting for the August Cover Star opens August 1.';
+          if (liveText)   liveText.textContent   = 'September Cover Star — Entries Open';
+          if (liveLink)   liveLink.href          = '/competitions/enter.html';
+          if (visualTag)  visualTag.textContent  = 'Voting Opens September 1';
+          if (compKicker) compKicker.textContent = 'Entries Open';
+          if (countLabel) countLabel.textContent = 'Until Voting Opens';
+          if (announce)   announce.textContent   =
+            'Entries are open now. Voting for the September Cover Star begins September 1.';
           if (compCta) {
             compCta.textContent = 'Enter Free';
             compCta.href = '/competitions/enter.html';
           }
+
         } else if (now < CLOSE.getTime()) {
-          /* Voting is live — the button must point at the leaderboard,
-             not the entry form, or "Vote Now" sends people to a form. */
+          /* Voting live — the button must point at the leaderboard, not the
+             entry form, or "Vote Now" would open a form. */
           target = CLOSE;
-          if (liveText)  liveText.textContent  = 'August Cover Star — Voting Is Live';
-          if (visualTag) visualTag.textContent = 'Voting Live Now';
-          if (announce)  announce.textContent  = 'Voting for the August Cover Star is live now.';
+          if (liveText)   liveText.textContent   = 'September Cover Star — Voting Is Live';
+          if (liveLink)   liveLink.href          = '/competitions/';
+          if (visualTag)  visualTag.textContent  = 'Voting Live Now';
+          if (compKicker) compKicker.textContent = 'Live Competition';
+          if (countLabel) countLabel.textContent = 'Until Voting Closes';
+          if (announce)   announce.textContent   =
+            'Voting for the September Cover Star is live now.';
           if (compCta) {
             compCta.textContent = 'Vote Now';
             compCta.href = '/competitions/';
           }
+
         } else {
           target = null;
-          if (liveText)  liveText.textContent  = 'Cover Star Results — Announced Soon';
-          if (visualTag) visualTag.textContent = 'Voting Closed';
-          if (announce)  announce.textContent  = 'The August Cover Star results are announced soon.';
+          if (liveText)   liveText.textContent   = 'Cover Star Results — Announced Soon';
+          if (liveLink)   liveLink.href          = '/competitions/';
+          if (visualTag)  visualTag.textContent  = 'Voting Closed';
+          if (compKicker) compKicker.textContent = 'Competition Closed';
+          if (announce)   announce.textContent   =
+            'The September Cover Star results are announced soon.';
           if (compCta) {
             compCta.textContent = 'See the Results';
             compCta.href = '/competitions/';
           }
-          if (countWrap) countWrap.style.display = 'none';
+          if (countWrap)  countWrap.style.display  = 'none';
+          if (countLabel) countLabel.style.display = 'none';
         }
       }
 
