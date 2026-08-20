@@ -5,12 +5,12 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Elyra — Competitions</title>
-  <meta name="description" content="Elyra Editorial Competitions — Apply to be featured, vote for your favourite contestant, and help decide the next Elyra cover star." />
+  <meta name="description" content="Elyra Editorial Competitions — Enter free, vote for your favourite contestant, and help decide the next Elyra cover star." />
 
   <!-- Open Graph -->
 
   <meta property="og:title" content="Competitions — ELYRA" />
-  <meta property="og:description" content="Apply to be featured, vote for your favourite contestant, and help decide the next ELYRA cover star." />
+  <meta property="og:description" content="Enter free, vote for your favourite contestant, and help decide the next ELYRA cover star." />
   <meta property="og:image" content="https://elyraeditorial.com/IMG_8629.jpeg?v=3" />
   <meta property="og:url" content="https://elyraeditorial.com/competitions/" />
   <meta property="og:type" content="website" />
@@ -20,7 +20,7 @@
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Competitions — ELYRA" />
-  <meta name="twitter:description" content="Apply to be featured, vote for your favourite contestant, and help decide the next ELYRA cover star." />
+  <meta name="twitter:description" content="Enter free, vote for your favourite contestant, and help decide the next ELYRA cover star." />
   <meta name="twitter:image" content="https://elyraeditorial.com/IMG_8629.jpeg?v=3" />
 
   <!-- Icons -->
@@ -735,6 +735,25 @@
       max-width: 52ch;
     }
 
+    .apply-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .apply-meta span {
+      font-family: 'Jost', sans-serif;
+      font-size: .60rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid rgba(200,169,106,.24);
+      border-radius: var(--r);
+      padding: 6px 12px;
+      background: rgba(200,169,106,.06);
+    }
+
     .apply-action { position: relative; z-index: 1; flex-shrink: 0; }
 
     /* ── Active contests ── */
@@ -831,7 +850,23 @@
 
     .contest-list-dates::before { content: '✦'; font-size: .48rem; }
 
-    .contest-list-action { flex-shrink: 0; display: flex; align-items: center; }
+    .contest-open-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-left: 10px;
+      font-family: 'Jost', sans-serif;
+      font-size: .58rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: #e2cc96;
+      border: 1px solid rgba(200,169,106,.34);
+      background: rgba(200,169,106,.10);
+      border-radius: var(--r);
+      padding: 4px 10px;
+    }
+
+    .contest-list-action { flex-shrink: 0; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 
     .empty-state {
       text-align: center;
@@ -939,11 +974,7 @@
     </p>
     <div class="editorial-prize">✦ &nbsp; Min. $500 Prize Pool — Grows with every vote</div>
     <div class="editorial-actions">
-      <a class="editorial-apply-btn"
-         href="https://docs.google.com/forms/d/e/1FAIpQLSdlE4XzYtoZj1_IIxh8KgipG0XQ5zhoJ0NXEIGqeNrNX5YkPw/viewform"
-         target="_blank" rel="noopener noreferrer">
-        Apply Now
-      </a>
+      <a class="editorial-apply-btn" href="enter.html">Enter Free</a>
       <a class="editorial-apply-btn secondary" href="/submit.html">Submit Your Work</a>
     </div>
   </div>
@@ -993,6 +1024,27 @@
   </div>
 </div>
 
+  </div>
+
+  <!-- Apply card — moved up, entries are the funnel -->
+
+  <div class="container apply-section" id="contest-entry">
+    <div class="apply-card">
+      <div class="apply-copy">
+        <span class="overline">Contest Entry</span>
+        <h2>Want to be featured in Elyra?</h2>
+        <p>Enter free and your submission goes straight to the House for review. Approved entrants appear on the public leaderboard, open to voting from anyone who wants to back them — and the winner takes the cover.</p>
+        <div class="apply-meta">
+          <span>Free to Enter</span>
+          <span>18+</span>
+          <span>One Entry Each</span>
+          <span>Reviewed by the House</span>
+        </div>
+      </div>
+      <div class="apply-action">
+        <a class="btn primary" href="enter.html">Enter the Competition</a>
+      </div>
+    </div>
   </div>
 
   <!-- Why Compete -->
@@ -1076,25 +1128,6 @@
     </div>
   </section>
 
-  <!-- Apply card -->
-
-  <div class="container apply-section">
-    <div class="apply-card">
-      <div class="apply-copy">
-        <span class="overline">Contest Entry</span>
-        <h2>Want to be featured in Elyra?</h2>
-        <p>Submit your application to be considered for current and upcoming competitions. Selected entrants may be included in editorial features, public voting, and promotional campaign visibility across the Elyra platform.</p>
-      </div>
-      <div class="apply-action">
-        <a class="btn primary"
-           href="https://docs.google.com/forms/d/e/1FAIpQLSdlE4XzYtoZj1_IIxh8KgipG0XQ5zhoJ0NXEIGqeNrNX5YkPw/viewform"
-           target="_blank" rel="noopener noreferrer">
-          Start Application
-        </a>
-      </div>
-    </div>
-  </div>
-
   <!-- Live Leaderboard -->
 
   <div class="container leaderboard-section">
@@ -1107,7 +1140,7 @@
 
   <!-- Active contests -->
 
-  <div class="container contests-section" id="contest-entry">
+  <div class="container contests-section">
     <div class="contests-heading">
       <h2>Active Contests</h2>
       <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
@@ -1184,8 +1217,8 @@
   </script>
 
   <script type="module">
-    import { fetchActiveContests, fetchContestantsByContestId, fetchVoteTotalsForContest } from "./assets/data.js?v=19";
-    import { setText, setHTML } from "./assets/ui.js?v=19";
+    import { fetchActiveContests, fetchContestantsByContestId, fetchVoteTotalsForContest } from "./assets/data.js?v=20";
+    import { setText, setHTML } from "./assets/ui.js?v=20";
 
     const badge = document.getElementById("statusBadge");
     const list  = document.getElementById("contestList");
@@ -1239,7 +1272,7 @@
         }
       } else {
         const row = document.getElementById("countdownRow");
-        if (row) row.innerHTML = '<div class="countdown-expired">Next competition announced soon — apply now to be considered</div>';
+        if (row) row.innerHTML = '<div class="countdown-expired">Next competition announced soon — enter now to be considered</div>';
       }
 
       if (!count) {
@@ -1247,7 +1280,7 @@
           <div class="empty-state">
             <span class="empty-icon">✦</span>
             <h3>No Active Contests</h3>
-            <p>There are no active contests right now. Check back soon or apply to be featured in an upcoming competition.</p>
+            <p>There are no active contests right now. Check back soon or enter an upcoming competition.</p>
           </div>
         `);
       } else {
@@ -1257,15 +1290,19 @@
           const start    = fmtDate(c.start_at);
           const end      = fmtDate(c.end_at);
           const dates    = [start ? `Starts: ${start}` : "", end ? `Ends: ${end}` : ""].filter(Boolean).join("  ·  ");
+          /* Only rounds flagged accepts_entries get an Enter button.
+             Semi-Finals and the Finale are promoted into, never entered. */
+          const open     = c.accepts_entries === true;
           return `
             <div class="contest-list-card">
               <div class="contest-list-info">
-                <div class="contest-list-title">${title}</div>
+                <div class="contest-list-title">${title}${open ? '<span class="contest-open-tag">Entries Open</span>' : ""}</div>
                 <div class="contest-list-sub">${subtitle}</div>
                 ${dates ? `<div class="contest-list-dates">${esc(dates)}</div>` : ""}
               </div>
               <div class="contest-list-action">
-                <a class="btn primary" href="/competitions/contest.html?slug=${encodeURIComponent(c.slug)}">View Contest</a>
+                ${open ? `<a class="btn primary" href="enter.html">Enter</a>` : ""}
+                <a class="btn${open ? " ghost" : " primary"}" href="/competitions/contest.html?slug=${encodeURIComponent(c.slug)}">View Contest</a>
               </div>
             </div>
           `;
@@ -1278,7 +1315,7 @@
         <div class="empty-state">
           <span class="empty-icon">✦</span>
           <h3>Check Back Soon</h3>
-          <p>Competitions are coming. Apply now to be considered for upcoming Elyra cover features and editorial opportunities.</p>
+          <p>Competitions are coming. Enter now to be considered for upcoming Elyra cover features and editorial opportunities.</p>
         </div>
       `);
     }
