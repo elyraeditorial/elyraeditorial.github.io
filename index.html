@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -387,6 +386,25 @@
     }
 
     /* ================================================================
+       ADMIN REVIEW LINK — quiet, no border, sits apart from the pills
+       ================================================================ */
+    .home-footer-links a.review-link {
+      border: none !important;
+      background: none !important;
+      color: #5c554e !important;
+      -webkit-text-fill-color: #5c554e !important;
+      letter-spacing: .28em !important;
+      font-size: .58rem !important;
+      padding: 7px 6px !important;
+      transition: color .2s !important;
+    }
+    .home-footer-links a.review-link:hover,
+    .home-footer-links a.review-link:focus-visible {
+      color: #c8a96a !important;
+      -webkit-text-fill-color: #c8a96a !important;
+    }
+
+    /* ================================================================
        COPYRIGHT
        ================================================================ */
     .home-copy {
@@ -569,6 +587,8 @@
        target="_blank" rel="noopener noreferrer">
       House of Elévara
     </a>
+    <!-- Admin: entry review queue. Requires ELYRA_ADMIN_KEY to unlock. -->
+    <a class="review-link" href="/elyra-review.html" rel="nofollow">Review</a>
   </div>
 
   <!-- Copyright -->
@@ -740,6 +760,17 @@
   <script>
     document.getElementById('yr').textContent =
       new Date().getFullYear();
+
+    // ── Admin shortcut: elyraeditorial.com/#review opens the review queue ──
+    (function () {
+      function go() {
+        if (location.hash.toLowerCase() === '#review') {
+          location.replace('/elyra-review.html');
+        }
+      }
+      go();
+      window.addEventListener('hashchange', go);
+    })();
 
     // 3D tilt desktop only
     (function () {
